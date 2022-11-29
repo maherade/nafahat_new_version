@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../colors.dart';
+import 'custom_text.dart';
+
+class CustomTextFormFieldWithTopTitle extends StatelessWidget {
+  final TextEditingController? controller;
+  final String? hintText;
+  final String? topTitle;
+  final Widget? suffixIcon;
+  final int? maxLines;
+
+  const CustomTextFormFieldWithTopTitle({super.key, this.controller, this.hintText, this.topTitle, this.suffixIcon,this.maxLines});
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomText(
+          topTitle ?? "",
+          fontSize: 16.sp,
+          fontWeight: FontWeight.normal,
+        ),
+        SizedBox(
+          height: 12.h,
+        ),
+        TextFormField(
+          maxLines: maxLines ?? 1,
+          controller: controller,
+          autofocus: false,
+          style: const TextStyle(fontSize: 15.0, color: Colors.black),
+          decoration: InputDecoration(
+              suffixIcon: suffixIcon ?? null,
+              border: InputBorder.none,
+              hintText: hintText,
+              hintStyle: TextStyle(
+                  fontSize: 13.sp, color: AppColors.grey, fontWeight: FontWeight.normal, fontFamily: 'urw_din'),
+              // filled: true,
+              // fillColor: AppColors.whiteColor,
+              contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
+              focusedBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: AppColors.greyBorder),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: AppColors.greyBorder),
+                borderRadius: BorderRadius.circular(8.0),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide: const BorderSide(color: AppColors.greyBorder),
+                borderRadius: BorderRadius.circular(8.0),
+              )),
+        ),
+      ],
+    );
+  }
+}
