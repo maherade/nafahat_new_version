@@ -61,13 +61,21 @@ final VoidCallback? onTapShopping;
                 SizedBox(
                   height: 29.2.h,
                 ),
-                CachedNetworkImageShare(
-                  urlImage: imgUrl,
-                  borderRadious: 0,
-                  fit: BoxFit.cover,
-                  heigthNumber: 134.h,
-                  widthNumber: 134.w,
-                ),
+                Container(
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                width: 134.w,
+                    height: 134.h,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle
+                    ),
+                    child: Image.asset('assets/images/slider_image.png',width: 134.w,height: 134.h,)),
+                // CachedNetworkImageShare(
+                //   urlImage: imgUrl,
+                //   borderRadious: 0,
+                //   fit: BoxFit.cover,
+                //   heigthNumber: 134.h,
+                //   widthNumber: 134.w,
+                // ),
                 SizedBox(height: 18.3.h),
                 SvgPicture.asset(
                   'assets/svg/d.svg',

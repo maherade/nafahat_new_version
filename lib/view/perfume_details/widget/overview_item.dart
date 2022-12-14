@@ -1,7 +1,10 @@
 import '../../../services/app_imports.dart';
 
 class OverviewItem extends StatelessWidget {
+final String? title;
+final String? advantages;
 
+  const OverviewItem({super.key,this.title, this.advantages});
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -9,23 +12,32 @@ class OverviewItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CustomText(
-            'الميزات الأساسية',
-            fontSize: 16.sp,
-            color: AppColors.grey,
-          ),
           SizedBox(
-            height: 15.h,
-          ),
-          SizedBox(
-            width: 232.w,
+            width: 245.w,
             child: CustomText(
-              'فاه بلمسة نهائية مكثفة ومشرقة لون يثبت علىالشفاه لنتيجة تدوم حتى 12 ساعة منتج مضادللتلطخ ويجف بسرعة تمنح تركيبته المنعمة الشفاهمظهراً مشرقاً وساطعاً المنتج مختبر من قبل أطباءالجلد',
-              fontSize: 16.sp,
-              color: AppColors.grey,
+              advantages,
+              fontSize: 14.sp,
               fontWeight: FontWeight.normal,
+              color: const Color(0xff707070),
             ),
           ),
+          // CustomText(
+          //  title,
+          //   fontSize: 16.sp,
+          //   color: AppColors.grey,
+          // ),
+          // SizedBox(
+          //   height: 15.h,
+          // ),
+          // SizedBox(
+          //   width: 232.w,
+          //   child: CustomText(
+          //     advantages,
+          //     fontSize: 16.sp,
+          //     color: AppColors.grey,
+          //     fontWeight: FontWeight.normal,
+          //   ),
+          // ),
           SizedBox(
             height: 26.h,
           ),

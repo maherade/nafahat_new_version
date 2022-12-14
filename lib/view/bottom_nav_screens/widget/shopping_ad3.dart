@@ -30,13 +30,32 @@ final VoidCallback? onTapSopping;
       child: Row(
         children: [
           Expanded(
-              child: CachedNetworkImageShare(
-                urlImage:
-                imgUrl,
-                fit: BoxFit.contain,
-                heigthNumber: 88.h,
-                widthNumber: 120.w,
+              child: Image.asset(
+                'assets/images/gift.png',
+
+                fit: BoxFit.cover,
               )),
+          // Expanded(
+          //     child: Container(
+          //         height: 88.h,
+          //         width: 120.w,
+          //         clipBehavior: Clip.antiAliasWithSaveLayer,
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(8.r),
+          //         ),
+          //         child: Image.asset(
+          //           'assets/images/gift.png',
+          //           width: 120.w,
+          //           height: 88.h,
+          //         ))),
+          // Expanded(
+          //     child: CachedNetworkImageShare(
+          //       urlImage:
+          //       imgUrl,
+          //       fit: BoxFit.contain,
+          //       heigthNumber: 88.h,
+          //       widthNumber: 120.w,
+          //     )),
           SizedBox(width: 20.w,),
           Expanded(
               child: Column(

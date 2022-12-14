@@ -41,12 +41,25 @@ class ShoppingAd2 extends StatelessWidget {
               )),
           SizedBox(width: 20.w,),
           Expanded(
-              child: CachedNetworkImageShare(
-                urlImage:adImage,
-                fit: BoxFit.contain,
-                heigthNumber: 88.h,
-                widthNumber: 120.w,
-              ))
+              child: Container(
+                height: 88.h,
+                  width: 120.w,
+                  clipBehavior: Clip.antiAliasWithSaveLayer,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Image.asset(
+                    'assets/images/perfume.png',
+                    width: 120.w,
+                    height: 88.h,
+                  )))
+          // Expanded(
+          //     child: CachedNetworkImageShare(
+          //       urlImage:adImage,
+          //       fit: BoxFit.contain,
+          //       heigthNumber: 88.h,
+          //       widthNumber: 120.w,
+          //     ))
         ],
       ),
     );

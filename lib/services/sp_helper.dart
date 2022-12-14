@@ -16,7 +16,7 @@ class SPHelper {
   }
 
   setToken(String value) async {
-    sharedPreferences?.setString('accessToken', value);
+   await sharedPreferences?.setString('accessToken', value);
   }
 
   String? getToken() {
@@ -24,8 +24,8 @@ class SPHelper {
     print(x);
     return x;
   }
-  cleatToken(){
-    sharedPreferences?.remove('accessToken');
+  removeToken() async {
+   await sharedPreferences?.remove('accessToken');
   }
 
 

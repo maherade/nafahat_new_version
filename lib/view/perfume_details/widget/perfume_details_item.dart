@@ -33,13 +33,13 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
       children: [
         Container(
           alignment: Alignment.center,
-          decoration: const BoxDecoration(color: AppColors.greyBorder),
+          decoration: const BoxDecoration(color: AppColors.whiteColor),
           height: 233.h,
           width: double.infinity,
           child: CachedNetworkImageShare(
             urlImage: widget.imgUrl,
             fit: BoxFit.contain,
-            heigthNumber: 159.h,
+            heigthNumber: 233.h,
             widthNumber: 297.w,
           ),
         ),
@@ -49,6 +49,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 18.w),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomText(
                 widget.brandName,

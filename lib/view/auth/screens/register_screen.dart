@@ -1,4 +1,6 @@
 
+import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
+
 import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_text_form_field_with_top_title.dart';
 import '../widget/custom_auth_button.dart';
@@ -44,46 +46,46 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     height: 18.h,
                   ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomFacebookButton(
-                          onTap: () {},
-                        ),
-                      ),
-                      SizedBox(
-                        width: 24.w,
-                      ),
-                      Expanded(
-                        child: CustomGoogleButton(
-                          onTap: () {},
-                        ),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 18.h,
-                  ),
-                  Row(
-                    children: [
-                      const Expanded(
-                          child: Divider(
-                            color: AppColors.greyBorder,
-                            thickness: 2,
-                          )),
-                      Container(
-                          margin: EdgeInsets.symmetric(horizontal: 6.w),
-                          child: CustomText(
-                            'أو',
-                            fontSize: 11.sp,
-                          )),
-                      const Expanded(
-                          child: Divider(
-                            color: AppColors.greyBorder,
-                            thickness: 2,
-                          )),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Expanded(
+                  //       child: CustomFacebookButton(
+                  //         onTap: () {},
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 24.w,
+                  //     ),
+                  //     Expanded(
+                  //       child: CustomGoogleButton(
+                  //         onTap: () {},
+                  //       ),
+                  //     )
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 18.h,
+                  // ),
+                  // Row(
+                  //   children: [
+                  //     const Expanded(
+                  //         child: Divider(
+                  //           color: AppColors.greyBorder,
+                  //           thickness: 2,
+                  //         )),
+                  //     Container(
+                  //         margin: EdgeInsets.symmetric(horizontal: 6.w),
+                  //         child: CustomText(
+                  //           'أو',
+                  //           fontSize: 11.sp,
+                  //         )),
+                  //     const Expanded(
+                  //         child: Divider(
+                  //           color: AppColors.greyBorder,
+                  //           thickness: 2,
+                  //         )),
+                  //   ],
+                  // ),
                 ],
               ),
             ),
@@ -142,7 +144,15 @@ class RegisterScreen extends StatelessWidget {
                   ),
                   CustomAuthButton(
                     title: 'حساب جديد',
-                    onTap: (){},
+                    onTap: (){
+                      if(passwordController.text==confirmPasswordController.text){
+                        AuthApis.authApis.register(nameController.text, emailController.text, passwordController.text);
+                      }
+                      else{
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
+                      }
+                    },
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

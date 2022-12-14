@@ -23,20 +23,25 @@ final VoidCallback? onTapReadMore;
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CachedNetworkImageShare(
-              urlImage:imgUrl,
-              fit: BoxFit.cover,
-              heigthNumber: 171.h,
-              widthNumber: double.infinity),
+          Hero(
+            tag: 'img',
+            child: CachedNetworkImageShare(
+                urlImage:imgUrl,
+                fit: BoxFit.cover,
+                heigthNumber: 171.h,
+                widthNumber: double.infinity),
+          ),
           SizedBox(
             height: 18.h,
           ),
           Container(
-            width: 255.w,
+            width: 300.w,
             padding: EdgeInsets.symmetric(horizontal: 8.w),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     CustomText(
                       category,

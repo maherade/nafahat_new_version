@@ -66,12 +66,25 @@ final VoidCallback? onTapShoppingNow;
                     )),
                 SizedBox(width: 5.w,),
                 Expanded(
-                    child: CachedNetworkImageShare(
-                      urlImage: imgUrl,
-                      fit: BoxFit.contain,
-                      heigthNumber: 130.h,
-                      widthNumber: 130.w,
-                    ))
+                    child: Container(
+                        height: 130.h,
+                        width: 130.w,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Image.asset(
+                          'assets/images/$imgUrl.png',
+                          width: 130.w,
+                          height: 130.h,
+                        )))
+                // Expanded(
+                //     child: CachedNetworkImageShare(
+                //       urlImage: imgUrl,
+                //       fit: BoxFit.contain,
+                //       heigthNumber: 130.h,
+                //       widthNumber: 130.w,
+                //     ))
               ],
             ),
           ),
@@ -116,12 +129,25 @@ final VoidCallback? onTapShoppingNow;
             child: Row(
               children: [
                 Expanded(
-                    child: CachedNetworkImageShare(
-                      urlImage: imgUrl,
-                      fit: BoxFit.contain,
-                      heigthNumber: 130.h,
-                      widthNumber: 130.w,
-                    )),
+                    child: Container(
+                        height: 130.h,
+                        width: 130.w,
+                        clipBehavior: Clip.antiAliasWithSaveLayer,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                        child: Image.asset(
+                          'assets/images/$imgUrl.png',
+                          width: 130.w,
+                          height: 130.h,
+                        ))),
+                // Expanded(
+                //     child: CachedNetworkImageShare(
+                //       urlImage: imgUrl,
+                //       fit: BoxFit.contain,
+                //       heigthNumber: 130.h,
+                //       widthNumber: 130.w,
+                //     )),
                 SizedBox(width: 5.w,),
                 Expanded(
                     child: Column(

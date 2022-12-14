@@ -1,9 +1,28 @@
-import '../../../services/app_imports.dart';
-import '../widget/article_item.dart';
+import 'package:html/parser.dart';
+import 'package:intl/intl.dart';
 
-class ArticlesScreen extends StatelessWidget {
+import '../../../apies/posts_apies.dart';
+import '../../../controller/posts_controller.dart';
+import '../../../services/app_imports.dart';
+import '../../custom_widget/loading_efffect/loading_article.dart';
+import '../widget/article_item.dart';
+import 'article_detail_screen.dart';
+
+class ArticlesScreen extends StatefulWidget {
   const ArticlesScreen({Key? key}) : super(key: key);
 
+  @override
+  State<ArticlesScreen> createState() => _ArticlesScreenState();
+}
+
+class _ArticlesScreenState extends State<ArticlesScreen> {
+  PostsController postsController = Get.find();
+
+  @override
+  void initState() {
+    PostsApies.postsApies.getPostsData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,20 +52,28 @@ class ArticlesScreen extends StatelessWidget {
             height: 19.h,
           ),
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              physics:const BouncingScrollPhysics(),
-              itemCount: 5,
-              itemBuilder: (context, index) {
-              return ArticleItem(
-                imgUrl: 'https://img.freepik.com/free-photo/close-up-photo-inspired-trendy-lady-sparkle-glasses-looking-up-with-mouth-open_197531-7099.jpg?w=740&t=st=1669627228~exp=1669627828~hmac=07fb80d4f295fc8e42398e8dd9c7176b7725f383d8de9ebeb8b7da066b172cd8',
-                category: 'قسم المكياج',
-                date: '11/11/2022',
-                title: 'أحمر الشفاه آيكون من فنتي بيوتي يستحوذ على عين دبي أحد أبرز معالم دبي ',
-                description: 'مع حلول الأجواء الباردة في فصل الخريف، تحتاج المرأة الىتغطية إضافية حول عينيها من خلال استخدام  كونسيلر عاليةالجودة تتناغم بشكل خاص مع ألوان المكياج الدافئة والداكنةالدافئة والداكنة',
-                onTapReadMore: (){},
-              );
-            },),
+            child: Obx(
+              () {
+                var post = postsController.getPostsData!.value.listPostsResponse;
+
+                return post == null ? LoadingArticle() : ListView.builder(
+                  padding: EdgeInsets.zero,
+                  physics:const BouncingScrollPhysics(),
+                  itemCount: post.length,
+                  itemBuilder: (context, index) {
+                    return ArticleItem(
+                      imgUrl: post[index].yoastHeadJson?.ogImage?[0].url ?? '',
+                      category: 'قسم المكياج',
+                      date: DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(post[index].date!)),
+                      title: post[index].title?.rendered ?? '',
+                      description: parse(post[index].excerpt?.rendered).documentElement!.text,
+                      onTapReadMore: (){
+                        Get.to(()=> ArticleDetailScreen(id: post[index].id.toString(),));
+                      },
+                    );
+                  },);
+              },
+            ),
           )
         ],
       ),

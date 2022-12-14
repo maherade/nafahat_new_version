@@ -33,7 +33,7 @@ final VoidCallback? onTapTrash;
               ],
             ),
             Container(
-              width:  80.w,
+              width:  90.w,
               padding: EdgeInsets.all(10.w),
               decoration: BoxDecoration(
                 color: const Color(0x2ed4d1d2),

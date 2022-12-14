@@ -28,7 +28,7 @@ class CustomRateRead extends StatelessWidget {
 
 
 class CustomRateWrite extends StatelessWidget {
-  VoidCallback? onRatingChanged;
+  void Function(double)? onRatingChanged;
   double? size;
   CustomRateWrite({this.onRatingChanged, this.size});
   @override
@@ -37,16 +37,16 @@ class CustomRateWrite extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: RatingBar.builder(
         initialRating: 3,
-        minRating: 1,
+        minRating: 0,
         direction: Axis.horizontal,
-        allowHalfRating: true,
+        allowHalfRating: false,
         itemCount: 5,
         itemSize: size!,
         itemBuilder: (context, _) =>const Icon(
           Icons.star,
           color: Colors.amber,
         ),
-        onRatingUpdate: (rating) => onRatingChanged!(),
+        onRatingUpdate: onRatingChanged!,
       ),
     );
   }

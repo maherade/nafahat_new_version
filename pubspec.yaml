@@ -35,6 +35,7 @@ dependencies:
     sdk: flutter
   number_paginator:
 
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -56,6 +57,15 @@ dependencies:
   carousel_slider: ^4.1.1
   fancy_shimmer_image: ^2.0.2
   pin_code_fields: ^7.4.0
+  html: ^0.15.1
+  flutter_html:
+  intl: ^0.17.0
+  awesome_dialog:
+  json_annotation: ^4.7.0
+  webview_flutter: ^3.0.4
+  flutter_inappwebview: ^5.7.1
+
+
 
 
 dev_dependencies:

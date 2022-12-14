@@ -8,6 +8,14 @@ import '../widget/question_item.dart';
 class HelpAndSupportScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
   TextEditingController noteController = TextEditingController();
+  List<QuestionModel> listQuestion = [
+    QuestionModel('ما هو نفحات ؟', 'متجرنا اكبر موقع تجميل مكياج، عطور، منتجات العناية، الكترونيات، اكسسوارات الجوال والمزيد في المملكة |منتجاتنا اصلية 100% | التوصيل لكافة مناطق المملكة خلال 5 ايام عمل والرياض 72 ساعة | خدمة'),
+    QuestionModel('لماذا متجر نفحات ؟', 'متجرنا اكبر موقع تجميل مكياج، عطور، منتجات العناية، الكترونيات، اكسسوارات الجوال والمزيد في المملكة |منتجاتنا اصلية 100% | التوصيل لكافة مناطق المملكة خلال 5 ايام عمل والرياض 72 ساعة | خدمة'),
+    QuestionModel('ما هي منتجاتنا ؟', 'متجرنا اكبر موقع تجميل مكياج، عطور، منتجات العناية، الكترونيات، اكسسوارات الجوال والمزيد في المملكة |منتجاتنا اصلية 100% | التوصيل لكافة مناطق المملكة خلال 5 ايام عمل والرياض 72 ساعة | خدمة'),
+    QuestionModel('ماهي المشكلات التي تعالجها ؟', 'متجرنا اكبر موقع تجميل مكياج، عطور، منتجات العناية، الكترونيات، اكسسوارات الجوال والمزيد في المملكة |منتجاتنا اصلية 100% | التوصيل لكافة مناطق المملكة خلال 5 ايام عمل والرياض 72 ساعة | خدمة'),
+    QuestionModel('لماذا تتوفر منتجاتنا المختلفة ؟', 'متجرنا اكبر موقع تجميل مكياج، عطور، منتجات العناية، الكترونيات، اكسسوارات الجوال والمزيد في المملكة |منتجاتنا اصلية 100% | التوصيل لكافة مناطق المملكة خلال 5 ايام عمل والرياض 72 ساعة | خدمة'),
+
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,11 +70,11 @@ class HelpAndSupportScreen extends StatelessWidget {
                         ListView.builder(
                           shrinkWrap: true,
                           physics:const NeverScrollableScrollPhysics(),
-                          itemCount: 5,
+                          itemCount: listQuestion.length,
                           itemBuilder: (context, index) {
-                          return const QuestionItem(
-                            question: 'ما هو موقع نفحات؟',
-                            answer:'متجرنا  اكبر موقع تجميل مكياج، عطور منتجات  العناية،الكترونيات، اكسسوارات  الجوال والمزيد  في المملكة |منتجاتنا اصلية 100% | التوصيل  لكافة مناطق  لمملكة خلال 5 ايام عمل والرياض  72 ساعة | خدمة',
+                          return  QuestionItem(
+                            question: listQuestion[index].ques,
+                            answer: listQuestion[index].ans,
                           );
                         },),
                       ],
@@ -144,4 +152,12 @@ class HelpAndSupportScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+class QuestionModel {
+  final String ques;
+  final String ans;
+
+  QuestionModel(this.ques, this.ans);
+
 }

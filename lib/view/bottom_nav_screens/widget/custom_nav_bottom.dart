@@ -1,12 +1,16 @@
 
 
 
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../controller/app_controller.dart';
 import '../../../services/app_imports.dart';
 
 class CustomNavBottom extends StatelessWidget {
+  final InAppWebViewController? inAppController ;
+
+  const CustomNavBottom(this.inAppController);
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AppController>(
@@ -17,8 +21,16 @@ class CustomNavBottom extends StatelessWidget {
           elevation: 0,
           // backgroundColor: Colors.white,
           currentIndex: controller.indexScreen,
-          onTap:(value){
+          onTap:(value) async {
             controller.setIndexScreen(value);
+            if(value == 0 ){
+
+            }else if (value == 1){
+
+            }
+            else if (value == 2){
+
+            }
           },
           showSelectedLabels: false,
           type: BottomNavigationBarType.fixed,

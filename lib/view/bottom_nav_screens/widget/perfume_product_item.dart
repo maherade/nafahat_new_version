@@ -44,7 +44,7 @@ final VoidCallback? onTapBuy;
               height: 17.h,
             ),
             CustomText(brandName,color: AppColors.itemGrey,fontSize: 12.sp,fontWeight: FontWeight.normal,),
-            CustomText(perfumeName,fontSize: 14.sp,fontWeight: FontWeight.normal,),
+            CustomText(perfumeName,fontSize: 14.sp,fontWeight: FontWeight.normal,maxLines: 3,),
             Row(
               children: [
                 CustomRateRead(size: 15.w,rate: perfumeRate,),

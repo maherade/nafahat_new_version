@@ -1,15 +1,19 @@
+import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
+
 import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_text_form_field_with_top_title.dart';
 import '../widget/custom_auth_button.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
+final String? email;
+final String? code;
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController nameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
-  TextEditingController confirmPasswordController = TextEditingController();
 
-  ResetPasswordScreen({super.key});
+   ResetPasswordScreen({super.key, this.email, this.code});
+
+
+TextEditingController passwordController = TextEditingController();
+TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +94,14 @@ class ResetPasswordScreen extends StatelessWidget {
                   ),
                   CustomAuthButton(
                     title: 'تأكيد',
-                    onTap: (){},
+                    onTap: (){
+                      if(passwordController.text == confirmPasswordController.text){
+                        AuthApis.authApis.setPassword(email: email,code: code,password: passwordController.text);
+                      } else{
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
+                      }
+                    },
                   ),
                 ],
               ),

@@ -6,29 +6,33 @@ import '../../custom_widget/cached_network_image.dart';
 class BrandItem extends StatelessWidget {
 final int? index ;
 final String? imgUrl ;
+final VoidCallback? onTap ;
 
-  const BrandItem({super.key, this.index, this.imgUrl});
+  const BrandItem({super.key, this.index, this.imgUrl,this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        index == 0
-            ? SizedBox(
-          width: 25.w,
-        )
-            : const SizedBox(),
-        CachedNetworkImageShare(
-          urlImage:
-          imgUrl,
-          fit: BoxFit.cover,
-          heigthNumber: 30.h,
-          widthNumber: 72.w,
-        ),
-        SizedBox(
-          width: 16.w,
-        ),
-      ],
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        children: [
+          index == 0
+              ? SizedBox(
+            width: 25.w,
+          )
+              : const SizedBox(),
+          CachedNetworkImageShare(
+            urlImage:
+            imgUrl,
+            fit: BoxFit.fill,
+            heigthNumber: 30.h,
+            widthNumber: 72.w,
+          ),
+          SizedBox(
+            width: 16.w,
+          ),
+        ],
+      ),
     );
   }
 }
