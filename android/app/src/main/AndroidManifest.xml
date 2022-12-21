@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.perfume_store_mobile_app">
+    package="com.async.perfume_store_mobile_app">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
         android:label="متجر نفحات"

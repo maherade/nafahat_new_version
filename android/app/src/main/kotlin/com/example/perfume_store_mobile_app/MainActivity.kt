@@ -1,4 +1,4 @@
-package com.perfume_store_mobile_app
+package com.async.perfume_store_mobile_app
 
 import io.flutter.embedding.android.FlutterActivity
 
