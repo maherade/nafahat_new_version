@@ -24,9 +24,9 @@ final VoidCallback? onTap ;
           CachedNetworkImageShare(
             urlImage:
             imgUrl,
-            fit: BoxFit.fill,
-            heigthNumber: 30.h,
-            widthNumber: 72.w,
+            fit: BoxFit.cover,
+            heigthNumber: 25.h,
+            widthNumber: 60.w,
           ),
           SizedBox(
             width: 16.w,

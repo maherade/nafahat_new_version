@@ -103,7 +103,7 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: const [
             Locale('ar', 'AE'),
           ],
-          home: LoginScreen(),
+          home: LoginScreen() ,
         );
       },
     );

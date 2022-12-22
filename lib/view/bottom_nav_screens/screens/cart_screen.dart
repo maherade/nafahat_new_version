@@ -4,6 +4,7 @@ import 'package:perfume_store_mobile_app/controller/auth_controller.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 import 'package:perfume_store_mobile_app/view/payment/payment_screen.dart';
 import '../../../apies/order_apies.dart';
+import '../../../controller/app_controller.dart';
 import '../../../controller/cart_controller.dart';
 import '../../../controller/order_controller.dart';
 import '../../../model/countries_response.dart';
@@ -24,6 +25,7 @@ class _CartScreenState extends State<CartScreen> {
   CartController cart = Get.find();
   OrderController orderController = Get.find();
   AuthController authController = Get.find();
+  AppController appController = Get.find();
 
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -272,7 +274,9 @@ class _CartScreenState extends State<CartScreen> {
                                   height: 16.h,
                                 ),
                                 CustomButton(
-                                  onTap: () {},
+                                  onTap: () {
+                                    appController.setIndexScreen(0);
+                                  },
                                   height: 40.h,
                                   title: 'استمرار عملية الشراء',
                                   titleColor: AppColors.hintGrey,
@@ -433,47 +437,51 @@ class _CartScreenState extends State<CartScreen> {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 itemCount: shippingMethod.length,
                                                 itemBuilder: (context, index) {
-                                                  return Column(
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: <Widget>[
-                                                          Radio(
-                                                            activeColor: Theme.of(context).primaryColor,
-                                                            value: shippingMethod[index],
-                                                            groupValue: shippingMethod[shippingGroupValue!],
-                                                            onChanged: (value) {
-                                                              setState(() {
-                                                                shippingGroupValue = index;
-                                                                print(value?.title);
-                                                                selectedAddress = value?.id;
-                                                                selectedAddressName = value?.title;
-                                                              });
-                                                            },
-                                                          ),
-                                                          Expanded(
-                                                            child: Container(
-                                                              padding: EdgeInsets.all(18.w),
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(8.0),
-                                                                border:
-                                                                    Border.all(width: 1.0, color: AppColors.greyBorder),
-                                                              ),
-                                                              child: CustomText(
-                                                                shippingMethod[index].title!,
-                                                                fontSize: 14.sp,
-                                                                fontWeight: FontWeight.normal,
-                                                              ),
+                                                  if(index>2){
+                                                    return Column(
+                                                      children: [
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: <Widget>[
+                                                            Radio(
+                                                              activeColor: Theme.of(context).primaryColor,
+                                                              value: shippingMethod[index],
+                                                              groupValue: shippingMethod[shippingGroupValue!],
+                                                              onChanged: (value) {
+                                                                setState(() {
+                                                                  shippingGroupValue = index;
+                                                                  print(value?.title);
+                                                                  selectedAddress = value?.id;
+                                                                  selectedAddressName = value?.title;
+                                                                });
+                                                              },
                                                             ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 25.h,
-                                                      ),
-                                                    ],
-                                                  );
+                                                            Expanded(
+                                                              child: Container(
+                                                                padding: EdgeInsets.all(18.w),
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(8.0),
+                                                                  border:
+                                                                  Border.all(width: 1.0, color: AppColors.greyBorder),
+                                                                ),
+                                                                child: CustomText(
+                                                                  shippingMethod[index].title!,
+                                                                  fontSize: 14.sp,
+                                                                  fontWeight: FontWeight.normal,
+                                                                ),
+                                                              ),
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 25.h,
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }else{
+                                                    return SizedBox();
+                                                  }
                                                 },
                                               )
                                       ],
@@ -510,46 +518,50 @@ class _CartScreenState extends State<CartScreen> {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 itemCount: payment.length,
                                                 itemBuilder: (context, index) {
-                                                  return Column(
-                                                    children: [
-                                                      Row(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: <Widget>[
-                                                          Radio(
-                                                              activeColor: Theme.of(context).primaryColor,
-                                                              value: payment[index],
-                                                              groupValue: payment[paymentGroupValue!],
-                                                              onChanged: (value) {
-                                                                setState(() {
-                                                                  paymentGroupValue = index;
-                                                                  print(value?.id);
-                                                                  selectedPaymentMethods = value?.id;
-                                                                  selectedPaymentMethodsTitle = value?.title;
-                                                                });
-                                                              }),
-                                                          Expanded(
-                                                            child: Container(
-                                                              padding: EdgeInsets.all(18.w),
-                                                              decoration: BoxDecoration(
-                                                                borderRadius: BorderRadius.circular(8.0),
-                                                                border:
-                                                                    Border.all(width: 1.0, color: AppColors.greyBorder),
+                                                  if(index== 2 || index==4){
+                                                    return Column(
+                                                      children: [
+                                                        Row(
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          mainAxisAlignment: MainAxisAlignment.start,
+                                                          children: <Widget>[
+                                                            Radio(
+                                                                activeColor: Theme.of(context).primaryColor,
+                                                                value: payment[index],
+                                                                groupValue: payment[paymentGroupValue!],
+                                                                onChanged: (value) {
+                                                                  setState(() {
+                                                                    paymentGroupValue = index;
+                                                                    print(value?.id);
+                                                                    selectedPaymentMethods = value?.id;
+                                                                    selectedPaymentMethodsTitle = value?.title;
+                                                                  });
+                                                                }),
+                                                            Expanded(
+                                                              child: Container(
+                                                                padding: EdgeInsets.all(18.w),
+                                                                decoration: BoxDecoration(
+                                                                  borderRadius: BorderRadius.circular(8.0),
+                                                                  border:
+                                                                  Border.all(width: 1.0, color: AppColors.greyBorder),
+                                                                ),
+                                                                child: CustomText(
+                                                                  payment[index].title!,
+                                                                  fontSize: 14.sp,
+                                                                  fontWeight: FontWeight.normal,
+                                                                ),
                                                               ),
-                                                              child: CustomText(
-                                                                payment[index].title!,
-                                                                fontSize: 14.sp,
-                                                                fontWeight: FontWeight.normal,
-                                                              ),
-                                                            ),
-                                                          )
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 25.h,
-                                                      ),
-                                                    ],
-                                                  );
+                                                            )
+                                                          ],
+                                                        ),
+                                                        SizedBox(
+                                                          height: 25.h,
+                                                        ),
+                                                      ],
+                                                    );
+                                                  }else{
+                                                    return SizedBox();
+                                                  }
                                                 },
                                               )
                                       ],

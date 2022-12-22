@@ -113,53 +113,52 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PerfumeDetailsItem(
-                              imgUrl: product.images?[0].src ?? '',
-                              brandName:
-                                  product.brands != null && product.brands!.isNotEmpty ? product.brands![0].name : '',
+                              imgUrl: product.images,
+                              brandName: product.brands != null && product.brands!.isNotEmpty ? product.brands![0].name : '',
                               perfumeName: product.name ?? '',
                               perfumeRate: double.parse(product.averageRating ?? '0.0'),
                               rateCount: product.ratingCount.toString() ?? '0',
                               priceBeforeDiscount: product.regularPrice ?? '',
                               priceAfterDiscount: product.salePrice ?? '',
                             ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            SizedBox(
-                              height: 30.h,
-                              child: Row(
-                                children: [
-                                  SizedBox(
-                                    width: 15.w,
-                                  ),
-                                  Expanded(
-                                    child: ListView.builder(
-                                      physics: const BouncingScrollPhysics(),
-                                      scrollDirection: Axis.horizontal,
-                                      itemCount: listColor.length,
-                                      itemBuilder: (context, index) {
-                                        return GestureDetector(
-                                          onTap: () {
-                                            setState(() => currentIndex = index);
-                                          },
-                                          child: Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 3.w),
-                                            height: 24.h,
-                                            width: 24.w,
-                                            decoration: BoxDecoration(
-                                                color: listColor[index],
-                                                shape: BoxShape.circle,
-                                                border: currentIndex == index
-                                                    ? Border.all(color: AppColors.primaryColor, width: 5)
-                                                    : null),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            // SizedBox(
+                            //   height: 5.h,
+                            // ),
+                            // SizedBox(
+                            //   height: 30.h,
+                            //   child: Row(
+                            //     children: [
+                            //       SizedBox(
+                            //         width: 15.w,
+                            //       ),
+                            //       Expanded(
+                            //         child: ListView.builder(
+                            //           physics: const BouncingScrollPhysics(),
+                            //           scrollDirection: Axis.horizontal,
+                            //           itemCount: listColor.length,
+                            //           itemBuilder: (context, index) {
+                            //             return GestureDetector(
+                            //               onTap: () {
+                            //                 setState(() => currentIndex = index);
+                            //               },
+                            //               child: Container(
+                            //                 margin: EdgeInsets.symmetric(horizontal: 3.w),
+                            //                 height: 24.h,
+                            //                 width: 24.w,
+                            //                 decoration: BoxDecoration(
+                            //                     color: listColor[index],
+                            //                     shape: BoxShape.circle,
+                            //                     border: currentIndex == index
+                            //                         ? Border.all(color: AppColors.primaryColor, width: 5)
+                            //                         : null),
+                            //               ),
+                            //             );
+                            //           },
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                             SizedBox(
                               height: 17.h,
                             ),

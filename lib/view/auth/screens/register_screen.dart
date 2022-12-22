@@ -5,6 +5,7 @@ import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_text_form_field_with_top_title.dart';
 import '../widget/custom_auth_button.dart';
 import '../widget/custom_social_media_button.dart';
+import 'login_screen.dart';
 
 class RegisterScreen extends StatelessWidget {
   TextEditingController emailController = TextEditingController();
@@ -159,7 +160,7 @@ class RegisterScreen extends StatelessWidget {
                     children: [
                       CustomText('اذا كنت تمتلك حساب قم ب',fontSize: 12.sp,fontWeight: FontWeight.normal,),
                       TextButton(
-                          onPressed: () {  },
+                          onPressed: () { Get.to(()=>LoginScreen()); },
                           child: CustomText('تسجيل الدخول',fontSize: 14.sp,fontWeight: FontWeight.normal,color: AppColors.primaryColor,)),
                     ],
                   )

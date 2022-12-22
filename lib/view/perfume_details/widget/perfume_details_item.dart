@@ -3,7 +3,7 @@ import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_rate_write_bar.dart';
 
 class PerfumeDetailsItem extends StatefulWidget {
-  final String? imgUrl;
+  final List? imgUrl;
   final String? brandName;
   final String? perfumeName;
   final double? perfumeRate;
@@ -26,23 +26,60 @@ class PerfumeDetailsItem extends StatefulWidget {
 }
 
 class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
+  int _current = 0;
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          alignment: Alignment.center,
-          decoration: const BoxDecoration(color: AppColors.whiteColor),
+        SizedBox(
           height: 233.h,
           width: double.infinity,
-          child: CachedNetworkImageShare(
-            urlImage: widget.imgUrl,
-            fit: BoxFit.contain,
-            heigthNumber: 233.h,
-            widthNumber: 297.w,
+          child: Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              PageView.builder(
+                onPageChanged: (index) {
+                  setState(() => _current = index);
+                },
+                itemCount: widget.imgUrl?.length,
+                itemBuilder: (context, index) {
+                  return   Container(
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(color: AppColors.whiteColor),
+                    height: 233.h,
+                    width: double.infinity,
+                    child: CachedNetworkImageShare(
+                      urlImage: widget.imgUrl?[index].src,
+                      fit: BoxFit.contain,
+                      heigthNumber: 233.h,
+                      widthNumber: double.infinity,
+                    ),
+                  );
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widget.imgUrl!.asMap().entries.map((entry) {
+                    return Container(
+                      width:_current == entry.key ? 35.w : 10.w,
+                      height: 10.h,
+                      margin: EdgeInsets.symmetric( horizontal: 3.w),
+                      decoration: BoxDecoration(
+                          borderRadius: _current == entry.key ? BorderRadius.circular(12.r):null,
+                          shape: _current == entry.key ? BoxShape.rectangle :BoxShape.circle,
+                          color: _current == entry.key ?AppColors.primaryColor :AppColors.greyBorder),
+                    );
+                  }).toList(),
+                ),
+              ),
+            ],
           ),
         ),
+
         SizedBox(
           height: 12.h,
         ),
