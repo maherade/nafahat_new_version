@@ -1,17 +1,30 @@
 
+import 'package:flutter/gestures.dart';
 import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
 
+import '../../../privacy_policy.dart';
 import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_text_form_field_with_top_title.dart';
+import '../../teems_and_conditions.dart';
 import '../widget/custom_auth_button.dart';
 import '../widget/custom_social_media_button.dart';
 import 'login_screen.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController emailController = TextEditingController();
+
   TextEditingController nameController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
+
   TextEditingController confirmPasswordController = TextEditingController();
+
+  bool _termsChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -143,15 +156,67 @@ class RegisterScreen extends StatelessWidget {
                   SizedBox(
                     height: 17.h,
                   ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: _termsChecked,
+                        activeColor: AppColors.primaryColor,
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _termsChecked = value!;
+                          });
+                        },
+                      ),
+                      SizedBox(width: 10,),
+                      RichText(
+                        text: TextSpan(
+                          text: 'اوافق على  ',
+                          style: const TextStyle(color: Colors.black),
+                          children:  <TextSpan>[
+                            TextSpan(text: 'الشروط والاحكام ',
+                                recognizer:  TapGestureRecognizer()..onTap = () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return dialoge(text: termsAndConditions,);
+                                    },
+                                  );
+                                },
+                                style: const TextStyle(fontWeight: FontWeight.bold ,color: AppColors.primaryColor)),
+                            const TextSpan(text: '  و  '),
+                            const TextSpan(text: '\n'),
+                            TextSpan(text: 'سياسة الخصوصية',
+                                recognizer:  TapGestureRecognizer()..onTap = () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return dialoge(text: privacyPolicies,);
+                                    },
+                                  );
+                                },
+                                style: const TextStyle(fontWeight: FontWeight.bold,color: AppColors.primaryColor)),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 17.h,
+                  ),
                   CustomAuthButton(
                     title: 'حساب جديد',
                     onTap: (){
-                      if(passwordController.text==confirmPasswordController.text){
-                        AuthApis.authApis.register(nameController.text, emailController.text, passwordController.text);
-                      }
-                      else{
+                      if(_termsChecked){
+                        if(passwordController.text==confirmPasswordController.text){
+                          AuthApis.authApis.register(nameController.text, emailController.text, passwordController.text);
+                        }
+                        else{
+                          ScaffoldMessenger.of(context)
+                              .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
+                        }
+                      }else{
                         ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
+                            .showSnackBar(const SnackBar(content: Text('الرجاء الموافقة على الشروط والاحكام')));
                       }
                     },
                   ),

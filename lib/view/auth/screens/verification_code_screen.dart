@@ -163,7 +163,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                       },
                       child: CustomText('ارسال الرمز مرة أخرى',fontWeight: FontWeight.normal,fontSize: 14.sp,)),
                 )
-
               ],
             ),
           );

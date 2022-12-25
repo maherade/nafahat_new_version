@@ -13,6 +13,7 @@ import '../../../controller/product_controller.dart';
 import '../../../model/decode_token_response.dart';
 import '../../../model/sub_category_product.dart';
 import '../../../model/sub_category_response.dart';
+import '../../../privacy_policy.dart';
 import '../../../services/app_imports.dart';
 import '../../../services/sp_helper.dart';
 import '../../articles/screen/article_screen.dart';
@@ -24,7 +25,6 @@ import '../../custom_widget/loading_efffect/loading_container_category.dart';
 import '../../custom_widget/loading_efffect/loading_product.dart';
 import '../../help_and_support/screen/help_and_support_screen.dart';
 import '../../perfume_details/screens/perfume_details_screen.dart';
-import '../../privacy_policy/privacy_policy_screen.dart';
 import '../../shop_by_brand/screen/shop_by_brand_screen.dart';
 import '../../shop_by_category/screen/shop_by_category.dart';
 import '../../show_all_famous_product/screen/show_all_famous_product_screen.dart';
@@ -137,7 +137,12 @@ class _HomeScreenState extends State<HomeScreen> {
                             } else if (value == 2) {
                               Get.to(() => const ArticlesScreen());
                             } else if (value == 3) {
-                              Get.to(() =>  PrivacyPolicy());
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return dialoge(text: privacyPolicies,);
+                                },
+                              );
                             }else if (value == 4) {
                               SPHelper.spHelper.removeToken();
                               Get.offAll(() =>  LoginScreen());
