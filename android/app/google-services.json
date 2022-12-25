@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "383856078300",
+    "project_id": "perfume-store-mobile-app",
+    "storage_bucket": "perfume-store-mobile-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:383856078300:android:f2a22c5453ef07bcb4f319",
+        "android_client_info": {
+          "package_name": "com.async.perfume_store_mobile_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "383856078300-ojo3rgsfer0cehvl301t3c7sl7hb3iea.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5DxYpFn4x7-CtW-lzp4FTAoZalm6wdok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "383856078300-ojo3rgsfer0cehvl301t3c7sl7hb3iea.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "383856078300-t57cuq979et38fbgouqugevarpa1n7ki.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.perfumeStoreMobileApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

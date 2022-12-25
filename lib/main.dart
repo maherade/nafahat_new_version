@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,13 +18,13 @@ import 'controller/order_controller.dart';
 import 'controller/posts_controller.dart';
 import 'controller/product_controller.dart';
 import 'controller/review_controller.dart';
-import 'model/order.dart';
 import 'services/app_imports.dart';
+import 'services/firebase_notification.dart';
 import 'view/auth/screens/login_screen.dart';
-import 'view/bottom_nav_screens/screens/nav_bar_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  Firebase.initializeApp();
   await SPHelper.spHelper.initSharedPrefrences();
   await Settingss.settings.initDio();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
@@ -64,6 +65,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
+    NotificationHelper().initialNotification();
     SPHelper.spHelper.removeToken();
     super.initState();
   }
