@@ -2,7 +2,7 @@
     package="com.async.perfume_store_mobile_app">
     <uses-permission android:name="android.permission.INTERNET"/>
    <application
-        android:label="متجر نفحات"
+        android:label="Nafahat"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
