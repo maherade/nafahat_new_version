@@ -12,6 +12,8 @@ import '../../../model/order.dart';
 import '../../../model/payment_method_response.dart';
 import '../../../model/shipping_method_response.dart';
 import '../../../services/app_imports.dart';
+import '../../../services/sp_helper.dart';
+import '../../auth/screens/login_screen.dart';
 import '../../custom_widget/custom_text_form_field.dart';
 import '../widget/custom_cart_product_item.dart';
 import '../widget/stepper.dart';
@@ -248,7 +250,12 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 CustomButton(
                                   onTap: () {
-                                    setState(() => currentStepperIndex = 1);
+                                    if(SPHelper.spHelper.getToken()!=null){
+                                      setState(() => currentStepperIndex = 1);
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('يرجى تسجيل الدخول للمتابعة')));
+                                      Get.to(()=> LoginScreen());
+                                    }
                                   },
                                   height: 40.h,
                                   widget: Row(

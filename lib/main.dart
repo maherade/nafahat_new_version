@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:perfume_store_mobile_app/apies/order_apies.dart';
 import 'package:perfume_store_mobile_app/services/Settingss.dart';
 import 'package:perfume_store_mobile_app/services/sp_helper.dart';
+import 'package:perfume_store_mobile_app/view/bottom_nav_screens/screens/nav_bar_screen.dart';
 import 'package:perfume_store_mobile_app/view/help_and_support/screen/help_and_support_screen.dart';
 
 import 'controller/app_controller.dart';
@@ -21,6 +22,7 @@ import 'controller/review_controller.dart';
 import 'services/app_imports.dart';
 import 'services/firebase_notification.dart';
 import 'view/auth/screens/login_screen.dart';
+import 'view/splash/screen/splash_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -66,7 +68,6 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     NotificationHelper().initialNotification();
-    SPHelper.spHelper.removeToken();
     super.initState();
   }
 
@@ -105,7 +106,7 @@ class _MyAppState extends State<MyApp> {
           supportedLocales: const [
             Locale('ar', 'AE'),
           ],
-          home: LoginScreen() ,
+          home: SplashScreen() ,
         );
       },
     );

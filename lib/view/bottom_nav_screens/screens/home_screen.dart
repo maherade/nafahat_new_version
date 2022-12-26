@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
 import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import 'package:perfume_store_mobile_app/controller/category_controller.dart';
 import 'package:perfume_store_mobile_app/view/auth/screens/login_screen.dart';
@@ -59,9 +60,19 @@ class _HomeScreenState extends State<HomeScreen> {
  List<String> listAdImage = ['p1','p2','p3'];
  List<String> list2AdImage = ['m1','m2'];
 
+  String decryptToken(token){
+    final encodedPayload = token.split('.')[1];
+    final payloadData =
+    utf8.fuse(base64).decode(base64.normalize(encodedPayload));
+    print(payloadData);
+    final payload = DecodeTokenResponse.fromJson(jsonDecode(payloadData));
+    return payload.data!.user!.id!;
+  }
+
  @override
   void initState() {
    WidgetsBinding.instance.addPostFrameCallback((_) {
+    SPHelper.spHelper.getToken()!=null? AuthApis.authApis.getCustomerInformation(decryptToken(SPHelper.spHelper.getToken())) : print('null Token');
    CategoryApies.categoryApies.getCategoryData('0');
    BrandApies.brandApies.getBrandData();
    ProductApies.productApies.getFamousProductData(category: "27");

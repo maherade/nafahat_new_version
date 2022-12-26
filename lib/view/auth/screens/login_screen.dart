@@ -201,6 +201,27 @@ class _LoginScreenState extends State<LoginScreen> {
 
                     },
                   ),
+                  SizedBox(height: 10.h,),
+                  GestureDetector(
+                    onTap: (){
+                      Get.to(()=>NavBarScreen());
+                    },
+                    child: Container(
+                      height: 50.h,
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          color: AppColors.whiteColor,
+                          borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(color: AppColors.primaryColor,width: 2)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomText('الدخول كضيف',fontSize: 14.sp,fontWeight: FontWeight.bold,color: AppColors.primaryColor,),
+                        ],
+                      ),
+                    ),
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [

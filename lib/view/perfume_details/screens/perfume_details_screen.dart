@@ -5,6 +5,8 @@ import 'package:intl/intl.dart';
 import 'package:perfume_store_mobile_app/apies/product_apies.dart';
 import 'package:perfume_store_mobile_app/controller/auth_controller.dart';
 import 'package:perfume_store_mobile_app/controller/product_controller.dart';
+import 'package:perfume_store_mobile_app/services/sp_helper.dart';
+import 'package:perfume_store_mobile_app/view/auth/screens/login_screen.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_rate_write_bar.dart';
 
@@ -181,19 +183,24 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 18.w),
                               child: CustomButton(
                                 onTap: () {
-                                  bool added = cart.addItem(
-                                    imgurl: product.images?[0].src ?? '',
-                                    name: product.name ?? '',
-                                    price: double.parse(product.salePrice == '' || product.salePrice == null
-                                        ? '0.0'
-                                        : product.salePrice!),
-                                    quantitiy: 1,
-                                    pdtid: product.id.toString() ?? '',
-                                  );
-                                  if (added) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(content: Text('تمت الإضافة إلى السلة بنجاح')));
-                                  }
+                                 if(SPHelper.spHelper.getToken()!=null){
+                                   bool added = cart.addItem(
+                                     imgurl: product.images?[0].src ?? '',
+                                     name: product.name ?? '',
+                                     price: double.parse(product.salePrice == '' || product.salePrice == null
+                                         ? '0.0'
+                                         : product.salePrice!),
+                                     quantitiy: 1,
+                                     pdtid: product.id.toString() ?? '',
+                                   );
+                                   if (added) {
+                                     ScaffoldMessenger.of(context)
+                                         .showSnackBar(const SnackBar(content: Text('تمت الإضافة إلى السلة بنجاح')));
+                                   }
+                                 }else{
+                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('يرجى تسجيل الدخول للمتابعة')));
+                                   Get.to(()=> LoginScreen());
+                                 }
                                 },
                                 height: 50.h,
                                 radious: 6.r,
