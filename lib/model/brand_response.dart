@@ -6,7 +6,9 @@ class ListBrandResponse {
     if (json != null) {
       listBrandResponse = <BrandResponse>[];
       json.forEach((v) {
-        listBrandResponse!.add(BrandResponse.fromJson(v));
+        if(v['brand_image'] != false){
+          listBrandResponse!.add(BrandResponse.fromJson(v));
+        }
       });
     }
 

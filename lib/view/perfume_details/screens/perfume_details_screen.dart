@@ -183,24 +183,19 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                               padding: EdgeInsets.symmetric(horizontal: 18.w),
                               child: CustomButton(
                                 onTap: () {
-                                 if(SPHelper.spHelper.getToken()!=null){
-                                   bool added = cart.addItem(
-                                     imgurl: product.images?[0].src ?? '',
-                                     name: product.name ?? '',
-                                     price: double.parse(product.salePrice == '' || product.salePrice == null
-                                         ? '0.0'
-                                         : product.salePrice!),
-                                     quantitiy: 1,
-                                     pdtid: product.id.toString() ?? '',
-                                   );
-                                   if (added) {
-                                     ScaffoldMessenger.of(context)
-                                         .showSnackBar(const SnackBar(content: Text('تمت الإضافة إلى السلة بنجاح')));
-                                   }
-                                 }else{
-                                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('يرجى تسجيل الدخول للمتابعة')));
-                                   Get.to(()=> LoginScreen());
-                                 }
+                                  bool added = cart.addItem(
+                                    imgurl: product.images?[0].src ?? '',
+                                    name: product.name ?? '',
+                                    price: double.parse(product.salePrice == '' || product.salePrice == null
+                                        ? '0.0'
+                                        : product.salePrice!),
+                                    quantitiy: 1,
+                                    pdtid: product.id.toString() ?? '',
+                                  );
+                                  if (added) {
+                                    ScaffoldMessenger.of(context)
+                                        .showSnackBar(const SnackBar(content: Text('تمت الإضافة إلى السلة بنجاح')));
+                                  }
                                 },
                                 height: 50.h,
                                 radious: 6.r,
@@ -313,8 +308,8 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                                 btnOkOnPress: () {
                                                   ReviewApies.reviewApies.postComment(
                                                       productId: widget.productId,
-                                                      userEmail: auth?.userEmail,
-                                                      userName: auth?.userDisplayName,
+                                                      userEmail: auth?.userEmail ?? 'guest@gmail.com',
+                                                      userName: auth?.userDisplayName ?? 'guest',
                                                       rate: selectedRate.toInt(),
                                                       reviewContent: addCommentController.text
                                                   );
@@ -409,7 +404,9 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                         priceAfterDiscount:  lastViewedProduct[index].salePrice??'',
                                         onTapBuy: (){
                                           print(lastViewedProduct[index].id.toString());
-                                          Get.to(()=>PerfumeDetailsScreen(productId: lastViewedProduct[index].id.toString(),));
+                                          ProductApies.productApies.getProductDetailData(lastViewedProduct[index].id.toString());
+                                          ReviewApies.reviewApies.getReviewData(lastViewedProduct[index].id.toString());
+                                          ProductApies.productApies.getLastViewProduct();
                                         },
                                       );
                                     },

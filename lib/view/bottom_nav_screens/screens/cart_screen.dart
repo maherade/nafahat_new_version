@@ -250,12 +250,7 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                                 CustomButton(
                                   onTap: () {
-                                    if(SPHelper.spHelper.getToken()!=null){
-                                      setState(() => currentStepperIndex = 1);
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('يرجى تسجيل الدخول للمتابعة')));
-                                      Get.to(()=> LoginScreen());
-                                    }
+                                    setState(() => currentStepperIndex = 1);
                                   },
                                   height: 40.h,
                                   widget: Row(

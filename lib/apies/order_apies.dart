@@ -114,7 +114,7 @@ class OrderApies {
   final key = 'ck_54b7ebd52fd718be81cb1043637c84732aa1705c';
   final secret = 'cs_df50caa82b6d05266923b0f9a6e2aaa000960410';
   Future<Order> createOrder2({
-    required String customer_id,
+    required String? customer_id,
     required String payment_method,
     required String payment_method_title,
     required String firstName,
@@ -131,11 +131,12 @@ class OrderApies {
     required List<Map<String,dynamic>> listProduct,
 
   }) async {
+    print('yehya$customer_id');
     final url = Uri.parse(
       'https://nafahat.com/wp-json/wc/v3/orders?consumer_key=$key&consumer_secret=$secret',
     );
     final parameters = <String, dynamic>{
-      'customer_id': customer_id,
+      ...(customer_id != 'null' ? {'customer_id': customer_id} : {}),
       'payment_method_title': payment_method_title,
       'payment_method': payment_method,
       'billing': {
