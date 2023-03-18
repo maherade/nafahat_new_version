@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
@@ -30,7 +31,7 @@ class OrderApies {
       );
       if (response.statusCode == 200) {
         orderController.getShippingMethodsData!.value = ListShippingMethodsResponse.fromJson(response.data);
-        print("getReviewData Successful ");
+        print("getShippingMethods Successful ");
       } else {}
     } catch (e) {
       print(e.toString());
@@ -133,7 +134,7 @@ class OrderApies {
   }) async {
     print('yehya$customer_id');
     final url = Uri.parse(
-      'https://nafahat.com/wp-json/wc/v3/orders?consumer_key=$key&consumer_secret=$secret',
+      'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret',
     );
     final parameters = <String, dynamic>{
       ...(customer_id != 'null' ? {'customer_id': customer_id} : {}),
@@ -171,7 +172,7 @@ class OrderApies {
     request.headers.set("Content-Type", "application/json; charset=utf-8");
     request.write(jsonEncode(parameters));
     final response = await request.close();
-    if(response.statusCode == 201){
+    if(response.statusCode == 200){
       ProgressDialogUtils.hide();
       Helper.getSheetSucsses('تم إرسال الطلب');
     }else{
@@ -181,7 +182,7 @@ class OrderApies {
     final jsonStrings = await response.transform(utf8.decoder).toList();
     final jsonString = jsonStrings.join();
     final json = jsonDecode(jsonString) as Map<String, dynamic>;
-    print(json);
+    log(json.toString());
     final order = Order.fromJson(json);
     return order;
   }

@@ -34,65 +34,66 @@ final VoidCallback? onTapReadMore;
           SizedBox(
             height: 18.h,
           ),
-          Container(
-            width: 300.w,
-            padding: EdgeInsets.symmetric(horizontal: 8.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    CustomText(
-                      category,
-                      fontSize: 12.sp,
-                      color: AppColors.primaryColor,
-                    ),
-                    SizedBox(
-                      width: 50.w,
-                    ),
-                    CustomText(
-                      date,
-                      fontSize: 12.sp,
-                      color: AppColors.hintGrey,
-                      fontWeight: FontWeight.normal,
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 14.h,
-                ),
-                CustomText(
-                  title,
-                  fontSize: 14.sp,
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Flexible(
-                      child: CustomText(
-                        description,
+          GestureDetector(
+            onTap: onTapReadMore,
+            child: Container(
+              color: Colors.transparent,
+              width: 300.w,
+              padding: EdgeInsets.symmetric(horizontal: 8.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      CustomText(
+                        category,
+                        fontSize: 12.sp,
+                        color: AppColors.primaryColor,
+                      ),
+                      SizedBox(
+                        width: 50.w,
+                      ),
+                      CustomText(
+                        date,
                         fontSize: 12.sp,
                         color: AppColors.hintGrey,
                         fontWeight: FontWeight.normal,
-                        maxLines: 4,
                       ),
-                    ),
-                    SizedBox(width: 2.w,),
-                    GestureDetector(
-                      onTap: onTapReadMore,
-                      child: CustomText('مشاهدة المزيد',fontSize: 12.sp,color: AppColors.primaryColor,),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  height: 14.h,
-                ),
-              ],
+                    ],
+                  ),
+                  SizedBox(
+                    height: 14.h,
+                  ),
+                  CustomText(
+                    title,
+                    fontSize: 14.sp,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Flexible(
+                        child: CustomText(
+                          description,
+                          fontSize: 12.sp,
+                          color: AppColors.hintGrey,
+                          fontWeight: FontWeight.normal,
+                          maxLines: 4,
+                        ),
+                      ),
+                      SizedBox(width: 2.w,),
+                      CustomText('مشاهدة المزيد',fontSize: 12.sp,color: AppColors.primaryColor,),
+                    ],
+                  ),
+                  SizedBox(
+                    height: 14.h,
+                  ),
+                ],
+              ),
             ),
           ),
         ],

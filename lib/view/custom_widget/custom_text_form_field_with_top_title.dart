@@ -9,8 +9,10 @@ class CustomTextFormFieldWithTopTitle extends StatelessWidget {
   final String? topTitle;
   final Widget? suffixIcon;
   final int? maxLines;
+  final String? Function(String?)? validator;
 
-  const CustomTextFormFieldWithTopTitle({super.key, this.controller, this.hintText, this.topTitle, this.suffixIcon,this.maxLines});
+  const CustomTextFormFieldWithTopTitle(
+      {super.key, this.controller, this.hintText, this.topTitle, this.suffixIcon, this.maxLines,this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class CustomTextFormFieldWithTopTitle extends StatelessWidget {
         TextFormField(
           maxLines: maxLines ?? 1,
           controller: controller,
+          validator:validator,
           autofocus: false,
           style: const TextStyle(fontSize: 15.0, color: Colors.black),
           decoration: InputDecoration(
@@ -35,10 +38,14 @@ class CustomTextFormFieldWithTopTitle extends StatelessWidget {
               border: InputBorder.none,
               hintText: hintText,
               hintStyle: TextStyle(
-                  fontSize: 13.sp, color: AppColors.grey, fontWeight: FontWeight.normal, fontFamily: 'urw_din'),
+                  fontSize: 13.sp,
+                  color: AppColors.grey,
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'urw_din'),
               // filled: true,
               // fillColor: AppColors.whiteColor,
-              contentPadding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
+              contentPadding: EdgeInsets.symmetric(
+                  horizontal: 10.w, vertical: 15.h),
               focusedBorder: OutlineInputBorder(
                 borderSide: const BorderSide(color: AppColors.greyBorder),
                 borderRadius: BorderRadius.circular(8.0),

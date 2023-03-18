@@ -5,6 +5,7 @@ import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import '../const_urls.dart';
 import '../model/brand_response.dart';
 import '../services/Settingss.dart';
+import '../services/sp_helper.dart';
 
 
 
@@ -15,10 +16,14 @@ class BrandApies {
   BrandController brandController = myGet.Get.find();
 
   getBrandData() async {
+
     brandController.getBrandData!.value = ListBrandResponse();
     try {
       Response response = await Settingss.settings.dio!.get(
           brandURL,
+        queryParameters: {
+            "endpoint":"brands"
+        }
       );
       if (response.statusCode == 200) {
         brandController.getBrandData!.value = ListBrandResponse.fromJson(response.data);

@@ -15,7 +15,7 @@ final int count ;
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.52.h,
+        childAspectRatio: 0.45.h,
         crossAxisCount: 2,
         crossAxisSpacing: 11.w,
         mainAxisSpacing: 16.h,

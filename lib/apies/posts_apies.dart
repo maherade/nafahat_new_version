@@ -24,13 +24,16 @@ class PostsApies {
     try {
       Response response = await Settingss.settings.dio!.get(
         postsURL,
+        queryParameters: {
+          "endpoint":"wpposts"
+        },
         options: Options(
           headers: {'Authorization': 'Bearer $token'}
         )
       );
       if (response.statusCode == 200) {
         postsController.getPostsData!.value = ListPostsResponse.fromJson(response.data);
-        print("getPostsData Successful ${postsController.getPostsData!.value.listPostsResponse![0].yoastHeadJson?.ogImage?[0].url}");
+        print("getPostsData Successful ");
       } else {}
     } catch (e) {
       print(e.toString());
@@ -42,7 +45,11 @@ class PostsApies {
     postsController.getPostDetailData!.value = PostDetailResponse();
     try {
       Response response = await Settingss.settings.dio!.get(
-        '$postsURL/$id',
+        postsURL,
+        queryParameters: {
+          "endpoint":"wpposts",
+          "id": id
+        },
         options: Options(
           headers: {'Authorization': 'Bearer $token'}
         )

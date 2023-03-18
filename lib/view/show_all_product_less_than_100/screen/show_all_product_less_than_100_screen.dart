@@ -43,7 +43,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
             pageNumber: '1',
             order: 'asc',
             orderBy: 'popularity',
-            lessThan: '100'
+            lessThan: '20'
         );
         setState(() {
           order = 'asc';
@@ -54,7 +54,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
       case 'ترتيب حسب معدل التقييم':
         ProductApies.productApies.getLessThanPriceProductResponseData(
             pageNumber: '1',
-            lessThan: '100',
+            lessThan: '20',
             order: 'asc',
             orderBy: 'rating'
         );
@@ -68,7 +68,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
         ProductApies.productApies.getLessThanPriceProductResponseData(
             pageNumber: '1',
             order: 'asc',
-            lessThan: '100',
+            lessThan: '20',
             orderBy: 'date'
         );
         setState(() {
@@ -80,7 +80,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
       case 'ترتيب حسب الأدنى سعرا للأعلى':
         ProductApies.productApies.getLessThanPriceProductResponseData(
             pageNumber: '1',
-            lessThan: '100',
+            lessThan: '20',
             order: 'desc',
             orderBy: 'price'
         );
@@ -93,7 +93,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
       case 'ترتيب حسب الأعلى سعرا للأدنى':
         ProductApies.productApies.getLessThanPriceProductResponseData(
             pageNumber: '1',
-            lessThan: '100',
+            lessThan: '20',
             order: 'desc',
             orderBy: 'price'
         );
@@ -107,8 +107,8 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
   }
 
   getData() async {
-    ProductApies.productApies.getLessThanPriceProductResponseData(lessThan: '100',pageNumber: '1',);
-    ProductApies.productApies.getLastViewProduct(maxPrice: '100');
+    ProductApies.productApies.getLessThanPriceProductResponseData(lessThan: '20',pageNumber: '1',);
+    ProductApies.productApies.getLastViewProduct(maxPrice: '20');
 
   }
 
@@ -125,8 +125,8 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
     return Scaffold(
       body: Obx(
             () {
-              var product = productController.getListLessThanPriceProductResponseData!.value.listLessThanPriceProductResponse;
-              var lastViewedProduct = productController.getLastViewedProduct!.value.listLastViewedProductResponse;
+              var product = productController.getListLessThanPriceProductResponseData!.value.data;
+              var lastViewedProduct = productController.getLastViewedProduct!.value.data;
 
               return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -147,7 +147,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                       Row(
                         children: [
                           CustomText(
-                            'منتجات أقل من ١٠٠ ريال',
+                            'منتجات أقل من 20 ريال',
                             fontWeight: FontWeight.bold,
                             fontSize: 14.sp,
                           ),
@@ -214,7 +214,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.52.h,
+                          childAspectRatio: 0.45.h,
                           crossAxisCount: 2,
                           crossAxisSpacing: 11.w,
                           mainAxisSpacing: 16.h,
@@ -222,8 +222,8 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                         itemBuilder: (_, index) {
                           return PerfumeProductItem(
                             imgUrl: product[index].images?[0].src??'',
-                            brandName: product[index].brands!.isNotEmpty ? product[index].brands != null ? product[index].brands![0].name : '' : '',
-                            perfumeName: product[index].name??'',
+                             brandName: product[index].brands!.isNotEmpty ? product[index].brands != null ? product[index].brands![0].name : '' : '',
+                            perfumeName: product[index].title??'',
                             perfumeRate:  double.parse(product[index].averageRating??'0.0'),
                             rateCount: product[index].ratingCount.toString()?? '0',
                             priceBeforeDiscount: product[index].regularPrice??'',
@@ -238,10 +238,10 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                       SizedBox(
                         height: 40.h,
                       ),
-                      productController.getListLessThanPriceProductResponseData!.value.totalPage == null ? LoadingPaggination() : NumberPaginator(
+                      productController.getListLessThanPriceProductResponseData!.value.headers?.xWPTotalPages == null ? LoadingPaggination() : NumberPaginator(
                         // controller: _controller, cause exception
                         initialPage: currentPage??0,
-                        numberPages: int.parse(productController.getListLessThanPriceProductResponseData!.value.totalPage!),
+                        numberPages: productController.getListLessThanPriceProductResponseData!.value.headers!.xWPTotalPages!,
                         config: NumberPaginatorUIConfig(
                             contentPadding: EdgeInsets.zero,
                             buttonSelectedBackgroundColor: AppColors.primaryColor,
@@ -253,7 +253,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                             currentPage = index;
                           });
                           ProductApies.productApies.getLessThanPriceProductResponseData(
-                              lessThan: '100', pageNumber: (index+1).toString(),
+                              lessThan: '20', pageNumber: (index+1).toString(),
                               order: order,
                               orderBy: orderBy
                           );
@@ -278,7 +278,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.52.h,
+                              childAspectRatio: 0.45.h,
                               crossAxisCount: 2,
                               crossAxisSpacing: 11.w,
                               mainAxisSpacing: 16.h,
@@ -287,7 +287,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                               return PerfumeProductItem(
                                 imgUrl: lastViewedProduct[index].images?[0].src??'',
                                 brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                                perfumeName: lastViewedProduct[index].name??'',
+                                perfumeName: lastViewedProduct[index].title??'',
                                 perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
                                 rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
                                 priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',

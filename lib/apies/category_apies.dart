@@ -6,6 +6,7 @@ import '../controller/category_controller.dart';
 import '../model/category_response.dart';
 import '../model/sub_category_response.dart';
 import '../services/Settingss.dart';
+import '../services/sp_helper.dart';
 
 
 
@@ -16,15 +17,21 @@ class CategoryApies {
   CategoryController categoryController = myGet.Get.find();
 
   getCategoryData(String id) async {
+    String? token = SPHelper.spHelper.getToken();
+
     categoryController.getCategoryData!.value = ListCategoryResponse();
     try {
       Response response = await Settingss.settings.dio!.get(
         categoryURL,
-        queryParameters: {'parent': id}
+        queryParameters: {
+          'endpoint':'product-category',
+          'parent': id
+      },
+
       );
       if (response.statusCode == 200) {
          categoryController.getCategoryData!.value = ListCategoryResponse.fromJson(response.data);
-        print("getCategoryData Successful ${categoryController.getCategoryData!.value.listCategoryResponse![0].name}");
+        print("getCategoryData Successful ");
       } else {}
     } catch (e) {
       print(e.toString());

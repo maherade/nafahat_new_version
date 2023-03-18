@@ -52,7 +52,7 @@ class PageNav {
   static List<Widget> widgetOptions = <Widget>[
     HomeScreen(),
     ProductScreen(),
-    WholeSaleScreen(),
+    SendRequestScreen(),
     GiftScreen(),
     CartScreen(),
   ];

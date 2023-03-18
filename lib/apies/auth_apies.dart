@@ -41,18 +41,20 @@ class AuthApis {
     authController.getUserData!.value = UserResponse();
     try {
       ProgressDialogUtils.show();
+      FormData data = FormData.fromMap({
+        "username" : userName,
+        "password" : password
+      });
       Response response = await Dio().post(
-        'https://nafahat.com/wp-json/jwt-auth/v1/token',
-        queryParameters: {
-          "username" : userName,
-          "password" : password
-        },
+        'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=login',
+        data: data,
+
       options: Options(
         headers: {}
       )
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 200 && response.data['token']!=null) {
         authController.getUserData!.value = UserResponse.fromJson(response.data);
 
         SPHelper.spHelper.setToken(response.data['token']);
@@ -79,13 +81,14 @@ class AuthApis {
   register(String userName, String email , String password) async {
     try {
       ProgressDialogUtils.show();
+      FormData data = FormData.fromMap({
+        "username" : userName,
+        "email" : email,
+        "password" : password
+      });
       Response response = await Settingss.settings.dio!.post(
           registerURL,
-        queryParameters: {
-          "username" : userName,
-          "email" : email,
-          "password" : password
-        },
+        data: data
       );
 
       if (response.statusCode == 201) {
@@ -109,11 +112,13 @@ class AuthApis {
   resetPassword({String? email}) async{
     try {
       ProgressDialogUtils.show();
+      FormData data = FormData.fromMap({
+        "email" : email,
+
+      });
       Response response = await Dio().post(
-          'https://nafahat.com/wp-json/bdpwr/v1/reset-password',
-          queryParameters: {
-            "email" : email,
-          },
+          'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=reset-password',
+         data: data,
           options: Options(
               headers: {}
           )
@@ -141,12 +146,13 @@ class AuthApis {
   validateCode({String? email , String? code}) async{
     try {
       ProgressDialogUtils.show();
+      FormData data = FormData.fromMap({
+        "email" : email,
+        "code" : code,
+      });
       Response response = await Dio().post(
-          'https://nafahat.com/wp-json/bdpwr/v1/validate-code',
-          queryParameters: {
-            "email" : email,
-            "code" : code,
-          },
+          'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=validate-code',
+         data: data,
           options: Options(
               headers: {}
           )
@@ -174,13 +180,14 @@ class AuthApis {
   setPassword({String? email ,String? password , String? code}) async{
     try {
       ProgressDialogUtils.show();
+      FormData data = FormData.fromMap({
+        "email" : email,
+        "password" : password,
+        "code" : code,
+      });
       Response response = await Dio().post(
-          'https://nafahat.com/wp-json/bdpwr/v1/set-password',
-          queryParameters: {
-            "email" : email,
-            "password" : password,
-            "code" : code,
-          },
+          'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=set-password',
+         data: data,
           options: Options(
               headers: {}
           )
@@ -209,8 +216,7 @@ class AuthApis {
     authController.getCustomerInformationData!.value = ViewAllInformationAboutCustomerResponse();
     try {
       Response response = await Settingss.settings.dio!.get(
-          '$customerInformationURL/$customerId',
-
+          'api-request.php?endpoint=customers&id=$customerId',
       );
       if (response.statusCode == 200) {
         authController.getCustomerInformationData!.value = ViewAllInformationAboutCustomerResponse.fromJson(response.data);

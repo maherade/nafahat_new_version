@@ -25,7 +25,7 @@ final VoidCallback? onTap ;
             urlImage:
             imgUrl,
             fit: BoxFit.cover,
-            heigthNumber: 25.h,
+            heigthNumber: 50.h,
             widthNumber: 60.w,
           ),
           SizedBox(

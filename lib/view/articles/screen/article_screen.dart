@@ -62,7 +62,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                   itemCount: post.length,
                   itemBuilder: (context, index) {
                     return ArticleItem(
-                      imgUrl: post[index].yoastHeadJson?.ogImage?[0].url ?? '',
+                      imgUrl: post[index].eEmbedded?.wpFeaturedmedia?[0].sourceUrl ?? '',
                       category: 'قسم المكياج',
                       date: DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(post[index].date!)),
                       title: post[index].title?.rendered ?? '',

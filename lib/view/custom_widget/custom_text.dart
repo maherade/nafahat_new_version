@@ -32,7 +32,7 @@ class CustomText extends StatelessWidget {
         fontWeight: fontWeight ?? FontWeight.bold,
         fontSize: fontSize ?? 22.sp,
         color: color ?? Colors.black,
-        fontFamily: fontFamily ?? 'urw_din',
+        fontFamily: fontFamily ?? 'din',
         decoration: underline ? TextDecoration.lineThrough : TextDecoration.none,
       ),
 

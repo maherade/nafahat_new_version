@@ -119,9 +119,9 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
     return Scaffold(
       body: Obx(
             () {
-          var product = productController.getProductData!.value.listProductResponse;
+          var product = productController.getProductData!.value.data;
           var category = categoryController.getCategoryData!.value.listCategoryResponse;
-          var lastViewedProduct = productController.getLastViewedProduct!.value.listLastViewedProductResponse;
+          var lastViewedProduct = productController.getLastViewedProduct!.value.data;
 
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -152,7 +152,7 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                     category == null
                         ? LoadingCategory()
                         : SizedBox(
-                      height: 90.h,
+                      height: 110.h,
                       child: ListView.builder(
                         scrollDirection: Axis.horizontal,
                         itemCount: category.length -1,
@@ -252,7 +252,7 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.52.h,
+                          childAspectRatio: 0.45.h,
                           crossAxisCount: 2,
                           crossAxisSpacing: 11.w,
                           mainAxisSpacing: 16.h,
@@ -260,12 +260,13 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                         itemBuilder: (_, index) {
                           return PerfumeProductItem(
                             imgUrl: product[index].images?[0].src ?? '',
+                            // brandName: 'brand',
                             brandName: product[index].brands!.isNotEmpty
                                 ? product[index].brands != null
                                 ? product[index].brands![0].name
                                 : ''
                                 : '',
-                            perfumeName: product[index].name ?? '',
+                            perfumeName: product[index].title ?? '',
                             perfumeRate: double.parse(product[index].averageRating ?? '0.0'),
                             rateCount: product[index].ratingCount.toString() ?? '0',
                             priceBeforeDiscount: product[index].regularPrice ?? '',
@@ -281,10 +282,10 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                       SizedBox(
                         height: 40.h,
                       ),
-                      productController.getProductData!.value.totalPage == null ? LoadingPaggination() : NumberPaginator(
+                      productController.getProductData!.value.headers?.xWPTotalPages == null ? LoadingPaggination() : NumberPaginator(
                         // controller: _controller, cause exception
                         initialPage: currentPage??0,
-                        numberPages: int.parse(productController.getProductData!.value.totalPage!),
+                        numberPages: productController.getProductData!.value.headers!.xWPTotalPages!,
                         config: NumberPaginatorUIConfig(
                             contentPadding: EdgeInsets.zero,
                             buttonSelectedBackgroundColor: AppColors.primaryColor,
@@ -321,7 +322,7 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.52.h,
+                      childAspectRatio: 0.45.h,
                       crossAxisCount: 2,
                       crossAxisSpacing: 11.w,
                       mainAxisSpacing: 16.h,
@@ -330,7 +331,7 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                       return PerfumeProductItem(
                         imgUrl: lastViewedProduct[index].images?[0].src??'',
                         brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                        perfumeName: lastViewedProduct[index].name??'',
+                        perfumeName: lastViewedProduct[index].title??'',
                         perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
                         rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
                         priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',

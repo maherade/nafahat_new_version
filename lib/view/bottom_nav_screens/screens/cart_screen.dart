@@ -362,7 +362,7 @@ class _CartScreenState extends State<CartScreen> {
                                           height: 10.h,
                                         ),
                                         Padding(
-                                          padding: EdgeInsets.symmetric(horizontal: 15.0.w),
+                                          padding: EdgeInsets.symmetric(horizontal: 5.0.w),
                                           child: Row(
                                             children: [
                                               CustomText(
@@ -383,7 +383,7 @@ class _CartScreenState extends State<CartScreen> {
                                                           value: value,
                                                           child: CustomText(
                                                             value.name,
-                                                            fontSize: 10.sp,
+                                                            fontSize: 9.sp,
                                                           ),
                                                         );
                                                       }).toList(),
@@ -439,51 +439,47 @@ class _CartScreenState extends State<CartScreen> {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 itemCount: shippingMethod.length,
                                                 itemBuilder: (context, index) {
-                                                  if(index>2){
-                                                    return Column(
-                                                      children: [
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: <Widget>[
-                                                            Radio(
-                                                              activeColor: Theme.of(context).primaryColor,
-                                                              value: shippingMethod[index],
-                                                              groupValue: shippingMethod[shippingGroupValue!],
-                                                              onChanged: (value) {
-                                                                setState(() {
-                                                                  shippingGroupValue = index;
-                                                                  print(value?.title);
-                                                                  selectedAddress = value?.id;
-                                                                  selectedAddressName = value?.title;
-                                                                });
-                                                              },
-                                                            ),
-                                                            Expanded(
-                                                              child: Container(
-                                                                padding: EdgeInsets.all(18.w),
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(8.0),
-                                                                  border:
-                                                                  Border.all(width: 1.0, color: AppColors.greyBorder),
-                                                                ),
-                                                                child: CustomText(
-                                                                  shippingMethod[index].title!,
-                                                                  fontSize: 14.sp,
-                                                                  fontWeight: FontWeight.normal,
-                                                                ),
+                                                 return Column(
+                                                    children: [
+                                                      Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: <Widget>[
+                                                          Radio(
+                                                            activeColor: Theme.of(context).primaryColor,
+                                                            value: shippingMethod[index],
+                                                            groupValue: shippingMethod[shippingGroupValue!],
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                shippingGroupValue = index;
+                                                                print(value?.title);
+                                                                selectedAddress = value?.id;
+                                                                selectedAddressName = value?.title;
+                                                              });
+                                                            },
+                                                          ),
+                                                          Expanded(
+                                                            child: Container(
+                                                              padding: EdgeInsets.all(18.w),
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(8.0),
+                                                                border:
+                                                                Border.all(width: 1.0, color: AppColors.greyBorder),
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 25.h,
-                                                        ),
-                                                      ],
-                                                    );
-                                                  }else{
-                                                    return SizedBox();
-                                                  }
+                                                              child: CustomText(
+                                                                shippingMethod[index].title!,
+                                                                fontSize: 14.sp,
+                                                                fontWeight: FontWeight.normal,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: 25.h,
+                                                      ),
+                                                    ],
+                                                  );
                                                 },
                                               )
                                       ],
@@ -520,50 +516,51 @@ class _CartScreenState extends State<CartScreen> {
                                                 physics: const NeverScrollableScrollPhysics(),
                                                 itemCount: payment.length,
                                                 itemBuilder: (context, index) {
-                                                  if(index== 2 || index==4){
-                                                    return Column(
-                                                      children: [
-                                                        Row(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                                          mainAxisAlignment: MainAxisAlignment.start,
-                                                          children: <Widget>[
-                                                            Radio(
-                                                                activeColor: Theme.of(context).primaryColor,
-                                                                value: payment[index],
-                                                                groupValue: payment[paymentGroupValue!],
-                                                                onChanged: (value) {
-                                                                  setState(() {
-                                                                    paymentGroupValue = index;
-                                                                    print(value?.id);
-                                                                    selectedPaymentMethods = value?.id;
-                                                                    selectedPaymentMethodsTitle = value?.title;
-                                                                  });
-                                                                }),
-                                                            Expanded(
-                                                              child: Container(
-                                                                padding: EdgeInsets.all(18.w),
-                                                                decoration: BoxDecoration(
-                                                                  borderRadius: BorderRadius.circular(8.0),
-                                                                  border:
-                                                                  Border.all(width: 1.0, color: AppColors.greyBorder),
-                                                                ),
-                                                                child: CustomText(
-                                                                  payment[index].title!,
-                                                                  fontSize: 14.sp,
-                                                                  fontWeight: FontWeight.normal,
-                                                                ),
+                                                  return Column(
+                                                    children: [
+                                                      Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        mainAxisAlignment: MainAxisAlignment.start,
+                                                        children: <Widget>[
+                                                          Radio(
+                                                              activeColor: Theme.of(context).primaryColor,
+                                                              value: payment[index],
+                                                              groupValue: payment[paymentGroupValue!],
+                                                              onChanged: (value) {
+                                                                setState(() {
+                                                                  paymentGroupValue = index;
+                                                                  print(value?.id);
+                                                                  selectedPaymentMethods = value?.id;
+                                                                  selectedPaymentMethodsTitle = value?.title;
+                                                                });
+                                                              }),
+                                                          Expanded(
+                                                            child: Container(
+                                                              padding: EdgeInsets.all(18.w),
+                                                              decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius.circular(8.0),
+                                                                border:
+                                                                Border.all(width: 1.0, color: AppColors.greyBorder),
                                                               ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                        SizedBox(
-                                                          height: 25.h,
-                                                        ),
-                                                      ],
-                                                    );
-                                                  }else{
-                                                    return SizedBox();
-                                                  }
+                                                              child: CustomText(
+                                                                payment[index].title!,
+                                                                fontSize: 14.sp,
+                                                                fontWeight: FontWeight.normal,
+                                                              ),
+                                                            ),
+                                                          )
+                                                        ],
+                                                      ),
+                                                      SizedBox(
+                                                        height: 25.h,
+                                                      ),
+                                                    ],
+                                                  );
+                                                  // if(index== 2 || index==4){
+                                                  //
+                                                  // }else{
+                                                  //   return SizedBox();
+                                                  // }
                                                 },
                                               )
                                       ],
@@ -845,7 +842,7 @@ class _CartScreenState extends State<CartScreen> {
                                           );
                                           print(order.id);
                                           print(order.orderKey);
-                                          print(selectedPaymentMethodsTitle);
+                                          print(getCartItem());
                                           Get.to(() => PaymentsScreen(
                                                 orderId: order.id.toString(),
                                                 orderKey: order.orderKey.toString(),

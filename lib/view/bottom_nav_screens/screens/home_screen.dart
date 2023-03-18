@@ -1,11 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
 
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
 import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import 'package:perfume_store_mobile_app/controller/category_controller.dart';
 import 'package:perfume_store_mobile_app/view/auth/screens/login_screen.dart';
 import 'package:perfume_store_mobile_app/view/bottom_nav_screens/widget/category_item.dart';
-import 'package:shimmer/shimmer.dart';
+import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field.dart';
+import 'package:perfume_store_mobile_app/view/search/screen/search_screen.dart';
 import '../../../apies/brand_apies.dart';
 import '../../../apies/category_apies.dart';
 import '../../../apies/product_apies.dart';
@@ -13,24 +16,26 @@ import '../../../controller/auth_controller.dart';
 import '../../../controller/product_controller.dart';
 import '../../../model/decode_token_response.dart';
 import '../../../model/sub_category_product.dart';
-import '../../../model/sub_category_response.dart';
 import '../../../privacy_policy.dart';
 import '../../../services/app_imports.dart';
 import '../../../services/sp_helper.dart';
 import '../../articles/screen/article_screen.dart';
-import '../../custom_widget/Skelton.dart';
-import '../../custom_widget/custom_rate_write_bar.dart';
+
+import '../../custom_widget/custom_search_bar.dart';
 import '../../custom_widget/loading_efffect/loading_brand.dart';
 import '../../custom_widget/loading_efffect/loading_category.dart';
 import '../../custom_widget/loading_efffect/loading_container_category.dart';
 import '../../custom_widget/loading_efffect/loading_product.dart';
 import '../../help_and_support/screen/help_and_support_screen.dart';
 import '../../perfume_details/screens/perfume_details_screen.dart';
+import '../../privacy_policy_screen.dart';
 import '../../shop_by_brand/screen/shop_by_brand_screen.dart';
 import '../../shop_by_category/screen/shop_by_category.dart';
+import '../../show_all_care_product/screen/show_all_care_product_screen.dart';
 import '../../show_all_famous_product/screen/show_all_famous_product_screen.dart';
 import '../../show_all_gift_package/screen/show_all_gift_package_screen.dart';
 import '../../show_all_product_less_than_100/screen/show_all_product_less_than_100_screen.dart';
+import '../../who_us/who_us_screen.dart';
 import '../widget/brand_item.dart';
 import '../widget/discount_perfeum_item.dart';
 import '../widget/perfume_product_item.dart';
@@ -82,13 +87,18 @@ class _HomeScreenState extends State<HomeScreen> {
       ProductApies.productApies
           .getGiftPackageProductData(feature: true, pageNumber: '1');
       ProductApies.productApies.getWholeSaleProductData(onSale: true);
-      ProductApies.productApies.getMakupProductData();
-      ProductApies.productApies.getLessThanPriceProductResponseData(
-          lessThan: '100', pageNumber: '1');
+      ProductApies.productApies.getOffersProductData();
+      ProductApies.productApies.getLessThanPriceProductResponseData(   order: 'asc',
+          orderBy: 'price',
+          lessThan: '20', pageNumber: '1');
+      ProductApies.productApies.getAds();
+      ProductApies.productApies.getCareProductData(category: '25',pageNumber: '1');
+      ProductApies.productApies.getRecentlyAddedProductData(pageNumber: '1');
     });
     super.initState();
   }
 
+  TextEditingController searchController  = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -142,7 +152,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         PopupMenuItem(
                           value: 4,
                           child: CustomText(
-                            "تسجيل الخروج",
+                            "من نحن",
+                            fontSize: 14.sp,
+                            color: popUpIsSelectedTextColor
+                                ? AppColors.primaryColor
+                                : AppColors.blackColor,
+                          ),
+                        ),
+                        PopupMenuItem(
+                          value: 5,
+                          child: CustomText(
+                            SPHelper.spHelper.getToken() != null
+                                ? "تسجيل الخروج"
+                                : 'تسجيل الدخول',
                             fontSize: 14.sp,
                             color: popUpIsSelectedTextColor
                                 ? AppColors.primaryColor
@@ -158,15 +180,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else if (value == 2) {
                           Get.to(() => const ArticlesScreen());
                         } else if (value == 3) {
-                          showDialog(
-                            context: context,
-                            builder: (context) {
-                              return dialoge(
-                                text: privacyPolicies,
-                              );
-                            },
-                          );
+                          Get.to(PrivacyPolicyScreen());
                         } else if (value == 4) {
+                          Get.to(()=>WhoUsScreen());
+                        }else if (value == 5) {
                           SPHelper.spHelper.removeToken();
                           Get.offAll(() => LoginScreen());
                         }
@@ -177,10 +194,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 45.h,
                       width: 45.w,
                       clipBehavior: Clip.antiAliasWithSaveLayer,
-                      decoration: BoxDecoration(
-                          shape: BoxShape.circle),
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
                       child: Image.asset(
-                        'assets/images/profile.png',
+                        'assets/images/logo.png',
                         fit: BoxFit.contain,
                       )),
                 ),
@@ -190,53 +206,100 @@ class _HomeScreenState extends State<HomeScreen> {
           Column(
             children: [
               SizedBox(
-                height: 44.h,
+                height: 25.h,
               ),
-              Column(
-                children: [
-                  SizedBox(
-                    height: 250.h,
-                    child: PageView.builder(
-                      onPageChanged: (index) {
-                        setState(() => _current = index);
-                      },
-                      itemCount: 3,
-                      itemBuilder: (context, index) {
-                        return SliderHeaderItem(
-                          title: 'أفضل العروض والخصومات في متجر نفحات',
-                          description:
-                              'هذا النص هو مثال لنص يمكن أن يستبدل في  نفس  المساحة، لقد تم توليد هذا النص من  مولد النص العربى ',
-                          imgUrl:
-                              'https://pbs.twimg.com/media/D9dSwaVWsAADIY7.jpg',
-                          onTapShopping: () {},
-                        );
-                      },
-                    ),
-                  ),
-                  SizedBox(
-                    height: 24.h,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [1, 2, 3].asMap().entries.map((entry) {
-                      return Container(
-                        width: 12.w,
-                        height: 12.h,
-                        padding: EdgeInsets.symmetric(
-                            vertical: 6.h, horizontal: 6.w),
-                        margin: EdgeInsets.symmetric(horizontal: 2.w),
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color:
-                                (Theme.of(context).brightness == Brightness.dark
+              CustomSearchBar(
+                hintText: 'ابحث عن منتج..',
+                controller: searchController,
+                onTapSearch: (){
+                  Get.to(()=>SearchScreen(
+                    word: searchController.text,
+                  ));
+                },
+              ),
+              SizedBox(height: 10.h,),
+              Obx(
+                () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner1,
+                    ads?.nafBanner2,
+                    ads?.nafBanner3,
+                  ];
+                  return Column(
+                    children: [
+                      SizedBox(
+                        height: 180.h,
+                        child: PageView.builder(
+                          onPageChanged: (index) {
+                            setState(() => _current = index);
+                          },
+                          itemCount: listImages.length,
+                          itemBuilder: (context, index) {
+                            return ads == null
+                                ? SizedBox(
+                                    height: 200.h,
+                                  )
+                                : Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20.w),
+                                    child: SizedBox(
+                                      height: 200.h,
+                                      child: ClipRRect(
+                                        // borderRadius: BorderRadius.circular(15),
+                                        child: FancyShimmerImage(
+                                          imageUrl: listImages[index] ?? '',
+                                          width: double.infinity,
+                                          height: 50,
+                                          shimmerBaseColor: Color(
+                                                  (Random().nextDouble() *
+                                                          0xFFFFFF)
+                                                      .toInt())
+                                              .withOpacity(1.0),
+                                          shimmerHighlightColor: Color(
+                                                  (Random().nextDouble() *
+                                                          0xFFFFFF)
+                                                      .toInt())
+                                              .withOpacity(1.0),
+                                          shimmerBackColor: Color(
+                                                  (Random().nextDouble() *
+                                                          0xFFFFFF)
+                                                      .toInt())
+                                              .withOpacity(1.0),
+                                          errorWidget: SizedBox(),
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 24.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: listImages.asMap().entries.map((entry) {
+                          return Container(
+                            width: 12.w,
+                            height: 12.h,
+                            padding: EdgeInsets.symmetric(
+                                vertical: 6.h, horizontal: 6.w),
+                            margin: EdgeInsets.symmetric(horizontal: 2.w),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: (Theme.of(context).brightness ==
+                                            Brightness.dark
                                         ? Colors.white
                                         : AppColors.primaryColor)
                                     .withOpacity(
                                         _current == entry.key ? 0.9 : 0.4)),
-                      );
-                    }).toList(),
-                  ),
-                ],
+                          );
+                        }).toList(),
+                      ),
+                    ],
+                  );
+                },
               ),
               SizedBox(
                 height: 40.h,
@@ -250,14 +313,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       : SizedBox(
                           height: 50.h,
                           child: ListView.builder(
+                            physics:const BouncingScrollPhysics(),
+
                             scrollDirection: Axis.horizontal,
-                            itemCount: brand.length > 7 ? 7 : brand.length,
+                            itemCount: 6,
                             itemBuilder: (context, index) {
                               return BrandItem(
                                 index: index,
                                 imgUrl: brand[index].brandImage?[0] ?? '',
                                 onTap: () {
-                                  // Get.to(() => ShopByBrandScreen());
+                                  Get.to(() => ShopByBrandScreen(
+                                        brandId: brand[index].termId,
+                                        brandName: brand[index].name,
+                                      ));
                                 },
                               );
                             },
@@ -276,7 +344,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: CustomText(
                       'تسوق حسب الأقسام',
                       fontSize: 16.sp,
-                      fontWeight: FontWeight.normal,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   SizedBox(
@@ -289,10 +357,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       return category == null
                           ? LoadingCategory()
                           : SizedBox(
-                              height: 90.h,
+                              height: 120.h,
                               child: ListView.builder(
+                                physics:const BouncingScrollPhysics(),
+
                                 scrollDirection: Axis.horizontal,
-                                itemCount: category.length ,
+                                itemCount: category.length < 6 ? category.length : 6 ,
                                 itemBuilder: (context, index) {
                                   return CategoryItem(
                                     index: index,
@@ -317,23 +387,130 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
               SizedBox(
-                height: 40.h,
+                height: 10.h,
               ),
-              ShoppingAd(
-                adTitle: 'مهرجان الجمال خصومات تصل الى 50%',
-                adImage:
-                    'https://pngimg.com/uploads/perfume/perfume_PNG99988.png',
-                onTapSopping: () {},
+              Obx(
+                    () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner2,
+                  ];
+                  return SizedBox(
+                    height: 150.h,
+                    child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() => _current = index);
+                      },
+                      itemCount: listImages.length,
+                      itemBuilder: (context, index) {
+                        return ads == null
+                            ? SizedBox(
+                          height: 200.h,
+                        )
+                            : Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SizedBox(
+                            height: 200.h,
+                            child: ClipRRect(
+                              // borderRadius: BorderRadius.circular(15),
+                              child: FancyShimmerImage(
+                                imageUrl: listImages[index] ?? '',
+                                width: double.infinity,
+                                height: 50,
+                                shimmerBaseColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerHighlightColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerBackColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                errorWidget: SizedBox(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              SizedBox(height: 20.h,),
+              Obx(
+                    () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner4,
+                  ];
+                  return SizedBox(
+                    height: 150.h,
+                    child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() => _current = index);
+                      },
+                      itemCount: listImages.length,
+                      itemBuilder: (context, index) {
+                        return ads == null
+                            ? SizedBox(
+                          height: 200.h,
+                        )
+                            : Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SizedBox(
+                            height: 200.h,
+                            child: ClipRRect(
+                              // borderRadius: BorderRadius.circular(15),
+                              child: FancyShimmerImage(
+                                imageUrl: listImages[index] ?? '',
+                                width: double.infinity,
+                                height: 50,
+                                shimmerBaseColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerHighlightColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerBackColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                errorWidget: SizedBox(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               SizedBox(
-                height: 40.h,
+                height: 30.h,
               ),
               Obx(
                 () {
                   var category = categoryController
                       .getCategoryData!.value.listCategoryResponse;
-                  var product = productController
-                      .getFamousProductData!.value.listFamousProductResponse;
+                  var product =
+                      productController.getFamousProductData!.value.data;
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner3,
+                  ];
                   return Column(
                     children: [
                       Padding(
@@ -342,9 +519,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
-                              'أشهر المنتجات',
+                              'الأفضل مبيعا',
                               fontSize: 16.sp,
-                              fontWeight: FontWeight.normal,
+                              fontWeight: FontWeight.bold,
                             ),
                             GestureDetector(
                                 onTap: () {
@@ -361,13 +538,64 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 18.h,
                       ),
+                      SizedBox(
+                        height: 150.h,
+                        child: PageView.builder(
+                          onPageChanged: (index) {
+                            setState(() => _current = index);
+                          },
+                          itemCount: listImages.length,
+                          itemBuilder: (context, index) {
+                            return ads == null
+                                ? SizedBox(
+                              height: 200.h,
+                            )
+                                : Padding(
+                              padding:
+                              EdgeInsets.symmetric(horizontal: 20.w),
+                              child: SizedBox(
+                                height: 200.h,
+                                child: ClipRRect(
+                                  // borderRadius: BorderRadius.circular(15),
+                                  child: FancyShimmerImage(
+                                    imageUrl: listImages[index] ?? '',
+                                    width: double.infinity,
+                                    height: 50,
+                                    shimmerBaseColor: Color(
+                                        (Random().nextDouble() *
+                                            0xFFFFFF)
+                                            .toInt())
+                                        .withOpacity(1.0),
+                                    shimmerHighlightColor: Color(
+                                        (Random().nextDouble() *
+                                            0xFFFFFF)
+                                            .toInt())
+                                        .withOpacity(1.0),
+                                    shimmerBackColor: Color(
+                                        (Random().nextDouble() *
+                                            0xFFFFFF)
+                                            .toInt())
+                                        .withOpacity(1.0),
+                                    errorWidget: SizedBox(),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 18.h,
+                      ),
                       category == null
                           ? LoadingContainerCategory()
                           : SizedBox(
-                              height: 50.h,
+                              height: 70.h,
                               child: ListView.builder(
+                                physics:const BouncingScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
-                                itemCount: category.length ,
+                                itemCount:
+                                    category.length < 6 ? category.length : 6,
                                 itemBuilder: (context, index) {
                                   return Row(
                                     children: [
@@ -380,7 +608,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         onTap: () {
                                           setState(() => currentIndex = index);
                                           setState(() => categoryName =
-                                              category[index].name!);
+                                          category[index].name!);
                                           ProductApies.productApies
                                               .getFamousProductData(
                                                   category: category[index]
@@ -390,8 +618,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
-                                          height: 38.h,
-                                          width: 117.h,
+                                          height: 70.h,
+                                          width: 80.h,
+                                          padding: EdgeInsets.all(5.w),
                                           decoration: BoxDecoration(
                                               color: currentIndex == index
                                                   ? AppColors.primaryColor
@@ -402,8 +631,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   color: AppColors.greyBorder)),
                                           child: CustomText(
                                             category[index].name,
-                                            fontSize: 14.sp,
-                                            fontWeight: FontWeight.normal,
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.bold,
+                                            textAlign: TextAlign.center,
                                             color: currentIndex == index
                                                 ? AppColors.whiteColor
                                                 : AppColors.greenText,
@@ -421,15 +651,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 24.h,
                       ),
-                      ShoppingAd2(
-                        adTitle: 'أفضل العروض والخصومات في متجر نفحات',
-                        adImage:
-                            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiZjqZiPHhz01pFiyTK5gymcx4bn7XilQgr4eu_cEhVrF7ZNKQIi0uSYytf1Vz940z0ZQ&usqp=CAU',
-                        onTapShopping: () {},
-                      ),
-                      SizedBox(
-                        height: 32.h,
-                      ),
+
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 20.h),
                         child: Column(
@@ -438,9 +660,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 CustomText(
-                                  'أشهر  منتجات $categoryName',
+                                  'الأفضل مبيعا في $categoryName',
                                   fontSize: 16.sp,
-                                  fontWeight: FontWeight.normal,
+                                  fontWeight: FontWeight.bold,
                                 ),
                                 GestureDetector(
                                     onTap: () {
@@ -464,6 +686,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 : SizedBox(
                                     height: 430.h,
                                     child: ListView.separated(
+                                      physics:const BouncingScrollPhysics(),
+
                                       itemCount: product.length < 8
                                           ? product.length
                                           : 8,
@@ -483,7 +707,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   : ''
                                               : '',
                                           perfumeName:
-                                              product[index].name ?? '',
+                                              product[index].title ?? '',
                                           perfumeRate: double.parse(
                                               product[index].averageRating ??
                                                   '0.0'),
@@ -523,13 +747,59 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(
                 height: 40.h,
               ),
-              ShoppingAd3(
-                imgUrl:
-                    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRiZjqZiPHhz01pFiyTK5gymcx4bn7XilQgr4eu_cEhVrF7ZNKQIi0uSYytf1Vz940z0ZQ&usqp=CAU',
-                adTitle: 'أفضل بكجات الهدايا في متجر نفحات',
-                adDescription:
-                    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة لقد تم توليد هذا النص من مولد النص ',
-                onTapSopping: () {},
+              Obx(
+                () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner2,
+                  ];
+                  return  SizedBox(
+                    height: 140.h,
+                    child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() => _current = index);
+                      },
+                      itemCount: listImages.length,
+                      itemBuilder: (context, index) {
+                        return ads == null
+                            ? SizedBox(
+                          height: 200.h,
+                        )
+                            : Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SizedBox(
+                            height: 200.h,
+                            child: ClipRRect(
+                              // borderRadius: BorderRadius.circular(15),
+                              child: FancyShimmerImage(
+                                imageUrl: listImages[index] ?? '',
+                                width: double.infinity,
+                                height: 50,
+                                shimmerBaseColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerHighlightColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerBackColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                errorWidget: SizedBox(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
               ),
               SizedBox(
                 height: 40.h,
@@ -544,7 +814,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         CustomText(
                           'استكشف بكجات الهدايا',
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -558,14 +828,12 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 18.h,
+                      height: 15.h,
                     ),
                     Obx(
                       () {
                         var product = productController
-                            .getGiftPackageProductData!
-                            .value
-                            .listGiftPackageProductResponse;
+                            .getGiftPackageProductData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : product.isEmpty
@@ -574,6 +842,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 15.sp,
                                   )
                                 : GridView.builder(
+                                    padding: EdgeInsets.zero,
                                     itemCount:
                                         product.length < 2 ? product.length : 2,
                                     shrinkWrap: true,
@@ -581,7 +850,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         const NeverScrollableScrollPhysics(),
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.52.h,
+                                      childAspectRatio: 0.45.h,
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 11.w,
                                       mainAxisSpacing: 16.h,
@@ -597,7 +866,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 ? product[index].brands![0].name
                                                 : ''
                                             : '',
-                                        perfumeName: product[index].name ?? '',
+                                        perfumeName: product[index].title ?? '',
                                         perfumeRate: double.parse(
                                             product[index].averageRating ??
                                                 '0.0'),
@@ -636,112 +905,88 @@ class _HomeScreenState extends State<HomeScreen> {
                         CustomText(
                           'أشهر الماركات',
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                       ],
                     ),
                   ),
+                  SizedBox(height: 10.h,),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                     child: Column(
                       children: [
-                        Row(
+                        Wrap(
+                          spacing: 10,
+                          runSpacing: 10,
                           children: [
-                            Expanded(
-                              child: Container(
-                                  height: 112.h,
-                                  width: 203.w,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  child: Image.asset(
-                                    'assets/images/brand1.png',
-                                    fit: BoxFit.fill,
-                                  )),
-                            ),
-                            SizedBox(
-                              width: 9.w,
-                            ),
                             Container(
-                                height: 118.h,
-                                width: 123.w,
+                                height: 112.h,
+                                width: 156.w,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
-                                child: Image.asset(
-                                  'assets/images/brand2.png',
+                                child: Image.network(
+                                  'https://nafahat.com/wp-content/uploads/sites/2/2023/01/2-1.webp',
                                   fit: BoxFit.fill,
                                 )),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 27.h,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                  height: 134.h,
-                                  width: 148.w,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  child: Image.asset(
-                                    'assets/images/brand3.png',
-                                    fit: BoxFit.fill,
-                                  )),
-                            ),
-                            SizedBox(
-                              width: 9.w,
-                            ),
-                            Expanded(
-                              child: Container(
-                                  height: 134.h,
-                                  width: 157.w,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  child: Image.asset(
-                                    'assets/images/brand4.png',
-                                    fit: BoxFit.fill,
-                                  )),
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 27.h,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                  height: 104.h,
-                                  width: 190.w,
-                                  clipBehavior: Clip.antiAliasWithSaveLayer,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(8.r),
-                                  ),
-                                  child: Image.asset(
-                                    'assets/images/brand5.png',
-                                    fit: BoxFit.fill,
-                                  )),
-                            ),
-                            SizedBox(
-                              width: 9.w,
-                            ),
                             Container(
-                                height: 104.h,
-                                width: 122.w,
+                                height: 118.h,
+                                width: 78.w,
                                 clipBehavior: Clip.antiAliasWithSaveLayer,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8.r),
                                 ),
-                                child: Image.asset(
-                                  'assets/images/brand6.png',
+                                child: Image.network(
+                                  'https://nafahat.com/wp-content/uploads/sites/2/2023/01/3.webp',
+                                  fit: BoxFit.fill,
+                                )),
+
+                            Container(
+                                height: 118.h,
+                                width: 78.w,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Image.network(
+                                  'https://nafahat.com/wp-content/uploads/sites/2/2023/01/5.webp',
+                                  fit: BoxFit.fill,
+                                )),
+
+                            Container(
+                                height: 118.h,
+                                width: 78.w,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Image.network(
+                                  'https://nafahat.com/wp-content/uploads/sites/2/2023/01/4.webp',
+                                  fit: BoxFit.fill,
+                                )),
+
+                            Container(
+                                height: 118.h,
+                                width: 156.w,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Image.network(
+                                  'https://nafahat.com/wp-content/uploads/sites/2/2023/01/1.webp',
+                                  fit: BoxFit.fill,
+                                )),
+
+                            Container(
+                                height: 118.h,
+                                width: 78.w,
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r),
+                                ),
+                                child: Image.network(
+                                  'https://nafahat.com/wp-content/uploads/sites/2/2023/01/6.webp',
                                   fit: BoxFit.fill,
                                 )),
                           ],
@@ -749,47 +994,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   )
-                  // GridView.builder(
-                  //   shrinkWrap: true,
-                  //   physics: const NeverScrollableScrollPhysics(),
-                  //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  //     childAspectRatio: 2,
-                  //     crossAxisCount: 2,
-                  //     crossAxisSpacing: 11.w,
-                  //     mainAxisSpacing: 16.h,
-                  //   ),
-                  //   itemBuilder: (_, index) {
-                  //     return CachedNetworkImageShare(
-                  //       urlImage: 'https://images.alwatanvoice.com/news/large/9999192429.jpg',
-                  //       fit: BoxFit.cover,
-                  //       heigthNumber: double.infinity,
-                  //       widthNumber: double.infinity,
-                  //       borderRadious: 8.r,
-                  //     );
-                  //   },
-                  //   itemCount: 6,
-                  // ),
+
                 ],
               ),
               SizedBox(
                 height: 40.h,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: listAdImage.length,
-                itemBuilder: (context, index) {
-                  return DiscountPerfumeItem(
-                    title: 'عطور رجالية',
-                    discountPercent: '50%',
-                    imgUrl: listAdImage[index],
-                    onTapShoppingNow: () {},
-                  );
-                },
-              ),
-              SizedBox(
-                height: 40.h,
-              ),
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.h),
                 child: Column(
@@ -798,12 +1009,16 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
-                          'أشهر منتجات البيع بالجملة',
+                          'أشهر منتجات العناية',
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                         GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(() => ShowAllCareProductScreen(
+
+                              ));
+                            },
                             child: CustomText(
                               'عرض الكل',
                               fontSize: 12.sp,
@@ -812,19 +1027,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 20.h,
                     ),
                     Obx(
                       () {
                         var product = productController
-                            .getListWholeSaleResponseData!
-                            .value
-                            .listListWholeSaleResponse;
+                            .getCareProductDataData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : SizedBox(
                                 height: 430.h,
                                 child: ListView.separated(
+                                  physics:const BouncingScrollPhysics(),
+
                                   itemCount:
                                       product.length < 8 ? product.length : 8,
                                   scrollDirection: Axis.horizontal,
@@ -836,10 +1051,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                               .brands!
                                               .isNotEmpty
                                           ? product[index].brands != null
-                                              ? product[index].brands![0].name
+                                              ? product[index].brands![0].name.toString()
                                               : ''
                                           : '',
-                                      perfumeName: product[index].name ?? '',
+                                      perfumeName: product[index].title ?? '',
                                       perfumeRate: double.parse(
                                           product[index].averageRating ??
                                               '0.0'),
@@ -873,7 +1088,66 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 40.h,
+                height: 20.h,
+              ),
+              Obx(
+                    () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner4,
+                    ads?.nafBanner5,
+                    ads?.nafBanner6,
+                  ];
+                  return SizedBox(
+                    height: 150.h,
+                    child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() => _current = index);
+                      },
+                      itemCount: listImages.length,
+                      itemBuilder: (context, index) {
+                        return ads == null
+                            ? SizedBox(
+                          height: 200.h,
+                        )
+                            : Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SizedBox(
+                            height: 200.h,
+                            child: ClipRRect(
+                              // borderRadius: BorderRadius.circular(15),
+                              child: FancyShimmerImage(
+                                imageUrl: listImages[index] ?? '',
+                                width: double.infinity,
+                                height: 50,
+                                shimmerBaseColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerHighlightColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerBackColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                errorWidget: SizedBox(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 20.h,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -883,16 +1157,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
-                          'أكثر المنتجات مبيعاً في المكياج',
+                          'أفضل العروض',
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                         GestureDetector(
                             onTap: () {
                               Get.to(() => const ShopByCategoryScreen(
                                     categoryId: 24,
                                     categoryName:
-                                        'أكثر المنتجات مبيعا في المكياج',
+                                        'أفضل العروض',
+                                onSale: true,
+
                                   ));
                             },
                             child: CustomText(
@@ -903,49 +1179,49 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 20.h,
                     ),
                     Obx(
                       () {
                         var product = productController
-                            .getListMakupProductResponseData!
-                            .value
-                            .listMakupProductResponse;
+                            .getListOffersProductResponseData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : SizedBox(
                                 height: 430.h,
                                 child: ListView.separated(
+                                  physics:const BouncingScrollPhysics(),
+
                                   itemCount:
                                       product.length < 8 ? product.length : 8,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (_, index) {
                                     return PerfumeProductItem(
                                       imgUrl:
-                                          product[index].images?[0].src ?? '',
-                                      brandName: product[index]
+                                          product[index+7].images?[0].src ?? '',
+                                      brandName: product[index+7]
                                               .brands!
                                               .isNotEmpty
-                                          ? product[index].brands != null
-                                              ? product[index].brands![0].name
+                                          ? product[index+7].brands != null
+                                              ? product[index+7].brands![0].name
                                               : ''
                                           : '',
-                                      perfumeName: product[index].name ?? '',
+                                      perfumeName: product[index+7].title ?? '',
                                       perfumeRate: double.parse(
-                                          product[index].averageRating ??
+                                          product[index+7].averageRating ??
                                               '0.0'),
-                                      rateCount: product[index]
+                                      rateCount: product[index+7]
                                               .ratingCount
                                               .toString() ??
                                           '0',
                                       priceBeforeDiscount:
-                                          product[index].regularPrice ?? '',
+                                          product[index+7].regularPrice ?? '',
                                       priceAfterDiscount:
-                                          product[index].salePrice ?? '',
+                                          product[index+7].salePrice ?? '',
                                       onTapBuy: () {
                                         Get.to(() => PerfumeDetailsScreen(
                                               productId:
-                                                  product[index].id.toString(),
+                                                  product[index+7].id.toString(),
                                             ));
                                       },
                                     );
@@ -964,18 +1240,116 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 40.h,
+                height: 20.h,
               ),
-              ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: list2AdImage.length,
-                itemBuilder: (context, index) {
-                  return ReverseDiscountPerfumeItem(
-                    title: 'عطور رجالية',
-                    discountPercent: '50%',
-                    imgUrl: list2AdImage[index],
-                    onTapShoppingNow: () {},
+              Obx(
+                    () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner8,
+                  ];
+                  return SizedBox(
+                    height: 180.h,
+                    child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() => _current = index);
+                      },
+                      itemCount: listImages.length,
+                      itemBuilder: (context, index) {
+                        return ads == null
+                            ? SizedBox(
+                          height: 200.h,
+                        )
+                            : Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SizedBox(
+                            height: 200.h,
+                            child: ClipRRect(
+                              // borderRadius: BorderRadius.circular(15),
+                              child: FancyShimmerImage(
+                                imageUrl: listImages[index] ?? '',
+                                width: double.infinity,
+                                height: 50,
+                                shimmerBaseColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerHighlightColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerBackColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                errorWidget: SizedBox(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Obx(
+                    () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner9,
+                  ];
+                  return SizedBox(
+                    height: 180.h,
+                    child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() => _current = index);
+                      },
+                      itemCount: listImages.length,
+                      itemBuilder: (context, index) {
+                        return ads == null
+                            ? SizedBox(
+                          height: 200.h,
+                        )
+                            : Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SizedBox(
+                            height: 200.h,
+                            child: ClipRRect(
+                              // borderRadius: BorderRadius.circular(15),
+                              child: FancyShimmerImage(
+                                imageUrl: listImages[index] ?? '',
+                                width: double.infinity,
+                                height: 50,
+                                shimmerBaseColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerHighlightColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerBackColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                errorWidget: SizedBox(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
                   );
                 },
               ),
@@ -990,9 +1364,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomText(
-                          'منتجات أٌقل من 100 ريال',
+                          'منتجات تحت 20 ريال',
                           fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
+                          fontWeight: FontWeight.bold,
                         ),
                         GestureDetector(
                             onTap: () {
@@ -1006,19 +1380,21 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     SizedBox(
-                      height: 10.h,
+                      height: 20.h,
                     ),
                     Obx(
                       () {
                         var product = productController
                             .getListLessThanPriceProductResponseData!
                             .value
-                            .listLessThanPriceProductResponse;
+                            .data;
                         return product == null
                             ? const LoadingProduct(2)
                             : SizedBox(
                                 height: 430.h,
                                 child: ListView.separated(
+                                  physics:const BouncingScrollPhysics(),
+
                                   itemCount:
                                       product.length < 8 ? product.length : 8,
                                   scrollDirection: Axis.horizontal,
@@ -1033,7 +1409,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               ? product[index].brands![0].name
                                               : ''
                                           : '',
-                                      perfumeName: product[index].name ?? '',
+                                      perfumeName: product[index].title ?? '',
                                       perfumeRate: double.parse(
                                           product[index].averageRating ??
                                               '0.0'),
@@ -1067,7 +1443,140 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               SizedBox(
-                height: 40.h,
+                height: 20.h,
+              ),
+              Obx(
+                    () {
+                  var ads = productController.getAdsData?.value;
+                  var listImages = [
+                    ads?.nafBanner5,
+                  ];
+                  return SizedBox(
+                    height: 160.h,
+                    child: PageView.builder(
+                      onPageChanged: (index) {
+                        setState(() => _current = index);
+                      },
+                      itemCount: listImages.length,
+                      itemBuilder: (context, index) {
+                        return ads == null
+                            ? SizedBox(
+                          height: 200.h,
+                        )
+                            : Padding(
+                          padding:
+                          EdgeInsets.symmetric(horizontal: 20.w),
+                          child: SizedBox(
+                            height: 200.h,
+                            child: ClipRRect(
+                              // borderRadius: BorderRadius.circular(15),
+                              child: FancyShimmerImage(
+                                imageUrl: listImages[index] ?? '',
+                                width: double.infinity,
+                                height: 50,
+                                shimmerBaseColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerHighlightColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                shimmerBackColor: Color(
+                                    (Random().nextDouble() *
+                                        0xFFFFFF)
+                                        .toInt())
+                                    .withOpacity(1.0),
+                                errorWidget: SizedBox(),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.h),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        CustomText(
+                          'وصل حديثا',
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Obx(
+                          () {
+                        var product = productController
+                            .getRecentlyAddedProductDataData!
+                            .value
+                            .data;
+                        return product == null
+                            ? const LoadingProduct(2)
+                            : SizedBox(
+                          height: 430.h,
+                          child: ListView.separated(
+                            physics:const BouncingScrollPhysics(),
+                            itemCount:
+                            product.length < 8 ? product.length : 8,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (_, index) {
+                              return PerfumeProductItem(
+                                imgUrl:
+                                product[index].images?[0].src ?? '',
+                                brandName: product[index]
+                                    .brands!
+                                    .isNotEmpty
+                                    ? product[index].brands != null
+                                    ? product[index].brands![0].name
+                                    : ''
+                                    : '',
+                                perfumeName: product[index].title ?? '',
+                                perfumeRate: double.parse(
+                                    product[index].averageRating ??
+                                        '0.0'),
+                                rateCount: product[index]
+                                    .ratingCount
+                                    .toString() ??
+                                    '0',
+                                priceBeforeDiscount:
+                                product[index].regularPrice ?? '',
+                                priceAfterDiscount:
+                                product[index].salePrice ?? '',
+                                onTapBuy: () {
+                                  Get.to(() => PerfumeDetailsScreen(
+                                    productId:
+                                    product[index].id.toString(),
+                                  ));
+                                },
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 10.w,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    )
+                  ],
+                ),
               ),
             ],
           )

@@ -71,6 +71,8 @@ dependencies:
 
 
 
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -116,7 +118,7 @@ flutter:
   fonts:
     - family: din
       fonts:
-        - asset: assets/fonts/urw_din.ttf
+        - asset: assets/fonts/din.ttf
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf

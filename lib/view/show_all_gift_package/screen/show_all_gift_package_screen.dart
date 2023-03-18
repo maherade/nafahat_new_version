@@ -18,20 +18,16 @@ import '../../filter/screens/filter_screen.dart';
 import '../../perfume_details/screens/perfume_details_screen.dart';
 
 class ShowAllGiftPackageScreen extends StatefulWidget {
-
-
-
-
   @override
-  State<ShowAllGiftPackageScreen> createState() => _ShowAllGiftPackageScreenState();
+  State<ShowAllGiftPackageScreen> createState() =>
+      _ShowAllGiftPackageScreenState();
 }
 
 class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
   ProductController productController = Get.find();
 
-  String? selectedDropDown= 'ترتيب حسب الشهرة';
+  String? selectedDropDown = 'ترتيب حسب الشهرة';
   int? currentPage;
-
 
   String? order;
   String? orderBy;
@@ -43,8 +39,7 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
             pageNumber: '1',
             order: 'asc',
             orderBy: 'popularity',
-            feature: true
-        );
+            feature: true);
         setState(() {
           order = 'asc';
           orderBy = 'popularity';
@@ -53,11 +48,7 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
         break;
       case 'ترتيب حسب معدل التقييم':
         ProductApies.productApies.getGiftPackageProductData(
-            pageNumber: '1',
-            feature: true,
-            order: 'asc',
-            orderBy: 'rating'
-        );
+            pageNumber: '1', feature: true, order: 'asc', orderBy: 'rating');
         setState(() {
           order = 'asc';
           orderBy = 'rating';
@@ -66,11 +57,7 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
         break;
       case 'ترتيب حسب الأحدث':
         ProductApies.productApies.getGiftPackageProductData(
-            pageNumber: '1',
-            order: 'asc',
-            feature: true,
-            orderBy: 'date'
-        );
+            pageNumber: '1', order: 'asc', feature: true, orderBy: 'date');
         setState(() {
           order = 'asc';
           orderBy = 'date';
@@ -79,11 +66,7 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
         break;
       case 'ترتيب حسب الأدنى سعرا للأعلى':
         ProductApies.productApies.getGiftPackageProductData(
-            pageNumber: '1',
-            feature: true,
-            order: 'desc',
-            orderBy: 'price'
-        );
+            pageNumber: '1', feature: true, order: 'desc', orderBy: 'price');
         setState(() {
           order = 'desc';
           orderBy = 'price';
@@ -92,11 +75,7 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
         break;
       case 'ترتيب حسب الأعلى سعرا للأدنى':
         ProductApies.productApies.getGiftPackageProductData(
-            pageNumber: '1',
-            feature: true,
-            order: 'desc',
-            orderBy: 'price'
-        );
+            pageNumber: '1', feature: true, order: 'desc', orderBy: 'price');
         setState(() {
           order = 'asc';
           orderBy = 'price';
@@ -107,15 +86,17 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
   }
 
   getData() async {
-    ProductApies.productApies.getGiftPackageProductData(feature: true,pageNumber: '1',);
+    ProductApies.productApies.getGiftPackageProductData(
+      feature: true,
+      pageNumber: '1',
+    );
     ProductApies.productApies.getLastViewProduct(featured: true);
-
   }
 
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-    getData();
+      getData();
     });
     super.initState();
   }
@@ -124,11 +105,12 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-            () {
-              var product = productController.getGiftPackageProductData!.value.listGiftPackageProductResponse;
-              var lastViewedProduct = productController.getLastViewedProduct!.value.listLastViewedProductResponse;
+        () {
+          var product = productController.getGiftPackageProductData!.value.data;
+          var lastViewedProduct = productController
+              .getLastViewedProduct!.value.data;
 
-              return SingleChildScrollView(
+          return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -154,7 +136,8 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
                           const Spacer(),
                           DecoratedBox(
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xffF5E7EA), width: 1),
+                              border: Border.all(
+                                  color: const Color(0xffF5E7EA), width: 1),
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Padding(
@@ -163,7 +146,8 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
                                 underline: SizedBox(),
                                 focusColor: Colors.white,
                                 value: selectedDropDown,
-                                style: TextStyle(color: Colors.white, fontSize: 10.sp),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.sp),
                                 iconEnabledColor: Colors.black,
                                 items: <String>[
                                   'ترتيب حسب الشهرة',
@@ -209,61 +193,105 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
                         ],
                       ),
                       // loadingProduct(),
-                      product == null ?const LoadingProduct(8) : product.isEmpty ? Column(
-                        children: [
-                          SizedBox(height: 20.h,),
-                          Center(child: CustomText('لا توجد منتجات تتوافق مع اختيارك.',fontSize: 15.sp,)),
-                        ],
-                      ): GridView.builder(
-                        itemCount: product.length < 8 ? product.length : 8,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.52.h,
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 11.w,
-                          mainAxisSpacing: 16.h,
-                        ),
-                        itemBuilder: (_, index) {
-                          return PerfumeProductItem(
-                            imgUrl: product[index].images?[0].src??'',
-                            brandName: product[index].brands!.isNotEmpty ? product[index].brands != null ? product[index].brands![0].name : '' : '',
-                            perfumeName: product[index].name??'',
-                            perfumeRate:  double.parse(product[index].averageRating??'0.0'),
-                            rateCount: product[index].ratingCount.toString()?? '0',
-                            priceBeforeDiscount: product[index].regularPrice??'',
-                            priceAfterDiscount:  product[index].salePrice??'',
-                            onTapBuy: (){
-                              print(product[index].id.toString());
-                              Get.to(()=>PerfumeDetailsScreen(productId: product[index].id.toString(),));
-                            },
-                          );
-                        },
-                      ),
+                      product == null
+                          ? const LoadingProduct(8)
+                          : product.isEmpty
+                              ? Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    Center(
+                                        child: CustomText(
+                                      'لا توجد منتجات تتوافق مع اختيارك.',
+                                      fontSize: 15.sp,
+                                    )),
+                                  ],
+                                )
+                              : GridView.builder(
+                                  itemCount:
+                                      product.length < 8 ? product.length : 8,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.45.h,
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 11.w,
+                                    mainAxisSpacing: 16.h,
+                                  ),
+                                  itemBuilder: (_, index) {
+                                    return PerfumeProductItem(
+                                      imgUrl:
+                                          product[index].images?[0].src ?? '',
+                                      // brandName: product[index]
+                                      //         .brands!
+                                      //         .isNotEmpty
+                                      //     ? product[index].brands != null
+                                      //         ? product[index].brands![0].name
+                                      //         : ''
+                                      //     : '',
+                                      perfumeName: product[index].title ?? '',
+                                      perfumeRate: double.parse(
+                                          product[index].averageRating ??
+                                              '0.0'),
+                                      rateCount: product[index]
+                                              .ratingCount
+                                              .toString() ??
+                                          '0',
+                                      priceBeforeDiscount:
+                                          product[index].regularPrice ?? '',
+                                      priceAfterDiscount:
+                                          product[index].salePrice ?? '',
+                                      onTapBuy: () {
+                                        print(product[index].id.toString());
+                                        Get.to(() => PerfumeDetailsScreen(
+                                              productId:
+                                                  product[index].id.toString(),
+                                            ));
+                                      },
+                                    );
+                                  },
+                                ),
                       SizedBox(
                         height: 40.h,
                       ),
-                      productController.getGiftPackageProductData!.value.totalPage == null ? LoadingPaggination() : product!.isEmpty ? SizedBox() : NumberPaginator(
-                        // controller: _controller, cause exception
-                        initialPage: currentPage??0,
-                        numberPages: int.parse(productController.getGiftPackageProductData!.value.totalPage!),
-                        config: NumberPaginatorUIConfig(
-                            contentPadding: EdgeInsets.zero,
-                            buttonSelectedBackgroundColor: AppColors.primaryColor,
-                            buttonUnselectedForegroundColor: AppColors.blackColor,
-                            buttonShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r), side:const BorderSide(color: AppColors.greyBorder))),
-                        onPageChange: (int index) {
-                          setState(() {
-                            currentPage = index;
-                          });
-                          ProductApies.productApies.getGiftPackageProductData(
-                              feature: true , pageNumber: (index+1).toString(),
-                              order: order,
-                              orderBy: orderBy
-                          );
-                        },
-                      ),
+                      productController
+                                  .getGiftPackageProductData!.value.headers?.xWPTotalPages ==
+                              null
+                          ? LoadingPaggination()
+                          : product!.isEmpty
+                              ? SizedBox()
+                              : NumberPaginator(
+                                  // controller: _controller, cause exception
+                                  initialPage: currentPage ?? 0,
+                                  numberPages: productController
+                                      .getGiftPackageProductData!
+                                      .value
+                                      .headers!.xWPTotalPages!,
+                                  config: NumberPaginatorUIConfig(
+                                      contentPadding: EdgeInsets.zero,
+                                      buttonSelectedBackgroundColor:
+                                          AppColors.primaryColor,
+                                      buttonUnselectedForegroundColor:
+                                          AppColors.blackColor,
+                                      buttonShape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8.r),
+                                          side: const BorderSide(
+                                              color: AppColors.greyBorder))),
+                                  onPageChange: (int index) {
+                                    setState(() {
+                                      currentPage = index;
+                                    });
+                                    ProductApies.productApies
+                                        .getGiftPackageProductData(
+                                            feature: true,
+                                            pageNumber: (index + 1).toString(),
+                                            order: order,
+                                            orderBy: orderBy);
+                                  },
+                                ),
                       SizedBox(
                         height: 40.h,
                       ),
@@ -278,32 +306,66 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
                               ),
                             ],
                           ),
-                          lastViewedProduct == null ? LoadingProduct(2) :  GridView.builder(
-                            itemCount: lastViewedProduct.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.52.h,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 11.w,
-                              mainAxisSpacing: 16.h,
-                            ),
-                            itemBuilder: (_, index) {
-                              return PerfumeProductItem(
-                                imgUrl: lastViewedProduct[index].images?[0].src??'',
-                                brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                                perfumeName: lastViewedProduct[index].name??'',
-                                perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
-                                rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
-                                priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',
-                                priceAfterDiscount:  lastViewedProduct[index].salePrice??'',
-                                onTapBuy: (){
-                                  print(lastViewedProduct[index].id.toString());
-                                  Get.to(()=>PerfumeDetailsScreen(productId: lastViewedProduct[index].id.toString(),));
-                                },
-                              );
-                            },
-                          )
+                          lastViewedProduct == null
+                              ? LoadingProduct(2)
+                              : GridView.builder(
+                                  itemCount: lastViewedProduct.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.45.h,
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 11.w,
+                                    mainAxisSpacing: 16.h,
+                                  ),
+                                  itemBuilder: (_, index) {
+                                    return PerfumeProductItem(
+                                      imgUrl: lastViewedProduct[index]
+                                              .images?[0]
+                                              .src ??
+                                          '',
+                                      brandName: lastViewedProduct[index]
+                                              .brands!
+                                              .isNotEmpty
+                                          ? lastViewedProduct[index].brands !=
+                                                  null
+                                              ? lastViewedProduct[index]
+                                                  .brands![0]
+                                                  .name
+                                              : ''
+                                          : '',
+                                      perfumeName:
+                                          lastViewedProduct[index].title ?? '',
+                                      perfumeRate: double.parse(
+                                          lastViewedProduct[index]
+                                                  .averageRating ??
+                                              '0.0'),
+                                      rateCount: lastViewedProduct[index]
+                                              .ratingCount
+                                              .toString() ??
+                                          '0',
+                                      priceBeforeDiscount:
+                                          lastViewedProduct[index]
+                                                  .regularPrice ??
+                                              '',
+                                      priceAfterDiscount:
+                                          lastViewedProduct[index].salePrice ??
+                                              '',
+                                      onTapBuy: () {
+                                        print(lastViewedProduct[index]
+                                            .id
+                                            .toString());
+                                        Get.to(() => PerfumeDetailsScreen(
+                                              productId:
+                                                  lastViewedProduct[index]
+                                                      .id
+                                                      .toString(),
+                                            ));
+                                      },
+                                    );
+                                  },
+                                )
                         ],
                       ),
                     ],
@@ -316,6 +378,4 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
       ),
     );
   }
-
-
 }

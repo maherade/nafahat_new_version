@@ -15,6 +15,7 @@ import 'controller/auth_controller.dart';
 import 'controller/brand_controller.dart';
 import 'controller/cart_controller.dart';
 import 'controller/category_controller.dart';
+import 'controller/contact_us_controller.dart';
 import 'controller/order_controller.dart';
 import 'controller/posts_controller.dart';
 import 'controller/product_controller.dart';
@@ -101,6 +102,7 @@ class _MyAppState extends State<MyApp> {
             Get.put(ReviewController());
             Get.put(AuthController());
             Get.put(OrderController());
+            Get.put(ContactUsController());
             return widget!;
           },
           supportedLocales: const [

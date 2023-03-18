@@ -28,6 +28,7 @@ class ReviewApies {
       Response response = await Settingss.settings.dio!.get(
           reviewURL,
         queryParameters: {
+          'endpoint': 'reviews',
           'product': productId
         }
       );
@@ -44,18 +45,23 @@ class ReviewApies {
   postComment({String? productId,String? userName,String? userEmail,String? reviewContent,int? rate}) async {
     try {
       ProgressDialogUtils.show();
+      FormData data = FormData.fromMap({
+        'product_id': productId,
+        'reviewer': userName,
+        'reviewer_email': userEmail,
+        'review': reviewContent,
+        'status': 'approved',
+        'rating': rate,
+      });
       Response response = await Settingss.settings.dio!.post(
           reviewURL,
+        data: data,
         queryParameters: {
-          'product_id': productId,
-          'reviewer': userName,
-          'reviewer_email': userEmail,
-          'review': reviewContent,
-          'status': 'approved',
-          'rating': rate,
+            "endpoint":"reviews",
+            "create":"true"
         }
       );
-      if (response.statusCode == 201) {
+      if (response.statusCode! >= 200) {
         getReviewData(productId!);
         ProgressDialogUtils.hide();
         Helper.getSheetSucsses('تم إضافة التقييم بنجاح');

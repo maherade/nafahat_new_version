@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen> {
     var delay =const Duration(seconds: 3);
 
     Future.delayed(delay, () {
-      SPHelper.spHelper.getToken()!=null?Get.to(()=>NavBarScreen()):Get.to(()=>LoginScreen());
+      Get.to(()=>NavBarScreen());
     });
     super.initState();
   }

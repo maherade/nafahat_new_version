@@ -20,12 +20,12 @@ final VoidCallback? onTap ;
           )
               : const SizedBox(),
           SizedBox(
-            height: 90.h,
+            height: 110.h,
             width: 78.w,
             child: Column(
               children: [
                 Container(
-                  height: 52.h,
+                  height: 60.h,
                   width: 52.w,
                   padding: EdgeInsets.all(5.w),
                   decoration: const BoxDecoration(
@@ -43,10 +43,14 @@ final VoidCallback? onTap ;
                 SizedBox(
                   height: 11.h,
                 ),
-                CustomText(
-                  title,
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.normal,
+                SizedBox(
+                  width: 100,
+                  child: CustomText(
+                    title,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.normal,
+                    textAlign: TextAlign.center,
+                  ),
                 )
               ],
             ),

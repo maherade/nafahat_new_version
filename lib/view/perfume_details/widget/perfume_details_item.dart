@@ -10,6 +10,7 @@ class PerfumeDetailsItem extends StatefulWidget {
   final String? rateCount;
   final String? priceBeforeDiscount;
   final String? priceAfterDiscount;
+  final VoidCallback? onTapBrand;
   const PerfumeDetailsItem(
       {super.key,
       this.imgUrl,
@@ -19,6 +20,7 @@ class PerfumeDetailsItem extends StatefulWidget {
       this.rateCount,
       this.priceBeforeDiscount,
       this.priceAfterDiscount,
+      this.onTapBrand,
       });
 
   @override
@@ -88,11 +90,14 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomText(
-                widget.brandName,
-                color: const Color(0xff678185),
-                fontSize: 16.sp,
-                fontWeight: FontWeight.normal,
+              GestureDetector(
+                onTap: widget.onTapBrand,
+                child: CustomText(
+                  widget.brandName,
+                  color: const Color(0xff678185),
+                  fontSize: 20.sp,
+                  fontWeight: FontWeight.normal,
+                ),
               ),
               SizedBox(
                 height: 5.h,

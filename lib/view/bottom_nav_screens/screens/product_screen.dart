@@ -118,9 +118,9 @@ class _ProductScreenState extends State<ProductScreen> {
   Widget build(BuildContext context) {
     return Obx(
       () {
-        var product = productController.getProductData!.value.listProductResponse;
+        var product = productController.getProductData!.value.data;
         var category = categoryController.getCategoryData!.value.listCategoryResponse;
-        var lastViewedProduct = productController.getLastViewedProduct!.value.listLastViewedProductResponse;
+        var lastViewedProduct = productController.getLastViewedProduct!.value.data;
 
         return SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
@@ -147,10 +147,10 @@ class _ProductScreenState extends State<ProductScreen> {
                   category == null
                       ? LoadingCategory()
                       : SizedBox(
-                          height: 90.h,
+                          height: 110.h,
                           child: ListView.builder(
                             scrollDirection: Axis.horizontal,
-                            itemCount: category.length -1,
+                            itemCount: category.length < 6 ?category.length : 6 ,
                             itemBuilder: (context, index) {
                               return CategoryItem(
                                 index: index,
@@ -174,7 +174,7 @@ class _ProductScreenState extends State<ProductScreen> {
                 height: 32.h,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                padding: EdgeInsets.symmetric(horizontal: 18.0.w),
                 child: Column(
                   children: [
                     Row(
@@ -182,7 +182,7 @@ class _ProductScreenState extends State<ProductScreen> {
                         CustomText(
                           'تسوق من قسم $categoryName',
                           fontWeight: FontWeight.bold,
-                          fontSize: 14.sp,
+                          fontSize: 13.sp,
                         ),
                         const Spacer(),
                         DecoratedBox(
@@ -248,7 +248,7 @@ class _ProductScreenState extends State<ProductScreen> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.52.h,
+                              childAspectRatio: 0.45.h,
                               crossAxisCount: 2,
                               crossAxisSpacing: 11.w,
                               mainAxisSpacing: 16.h,
@@ -261,7 +261,7 @@ class _ProductScreenState extends State<ProductScreen> {
                                         ? product[index].brands![0].name
                                         : ''
                                     : '',
-                                perfumeName: product[index].name ?? '',
+                                perfumeName: product[index].title ?? '',
                                 perfumeRate: double.parse(product[index].averageRating ?? '0.0'),
                                 rateCount: product[index].ratingCount.toString() ?? '0',
                                 priceBeforeDiscount: product[index].regularPrice ?? '',
@@ -277,10 +277,10 @@ class _ProductScreenState extends State<ProductScreen> {
                     SizedBox(
                       height: 40.h,
                     ),
-                    productController.getProductData!.value.totalPage == null ? LoadingPaggination() : NumberPaginator(
+                    productController.getProductData!.value.headers?.xWPTotalPages == null ? LoadingPaggination() : NumberPaginator(
                       // controller: _controller, cause exception
                       initialPage: currentPage??0,
-                      numberPages: int.parse(productController.getProductData!.value.totalPage!),
+                      numberPages: productController.getProductData!.value.headers!.xWPTotalPages!,
                       config: NumberPaginatorUIConfig(
                           contentPadding: EdgeInsets.zero,
                           buttonSelectedBackgroundColor: AppColors.primaryColor,
@@ -317,7 +317,7 @@ class _ProductScreenState extends State<ProductScreen> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.52.h,
+                    childAspectRatio: 0.45.h,
                     crossAxisCount: 2,
                     crossAxisSpacing: 11.w,
                     mainAxisSpacing: 16.h,
@@ -326,7 +326,7 @@ class _ProductScreenState extends State<ProductScreen> {
                     return PerfumeProductItem(
                       imgUrl: lastViewedProduct[index].images?[0].src??'',
                       brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                      perfumeName: lastViewedProduct[index].name??'',
+                      perfumeName: lastViewedProduct[index].title??'',
                       perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
                       rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
                       priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',

@@ -1,3 +1,5 @@
+import 'package:flutter_html/flutter_html.dart';
+
 import '../../../services/app_imports.dart';
 
 class OverviewItem extends StatelessWidget {
@@ -13,12 +15,25 @@ final String? advantages;
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 245.w,
-            child: CustomText(
-              advantages,
-              fontSize: 14.sp,
-              fontWeight: FontWeight.normal,
-              color: const Color(0xff707070),
+            width: double.infinity,
+
+            child: Html(
+             data: advantages,
+              style: {
+                "h2": Style(
+                  fontSize: FontSize(20.0),
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'din'
+                ),
+                "p": Style(
+                  fontSize: FontSize(15.0),
+                  padding: EdgeInsets.symmetric(vertical: 10.h),
+                  lineHeight: LineHeight(1.8),
+                  fontWeight: FontWeight.normal,
+                  fontFamily: 'din'
+                ),
+
+              },
             ),
           ),
           // CustomText(

@@ -1,34 +1,66 @@
 class ProductDetailResponse {
+  List<Data>? data;
+  Headers? headers;
+  int? status;
+
+  ProductDetailResponse({this.data, this.headers, this.status});
+
+  ProductDetailResponse.fromJson(Map<String, dynamic> json) {
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
+    }
+    headers =
+    json['headers'] != null ? new Headers.fromJson(json['headers']) : null;
+    status = json['status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    if (this.headers != null) {
+      data['headers'] = this.headers!.toJson();
+    }
+    data['status'] = this.status;
+    return data;
+  }
+}
+
+class Data {
+  String? title;
   int? id;
-  String? name;
-  String? description;
   String? price;
   String? regularPrice;
   String? salePrice;
+  String? description;
   String? averageRating;
   int? ratingCount;
   List<Images>? images;
   List<Brands>? brands;
 
-  ProductDetailResponse(
-      {this.id,
-        this.name,
-        this.description,
+  Data(
+      {this.title,
+        this.id,
         this.price,
         this.regularPrice,
         this.salePrice,
+        this.description,
         this.averageRating,
         this.ratingCount,
         this.images,
         this.brands});
 
-  ProductDetailResponse.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
+    title = json['title'];
     id = json['id'];
-    name = json['name'];
-    description = json['description'];
     price = json['price'];
     regularPrice = json['regular_price'];
     salePrice = json['sale_price'];
+    description = json['description'];
     averageRating = json['average_rating'];
     ratingCount = json['rating_count'];
     if (json['images'] != null) {
@@ -47,12 +79,12 @@ class ProductDetailResponse {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['title'] = this.title;
     data['id'] = this.id;
-    data['name'] = this.name;
-    data['description'] = this.description;
     data['price'] = this.price;
     data['regular_price'] = this.regularPrice;
     data['sale_price'] = this.salePrice;
+    data['description'] = this.description;
     data['average_rating'] = this.averageRating;
     data['rating_count'] = this.ratingCount;
     if (this.images != null) {
@@ -67,45 +99,19 @@ class ProductDetailResponse {
 
 class Images {
   int? id;
-  String? dateCreated;
-  String? dateCreatedGmt;
-  String? dateModified;
-  String? dateModifiedGmt;
   String? src;
-  String? name;
-  String? alt;
 
-  Images(
-      {this.id,
-        this.dateCreated,
-        this.dateCreatedGmt,
-        this.dateModified,
-        this.dateModifiedGmt,
-        this.src,
-        this.name,
-        this.alt});
+  Images({this.id, this.src});
 
   Images.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    dateCreated = json['date_created'];
-    dateCreatedGmt = json['date_created_gmt'];
-    dateModified = json['date_modified'];
-    dateModifiedGmt = json['date_modified_gmt'];
     src = json['src'];
-    name = json['name'];
-    alt = json['alt'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['date_created'] = this.dateCreated;
-    data['date_created_gmt'] = this.dateCreatedGmt;
-    data['date_modified'] = this.dateModified;
-    data['date_modified_gmt'] = this.dateModifiedGmt;
     data['src'] = this.src;
-    data['name'] = this.name;
-    data['alt'] = this.alt;
     return data;
   }
 }
@@ -128,6 +134,25 @@ class Brands {
     data['id'] = this.id;
     data['name'] = this.name;
     data['slug'] = this.slug;
+    return data;
+  }
+}
+
+class Headers {
+  int? xWPTotal;
+  int? xWPTotalPages;
+
+  Headers({this.xWPTotal, this.xWPTotalPages});
+
+  Headers.fromJson(Map<String, dynamic> json) {
+    xWPTotal = json['X-WP-Total'];
+    xWPTotalPages = json['X-WP-TotalPages'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['X-WP-Total'] = this.xWPTotal;
+    data['X-WP-TotalPages'] = this.xWPTotalPages;
     return data;
   }
 }

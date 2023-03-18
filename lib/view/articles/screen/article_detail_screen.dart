@@ -61,7 +61,7 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
                   padding: EdgeInsets.zero,
                   physics:const BouncingScrollPhysics(),
                   child: ArticleDetailItem(
-                    imgUrl: post.yoastHeadJson?.ogImage?[0].url ?? '',
+                    imgUrl: post.eEmbedded?.wpFeaturedmedia?[0].sourceUrl ?? '',
                     category: 'قسم المكياج',
                     date: DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(post.date!)),
                     title: post.title?.rendered ?? '',

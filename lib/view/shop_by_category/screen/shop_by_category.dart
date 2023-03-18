@@ -20,9 +20,9 @@ import '../../perfume_details/screens/perfume_details_screen.dart';
 class ShopByCategoryScreen extends StatefulWidget {
   final int? categoryId;
   final String? categoryName;
+  final bool? onSale;
 
-  const ShopByCategoryScreen({super.key, this.categoryId, this.categoryName});
-
+  const ShopByCategoryScreen({super.key, this.categoryId, this.categoryName,this.onSale});
 
   @override
   State<ShopByCategoryScreen> createState() => _ShopByCategoryScreenState();
@@ -126,8 +126,8 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
     return Scaffold(
       body: Obx(
         () {
-          var product = productController.getProductByCategoryData!.value.listProductByCategoryResponse;
-          var lastViewedProduct = productController.getLastViewedProduct!.value.listLastViewedProductResponse;
+          var product = productController.getProductByCategoryData!.value.data;
+          var lastViewedProduct = productController.getLastViewedProduct!.value.data;
 
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -148,7 +148,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                       Row(
                         children: [
                           CustomText(
-                            widget.categoryName == 'أكثر المنتجات مبيعا في المكياج' ? widget.categoryName :  'تسوق من قسم ${widget.categoryName}',
+                            widget.categoryName == 'أفضل العروض' ? widget.categoryName :  'تسوق من قسم ${widget.categoryName}',
                             fontWeight: FontWeight.bold,
                             fontSize: 12.sp,
                           ),
@@ -217,7 +217,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.52.h,
+                          childAspectRatio: 0.45.h,
                           crossAxisCount: 2,
                           crossAxisSpacing: 11.w,
                           mainAxisSpacing: 16.h,
@@ -226,7 +226,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                           return PerfumeProductItem(
                             imgUrl: product[index].images?[0].src??'',
                             brandName: product[index].brands!.isNotEmpty ? product[index].brands != null ? product[index].brands![0].name : '' : '',
-                            perfumeName: product[index].name??'',
+                            perfumeName: product[index].title??'',
                             perfumeRate:  double.parse(product[index].averageRating??'0.0'),
                             rateCount: product[index].ratingCount.toString()?? '0',
                             priceBeforeDiscount: product[index].regularPrice??'',
@@ -241,10 +241,10 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                       SizedBox(
                         height: 40.h,
                       ),
-                      productController.getProductByCategoryData!.value.totalPage == null ? LoadingPaggination() : NumberPaginator(
+                      productController.getProductByCategoryData!.value.headers?.xWPTotalPages == null ? LoadingPaggination() : NumberPaginator(
                         // controller: _controller, cause exception
                         initialPage: currentPage??0,
-                        numberPages: int.parse(productController.getProductByCategoryData!.value.totalPage!),
+                        numberPages: productController.getProductByCategoryData!.value.headers!.xWPTotalPages!,
                         config: NumberPaginatorUIConfig(
                             contentPadding: EdgeInsets.zero,
                             buttonSelectedBackgroundColor: AppColors.primaryColor,
@@ -281,7 +281,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
                             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.52.h,
+                              childAspectRatio: 0.45.h,
                               crossAxisCount: 2,
                               crossAxisSpacing: 11.w,
                               mainAxisSpacing: 16.h,
@@ -290,7 +290,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                               return PerfumeProductItem(
                                 imgUrl: lastViewedProduct[index].images?[0].src??'',
                                 brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                                perfumeName: lastViewedProduct[index].name??'',
+                                perfumeName: lastViewedProduct[index].title??'',
                                 perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
                                 rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
                                 priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',

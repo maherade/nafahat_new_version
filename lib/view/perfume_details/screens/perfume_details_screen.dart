@@ -9,6 +9,7 @@ import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 import 'package:perfume_store_mobile_app/view/auth/screens/login_screen.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_rate_write_bar.dart';
+import 'package:perfume_store_mobile_app/view/shop_by_brand/screen/shop_by_brand_screen.dart';
 
 import '../../../apies/review_apies.dart';
 import '../../../controller/cart_controller.dart';
@@ -67,6 +68,7 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getData();
+      print(widget.productId);
     });
     super.initState();
   }
@@ -76,12 +78,12 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
     return Scaffold(
       body: Obx(
         () {
-          var product = productController.getProductDetailResponseData?.value;
+          var product = productController.getProductDetailResponseData?.value.data;
           var review = reviewController.getReviewData?.value.listReviewResponse;
-          var lastViewedProduct = productController.getLastViewedProduct!.value.listLastViewedProductResponse;
+          var lastViewedProduct = productController.getLastViewedProduct!.value.data;
           var auth = authController.getUserData?.value;
           var cart = cartController;
-          return product!.id == null
+          return product == null
               ? LoadingPerfumeDetail()
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,13 +117,19 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             PerfumeDetailsItem(
-                              imgUrl: product.images,
-                              brandName: product.brands != null && product.brands!.isNotEmpty ? product.brands![0].name : '',
-                              perfumeName: product.name ?? '',
-                              perfumeRate: double.parse(product.averageRating ?? '0.0'),
-                              rateCount: product.ratingCount.toString() ?? '0',
-                              priceBeforeDiscount: product.regularPrice ?? '',
-                              priceAfterDiscount: product.salePrice ?? '',
+                              imgUrl: product[0].images,
+                              brandName: product[0].brands != null && product[0].brands!.isNotEmpty ? product[0].brands![0].name : '',
+                             onTapBrand: (){
+                                Get.to(ShopByBrandScreen(
+                                  brandId: product[0].brands?[0].id,
+                                  brandName: product[0].brands?[0].name,
+                                ));
+                             },
+                              perfumeName: product[0].title ?? '',
+                              perfumeRate: double.parse(product[0].averageRating ?? '0.0'),
+                              rateCount: product[0].ratingCount.toString() ?? '0',
+                              priceBeforeDiscount: product[0].regularPrice ?? '',
+                              priceAfterDiscount: product[0].salePrice ?? '',
                             ),
                             // SizedBox(
                             //   height: 5.h,
@@ -184,13 +192,13 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                               child: CustomButton(
                                 onTap: () {
                                   bool added = cart.addItem(
-                                    imgurl: product.images?[0].src ?? '',
-                                    name: product.name ?? '',
-                                    price: double.parse(product.salePrice == '' || product.salePrice == null
+                                    imgurl: product[0].images?[0].src ?? '',
+                                    name: product[0].title ?? '',
+                                    price: double.parse(product[0].salePrice == '' || product[0].salePrice == null
                                         ? '0.0'
-                                        : product.salePrice!),
+                                        : product[0].salePrice!),
                                     quantitiy: 1,
-                                    pdtid: product.id.toString() ?? '',
+                                    pdtid: product[0].id.toString() ?? '',
                                   );
                                   if (added) {
                                     ScaffoldMessenger.of(context)
@@ -267,7 +275,7 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                             overviewAndRatingToggle == 0
                                 ? OverviewItem(
                                     // title : parse(product.description!).documentElement!.text,
-                                     advantages: parse(product.description!).documentElement!.text,
+                                     advantages: product[0].description!,
                                     )
                                 : Column(
                                     children: [
@@ -306,6 +314,11 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                                 dialogType: DialogType.question,
                                                 showCloseIcon: true,
                                                 btnOkOnPress: () {
+                                                  // print(widget.productId);
+                                                  // print(auth?.userEmail);
+                                                  // print(auth?.userDisplayName);
+                                                  // print(selectedRate.toInt());
+                                                  // print(addCommentController.text);
                                                   ReviewApies.reviewApies.postComment(
                                                       productId: widget.productId,
                                                       userEmail: auth?.userEmail ?? 'guest@gmail.com',
@@ -388,7 +401,7 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                     shrinkWrap: true,
                                     physics: const NeverScrollableScrollPhysics(),
                                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                      childAspectRatio: 0.52.h,
+                                      childAspectRatio: 0.45.h,
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 11.w,
                                       mainAxisSpacing: 16.h,
@@ -397,7 +410,7 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                       return PerfumeProductItem(
                                         imgUrl: lastViewedProduct[index].images?[0].src??'',
                                         brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                                        perfumeName: lastViewedProduct[index].name??'',
+                                        perfumeName: lastViewedProduct[index].title??'',
                                         perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
                                         rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
                                         priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',
