@@ -12,6 +12,7 @@ import '../../custom_widget/loading_efffect/loading_paggination.dart';
 import '../../custom_widget/loading_efffect/loading_product.dart';
 import '../../filter/screens/filter_screen.dart';
 import '../../perfume_details/screens/perfume_details_screen.dart';
+import '../../shop_by_category/screen/shop_by_category.dart';
 import '../widget/perfume_product_item.dart';
 import '../widget/shopping_ad3.dart';
 
@@ -116,52 +117,57 @@ class _GiftScreenState extends State<GiftScreen> {
               ),
               Obx(
                     () {
-                  var ads = productController.getAdsData?.value;
-                  var listImages = [
-                    ads?.nafBanner1,
-                  ];
+                  var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 160.h,
                     child: PageView.builder(
                       onPageChanged: (index) {
                       },
-                      itemCount: listImages.length,
+                      itemCount: ads?.length,
                       itemBuilder: (context, index) {
                         return ads == null
                             ? SizedBox(
                           height: 200.h,
                         )
-                            : Padding(
+                            : GestureDetector(
+                          onTap: () {
+                            Get.to(() => const ShopByCategoryScreen(
+                              categoryId: 183,
+                              categoryName: 'بكجات الهدايا',
+                            ));
+                          },
+                              child: Padding(
                           padding:
                           EdgeInsets.symmetric(horizontal: 20.w),
                           child: SizedBox(
-                            height: 200.h,
-                            child: ClipRRect(
-                              // borderRadius: BorderRadius.circular(15),
-                              child: FancyShimmerImage(
-                                imageUrl: listImages[index] ?? '',
-                                width: double.infinity,
-                                height: 50,
-                                shimmerBaseColor: Color(
-                                    (Random().nextDouble() *
-                                        0xFFFFFF)
-                                        .toInt())
-                                    .withOpacity(1.0),
-                                shimmerHighlightColor: Color(
-                                    (Random().nextDouble() *
-                                        0xFFFFFF)
-                                        .toInt())
-                                    .withOpacity(1.0),
-                                shimmerBackColor: Color(
-                                    (Random().nextDouble() *
-                                        0xFFFFFF)
-                                        .toInt())
-                                    .withOpacity(1.0),
-                                errorWidget: SizedBox(),
+                              height: 200.h,
+                              child: ClipRRect(
+                                // borderRadius: BorderRadius.circular(15),
+                                child: FancyShimmerImage(
+                                  imageUrl: ads[1].image ?? '',
+                                  width: double.infinity,
+                                  height: 50,
+                                  shimmerBaseColor: Color(
+                                      (Random().nextDouble() *
+                                          0xFFFFFF)
+                                          .toInt())
+                                      .withOpacity(1.0),
+                                  shimmerHighlightColor: Color(
+                                      (Random().nextDouble() *
+                                          0xFFFFFF)
+                                          .toInt())
+                                      .withOpacity(1.0),
+                                  shimmerBackColor: Color(
+                                      (Random().nextDouble() *
+                                          0xFFFFFF)
+                                          .toInt())
+                                      .withOpacity(1.0),
+                                  errorWidget: SizedBox(),
+                                ),
                               ),
-                            ),
                           ),
-                        );
+                        ),
+                            );
                       },
                     ),
                   );

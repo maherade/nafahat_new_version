@@ -1,30 +1,29 @@
-class ListAdsResponse {
-  List<AdsResponse>? listAdsResponse ;
-  ListAdsResponse({this.listAdsResponse});
+class ListFamousBrandResponse {
+  List<FamousBrandResponse>? listFamousBrandResponse ;
+  ListFamousBrandResponse({this.listFamousBrandResponse});
 
-  ListAdsResponse.fromJson(json) {
+  ListFamousBrandResponse.fromJson(json) {
     if (json != null) {
-      listAdsResponse = <AdsResponse>[];
+      listFamousBrandResponse = <FamousBrandResponse>[];
       json.forEach((v) {
-        listAdsResponse!.add(AdsResponse.fromJson(v));
+        listFamousBrandResponse!.add(FamousBrandResponse.fromJson(v));
       });
     }
   }
 }
 
-
-class AdsResponse {
+class FamousBrandResponse {
   List<Brand>? brand;
   String? url;
   String? image;
 
-  AdsResponse({this.brand, this.url, this.image});
+  FamousBrandResponse({this.brand, this.url, this.image});
 
-  AdsResponse.fromJson(Map<String, dynamic> json) {
+  FamousBrandResponse.fromJson(Map<String, dynamic> json) {
     if (json['brand'] != null) {
       brand = <Brand>[];
       json['brand'].forEach((v) {
-        brand!.add(new Brand.fromJson(v));
+        brand!.add(Brand.fromJson(v));
       });
     }
     url = json['url'];
@@ -32,12 +31,12 @@ class AdsResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.brand != null) {
-      data['brand'] = this.brand!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (brand != null) {
+      data['brand'] = brand!.map((v) => v.toJson()).toList();
     }
-    data['url'] = this.url;
-    data['image'] = this.image;
+    data['url'] = url;
+    data['image'] = image;
     return data;
   }
 }
@@ -86,19 +85,19 @@ class Brand {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['term_id'] = this.termId;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['term_group'] = this.termGroup;
-    data['term_taxonomy_id'] = this.termTaxonomyId;
-    data['taxonomy'] = this.taxonomy;
-    data['description'] = this.description;
-    data['parent'] = this.parent;
-    data['count'] = this.count;
-    data['filter'] = this.filter;
-    data['brand_image'] = this.brandImage;
-    data['brand_banner'] = this.brandBanner;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['term_id'] = termId;
+    data['name'] = name;
+    data['slug'] = slug;
+    data['term_group'] = termGroup;
+    data['term_taxonomy_id'] = termTaxonomyId;
+    data['taxonomy'] = taxonomy;
+    data['description'] = description;
+    data['parent'] = parent;
+    data['count'] = count;
+    data['filter'] = filter;
+    data['brand_image'] = brandImage;
+    data['brand_banner'] = brandBanner;
     return data;
   }
 }

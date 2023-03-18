@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../model/ads_response.dart';
 import '../model/care_product_response.dart';
+import '../model/famous_brand_response.dart';
 import '../model/famous_product_response.dart';
 import '../model/filtered_product_response.dart';
 import '../model/gift_package_product_response.dart';
@@ -34,8 +35,10 @@ class ProductController extends GetxController{
   Rx<ListSubCategoryProductResponse>? getListSubCategoryProductData = ListSubCategoryProductResponse().obs;
   Rx<ProductDetailResponse>? getProductDetailResponseData = ProductDetailResponse().obs;
   Rx<ListLastViewedProductResponse>? getLastViewedProduct = ListLastViewedProductResponse().obs;
-  Rx<AdsResponse>? getAdsData = AdsResponse().obs;
+  Rx<ListAdsResponse>? getAdsData = ListAdsResponse().obs;
   Rx<ListCareProductResponse>? getCareProductDataData = ListCareProductResponse().obs;
   Rx<ListRecentlyAddedProductResponse>? getRecentlyAddedProductDataData = ListRecentlyAddedProductResponse().obs;
   Rx<ListSearchProductResponse>? getSearchProductDataData = ListSearchProductResponse().obs;
+  Rx<ListFamousBrandResponse>? getFamousBrandAdsData = ListFamousBrandResponse().obs;
+
 }

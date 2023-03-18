@@ -7,6 +7,7 @@ import '../const_urls.dart';
 import '../controller/product_controller.dart';
 import '../model/ads_response.dart';
 import '../model/care_product_response.dart';
+import '../model/famous_brand_response.dart';
 import '../model/famous_product_response.dart';
 import '../model/filtered_product_response.dart';
 import '../model/gift_package_product_response.dart';
@@ -485,7 +486,7 @@ class ProductApies {
         bool? featured}) async {
 
     productController.getAdsData!.value =
-        AdsResponse();
+        ListAdsResponse();
     try {
       Response response = await Settingss.settings.dio!.get(
         'api-request.php',
@@ -495,7 +496,7 @@ class ProductApies {
       );
       if (response.statusCode == 200) {
         productController.getAdsData!.value =
-            AdsResponse.fromJson(response.data);
+            ListAdsResponse.fromJson(response.data);
 
         print("getAds Successful ");
       } else {}
@@ -613,4 +614,24 @@ class ProductApies {
     }
   }
 
+
+  getFamousBrandAds() async {
+    productController.getFamousBrandAdsData!.value =
+        ListFamousBrandResponse();
+    try {
+      Response response = await Settingss.settings.dio!.get(
+        'api-request.php',
+        queryParameters: {
+          "endpoint": "brands-feature",
+        },
+      );
+      if (response.statusCode == 200) {
+        productController.getFamousBrandAdsData!.value =
+            ListFamousBrandResponse.fromJson(response.data);
+        print("getFamousBrandAds Successful ");
+      } else {}
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
