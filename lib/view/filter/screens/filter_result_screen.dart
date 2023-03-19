@@ -20,12 +20,19 @@ import '../../perfume_details/screens/perfume_details_screen.dart';
 class FilterResultScreen extends StatefulWidget {
   final int? categoryId;
   final String? categoryName;
+  final int? brandId;
+  final String? brandName;
   final int? maxPrice;
   final int? minPrice;
 
-  const FilterResultScreen({super.key, this.categoryId, this.categoryName, this.maxPrice, this.minPrice});
-
-
+  const FilterResultScreen(
+      {super.key,
+      this.categoryId,
+      this.categoryName,
+      this.brandId,
+      this.brandName,
+      this.maxPrice,
+      this.minPrice});
 
   @override
   State<FilterResultScreen> createState() => _FilterResultScreenState();
@@ -46,13 +53,13 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
     switch (value) {
       case 'ترتيب حسب الشهرة':
         ProductApies.productApies.getProductByFilter(
-          pageNumber: '1',
-          category: widget.categoryId.toString(),
-          minPrice: widget.minPrice.toString(),
-          maxPrice: widget.maxPrice.toString(),
-          order: 'asc',
-          orderBy: 'popularity'
-        );
+            pageNumber: '1',
+            category: widget.categoryId.toString(),
+            brand: widget.brandId.toString(),
+            minPrice: widget.minPrice.toString(),
+            maxPrice: widget.maxPrice.toString(),
+            order: 'asc',
+            orderBy: 'popularity');
         setState(() {
           order = 'asc';
           orderBy = 'popularity';
@@ -62,39 +69,39 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
         ProductApies.productApies.getProductByFilter(
             pageNumber: '1',
             category: widget.categoryId.toString(),
+            brand: widget.brandId.toString(),
             minPrice: widget.minPrice.toString(),
             maxPrice: widget.maxPrice.toString(),
             order: 'asc',
-            orderBy: 'rating'
-        );
+            orderBy: 'rating');
         setState(() {
           order = 'asc';
           orderBy = 'rating';
         });
         break;
-        case 'ترتيب حسب الأحدث':
-          ProductApies.productApies.getProductByFilter(
-              pageNumber: '1',
-              category: widget.categoryId.toString(),
-              minPrice: widget.minPrice.toString(),
-              maxPrice: widget.maxPrice.toString(),
-              order: 'asc',
-              orderBy: 'date'
-          );
-          setState(() {
-            order = 'asc';
-            orderBy = 'date';
-          });
+      case 'ترتيب حسب الأحدث':
+        ProductApies.productApies.getProductByFilter(
+            pageNumber: '1',
+            category: widget.categoryId.toString(),
+            brand: widget.brandId.toString(),
+            minPrice: widget.minPrice.toString(),
+            maxPrice: widget.maxPrice.toString(),
+            order: 'asc',
+            orderBy: 'date');
+        setState(() {
+          order = 'asc';
+          orderBy = 'date';
+        });
         break;
       case 'ترتيب حسب الأدنى سعرا للأعلى':
         ProductApies.productApies.getProductByFilter(
             pageNumber: '1',
             category: widget.categoryId.toString(),
+            brand: widget.brandId.toString(),
             minPrice: widget.minPrice.toString(),
             maxPrice: widget.maxPrice.toString(),
             order: 'desc',
-            orderBy: 'price'
-        );
+            orderBy: 'price');
         setState(() {
           order = 'asc';
           orderBy = 'price';
@@ -104,11 +111,11 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
         ProductApies.productApies.getProductByFilter(
             pageNumber: '1',
             category: widget.categoryId.toString(),
+            brand: widget.brandId.toString(),
             minPrice: widget.minPrice.toString(),
             maxPrice: widget.maxPrice.toString(),
             order: 'desc',
-            orderBy: 'price'
-        );
+            orderBy: 'price');
         setState(() {
           order = 'asc';
           orderBy = 'price';
@@ -119,18 +126,23 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
 
   getData() async {
     ProductApies.productApies.getProductByFilter(
-        pageNumber: '1',
-        category: widget.categoryId.toString(),
-        minPrice: widget.minPrice.toString(),
-        maxPrice: widget.maxPrice.toString(),
+      pageNumber: '1',
+      category: widget.categoryId.toString(),
+      brand: widget.brandId.toString(),
+      minPrice: widget.minPrice.toString(),
+      maxPrice: widget.maxPrice.toString(),
     );
-    ProductApies.productApies.getLastViewProduct(category: widget.categoryId.toString());
-
+    ProductApies.productApies
+        .getLastViewProduct(category: widget.categoryId.toString());
   }
 
   @override
   void initState() {
-    getData();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+      getData();
+    });
+
     super.initState();
   }
 
@@ -138,9 +150,10 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-            () {
+        () {
           var product = productController.getFilteredProductData!.value.data;
-          var lastViewedProduct = productController.getLastViewedProduct!.value.data;
+          var lastViewedProduct =
+              productController.getLastViewedProduct!.value.data;
 
           return SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -163,12 +176,13 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                           CustomText(
                             'تسوق من قسم ${widget.categoryName}',
                             fontWeight: FontWeight.bold,
-                            fontSize: 14.sp,
+                            fontSize: 12.sp,
                           ),
                           const Spacer(),
                           DecoratedBox(
                             decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xffF5E7EA), width: 1),
+                              border: Border.all(
+                                  color: const Color(0xffF5E7EA), width: 1),
                               borderRadius: BorderRadius.circular(5),
                             ),
                             child: Padding(
@@ -177,7 +191,8 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                                 underline: SizedBox(),
                                 focusColor: Colors.white,
                                 value: selectedDropDown,
-                                style: TextStyle(color: Colors.white, fontSize: 10.sp),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 10.sp),
                                 iconEnabledColor: Colors.black,
                                 items: <String>[
                                   'ترتيب حسب الشهرة',
@@ -223,58 +238,109 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                         ],
                       ),
                       // loadingProduct(),
-                      product == null ?const LoadingProduct(8) : product.isEmpty ? Center(child: CustomText('لا توجد عناصر')): GridView.builder(
-                        itemCount: product.length < 8 ? product.length : 8,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.45.h,
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 11.w,
-                          mainAxisSpacing: 16.h,
-                        ),
-                        itemBuilder: (_, index) {
-                          return PerfumeProductItem(
-                            imgUrl: product[index].images?[0].src??'',
-                            brandName: product[index].brands!.isNotEmpty ? product[index].brands != null ? product[index].brands![0].name : '' : '',
-                            perfumeName: product[index].title??'',
-                            perfumeRate:  double.parse(product[index].averageRating??'0.0'),
-                            rateCount: product[index].ratingCount.toString()?? '0',
-                            priceBeforeDiscount: product[index].regularPrice??'',
-                            priceAfterDiscount:  product[index].salePrice??'',
-                            onTapBuy: (){
-                              print(product[index].id.toString());
-                              Get.to(()=>PerfumeDetailsScreen(productId: product[index].id.toString(),));
-                            },
-                          );
-                        },
-                      ),
+                      product == null
+                          ? const LoadingProduct(8)
+                          : product.isEmpty
+                              ? Center(
+                                  child: Column(
+                                  children: [
+                                    SizedBox(
+                                      height: 20.h,
+                                    ),
+                                    CustomText('لا توجد عناصر'),
+                                  ],
+                                ))
+                              : GridView.builder(
+                                  itemCount:
+                                      product.length < 8 ? product.length : 8,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    childAspectRatio: 0.45.h,
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 11.w,
+                                    mainAxisSpacing: 16.h,
+                                  ),
+                                  itemBuilder: (_, index) {
+                                    return PerfumeProductItem(
+                                      imgUrl:
+                                          product[index].images?[0].src ?? '',
+                                      brandName: product[index]
+                                              .brands!
+                                              .isNotEmpty
+                                          ? product[index].brands != null
+                                              ? product[index].brands![0].name
+                                              : ''
+                                          : '',
+                                      perfumeName: product[index].title ?? '',
+                                      perfumeRate: double.parse(
+                                          product[index].averageRating ??
+                                              '0.0'),
+                                      rateCount: product[index]
+                                              .ratingCount
+                                              .toString() ??
+                                          '0',
+                                      priceBeforeDiscount:
+                                          product[index].regularPrice ?? '',
+                                      priceAfterDiscount:
+                                          product[index].salePrice ?? '',
+                                      onTapBuy: () {
+                                        print(product[index].id.toString());
+                                        Get.to(() => PerfumeDetailsScreen(
+                                              productId:
+                                                  product[index].id.toString(),
+                                            ));
+                                      },
+                                    );
+                                  },
+                                ),
                       SizedBox(
                         height: 40.h,
                       ),
-                      productController.getFilteredProductData?.value.headers?.xWPTotalPages == null ? LoadingPaggination() : NumberPaginator(
-                        // controller: _controller, cause exception
-                        initialPage: currentPage??0,
-                        numberPages: productController.getFilteredProductData!.value.headers!.xWPTotalPages!,
-                        config: NumberPaginatorUIConfig(
-                            contentPadding: EdgeInsets.zero,
-                            buttonSelectedBackgroundColor: AppColors.primaryColor,
-                            buttonUnselectedForegroundColor: AppColors.blackColor,
-                            buttonShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r), side:const BorderSide(color: AppColors.greyBorder))),
-                        onPageChange: (int index) {
-                          setState(() {
-                            currentPage = index;
-                          });
-                          ProductApies.productApies.getProductByFilter(
-                              category: widget.categoryId.toString() , pageNumber: (index+1).toString(),
-                          minPrice: widget.minPrice.toString(),
-                          maxPrice: widget.maxPrice.toString(),
-                            order: order,
-                            orderBy: orderBy
-                          );
-                        },
-                      ),
+                      productController.getFilteredProductData?.value.headers
+                                  ?.xWPTotalPages ==
+                              null
+                          ? LoadingPaggination()
+                          : NumberPaginator(
+                              // controller: _controller, cause exception
+                              initialPage: currentPage ?? 0,
+                              numberPages: productController
+                                              .getFilteredProductData
+                                              ?.value
+                                              .headers
+                                              ?.xWPTotalPages ==
+                                          0 ||
+                                      productController.getFilteredProductData
+                                              ?.value.headers?.xWPTotalPages ==
+                                          null
+                                  ? 1
+                                  : productController.getFilteredProductData!
+                                      .value.headers!.xWPTotalPages!,
+                              config: NumberPaginatorUIConfig(
+                                  contentPadding: EdgeInsets.zero,
+                                  buttonSelectedBackgroundColor:
+                                      AppColors.primaryColor,
+                                  buttonUnselectedForegroundColor:
+                                      AppColors.blackColor,
+                                  buttonShape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      side: const BorderSide(
+                                          color: AppColors.greyBorder))),
+                              onPageChange: (int index) {
+                                setState(() {
+                                  currentPage = index;
+                                });
+                                ProductApies.productApies.getProductByFilter(
+                                    category: widget.categoryId.toString(),
+                                    pageNumber: (index + 1).toString(),
+                                    brand: widget.brandId.toString(),
+                                    minPrice: widget.minPrice.toString(),
+                                    maxPrice: widget.maxPrice.toString(),
+                                    order: order,
+                                    orderBy: orderBy);
+                              },
+                            ),
                       SizedBox(
                         height: 40.h,
                       ),
@@ -289,32 +355,72 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                               ),
                             ],
                           ),
-                          lastViewedProduct == null ? LoadingProduct(2) :  GridView.builder(
-                            itemCount: lastViewedProduct.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.45.h,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 11.w,
-                              mainAxisSpacing: 16.h,
-                            ),
-                            itemBuilder: (_, index) {
-                              return PerfumeProductItem(
-                                imgUrl: lastViewedProduct[index].images?[0].src??'',
-                                brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                                perfumeName: lastViewedProduct[index].title??'',
-                                perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
-                                rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
-                                priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',
-                                priceAfterDiscount:  lastViewedProduct[index].salePrice??'',
-                                onTapBuy: (){
-                                  print(lastViewedProduct[index].id.toString());
-                                  Get.to(()=>PerfumeDetailsScreen(productId: lastViewedProduct[index].id.toString(),));
-                                },
-                              );
-                            },
-                          ),
+                          lastViewedProduct == null
+                              ? LoadingProduct(2)
+                              : lastViewedProduct.isEmpty
+                                  ? CustomText('لا توجد منتجات')
+                                  : GridView.builder(
+                                      itemCount: lastViewedProduct.length,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      gridDelegate:
+                                          SliverGridDelegateWithFixedCrossAxisCount(
+                                        childAspectRatio: 0.45.h,
+                                        crossAxisCount: 2,
+                                        crossAxisSpacing: 11.w,
+                                        mainAxisSpacing: 16.h,
+                                      ),
+                                      itemBuilder: (_, index) {
+                                        return PerfumeProductItem(
+                                          imgUrl: lastViewedProduct[index]
+                                                  .images?[0]
+                                                  .src ??
+                                              '',
+                                          brandName: lastViewedProduct[index]
+                                                  .brands!
+                                                  .isNotEmpty
+                                              ? lastViewedProduct[index]
+                                                          .brands !=
+                                                      null
+                                                  ? lastViewedProduct[index]
+                                                      .brands![0]
+                                                      .name
+                                                  : ''
+                                              : '',
+                                          perfumeName:
+                                              lastViewedProduct[index].title ??
+                                                  '',
+                                          perfumeRate: double.parse(
+                                              lastViewedProduct[index]
+                                                      .averageRating ??
+                                                  '0.0'),
+                                          rateCount: lastViewedProduct[index]
+                                                  .ratingCount
+                                                  .toString() ??
+                                              '0',
+                                          priceBeforeDiscount:
+                                              lastViewedProduct[index]
+                                                      .regularPrice ??
+                                                  '',
+                                          priceAfterDiscount:
+                                              lastViewedProduct[index]
+                                                      .salePrice ??
+                                                  '',
+                                          onTapBuy: () {
+                                            print(lastViewedProduct[index]
+                                                .id
+                                                .toString());
+                                            Get.to(() => PerfumeDetailsScreen(
+                                                  productId:
+                                                      lastViewedProduct[index]
+                                                          .id
+                                                          .toString(),
+                                                ));
+                                          },
+                                        );
+                                      },
+                                    ),
                         ],
                       ),
                     ],
@@ -327,6 +433,4 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
       ),
     );
   }
-
-
 }

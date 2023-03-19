@@ -1,3 +1,4 @@
+import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import 'package:perfume_store_mobile_app/controller/category_controller.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 
@@ -13,22 +14,15 @@ class FilterScreen extends StatefulWidget {
 
 class _FilterScreenState extends State<FilterScreen> {
   CategoryController categoryController = Get.find();
-  List<BrandModel> brandItems = [
-    BrandModel('Aesthetica', false),
-    BrandModel('Aesthetica', false),
-    BrandModel('Aesthetica', false),
-    BrandModel('Aesthetica', false),
-  ];
-  List<CategoryModel> categoryItems = [
-    CategoryModel('قسم العطور', true),
-    CategoryModel('قسم العناية البشرة', false),
-    CategoryModel('قسم المكياج', false),
-    CategoryModel('قسم العناية بالشعر', false),
-  ];
+  BrandController brandController = Get.find();
   RangeValues values = const RangeValues(0, 1000);
+
+  int? selectedBrandId;
+  String? selectedBrandName;
 
   int? selectedCategoryId;
   String? selectedCategoryName;
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -42,6 +36,7 @@ class _FilterScreenState extends State<FilterScreen> {
       body: Obx(
         () {
           var category = categoryController.getCategoryData!.value.listCategoryResponse;
+          var brand = brandController.getBrandData!.value.listBrandResponse;
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -83,46 +78,50 @@ class _FilterScreenState extends State<FilterScreen> {
                           thickness: 2,
                           height: 29.h,
                         ),
-                        // Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.start,
-                        //   children: [
-                        //     CustomText('الماركات', fontSize: 18.sp, fontWeight: FontWeight.normal),
-                        //     SizedBox(
-                        //       height: 18.h,
-                        //     ),
-                        //     CustomText(
-                        //       'بحث في الماركات',
-                        //       fontSize: 14.sp,
-                        //       fontWeight: FontWeight.normal,
-                        //       color: const Color(0xff9E9E9E),
-                        //     ),
-                        //     ListView.builder(
-                        //       physics: const NeverScrollableScrollPhysics(),
-                        //       shrinkWrap: true,
-                        //       itemCount: brandItems.length,
-                        //       itemBuilder: (context, index) {
-                        //         return Row(
-                        //           children: [
-                        //             Checkbox(
-                        //               value: brandItems[index].checked,
-                        //               onChanged: (bool? value) {
-                        //                 setState(() {
-                        //                   brandItems[index].checked = value;
-                        //                 });
-                        //               },
-                        //               activeColor: AppColors.primaryColor,
-                        //             ),
-                        //             CustomText(brandItems[index].brandName, fontSize: 16.sp, fontWeight: FontWeight.normal),
-                        //           ],
-                        //         );
-                        //       },
-                        //     ),
-                        //   ],
-                        // ),
-                        // Divider(
-                        //   thickness: 2,
-                        //   height: 40.h,
-                        // ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            CustomText('الماركات', fontSize: 18.sp, fontWeight: FontWeight.normal),
+                            SizedBox(
+                              height: 18.h,
+                            ),
+                            CustomText(
+                              'بحث في الماركات',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.normal,
+                              color: const Color(0xff9E9E9E),
+                            ),
+                           brand == null || brand.isEmpty ?SizedBox() :ListView.builder(
+                             padding: EdgeInsets.symmetric(vertical: 5.h),
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemCount: brand.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    Checkbox(
+                                      value: selectedBrandId == brand[index].termId,
+                                      onChanged: (bool? value) {
+                                        setState(() {
+                                          selectedBrandId = brand[index].termId;
+                                          selectedBrandName = brand[index].name;
+                                        });
+                                      },
+                                      activeColor: AppColors.primaryColor,
+                                    ),
+                                    CustomText(brand[index].name, fontSize: 16.sp, fontWeight: FontWeight.normal),
+                                  ],
+                                );
+
+
+                              },
+                            ),
+                          ],
+                        ),
+                        Divider(
+                          thickness: 2,
+                          height: 40.h,
+                        ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -179,6 +178,7 @@ class _FilterScreenState extends State<FilterScreen> {
                               color: const Color(0xff9E9E9E),
                             ),
                             category == null ?const LoadingFilterCategory(): ListView.builder(
+                              padding: EdgeInsets.symmetric(vertical: 5.h),
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
                               itemCount: category.length -1,
@@ -209,6 +209,8 @@ class _FilterScreenState extends State<FilterScreen> {
                               Get.to(()=>FilterResultScreen(
                                 categoryName: selectedCategoryName,
                                 categoryId: selectedCategoryId,
+                                brandName: selectedBrandName,
+                                brandId: selectedBrandId,
                                 maxPrice: values.end.toInt(),
                                 minPrice: values.start.toInt(),
                               ));

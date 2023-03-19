@@ -226,15 +226,11 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           itemCount: ads?.length,
                           itemBuilder: (context, index) {
-                            return ads == null
-                                ? SizedBox(
-                                    height: 200.h,
-                                  )
-                                : GestureDetector(
+                            return  GestureDetector(
                               onTap: (){
                                 Get.to(()=>ShopByBrandScreen(
-                                  brandId: ads[index].brand?[0].termId,
-                                  brandName: ads[index].brand?[0].name,
+                                  brandId: ads?[index].brand?[0].termId,
+                                  brandName: ads?[index].brand?[0].name,
                                 ),
                                 );
                               },
@@ -246,7 +242,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         child: ClipRRect(
                                           // borderRadius: BorderRadius.circular(15),
                                           child: FancyShimmerImage(
-                                            imageUrl: ads[index].image ?? '',
+                                            imageUrl: ads?[index].image ?? '',
                                             width: double.infinity,
                                             height: 50,
                                             shimmerBaseColor: Color(
@@ -264,6 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                             0xFFFFFF)
                                                         .toInt())
                                                 .withOpacity(1.0),
+
                                             errorWidget: SizedBox(),
                                           ),
                                         ),
@@ -393,11 +390,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   return SizedBox(
                     height: 150.h,
-                    child: ads == null
-                        ? SizedBox(
-                      height: 200.h,
-                    )
-                        : GestureDetector(
+                    child: GestureDetector(
                       onTap: (){
                         Get.to(()=>const ShopByCategoryScreen(
                           categoryId: 183,
@@ -412,7 +405,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads[1].image ?? '',
+                              imageUrl: ads?[1].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color(
@@ -444,15 +437,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 150.h,
-                    child: ads == null
-                        ? SizedBox(
-                      height: 200.h,
-                    )
-                        : GestureDetector(
+                    child: GestureDetector(
                       onTap: (){
                         Get.to(()=>ShopByBrandScreen(
-                          brandId: ads[2].brand?[0].termId,
-                          brandName: ads[2].brand?[0].name,
+                          brandId: ads?[2].brand?[0].termId,
+                          brandName: ads?[2].brand?[0].name,
                         ),
                         );
                       },
@@ -463,7 +452,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads[2].image ?? '',
+                              imageUrl: ads?[2].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color(
@@ -527,15 +516,11 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       SizedBox(
                         height: 150.h,
-                        child: ads == null
-                            ? SizedBox(
-                          height: 200.h,
-                        )
-                            : GestureDetector(
+                        child:  GestureDetector(
                           onTap: (){
                             Get.to(()=>ShopByBrandScreen(
-                              brandId: ads[2].brand?[0].termId,
-                              brandName: ads[2].brand?[0].name,
+                              brandId: ads?[2].brand?[0].termId,
+                              brandName: ads?[2].brand?[0].name,
                             ),
                             );
                           },
@@ -547,7 +532,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ClipRRect(
                                 // borderRadius: BorderRadius.circular(15),
                                 child: FancyShimmerImage(
-                                  imageUrl: ads[3].image ?? '',
+                                  imageUrl: ads?[3].image ?? '',
                                   width: double.infinity,
                                   height: 50,
                                   shimmerBaseColor: Color(
@@ -738,15 +723,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 140.h,
-                    child: ads == null
-                        ? SizedBox(
-                      height: 200.h,
-                    )
-                        : GestureDetector(
+                    child:GestureDetector(
                       onTap: (){
                         Get.to(()=>ShopByBrandScreen(
-                          brandId: ads[0].brand?[0].termId,
-                          brandName: ads[0].brand?[0].name,
+                          brandId: ads?[0].brand?[0].termId,
+                          brandName: ads?[0].brand?[0].name,
                         ),
                         );
                       },
@@ -757,7 +738,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads[0].image ?? '',
+                              imageUrl: ads?[0].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color(
@@ -1065,11 +1046,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   return SizedBox(
                     height: 150.h,
-                    child: ads == null
-                        ? SizedBox(
-                      height: 200.h,
-                    )
-                        : GestureDetector(
+                    child: GestureDetector(
                       onTap: (){
                         Get.to(()=>const ShopByCategoryScreen(
                           categoryId: 183,
@@ -1084,7 +1061,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads[1].image ?? '',
+                              imageUrl: ads?[1].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color(
@@ -1212,15 +1189,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   return SizedBox(
                     height: 180.h,
-                    child:ads == null
-                        ? SizedBox(
-                      height: 200.h,
-                    )
-                        : GestureDetector(
+                    child:GestureDetector(
                       onTap: (){
                         Get.to(()=>ShopByBrandScreen(
-                          brandId: ads[2].brand?[0].termId,
-                          brandName: ads[2].brand?[0].name,
+                          brandId: ads?[2].brand?[0].termId,
+                          brandName: ads?[2].brand?[0].name,
                         ),
                         );
                       },
@@ -1231,7 +1204,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads[2].image ?? '',
+                              imageUrl: ads?[2].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color(
@@ -1263,15 +1236,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 180.h,
-                    child: ads == null
-                        ? SizedBox(
-                      height: 200.h,
-                    )
-                        : GestureDetector(
+                    child:  GestureDetector(
                       onTap: (){
                         Get.to(()=>ShopByBrandScreen(
-                          brandId: ads[1].brand?[0].termId,
-                          brandName: ads[1].brand?[0].name,
+                          brandId: ads?[1].brand?[0].termId,
+                          brandName: ads?[1].brand?[0].name,
                         ),
                         );
                       },
@@ -1282,7 +1251,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads[3].image ?? '',
+                              imageUrl: ads?[3].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color(
@@ -1402,15 +1371,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 160.h,
-                    child: ads == null
-                        ? SizedBox(
-                      height: 200.h,
-                    )
-                        : GestureDetector(
+                    child:  GestureDetector(
                       onTap: (){
                         Get.to(()=>ShopByBrandScreen(
-                          brandId: ads[0].brand?[0].termId,
-                          brandName: ads[0].brand?[0].name,
+                          brandId: ads?[0].brand?[0].termId,
+                          brandName: ads?[0].brand?[0].name,
                         ),
                         );
                       },
@@ -1421,7 +1386,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads[0].image ?? '',
+                              imageUrl: ads?[0].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color(

@@ -38,6 +38,7 @@ class CartController extends GetxController {
               imgurl: existingCartItem.imgurl,
               quantity: existingCartItem.quantity! + 1,
               price: existingCartItem.price));
+      update();
     } else {
       _items.putIfAbsent(
           pdtid!,
@@ -48,6 +49,7 @@ class CartController extends GetxController {
             quantity: quantitiy,
             price: price,
           ));
+      update();
     }
     update();
     return true;
@@ -60,6 +62,7 @@ class CartController extends GetxController {
 
   void removeSingleItem(String id) {
     if (!_items.containsKey(id)) {
+      update();
       return;
     }
     if (_items[id]!.quantity! > 1) {
@@ -71,6 +74,7 @@ class CartController extends GetxController {
               name: existingCartItem.name,
               quantity: existingCartItem.quantity! - 1,
               price: existingCartItem.price));
+      update();
     }
     update();
   }
@@ -79,6 +83,7 @@ class CartController extends GetxController {
     var total = 0.0;
     _items.forEach((key, cartItem) {
       total += cartItem.price! * cartItem.quantity!;
+      update();
     });
     return total;
   }
@@ -92,6 +97,7 @@ class CartController extends GetxController {
     double total = 0;
     _items.forEach((key, value) {
       total += value.price!;
+      update();
     });
     return total;
   }

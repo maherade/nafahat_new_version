@@ -26,8 +26,8 @@ class OrderApies {
   getShippingMethods() async {
     orderController.getShippingMethodsData!.value = ListShippingMethodsResponse();
     try {
-      Response response = await Settingss.settings.dio!.get(
-        shippingMethodsURL,
+      Response response = await Dio().get(
+        'https://nafahat.com/wp-json/wc/v3/shipping_methods',
       );
       if (response.statusCode == 200) {
         orderController.getShippingMethodsData!.value = ListShippingMethodsResponse.fromJson(response.data);
@@ -57,8 +57,8 @@ class OrderApies {
   getPaymentMethods() async {
     orderController.getPaymentMethodsData!.value = ListPaymentMethodsResponse();
     try {
-      Response response = await Settingss.settings.dio!.get(
-        getPaymentMethodsURL,
+      Response response = await Dio().get(
+        'https://nafahat.com/wp-json/wc/v3/payment_gateways',
       );
       if (response.statusCode == 200) {
         print(response.data);

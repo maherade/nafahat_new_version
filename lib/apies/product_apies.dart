@@ -358,6 +358,7 @@ class ProductApies {
   getProductByFilter(
       {String? pageNumber,
       String? category,
+      String? brand,
       String? minPrice,
       String? maxPrice,
       String? order,
@@ -373,7 +374,8 @@ class ProductApies {
             ? {
                 "endpoint": "products",
                 "category": category,
-                "per_page": '8',
+          "brand": brand,
+          "per_page": '8',
                 "page": pageNumber,
                 "min_price": minPrice,
                 "max_price": maxPrice,
@@ -381,18 +383,16 @@ class ProductApies {
             : {
                 "endpoint": "products",
                 "category": category,
-                "per_page": '8',
+          "brand": brand,
+
+          "per_page": '8',
                 "page": pageNumber,
                 "min_price": minPrice,
                 "max_price": maxPrice,
                 "order": order,
                 "orderby": orderBy,
               },
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-          },
-        ),
+
       );
       if (response.statusCode == 200) {
         productController.getFilteredProductData!.value =

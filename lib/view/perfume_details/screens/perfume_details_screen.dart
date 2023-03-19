@@ -15,6 +15,7 @@ import '../../../apies/review_apies.dart';
 import '../../../controller/cart_controller.dart';
 import '../../../controller/review_controller.dart';
 import '../../../services/app_imports.dart';
+import '../../bottom_nav_screens/widget/on_done_cart_dialog.dart';
 import '../../bottom_nav_screens/widget/perfume_product_item.dart';
 import '../../custom_widget/custom_text_form_field.dart';
 import '../../custom_widget/loading_efffect/loading_perfume_dettail.dart';
@@ -201,8 +202,9 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                     pdtid: product[0].id.toString() ?? '',
                                   );
                                   if (added) {
-                                    ScaffoldMessenger.of(context)
-                                        .showSnackBar(const SnackBar(content: Text('تمت الإضافة إلى السلة بنجاح')));
+                                    OnDoneCartDialog.onDoneCartDialog.showCartDialog();
+                                    // ScaffoldMessenger.of(context)
+                                    //     .showSnackBar(const SnackBar(content: Text('تمت الإضافة إلى السلة بنجاح')));
                                   }
                                 },
                                 height: 50.h,
