@@ -21,7 +21,6 @@ class SPHelper {
 
   String? getToken() {
     String? x = sharedPreferences?.getString('accessToken');
-    print(x);
     return x;
   }
   removeToken() async {
@@ -29,16 +28,16 @@ class SPHelper {
   }
 
 
-  setActivation(String value) async {
-    sharedPreferences?.setString('active', value);
+  setPaymentHtml(String value) async {
+    sharedPreferences?.setString('PaymentHtml', value);
   }
 
-  String? getActivation() {
-    String? active = sharedPreferences?.getString('active');
+  String? getPaymentHtml() {
+    String? active = sharedPreferences?.getString('PaymentHtml');
     return active;
   }
-  cleatActivation(){
-    sharedPreferences?.remove('active');
+  clearPaymentHtml(){
+    sharedPreferences?.remove('PaymentHtml');
   }
 
 

@@ -32,8 +32,10 @@ class AuthApis {
     final encodedPayload = token.split('.')[1];
     final payloadData =
     utf8.fuse(base64).decode(base64.normalize(encodedPayload));
-    print(payloadData);
+    print('payloadData' +payloadData.toString());
     final payload = DecodeTokenResponse.fromJson(jsonDecode(payloadData));
+    print('id' +payload.data!.user!.id!.toString());
+
     return payload.data!.user!.id!;
   }
 
@@ -49,9 +51,6 @@ class AuthApis {
         'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=login',
         data: data,
 
-      options: Options(
-        headers: {}
-      )
       );
 
       if (response.statusCode == 200 && response.data['token']!=null) {
@@ -220,7 +219,8 @@ class AuthApis {
       );
       if (response.statusCode == 200) {
         authController.getCustomerInformationData!.value = ViewAllInformationAboutCustomerResponse.fromJson(response.data);
-        print("getCustomerInformation Successful ");
+        print('getCustomerInformation Successful'+authController.getCustomerInformationData!.value.data!.id.toString());
+
       } else {}
     } catch (e) {
       print(e.toString());

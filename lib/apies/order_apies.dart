@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as myGet;
+import 'package:perfume_store_mobile_app/model/payment_response.dart';
+import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 
 import '../const_urls.dart';
 import '../controller/order_controller.dart';
@@ -24,13 +26,15 @@ class OrderApies {
   OrderController orderController = myGet.Get.find();
 
   getShippingMethods() async {
-    orderController.getShippingMethodsData!.value = ListShippingMethodsResponse();
+    orderController.getShippingMethodsData!.value =
+        ListShippingMethodsResponse();
     try {
       Response response = await Dio().get(
         'https://nafahat.com/wp-json/wc/v3/shipping_methods',
       );
       if (response.statusCode == 200) {
-        orderController.getShippingMethodsData!.value = ListShippingMethodsResponse.fromJson(response.data);
+        orderController.getShippingMethodsData!.value =
+            ListShippingMethodsResponse.fromJson(response.data);
         print("getShippingMethods Successful ");
       } else {}
     } catch (e) {
@@ -46,7 +50,8 @@ class OrderApies {
       );
       if (response.statusCode == 200) {
         print(response.data);
-        orderController.getCountriesData!.value = ListCountriesResponse.fromJson(response.data);
+        orderController.getCountriesData!.value =
+            ListCountriesResponse.fromJson(response.data);
         print("getCountries Successful ");
       } else {}
     } catch (e) {
@@ -62,7 +67,8 @@ class OrderApies {
       );
       if (response.statusCode == 200) {
         print(response.data);
-        orderController.getPaymentMethodsData!.value = ListPaymentMethodsResponse.fromJson(response.data);
+        orderController.getPaymentMethodsData!.value =
+            ListPaymentMethodsResponse.fromJson(response.data);
         print("getPaymentMethods Successful ");
       } else {}
     } catch (e) {
@@ -77,14 +83,15 @@ class OrderApies {
     String? customer_id,
     String? payment_method_title,
     String? set_paid,
-    Map<String,dynamic>? billing,
-    Map<String,dynamic>? shipping,
-    List<Map<String,dynamic>>? line_items,
-    List<Map<String,dynamic>>? shipping_lines,
+    Map<String, dynamic>? billing,
+    Map<String, dynamic>? shipping,
+    List<Map<String, dynamic>>? line_items,
+    List<Map<String, dynamic>>? shipping_lines,
   }) async {
     try {
       ProgressDialogUtils.show();
-      Response response = await Settingss.settings.dio!.post(orderURL, queryParameters: {
+      Response response =
+          await Settingss.settings.dio!.post(orderURL, queryParameters: {
         'parent_id': parent_id,
         'customer_id': customer_id,
         'currency': currency,
@@ -110,10 +117,10 @@ class OrderApies {
     }
   }
 
-
   final client = HttpClient();
   final key = 'ck_54b7ebd52fd718be81cb1043637c84732aa1705c';
   final secret = 'cs_df50caa82b6d05266923b0f9a6e2aaa000960410';
+
   Future<Order> createOrder2({
     required String? customer_id,
     required String payment_method,
@@ -129,17 +136,19 @@ class OrderApies {
     required String email,
     required String phone,
     required String total,
-    required List<Map<String,dynamic>> listProduct,
-
+    required List<Map<String, dynamic>> listProduct,
+    required List<Map<String, dynamic>> listShipment,
   }) async {
     print('yehya$customer_id');
     final url = Uri.parse(
-      'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret',
-    );
+        'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret'
+        // 'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret',
+        );
     final parameters = <String, dynamic>{
       ...(customer_id != 'null' ? {'customer_id': customer_id} : {}),
       'payment_method_title': payment_method_title,
       'payment_method': payment_method,
+      "set_paid": false,
       'billing': {
         'first_name': firstName,
         'last_name': lastName,
@@ -165,6 +174,7 @@ class OrderApies {
         'phone': phone,
       },
       'line_items': listProduct,
+      "shipping_lines": listShipment
     };
     ProgressDialogUtils.show();
 
@@ -172,10 +182,10 @@ class OrderApies {
     request.headers.set("Content-Type", "application/json; charset=utf-8");
     request.write(jsonEncode(parameters));
     final response = await request.close();
-    if(response.statusCode == 200){
+    if (response.statusCode == 200) {
       ProgressDialogUtils.hide();
       Helper.getSheetSucsses('تم إرسال الطلب');
-    }else{
+    } else {
       ProgressDialogUtils.hide();
       Helper.getSheetError('حدث خطأ');
     }
@@ -186,5 +196,34 @@ class OrderApies {
     final order = Order.fromJson(json);
     return order;
   }
-}
 
+  getPaymentUrl({String? orderId, String? orderKey}) async {
+    try {
+
+      final token = SPHelper.spHelper.getToken();
+      log(token!);
+
+      orderController.getPaymentHtmlPage!.value = PaymentResponse();
+      log('yehya');
+
+      Response response = await Dio().get(
+        "https://nafahat.com/checkout/order-pay/${orderId}/?pay_for_order=true&key=${orderKey}&naf-token=true",
+        options: Options(headers: {"Authorization": "Bearer ${token}"}),
+      );
+      log('yehya3');
+
+      if (response.statusCode! >= 200) {
+        log('yehya4');
+        orderController.getPaymentHtmlPage!.value =PaymentResponse.fromJson(response.data);
+        // log(orderController.getPaymentHtmlPage!.value.htmlUrl!);
+
+        SPHelper.spHelper.setPaymentHtml(response.data);
+      } else {
+        Helper.getSheetError('error');
+      }
+    } catch (e) {
+      Helper.getSheetError('error');
+      print(e.toString());
+    }
+  }
+}

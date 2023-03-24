@@ -62,7 +62,7 @@ dependencies:
   intl: ^0.17.0
   awesome_dialog:
   json_annotation: ^4.7.0
-  webview_flutter: ^3.0.4
+  webview_flutter: ^3.0.0
   flutter_inappwebview: ^5.7.2+3
   firebase_core: ^2.2.0
   firebase_messaging: ^14.1.0

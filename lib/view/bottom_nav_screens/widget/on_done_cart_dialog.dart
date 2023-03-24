@@ -26,7 +26,7 @@ class OnDoneCartDialog {
             SizedBox(height: 20,),
 
             CustomText(
-              "تمت إضافة المنتج إلى السلة",fontSize: 16,color: Colors.green,),
+              "تمت إضافة المنتج إلى السلة",fontSize: 16,color: AppColors.primaryColor,),
             SizedBox(height: 20,),
 
             Divider(height: 20,thickness: 2,),

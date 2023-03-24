@@ -74,7 +74,8 @@ class _CartScreenState extends State<CartScreen> {
             orderController.getCountriesData!.value.listCountriesResponse;
         var payment = orderController
             .getPaymentMethodsData!.value.listPaymentMethodsResponse;
-        var auth = authController.getCustomerInformationData!.value;
+        var auth = authController.getCustomerInformationData!.value.data;
+
         double totalPrice() {
           double total = 0;
           cart.items.forEach((key, value) {
@@ -99,6 +100,12 @@ class _CartScreenState extends State<CartScreen> {
             SizedBox(
               height: 50.h,
             ),
+            // GestureDetector(
+            //   onTap: (){
+            //     print(auth?.id);
+            //   },
+            //   child: CustomText('yyyyysyyy'),
+            // ),
             StepperRealEstates(currentStepperIndex),
             SizedBox(
               height: 24.h,
@@ -975,21 +982,23 @@ class _CartScreenState extends State<CartScreen> {
                                     color: const Color(0xff6C6C6C),
                                     fontWeight: FontWeight.normal,
                                   ),
-                                  Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.end,
-                                    children: [
-                                      CustomText(
-                                        selectedAddressName,
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.normal,
-                                      ),
-                                      // CustomText(
-                                      //   DateFormat('dd-MM-yyyy').format(DateTime.now()),
-                                      //   fontSize: 14.sp,
-                                      //   fontWeight: FontWeight.normal,
-                                      // ),
-                                    ],
+                                  Flexible(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          selectedAddressName,
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        // CustomText(
+                                        //   DateFormat('dd-MM-yyyy').format(DateTime.now()),
+                                        //   fontSize: 14.sp,
+                                        //   fontWeight: FontWeight.normal,
+                                        // ),
+                                      ],
+                                    ),
                                   ),
                                 ],
                               ),
@@ -1004,47 +1013,64 @@ class _CartScreenState extends State<CartScreen> {
                               horizontal: 19.0.w),
                           child: CustomButton(
                             onTap: () async {
-                              if (selectedPaymentMethods != null &&
-                                  selectedPaymentMethodsTitle !=
-                                      null &&
-                                  selectedCountriesName != null &&
-                                  selectedCountriesCod != null) {
-                                Order order = await OrderApies
-                                    .orderApies
-                                    .createOrder2(
-                                  customer_id: auth.id.toString(),
-                                  payment_method:
-                                  selectedPaymentMethods!,
-                                  payment_method_title:
-                                  selectedPaymentMethodsTitle!,
-                                  firstName: firstNameController.text,
-                                  lastName: lastNameController.text,
-                                  addressOne: address1Controller.text,
-                                  addressTwo: address2Controller.text,
-                                  city: selectedCountriesName!,
-                                  country: selectedCountriesCod!,
-                                  state: "",
-                                  postcode: postcodeController.text,
-                                  email: emailController.text,
-                                  phone: phoneController.text,
-                                  total: totalPrice().toString(),
-                                  listProduct: getCartItem(),
-                                );
-                                print(order.id);
-                                print(order.orderKey);
-                                print(getCartItem());
-                                Get.to(() =>
-                                    PaymentsScreen(
-                                      orderId: order.id.toString(),
-                                      orderKey:
-                                      order.orderKey.toString(),
-                                    ));
-                              } else {
-                                ScaffoldMessenger.of(context)
-                                    .showSnackBar(const SnackBar(
-                                    content: Text(
-                                        'يرجى إكمال الحقول الناقصة')));
-                              }
+                              print(SPHelper.spHelper.getToken());
+                             if(SPHelper.spHelper.getToken()!=null && SPHelper.spHelper.getToken()!=''){
+                               if (selectedPaymentMethods != null &&
+                                   selectedPaymentMethodsTitle !=
+                                       null &&
+                                   selectedCountriesName != null &&
+                                   selectedCountriesCod != null) {
+                                 Order order = await OrderApies
+                                     .orderApies
+                                     .createOrder2(
+                                     customer_id: auth?.id.toString(),
+                                     payment_method:
+                                     selectedPaymentMethods!,
+                                     payment_method_title:
+                                     selectedPaymentMethodsTitle!,
+                                     firstName: firstNameController.text,
+                                     lastName: lastNameController.text,
+                                     addressOne: address1Controller.text,
+                                     addressTwo: address2Controller.text,
+                                     city: selectedCountriesName!,
+                                     country: selectedCountriesCod!,
+                                     state: "",
+                                     postcode: postcodeController.text,
+                                     email: emailController.text,
+                                     phone: phoneController.text,
+                                     total: totalPrice().toString(),
+                                     listProduct: getCartItem(),
+                                     listShipment: [
+                                       {
+                                         "method_id": selectedAddress,
+                                         "method_title": selectedAddressName,
+                                         "total": selectedAddress=='redbox_pickup_delivery'?'17':selectedAddress=='naqel_shipping'?"30.00":'0'
+                                       }
+
+                                     ]
+                                 );
+                                 print(order.id);
+                                 print(order.orderKey);
+                                 print(getCartItem());
+                                 Get.to(() =>
+                                     PaymentsScreen(
+                                       orderId: order.id.toString(),
+                                       orderKey:
+                                       order.orderKey.toString(),
+                                     ));
+                               } else {
+                                 ScaffoldMessenger.of(context)
+                                     .showSnackBar(const SnackBar(
+                                     content: Text(
+                                         'يرجى إكمال الحقول الناقصة')));
+                               }
+                             }else{
+                               ScaffoldMessenger.of(context)
+                                   .showSnackBar(const SnackBar(
+                                   content: Text(
+                                       'يرجى تسجيل الدخول لمتابعة الشراء')));
+                               Get.offAll(LoginScreen());
+                             }
                             },
                             height: 40.h,
                             widget: Row(
