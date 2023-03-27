@@ -11,11 +11,13 @@ class CustomTextFormField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final Color? fillColor;
+  final TextInputType? inputType;
 
-  const CustomTextFormField({super.key, this.controller, this.hintText,this.prefixIcon,this.suffixIcon,this.fillColor});
+  const CustomTextFormField({super.key, this.controller, this.hintText,this.prefixIcon,this.suffixIcon,this.fillColor,this.inputType});
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      keyboardType: inputType ?? TextInputType.text,
       controller: controller,
       autofocus: false,
       style: const TextStyle(fontSize: 15.0, color: Colors.black),

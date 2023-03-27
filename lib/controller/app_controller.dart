@@ -3,8 +3,21 @@ import 'dart:async';
 
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:perfume_store_mobile_app/model/my_marker.dart';
+
+import '../model/red_box_response.dart';
 
 class AppController extends GetxController {
+  MyMarker? myMarker;
+
+  void updateMyMarker(value) {
+    myMarker = value;
+    update();
+  }
+
+
+
+  //----------------
   int indexScreen = 0;
   setIndexScreen(int value) {
     indexScreen = value;
@@ -12,8 +25,6 @@ class AppController extends GetxController {
   }
 
   InAppWebViewController? inAppWebViewController ;
-
-
 
   bool visibleButton = true;
 

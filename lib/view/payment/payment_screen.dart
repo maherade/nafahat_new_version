@@ -47,8 +47,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    String baseUrl =
-        'https://nafahat.com/checkout/order-pay/${widget.orderId}/?pay_for_order=true&key=${widget.orderKey}&naf-token=true';
+    String baseUrl = 'https://nafahat.com/checkout/order-pay/${widget.orderId}/?pay_for_order=true&key=${widget.orderKey}&naf-token=true';
     String token = SPHelper.spHelper.getToken()!;
     return Scaffold(
       appBar: AppBar(

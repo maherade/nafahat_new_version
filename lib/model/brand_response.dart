@@ -8,7 +8,6 @@ class ListBrandResponse {
       json.forEach((v) {
         if(v['brand_image'] != false && v['brand_image'][0] != 'https://nafahat.com/wp-content/uploads/sites/2/2023/02/تنزيل-2-150x150.png'){
           listBrandResponse!.add(BrandResponse.fromJson(v));
-          print(v['brand_image'][0]);
         }
       });
     }

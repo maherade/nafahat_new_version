@@ -4,6 +4,7 @@
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../apies/order_apies.dart';
 import '../../../controller/app_controller.dart';
 import '../../../controller/cart_controller.dart';
 import '../../../services/app_imports.dart';
@@ -35,6 +36,11 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
 
             }
             else if (value == 2){
+
+            }
+            else if (value == 3){
+
+            }else if (value == 4){
 
             }
           },

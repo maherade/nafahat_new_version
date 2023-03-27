@@ -53,7 +53,6 @@ class ProductApies {
       if (response.statusCode == 200) {
         productController.getFamousProductData!.value =
             ListFamousProductResponse.fromJson(response.data);
-        print("getFamousProductData Successful ${response.headers}");
       } else {}
     } catch (e) {
       print(e.toString());

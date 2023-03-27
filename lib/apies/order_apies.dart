@@ -3,8 +3,10 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:get/get.dart' as myGet;
 import 'package:perfume_store_mobile_app/model/payment_response.dart';
+import 'package:perfume_store_mobile_app/model/red_box_response.dart';
 import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 
 import '../const_urls.dart';
@@ -26,15 +28,13 @@ class OrderApies {
   OrderController orderController = myGet.Get.find();
 
   getShippingMethods() async {
-    orderController.getShippingMethodsData!.value =
-        ListShippingMethodsResponse();
+    orderController.getShippingMethodsData!.value = ListShippingMethodsResponse();
     try {
       Response response = await Dio().get(
         'https://nafahat.com/wp-json/wc/v3/shipping_methods',
       );
       if (response.statusCode == 200) {
-        orderController.getShippingMethodsData!.value =
-            ListShippingMethodsResponse.fromJson(response.data);
+        orderController.getShippingMethodsData!.value = ListShippingMethodsResponse.fromJson(response.data);
         print("getShippingMethods Successful ");
       } else {}
     } catch (e) {
@@ -50,8 +50,7 @@ class OrderApies {
       );
       if (response.statusCode == 200) {
         print(response.data);
-        orderController.getCountriesData!.value =
-            ListCountriesResponse.fromJson(response.data);
+        orderController.getCountriesData!.value = ListCountriesResponse.fromJson(response.data);
         print("getCountries Successful ");
       } else {}
     } catch (e) {
@@ -67,8 +66,7 @@ class OrderApies {
       );
       if (response.statusCode == 200) {
         print(response.data);
-        orderController.getPaymentMethodsData!.value =
-            ListPaymentMethodsResponse.fromJson(response.data);
+        orderController.getPaymentMethodsData!.value = ListPaymentMethodsResponse.fromJson(response.data);
         print("getPaymentMethods Successful ");
       } else {}
     } catch (e) {
@@ -90,8 +88,7 @@ class OrderApies {
   }) async {
     try {
       ProgressDialogUtils.show();
-      Response response =
-          await Settingss.settings.dio!.post(orderURL, queryParameters: {
+      Response response = await Settingss.settings.dio!.post(orderURL, queryParameters: {
         'parent_id': parent_id,
         'customer_id': customer_id,
         'currency': currency,
@@ -121,7 +118,7 @@ class OrderApies {
   final key = 'ck_54b7ebd52fd718be81cb1043637c84732aa1705c';
   final secret = 'cs_df50caa82b6d05266923b0f9a6e2aaa000960410';
 
-  Future<Order> createOrder2({
+   createOrder2({
     required String? customer_id,
     required String payment_method,
     required String payment_method_title,
@@ -136,70 +133,80 @@ class OrderApies {
     required String email,
     required String phone,
     required String total,
+    required bool setPaid,
     required List<Map<String, dynamic>> listProduct,
     required List<Map<String, dynamic>> listShipment,
+    required List<Map<String, dynamic>> listMetaData,
   }) async {
-    print('yehya$customer_id');
-    final url = Uri.parse(
-        'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret'
-        // 'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret',
-        );
-    final parameters = <String, dynamic>{
-      ...(customer_id != 'null' ? {'customer_id': customer_id} : {}),
-      'payment_method_title': payment_method_title,
-      'payment_method': payment_method,
-      "set_paid": false,
-      'billing': {
-        'first_name': firstName,
-        'last_name': lastName,
-        'address_1': addressOne,
-        'address_2': addressTwo,
-        'city': city,
-        'country': country,
-        'state': state,
-        'postcode': postcode,
-        'email': email,
-        'phone': phone,
-      },
-      'shipping': {
-        'first_name': firstName,
-        'last_name': lastName,
-        'address_1': addressOne,
-        'address_2': addressTwo,
-        'city': city,
-        'country': country,
-        'state': state,
-        'postcode': postcode,
-        'email': email,
-        'phone': phone,
-      },
-      'line_items': listProduct,
-      "shipping_lines": listShipment
-    };
-    ProgressDialogUtils.show();
+   try{
 
-    final request = await client.postUrl(url);
-    request.headers.set("Content-Type", "application/json; charset=utf-8");
-    request.write(jsonEncode(parameters));
-    final response = await request.close();
-    if (response.statusCode == 200) {
-      ProgressDialogUtils.hide();
-      Helper.getSheetSucsses('تم إرسال الطلب');
-    } else {
-      ProgressDialogUtils.hide();
-      Helper.getSheetError('حدث خطأ');
-    }
-    final jsonStrings = await response.transform(utf8.decoder).toList();
-    final jsonString = jsonStrings.join();
-    final json = jsonDecode(jsonString) as Map<String, dynamic>;
-    log(json.toString());
-    final order = Order.fromJson(json);
-    return order;
+     print('yehya$customer_id');
+     final url = 'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret';
+
+     final options = Options(headers: {"Content-Type": "application/json; charset=utf-8"});
+
+     final data = {
+       if (customer_id != 'null') 'customer_id': customer_id,
+       'payment_method_title': payment_method_title,
+       'payment_method': payment_method,
+       "set_paid": setPaid,
+       'billing': {
+         'first_name': firstName,
+         'last_name': lastName,
+         'address_1': addressOne,
+         'address_2': addressTwo,
+         'city': city,
+         'country': country,
+         'state': state,
+         'postcode': postcode,
+         'email': email,
+         'phone': phone,
+       },
+       'shipping': {
+         'first_name': firstName,
+         'last_name': lastName,
+         'address_1': addressOne,
+         'address_2': addressTwo,
+         'city': city,
+         'country': country,
+         'state': state,
+         'postcode': postcode,
+         'email': email,
+         'phone': phone,
+       },
+       'line_items': listProduct,
+       "shipping_lines": listShipment,
+       'meta_data': listMetaData,
+     };
+
+     ProgressDialogUtils.show();
+
+     final response = await Dio().post(url, options: options, data: data);
+
+     if (response.statusCode == 200) {
+       print('yehyaaaaaaaaaasfadsfsadfasdfasdfasdf'+ response.data.toString());
+       ProgressDialogUtils.hide();
+       SVProgressHUD.showSuccess(status: 'تم إنشاء الطلب بنجاح');
+
+     } else {
+       ProgressDialogUtils.hide();
+       SVProgressHUD.showError(status: 'حدث خطأ');
+     }
+
+   }on DioError catch(err){
+     ProgressDialogUtils.hide();
+     Helper.getSheetError(err.response!.data);
+     print(err.response);
+
+   } catch (err) {
+     ProgressDialogUtils.hide();
+     print(err);
+   }
+
   }
 
   getPaymentUrl({String? orderId, String? orderKey}) async {
     try {
-
       final token = SPHelper.spHelper.getToken();
       log(token!);
 
@@ -214,10 +221,34 @@ class OrderApies {
 
       if (response.statusCode! >= 200) {
         log('yehya4');
-        orderController.getPaymentHtmlPage!.value =PaymentResponse.fromJson(response.data);
+        orderController.getPaymentHtmlPage!.value = PaymentResponse.fromJson(response.data);
         // log(orderController.getPaymentHtmlPage!.value.htmlUrl!);
 
         SPHelper.spHelper.setPaymentHtml(response.data);
+      } else {
+        Helper.getSheetError('error');
+      }
+    } catch (e) {
+      Helper.getSheetError('error');
+      print(e.toString());
+    }
+  }
+
+  getRedBoxPlaces({String? lat, String? long, String? distance}) async {
+    try {
+      String token =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb25faWQiOiI2MTU5ZDdlNGNmNTczZTBkYzc2NzQzNWMiLCJrZXkiOiIyMDIzLTAzLTI0VDIwOjIwOjE2LjgwM1oiLCJpYXQiOjE2Nzk2ODkyMTZ9.KpIjND0ReqYnMx-pBypVWnzIs1DYViqVuuHN51yO0Tc';
+
+      orderController.getRedBoxData!.value = RedBoxResponse();
+
+      Response response = await Dio().get(
+        "https://app.redboxsa.com/api/business/v1/get-points?lat=$lat&lng=$long&distance=$distance",
+        options: Options(headers: {"Authorization": "Bearer ${token}"}),
+      );
+
+      if (response.statusCode! >= 200) {
+        orderController.getRedBoxData!.value = RedBoxResponse.fromJson(jsonDecode(response.data));
+        log(orderController.getRedBoxData!.value.points.toString());
       } else {
         Helper.getSheetError('error');
       }

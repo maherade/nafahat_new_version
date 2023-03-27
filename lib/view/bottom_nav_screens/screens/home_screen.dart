@@ -67,26 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      SPHelper.spHelper.getToken() != null
-          ? AuthApis.authApis.getCustomerInformation(
-              decryptToken(SPHelper.spHelper.getToken()))
-          : print('null Token');
-      CategoryApies.categoryApies.getCategoryData('0');
-      BrandApies.brandApies.getBrandData();
-      ProductApies.productApies.getFamousProductData(category: "27");
-      ProductApies.productApies
-          .getGiftPackageProductData(feature: true, pageNumber: '1');
-      ProductApies.productApies.getWholeSaleProductData(onSale: true);
-      ProductApies.productApies.getOffersProductData();
-      ProductApies.productApies.getLessThanPriceProductResponseData(
-          order: 'asc', orderBy: 'price', lessThan: '20', pageNumber: '1');
-      ProductApies.productApies.getAds();
-      ProductApies.productApies
-          .getCareProductData(category: '25', pageNumber: '1');
-      ProductApies.productApies.getRecentlyAddedProductData(pageNumber: '1');
-      ProductApies.productApies.getFamousBrandAds();
-    });
+
     super.initState();
   }
 
