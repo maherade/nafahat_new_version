@@ -33,6 +33,7 @@ import '../../show_all_gift_package/screen/show_all_gift_package_screen.dart';
 import '../../show_all_product_less_than_100/screen/show_all_product_less_than_100_screen.dart';
 import '../../who_us/who_us_screen.dart';
 import '../widget/brand_item.dart';
+import '../widget/on_done_cart_dialog.dart';
 import '../widget/perfume_product_item.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -58,8 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   String decryptToken(token) {
     final encodedPayload = token.split('.')[1];
-    final payloadData =
-        utf8.fuse(base64).decode(base64.normalize(encodedPayload));
+    final payloadData = utf8.fuse(base64).decode(base64.normalize(encodedPayload));
     print(payloadData);
     final payload = DecodeTokenResponse.fromJson(jsonDecode(payloadData));
     return payload.data!.user!.id!;
@@ -67,7 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-
     super.initState();
   }
 
@@ -98,9 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CustomText(
                             "اتصل بنا",
                             fontSize: 14.sp,
-                            color: popUpIsSelectedTextColor
-                                ? AppColors.primaryColor
-                                : AppColors.blackColor,
+                            color: popUpIsSelectedTextColor ? AppColors.primaryColor : AppColors.blackColor,
                           ),
                         ),
                         PopupMenuItem(
@@ -108,9 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CustomText(
                             "المقالات",
                             fontSize: 14.sp,
-                            color: popUpIsSelectedTextColor
-                                ? AppColors.primaryColor
-                                : AppColors.blackColor,
+                            color: popUpIsSelectedTextColor ? AppColors.primaryColor : AppColors.blackColor,
                           ),
                         ),
                         PopupMenuItem(
@@ -118,9 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CustomText(
                             "سياسة الخصوصية",
                             fontSize: 14.sp,
-                            color: popUpIsSelectedTextColor
-                                ? AppColors.primaryColor
-                                : AppColors.blackColor,
+                            color: popUpIsSelectedTextColor ? AppColors.primaryColor : AppColors.blackColor,
                           ),
                         ),
                         PopupMenuItem(
@@ -128,23 +121,25 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CustomText(
                             "من نحن",
                             fontSize: 14.sp,
-                            color: popUpIsSelectedTextColor
-                                ? AppColors.primaryColor
-                                : AppColors.blackColor,
+                            color: popUpIsSelectedTextColor ? AppColors.primaryColor : AppColors.blackColor,
                           ),
                         ),
                         PopupMenuItem(
                           value: 5,
                           child: CustomText(
-                            SPHelper.spHelper.getToken() != null
-                                ? "تسجيل الخروج"
-                                : 'تسجيل الدخول',
+                            SPHelper.spHelper.getToken() != null ? "تسجيل الخروج" : 'تسجيل الدخول',
                             fontSize: 14.sp,
-                            color: popUpIsSelectedTextColor
-                                ? AppColors.primaryColor
-                                : AppColors.blackColor,
+                            color: popUpIsSelectedTextColor ? AppColors.primaryColor : AppColors.blackColor,
                           ),
                         ),
+                        SPHelper.spHelper.getToken() != null? PopupMenuItem(
+                          value: 6,
+                          child: CustomText(
+                            'حذف الحساب',
+                            fontSize: 14.sp,
+                            color: Colors.red,
+                          ),
+                        ):PopupMenuItem(enabled: false,child: SizedBox(),)
                       ],
                       elevation: 0.0,
                     ).then((value) {
@@ -160,6 +155,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         } else if (value == 5) {
                           SPHelper.spHelper.removeToken();
                           Get.offAll(() => LoginScreen());
+                        }else if (value == 6) {
+                          OnDoneCartDialog.onDoneCartDialog.showDeleteAccountDialog();
                         }
                       }
                     });
@@ -207,73 +204,59 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           itemCount: ads?.length,
                           itemBuilder: (context, index) {
-                            return  GestureDetector(
-                              onTap: (){
-                                Get.to(()=>ShopByBrandScreen(
-                                  brandId: ads?[index].brand?[0].termId,
-                                  brandName: ads?[index].brand?[0].name,
-                                ),
+                            return GestureDetector(
+                              onTap: () {
+                                Get.to(
+                                  () => ShopByBrandScreen(
+                                    brandId: ads?[index].brand?[0].termId,
+                                    brandName: ads?[index].brand?[0].name,
+                                  ),
                                 );
                               },
-                                  child: Padding(
-                                      padding:
-                                          EdgeInsets.symmetric(horizontal: 20.w),
-                                      child: SizedBox(
-                                        height: 200.h,
-                                        child: ClipRRect(
-                                          // borderRadius: BorderRadius.circular(15),
-                                          child: FancyShimmerImage(
-                                            imageUrl: ads?[index].image ?? '',
-                                            width: double.infinity,
-                                            height: 50,
-                                            shimmerBaseColor: Color(
-                                                    (Random().nextDouble() *
-                                                            0xFFFFFF)
-                                                        .toInt())
-                                                .withOpacity(1.0),
-                                            shimmerHighlightColor: Color(
-                                                    (Random().nextDouble() *
-                                                            0xFFFFFF)
-                                                        .toInt())
-                                                .withOpacity(1.0),
-                                            shimmerBackColor: Color(
-                                                    (Random().nextDouble() *
-                                                            0xFFFFFF)
-                                                        .toInt())
-                                                .withOpacity(1.0),
-
-                                            errorWidget: SizedBox(),
-                                          ),
-                                        ),
-                                      ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                child: SizedBox(
+                                  height: 200.h,
+                                  child: ClipRRect(
+                                    // borderRadius: BorderRadius.circular(15),
+                                    child: FancyShimmerImage(
+                                      imageUrl: ads?[index].image ?? '',
+                                      width: double.infinity,
+                                      height: 50,
+                                      shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                      shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                      shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                      errorWidget: SizedBox(),
                                     ),
-                                );
+                                  ),
+                                ),
+                              ),
+                            );
                           },
                         ),
                       ),
                       SizedBox(
                         height: 24.h,
                       ),
-                     ads==null ? SizedBox(): Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: ads.asMap().entries.map((entry) {
-                          return Container(
-                            width: 12.w,
-                            height: 12.h,
-                            padding: EdgeInsets.symmetric(
-                                vertical: 6.h, horizontal: 6.w),
-                            margin: EdgeInsets.symmetric(horizontal: 2.w),
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: (Theme.of(context).brightness ==
-                                            Brightness.dark
-                                        ? Colors.white
-                                        : AppColors.primaryColor)
-                                    .withOpacity(
-                                        _current == entry.key ? 0.9 : 0.4)),
-                          );
-                        }).toList(),
-                      ),
+                      ads == null
+                          ? SizedBox()
+                          : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: ads.asMap().entries.map((entry) {
+                                return Container(
+                                  width: 12.w,
+                                  height: 12.h,
+                                  padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 6.w),
+                                  margin: EdgeInsets.symmetric(horizontal: 2.w),
+                                  decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: (Theme.of(context).brightness == Brightness.dark
+                                              ? Colors.white
+                                              : AppColors.primaryColor)
+                                          .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                                );
+                              }).toList(),
+                            ),
                     ],
                   );
                 },
@@ -283,8 +266,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Obx(
                 () {
-                  var brand =
-                      brandController.getBrandData!.value.listBrandResponse;
+                  var brand = brandController.getBrandData!.value.listBrandResponse;
                   return brand == null
                       ? const LoadingBrand()
                       : SizedBox(
@@ -328,8 +310,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Obx(
                     () {
-                      var category = categoryController
-                          .getCategoryData!.value.listCategoryResponse;
+                      var category = categoryController.getCategoryData!.value.listCategoryResponse;
                       return category == null
                           ? LoadingCategory()
                           : SizedBox(
@@ -337,18 +318,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
-                                itemCount:
-                                    category.length < 6 ? category.length : 6,
+                                itemCount: category.length < 6 ? category.length : 6,
                                 itemBuilder: (context, index) {
                                   return CategoryItem(
                                     index: index,
                                     imgUrl: category[index].image?.src ?? '',
                                     title: category[index].name,
                                     onTap: () {
-                                      productController
-                                              .getListSubCategoryProductData
-                                              ?.value =
-                                          ListSubCategoryProductResponse();
+                                      productController.getListSubCategoryProductData?.value = ListSubCategoryProductResponse();
                                       Get.to(() => ShopByCategoryScreen(
                                             categoryId: category[index].id,
                                             categoryName: category[index].name,
@@ -372,11 +349,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   return SizedBox(
                     height: 150.h,
                     child: GestureDetector(
-                      onTap: (){
-                        Get.to(()=>const ShopByCategoryScreen(
-                          categoryId: 183,
-                          categoryName: 'بكجات الهدايا',
-                        ),
+                      onTap: () {
+                        Get.to(
+                          () => const ShopByCategoryScreen(
+                            categoryId: 183,
+                            categoryName: 'بكجات الهدايا',
+                          ),
                         );
                       },
                       child: Padding(
@@ -389,18 +367,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: ads?[1].image ?? '',
                               width: double.infinity,
                               height: 50,
-                              shimmerBaseColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerHighlightColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerBackColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
+                              shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                               errorWidget: SizedBox(),
                             ),
                           ),
@@ -419,11 +388,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   return SizedBox(
                     height: 150.h,
                     child: GestureDetector(
-                      onTap: (){
-                        Get.to(()=>ShopByBrandScreen(
-                          brandId: ads?[2].brand?[0].termId,
-                          brandName: ads?[2].brand?[0].name,
-                        ),
+                      onTap: () {
+                        Get.to(
+                          () => ShopByBrandScreen(
+                            brandId: ads?[2].brand?[0].termId,
+                            brandName: ads?[2].brand?[0].name,
+                          ),
                         );
                       },
                       child: Padding(
@@ -436,18 +406,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: ads?[2].image ?? '',
                               width: double.infinity,
                               height: 50,
-                              shimmerBaseColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerHighlightColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerBackColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
+                              shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                               errorWidget: SizedBox(),
                             ),
                           ),
@@ -462,10 +423,8 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               Obx(
                 () {
-                  var category = categoryController
-                      .getCategoryData!.value.listCategoryResponse;
-                  var product =
-                      productController.getFamousProductData!.value.data;
+                  var category = categoryController.getCategoryData!.value.listCategoryResponse;
+                  var product = productController.getFamousProductData!.value.data;
                   var ads = productController.getAdsData?.value.listAdsResponse;
 
                   return Column(
@@ -497,17 +456,17 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       SizedBox(
                         height: 150.h,
-                        child:  GestureDetector(
-                          onTap: (){
-                            Get.to(()=>ShopByBrandScreen(
-                              brandId: ads?[2].brand?[0].termId,
-                              brandName: ads?[2].brand?[0].name,
-                            ),
+                        child: GestureDetector(
+                          onTap: () {
+                            Get.to(
+                              () => ShopByBrandScreen(
+                                brandId: ads?[2].brand?[0].termId,
+                                brandName: ads?[2].brand?[0].name,
+                              ),
                             );
                           },
                           child: Padding(
-                            padding:
-                            EdgeInsets.symmetric(horizontal: 20.w),
+                            padding: EdgeInsets.symmetric(horizontal: 20.w),
                             child: SizedBox(
                               height: 200.h,
                               child: ClipRRect(
@@ -516,21 +475,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                   imageUrl: ads?[3].image ?? '',
                                   width: double.infinity,
                                   height: 50,
-                                  shimmerBaseColor: Color(
-                                      (Random().nextDouble() *
-                                          0xFFFFFF)
-                                          .toInt())
-                                      .withOpacity(1.0),
-                                  shimmerHighlightColor: Color(
-                                      (Random().nextDouble() *
-                                          0xFFFFFF)
-                                          .toInt())
-                                      .withOpacity(1.0),
-                                  shimmerBackColor: Color(
-                                      (Random().nextDouble() *
-                                          0xFFFFFF)
-                                          .toInt())
-                                      .withOpacity(1.0),
+                                  shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                  shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                  shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                                   errorWidget: SizedBox(),
                                 ),
                               ),
@@ -548,8 +495,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
-                                itemCount:
-                                    category.length < 6 ? category.length : 6,
+                                itemCount: category.length < 6 ? category.length : 6,
                                 itemBuilder: (context, index) {
                                   return Row(
                                     children: [
@@ -561,14 +507,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       GestureDetector(
                                         onTap: () {
                                           setState(() => currentIndex = index);
-                                          setState(() => categoryName =
-                                              category[index].name!);
+                                          setState(() => categoryName = category[index].name!);
                                           ProductApies.productApies
-                                              .getFamousProductData(
-                                                  category: category[index]
-                                                      .id
-                                                      .toString(),
-                                                  onSale: true);
+                                              .getFamousProductData(category: category[index].id.toString(), onSale: true);
                                         },
                                         child: Container(
                                           alignment: Alignment.center,
@@ -576,21 +517,15 @@ class _HomeScreenState extends State<HomeScreen> {
                                           width: 80.h,
                                           padding: EdgeInsets.all(5.w),
                                           decoration: BoxDecoration(
-                                              color: currentIndex == index
-                                                  ? AppColors.primaryColor
-                                                  : AppColors.whiteColor,
-                                              borderRadius:
-                                                  BorderRadius.circular(5.r),
-                                              border: Border.all(
-                                                  color: AppColors.greyBorder)),
+                                              color: currentIndex == index ? AppColors.primaryColor : AppColors.whiteColor,
+                                              borderRadius: BorderRadius.circular(5.r),
+                                              border: Border.all(color: AppColors.greyBorder)),
                                           child: CustomText(
                                             category[index].name,
                                             fontSize: 15.sp,
                                             fontWeight: FontWeight.bold,
                                             textAlign: TextAlign.center,
-                                            color: currentIndex == index
-                                                ? AppColors.whiteColor
-                                                : AppColors.greenText,
+                                            color: currentIndex == index ? AppColors.whiteColor : AppColors.greenText,
                                           ),
                                         ),
                                       ),
@@ -640,49 +575,30 @@ class _HomeScreenState extends State<HomeScreen> {
                                     height: 430.h,
                                     child: ListView.separated(
                                       physics: const BouncingScrollPhysics(),
-                                      itemCount: product.length < 8
-                                          ? product.length
-                                          : 8,
+                                      itemCount: product.length < 8 ? product.length : 8,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (_, index) {
                                         return PerfumeProductItem(
-                                          imgUrl:
-                                              product[index].images?[0].src ??
-                                                  '',
-                                          brandName: product[index]
-                                                  .brands!
-                                                  .isNotEmpty
+                                          imgUrl: product[index].images?[0].src ?? '',
+                                          brandName: product[index].brands!.isNotEmpty
                                               ? product[index].brands != null
-                                                  ? product[index]
-                                                      .brands![0]
-                                                      .name
+                                                  ? product[index].brands![0].name
                                                   : ''
                                               : '',
-                                          perfumeName:
-                                              product[index].title ?? '',
-                                          perfumeRate: double.parse(
-                                              product[index].averageRating ??
-                                                  '0.0'),
-                                          rateCount: product[index]
-                                                  .ratingCount
-                                                  .toString() ??
-                                              '0',
-                                          priceBeforeDiscount:
-                                              product[index].regularPrice ?? '',
-                                          priceAfterDiscount:
-                                              product[index].salePrice ?? '',
+                                          perfumeName: product[index].title ?? '',
+                                          perfumeRate: double.parse(product[index].averageRating ?? '0.0'),
+                                          rateCount: product[index].ratingCount.toString() ?? '0',
+                                          priceBeforeDiscount: product[index].regularPrice ?? '',
+                                          priceAfterDiscount: product[index].salePrice ?? '',
                                           onTapBuy: () {
                                             print(product[index].id.toString());
                                             Get.to(() => PerfumeDetailsScreen(
-                                                  productId: product[index]
-                                                      .id
-                                                      .toString(),
+                                                  productId: product[index].id.toString(),
                                                 ));
                                           },
                                         );
                                       },
-                                      separatorBuilder:
-                                          (BuildContext context, int index) {
+                                      separatorBuilder: (BuildContext context, int index) {
                                         return SizedBox(
                                           width: 10.w,
                                         );
@@ -704,12 +620,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 140.h,
-                    child:GestureDetector(
-                      onTap: (){
-                        Get.to(()=>ShopByBrandScreen(
-                          brandId: ads?[0].brand?[0].termId,
-                          brandName: ads?[0].brand?[0].name,
-                        ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => ShopByBrandScreen(
+                            brandId: ads?[0].brand?[0].termId,
+                            brandName: ads?[0].brand?[0].name,
+                          ),
                         );
                       },
                       child: Padding(
@@ -722,18 +639,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: ads?[0].image ?? '',
                               width: double.infinity,
                               height: 50,
-                              shimmerBaseColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerHighlightColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerBackColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
+                              shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                               errorWidget: SizedBox(),
                             ),
                           ),
@@ -774,8 +682,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Obx(
                       () {
-                        var product = productController
-                            .getGiftPackageProductData!.value.data;
+                        var product = productController.getGiftPackageProductData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : product.isEmpty
@@ -785,13 +692,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   )
                                 : GridView.builder(
                                     padding: EdgeInsets.zero,
-                                    itemCount:
-                                        product.length < 2 ? product.length : 2,
+                                    itemCount: product.length < 2 ? product.length : 2,
                                     shrinkWrap: true,
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                                       childAspectRatio: 0.45.h,
                                       crossAxisCount: 2,
                                       crossAxisSpacing: 11.w,
@@ -799,32 +703,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     itemBuilder: (_, index) {
                                       return PerfumeProductItem(
-                                        imgUrl:
-                                            product[index].images?[0].src ?? '',
-                                        brandName: product[index]
-                                                .brands!
-                                                .isNotEmpty
+                                        imgUrl: product[index].images?[0].src ?? '',
+                                        brandName: product[index].brands!.isNotEmpty
                                             ? product[index].brands != null
                                                 ? product[index].brands![0].name
                                                 : ''
                                             : '',
                                         perfumeName: product[index].title ?? '',
-                                        perfumeRate: double.parse(
-                                            product[index].averageRating ??
-                                                '0.0'),
-                                        rateCount: product[index]
-                                                .ratingCount
-                                                .toString() ??
-                                            '0',
-                                        priceBeforeDiscount:
-                                            product[index].regularPrice ?? '',
-                                        priceAfterDiscount:
-                                            product[index].salePrice ?? '',
+                                        perfumeRate: double.parse(product[index].averageRating ?? '0.0'),
+                                        rateCount: product[index].ratingCount.toString() ?? '0',
+                                        priceBeforeDiscount: product[index].regularPrice ?? '',
+                                        priceAfterDiscount: product[index].salePrice ?? '',
                                         onTapBuy: () {
                                           Get.to(() => PerfumeDetailsScreen(
-                                                productId: product[index]
-                                                    .id
-                                                    .toString(),
+                                                productId: product[index].id.toString(),
                                               ));
                                         },
                                       );
@@ -857,8 +749,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Obx(
                     () {
-                      var famousBrandAds = productController
-                          .getFamousBrandAdsData?.value.listFamousBrandResponse;
+                      var famousBrandAds = productController.getFamousBrandAdsData?.value.listFamousBrandResponse;
                       return famousBrandAds == null
                           ? SizedBox(
                               height: 100.h,
@@ -873,50 +764,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: famousBrandAds
                                         .map(
                                           (e) => GestureDetector(
-                                            onTap: (){
+                                            onTap: () {
                                               print(e.brand?[0].name);
                                               print(e.brand?[0].termId);
-                                              Get.to(()=>ShopByBrandScreen(
-                                                brandName: e.brand?[0].name,
-                                                brandId: e.brand?[0].termId,
-                                              ));
+                                              Get.to(() => ShopByBrandScreen(
+                                                    brandName: e.brand?[0].name,
+                                                    brandId: e.brand?[0].termId,
+                                                  ));
                                             },
                                             child: Container(
                                                 height: 112.h,
-                                                width:
-                                                    famousBrandAds.indexOf(e) == 0
+                                                width: famousBrandAds.indexOf(e) == 0
+                                                    ? 156.w
+                                                    : famousBrandAds.indexOf(e) == 4
                                                         ? 156.w
-                                                        : famousBrandAds
-                                                                    .indexOf(e) ==
-                                                                4
-                                                            ? 156.w
-                                                            : 78.w,
-                                                clipBehavior:
-                                                    Clip.antiAliasWithSaveLayer,
+                                                        : 78.w,
+                                                clipBehavior: Clip.antiAliasWithSaveLayer,
                                                 decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(8.r),
+                                                  borderRadius: BorderRadius.circular(8.r),
                                                 ),
                                                 child: FancyShimmerImage(
                                                   imageUrl: e.image ?? '',
                                                   width: double.infinity,
                                                   boxFit: BoxFit.fill,
                                                   height: 50,
-                                                  shimmerBaseColor: Color(
-                                                          (Random().nextDouble() *
-                                                                  0xFFFFFF)
-                                                              .toInt())
-                                                      .withOpacity(1.0),
-                                                  shimmerHighlightColor: Color(
-                                                          (Random().nextDouble() *
-                                                                  0xFFFFFF)
-                                                              .toInt())
-                                                      .withOpacity(1.0),
-                                                  shimmerBackColor: Color(
-                                                          (Random().nextDouble() *
-                                                                  0xFFFFFF)
-                                                              .toInt())
-                                                      .withOpacity(1.0),
+                                                  shimmerBaseColor:
+                                                      Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                                  shimmerHighlightColor:
+                                                      Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                                                  shimmerBackColor:
+                                                      Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                                                   errorWidget: SizedBox(),
                                                 )),
                                           ),
@@ -961,52 +838,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Obx(
                       () {
-                        var product = productController
-                            .getCareProductDataData!.value.data;
+                        var product = productController.getCareProductDataData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : SizedBox(
                                 height: 430.h,
                                 child: ListView.separated(
                                   physics: const BouncingScrollPhysics(),
-                                  itemCount:
-                                      product.length < 8 ? product.length : 8,
+                                  itemCount: product.length < 8 ? product.length : 8,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (_, index) {
                                     return PerfumeProductItem(
-                                      imgUrl:
-                                          product[index].images?[0].src ?? '',
-                                      brandName:
-                                          product[index].brands!.isNotEmpty
-                                              ? product[index].brands != null
-                                                  ? product[index]
-                                                      .brands![0]
-                                                      .name
-                                                      .toString()
-                                                  : ''
-                                              : '',
+                                      imgUrl: product[index].images?[0].src ?? '',
+                                      brandName: product[index].brands!.isNotEmpty
+                                          ? product[index].brands != null
+                                              ? product[index].brands![0].name.toString()
+                                              : ''
+                                          : '',
                                       perfumeName: product[index].title ?? '',
-                                      perfumeRate: double.parse(
-                                          product[index].averageRating ??
-                                              '0.0'),
-                                      rateCount: product[index]
-                                              .ratingCount
-                                              .toString() ??
-                                          '0',
-                                      priceBeforeDiscount:
-                                          product[index].regularPrice ?? '',
-                                      priceAfterDiscount:
-                                          product[index].salePrice ?? '',
+                                      perfumeRate: double.parse(product[index].averageRating ?? '0.0'),
+                                      rateCount: product[index].ratingCount.toString() ?? '0',
+                                      priceBeforeDiscount: product[index].regularPrice ?? '',
+                                      priceAfterDiscount: product[index].salePrice ?? '',
                                       onTapBuy: () {
                                         Get.to(() => PerfumeDetailsScreen(
-                                              productId:
-                                                  product[index].id.toString(),
+                                              productId: product[index].id.toString(),
                                             ));
                                       },
                                     );
                                   },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
+                                  separatorBuilder: (BuildContext context, int index) {
                                     return SizedBox(
                                       width: 10.w,
                                     );
@@ -1028,11 +889,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   return SizedBox(
                     height: 150.h,
                     child: GestureDetector(
-                      onTap: (){
-                        Get.to(()=>const ShopByCategoryScreen(
-                          categoryId: 183,
-                          categoryName: 'بكجات الهدايا',
-                        ),
+                      onTap: () {
+                        Get.to(
+                          () => const ShopByCategoryScreen(
+                            categoryId: 183,
+                            categoryName: 'بكجات الهدايا',
+                          ),
                         );
                       },
                       child: Padding(
@@ -1045,18 +907,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: ads?[1].image ?? '',
                               width: double.infinity,
                               height: 50,
-                              shimmerBaseColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerHighlightColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerBackColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
+                              shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                               errorWidget: SizedBox(),
                             ),
                           ),
@@ -1101,55 +954,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Obx(
                       () {
-                        var product = productController
-                            .getListOffersProductResponseData!.value.data;
+                        var product = productController.getListOffersProductResponseData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : SizedBox(
                                 height: 430.h,
                                 child: ListView.separated(
                                   physics: const BouncingScrollPhysics(),
-                                  itemCount:
-                                      product.length < 8 ? product.length : 8,
+                                  itemCount: product.length < 8 ? product.length : 8,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (_, index) {
                                     return PerfumeProductItem(
-                                      imgUrl:
-                                          product[index + 7].images?[0].src ??
-                                              '',
-                                      brandName: product[index + 7]
-                                              .brands!
-                                              .isNotEmpty
+                                      imgUrl: product[index + 7].images?[0].src ?? '',
+                                      brandName: product[index + 7].brands!.isNotEmpty
                                           ? product[index + 7].brands != null
-                                              ? product[index + 7]
-                                                  .brands![0]
-                                                  .name
+                                              ? product[index + 7].brands![0].name
                                               : ''
                                           : '',
-                                      perfumeName:
-                                          product[index + 7].title ?? '',
-                                      perfumeRate: double.parse(
-                                          product[index + 7].averageRating ??
-                                              '0.0'),
-                                      rateCount: product[index + 7]
-                                              .ratingCount
-                                              .toString() ??
-                                          '0',
-                                      priceBeforeDiscount:
-                                          product[index + 7].regularPrice ?? '',
-                                      priceAfterDiscount:
-                                          product[index + 7].salePrice ?? '',
+                                      perfumeName: product[index + 7].title ?? '',
+                                      perfumeRate: double.parse(product[index + 7].averageRating ?? '0.0'),
+                                      rateCount: product[index + 7].ratingCount.toString() ?? '0',
+                                      priceBeforeDiscount: product[index + 7].regularPrice ?? '',
+                                      priceAfterDiscount: product[index + 7].salePrice ?? '',
                                       onTapBuy: () {
                                         Get.to(() => PerfumeDetailsScreen(
-                                              productId: product[index + 7]
-                                                  .id
-                                                  .toString(),
+                                              productId: product[index + 7].id.toString(),
                                             ));
                                       },
                                     );
                                   },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
+                                  separatorBuilder: (BuildContext context, int index) {
                                     return SizedBox(
                                       width: 10.w,
                                     );
@@ -1170,12 +1004,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   return SizedBox(
                     height: 180.h,
-                    child:GestureDetector(
-                      onTap: (){
-                        Get.to(()=>ShopByBrandScreen(
-                          brandId: ads?[2].brand?[0].termId,
-                          brandName: ads?[2].brand?[0].name,
-                        ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => ShopByBrandScreen(
+                            brandId: ads?[2].brand?[0].termId,
+                            brandName: ads?[2].brand?[0].name,
+                          ),
                         );
                       },
                       child: Padding(
@@ -1188,18 +1023,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: ads?[2].image ?? '',
                               width: double.infinity,
                               height: 50,
-                              shimmerBaseColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerHighlightColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerBackColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
+                              shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                               errorWidget: SizedBox(),
                             ),
                           ),
@@ -1217,12 +1043,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 180.h,
-                    child:  GestureDetector(
-                      onTap: (){
-                        Get.to(()=>ShopByBrandScreen(
-                          brandId: ads?[1].brand?[0].termId,
-                          brandName: ads?[1].brand?[0].name,
-                        ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => ShopByBrandScreen(
+                            brandId: ads?[1].brand?[0].termId,
+                            brandName: ads?[1].brand?[0].name,
+                          ),
                         );
                       },
                       child: Padding(
@@ -1235,18 +1062,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: ads?[3].image ?? '',
                               width: double.infinity,
                               height: 50,
-                              shimmerBaseColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerHighlightColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerBackColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
+                              shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                               errorWidget: SizedBox(),
                             ),
                           ),
@@ -1287,52 +1105,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Obx(
                       () {
-                        var product = productController
-                            .getListLessThanPriceProductResponseData!
-                            .value
-                            .data;
+                        var product = productController.getListLessThanPriceProductResponseData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : SizedBox(
                                 height: 430.h,
                                 child: ListView.separated(
                                   physics: const BouncingScrollPhysics(),
-                                  itemCount:
-                                      product.length < 8 ? product.length : 8,
+                                  itemCount: product.length < 8 ? product.length : 8,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (_, index) {
                                     return PerfumeProductItem(
-                                      imgUrl:
-                                          product[index].images?[0].src ?? '',
-                                      brandName: product[index]
-                                              .brands!
-                                              .isNotEmpty
+                                      imgUrl: product[index].images?[0].src ?? '',
+                                      brandName: product[index].brands!.isNotEmpty
                                           ? product[index].brands != null
                                               ? product[index].brands![0].name
                                               : ''
                                           : '',
                                       perfumeName: product[index].title ?? '',
-                                      perfumeRate: double.parse(
-                                          product[index].averageRating ??
-                                              '0.0'),
-                                      rateCount: product[index]
-                                              .ratingCount
-                                              .toString() ??
-                                          '0',
-                                      priceBeforeDiscount:
-                                          product[index].regularPrice ?? '',
-                                      priceAfterDiscount:
-                                          product[index].salePrice ?? '',
+                                      perfumeRate: double.parse(product[index].averageRating ?? '0.0'),
+                                      rateCount: product[index].ratingCount.toString() ?? '0',
+                                      priceBeforeDiscount: product[index].regularPrice ?? '',
+                                      priceAfterDiscount: product[index].salePrice ?? '',
                                       onTapBuy: () {
                                         Get.to(() => PerfumeDetailsScreen(
-                                              productId:
-                                                  product[index].id.toString(),
+                                              productId: product[index].id.toString(),
                                             ));
                                       },
                                     );
                                   },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
+                                  separatorBuilder: (BuildContext context, int index) {
                                     return SizedBox(
                                       width: 10.w,
                                     );
@@ -1352,12 +1154,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   var ads = productController.getAdsData?.value.listAdsResponse;
                   return SizedBox(
                     height: 160.h,
-                    child:  GestureDetector(
-                      onTap: (){
-                        Get.to(()=>ShopByBrandScreen(
-                          brandId: ads?[0].brand?[0].termId,
-                          brandName: ads?[0].brand?[0].name,
-                        ),
+                    child: GestureDetector(
+                      onTap: () {
+                        Get.to(
+                          () => ShopByBrandScreen(
+                            brandId: ads?[0].brand?[0].termId,
+                            brandName: ads?[0].brand?[0].name,
+                          ),
                         );
                       },
                       child: Padding(
@@ -1370,18 +1173,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               imageUrl: ads?[0].image ?? '',
                               width: double.infinity,
                               height: 50,
-                              shimmerBaseColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerHighlightColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
-                              shimmerBackColor: Color(
-                                  (Random().nextDouble() * 0xFFFFFF)
-                                      .toInt())
-                                  .withOpacity(1.0),
+                              shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
+                              shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
                               errorWidget: SizedBox(),
                             ),
                           ),
@@ -1413,50 +1207,36 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     Obx(
                       () {
-                        var product = productController
-                            .getRecentlyAddedProductDataData!.value.data;
+                        var product = productController.getRecentlyAddedProductDataData!.value.data;
                         return product == null
                             ? const LoadingProduct(2)
                             : SizedBox(
                                 height: 430.h,
                                 child: ListView.separated(
                                   physics: const BouncingScrollPhysics(),
-                                  itemCount:
-                                      product.length < 8 ? product.length : 8,
+                                  itemCount: product.length < 8 ? product.length : 8,
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (_, index) {
                                     return PerfumeProductItem(
-                                      imgUrl:
-                                          product[index].images?[0].src ?? '',
-                                      brandName: product[index]
-                                              .brands!
-                                              .isNotEmpty
+                                      imgUrl: product[index].images?[0].src ?? '',
+                                      brandName: product[index].brands!.isNotEmpty
                                           ? product[index].brands != null
                                               ? product[index].brands![0].name
                                               : ''
                                           : '',
                                       perfumeName: product[index].title ?? '',
-                                      perfumeRate: double.parse(
-                                          product[index].averageRating ??
-                                              '0.0'),
-                                      rateCount: product[index]
-                                              .ratingCount
-                                              .toString() ??
-                                          '0',
-                                      priceBeforeDiscount:
-                                          product[index].regularPrice ?? '',
-                                      priceAfterDiscount:
-                                          product[index].salePrice ?? '',
+                                      perfumeRate: double.parse(product[index].averageRating ?? '0.0'),
+                                      rateCount: product[index].ratingCount.toString() ?? '0',
+                                      priceBeforeDiscount: product[index].regularPrice ?? '',
+                                      priceAfterDiscount: product[index].salePrice ?? '',
                                       onTapBuy: () {
                                         Get.to(() => PerfumeDetailsScreen(
-                                              productId:
-                                                  product[index].id.toString(),
+                                              productId: product[index].id.toString(),
                                             ));
                                       },
                                     );
                                   },
-                                  separatorBuilder:
-                                      (BuildContext context, int index) {
+                                  separatorBuilder: (BuildContext context, int index) {
                                     return SizedBox(
                                       width: 10.w,
                                     );
