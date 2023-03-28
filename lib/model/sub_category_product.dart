@@ -9,7 +9,10 @@ class ListSubCategoryProductResponse {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        print(v['id']);
+        if(v['id']!='183'){
+          data!.add(new Data.fromJson(v));
+        }
       });
     }
     headers =

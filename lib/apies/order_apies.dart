@@ -74,51 +74,13 @@ class OrderApies {
     }
   }
 
-  createOrder({
-    String? parent_id,
-    String? payment_method,
-    String? currency,
-    String? customer_id,
-    String? payment_method_title,
-    String? set_paid,
-    Map<String, dynamic>? billing,
-    Map<String, dynamic>? shipping,
-    List<Map<String, dynamic>>? line_items,
-    List<Map<String, dynamic>>? shipping_lines,
-  }) async {
-    try {
-      ProgressDialogUtils.show();
-      Response response = await Settingss.settings.dio!.post(orderURL, queryParameters: {
-        'parent_id': parent_id,
-        'customer_id': customer_id,
-        'currency': currency,
-        'payment_method': payment_method,
-        'payment_method_title': payment_method_title,
-        'set_paid': set_paid,
-        'billing': billing,
-        'shipping': shipping,
-        'line_items': line_items,
-        'shipping_lines': shipping_lines,
-      });
-      if (response.statusCode == 201) {
-        ProgressDialogUtils.hide();
-        Helper.getSheetSucsses('تم إضافة الطلب بنجاح');
-      } else {
-        ProgressDialogUtils.hide();
-        Helper.getSheetError('يرجى التأكد من المعلومات المدخلة');
-      }
-    } catch (e) {
-      ProgressDialogUtils.hide();
-      Helper.getSheetError('يرجى التأكد من المعلومات المدخلة');
-      print(e.toString());
-    }
-  }
+
 
   final client = HttpClient();
   final key = 'ck_54b7ebd52fd718be81cb1043637c84732aa1705c';
   final secret = 'cs_df50caa82b6d05266923b0f9a6e2aaa000960410';
 
-   createOrder2({
+  Future<Order> createOrder2({
     required String? customer_id,
     required String payment_method,
     required String payment_method_title,
@@ -138,72 +100,79 @@ class OrderApies {
     required List<Map<String, dynamic>> listShipment,
     required List<Map<String, dynamic>> listMetaData,
   }) async {
-   try{
+    try{
 
-     print('yehya$customer_id');
-     final url = 'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret';
+      print('yehya$customer_id');
+      final url = 'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php?endpoint=orders&consumer_key=$key&consumer_secret=$secret';
 
-     final options = Options(headers: {"Content-Type": "application/json; charset=utf-8"});
+      final options = Options(headers: {"Content-Type": "application/json; charset=utf-8"});
 
-     final data = {
-       if (customer_id != 'null') 'customer_id': customer_id,
-       'payment_method_title': payment_method_title,
-       'payment_method': payment_method,
-       "set_paid": setPaid,
-       'billing': {
-         'first_name': firstName,
-         'last_name': lastName,
-         'address_1': addressOne,
-         'address_2': addressTwo,
-         'city': city,
-         'country': country,
-         'state': state,
-         'postcode': postcode,
-         'email': email,
-         'phone': phone,
-       },
-       'shipping': {
-         'first_name': firstName,
-         'last_name': lastName,
-         'address_1': addressOne,
-         'address_2': addressTwo,
-         'city': city,
-         'country': country,
-         'state': state,
-         'postcode': postcode,
-         'email': email,
-         'phone': phone,
-       },
-       'line_items': listProduct,
-       "shipping_lines": listShipment,
-       'meta_data': listMetaData,
-     };
+      final data = {
+        if (customer_id != 'null') 'customer_id': customer_id,
+        'payment_method_title': payment_method_title,
+        'payment_method': payment_method,
+        "set_paid": setPaid,
+        'billing': {
+          'first_name': firstName,
+          'last_name': lastName,
+          'address_1': addressOne,
+          'address_2': addressTwo,
+          'city': city,
+          'country': country,
+          'state': state,
+          'postcode': postcode,
+          'email': email,
+          'phone': phone,
+        },
+        'shipping': {
+          'first_name': firstName,
+          'last_name': lastName,
+          'address_1': addressOne,
+          'address_2': addressTwo,
+          'city': city,
+          'country': country,
+          'state': state,
+          'postcode': postcode,
+          'email': email,
+          'phone': phone,
+        },
+        'line_items': listProduct,
+        "shipping_lines": listShipment,
+        'meta_data': listMetaData,
+      };
 
-     ProgressDialogUtils.show();
+      ProgressDialogUtils.show();
 
-     final response = await Dio().post(url, options: options, data: data);
+      final response = await Dio().post(url, options: options, data: data);
 
-     if (response.statusCode == 200) {
-       print('yehyaaaaaaaaaasfadsfsadfasdfasdfasdf'+ response.data.toString());
-       ProgressDialogUtils.hide();
-       SVProgressHUD.showSuccess(status: 'تم إنشاء الطلب بنجاح');
+      if (response.statusCode == 200) {
+        print('createOrder2'+ response.data.toString());
+        ProgressDialogUtils.hide();
+        SVProgressHUD.showSuccess(status: 'تم إنشاء الطلب بنجاح');
 
-     } else {
-       ProgressDialogUtils.hide();
-       SVProgressHUD.showError(status: 'حدث خطأ');
-     }
+        return Order.fromJson(response.data);
 
-   }on DioError catch(err){
-     ProgressDialogUtils.hide();
-     Helper.getSheetError(err.response!.data);
-     print(err.response);
+      } else {
+        ProgressDialogUtils.hide();
+        SVProgressHUD.showError(status: 'حدث خطأ');
+        return Future.error('حدث خطأ');
 
-   } catch (err) {
-     ProgressDialogUtils.hide();
-     print(err);
-   }
+      }
 
+    }on DioError catch(err){
+      ProgressDialogUtils.hide();
+      Helper.getSheetError(err.response!.data);
+      print(err.response);
+      return Future.error(err);
+
+    } catch (err) {
+      ProgressDialogUtils.hide();
+      print(err);
+      return Future.error(err);
+
+    }
   }
+
 
   getPaymentUrl({String? orderId, String? orderKey}) async {
     try {
@@ -256,5 +225,73 @@ class OrderApies {
       Helper.getSheetError('error');
       print(e.toString());
     }
+  }
+
+  createRedBoxShippment({
+    required List<Map<String, dynamic>> items,
+    required String? reference,
+    required String point_id,
+    required String sender_name,
+    required String sender_email,
+    required String sender_phone,
+    required String sender_address,
+    required String customer_name,
+    required String customer_email,
+    required String customer_phone,
+    required String customer_address,
+    required String cod_currency,
+    required String cod_amount,
+    required String nameOfPackage,
+
+  }) async {
+    try{
+      String token =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb25faWQiOiI2MTU5ZDdlNGNmNTczZTBkYzc2NzQzNWMiLCJrZXkiOiIyMDIzLTAzLTI0VDIwOjIwOjE2LjgwM1oiLCJpYXQiOjE2Nzk2ODkyMTZ9.KpIjND0ReqYnMx-pBypVWnzIs1DYViqVuuHN51yO0Tc';
+
+      final data = {
+        'items': items,
+        "reference": reference,
+        "point_id":point_id,
+        "sender_name":sender_name,
+        'sender_email': sender_email,
+        'sender_phone': sender_phone,
+        'sender_address': sender_address,
+        'customer_name': customer_name,
+        'customer_email': customer_email,
+        'customer_phone': customer_phone,
+        'customer_address': customer_address,
+        'cod_currency': cod_currency,
+        'cod_amount': cod_amount,
+      };
+      // ProgressDialogUtils.show();
+
+      Response response = await Dio().post(
+        "https://app.redboxsa.com/api/business/v1/create-shipment",
+        queryParameters: {"nameOfPackage":nameOfPackage},
+        data: data,
+        options: Options(headers: {"Authorization": "Bearer ${token}","Content-Type":"application/json",},),
+      );
+
+
+
+      if (response.statusCode == 200) {
+        print('createRedBoxShippment'+ response.data.toString());
+        // ProgressDialogUtils.hide();
+
+      } else {
+        // ProgressDialogUtils.hide();
+        // SVProgressHUD.showError(status: 'حدث خطأ');
+      }
+
+    }on DioError catch(err){
+      // ProgressDialogUtils.hide();
+      // Helper.getSheetError(err.response!.data);
+      print(err.response);
+
+    } catch (err) {
+      // ProgressDialogUtils.hide();
+      print(err);
+    }
+
   }
 }

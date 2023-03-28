@@ -194,7 +194,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Obx(
                 () {
                   var ads = productController.getAdsData?.value.listAdsResponse;
-                  return Column(
+                  return ads != null ?Column(
                     children: [
                       SizedBox(
                         height: 180.h,
@@ -202,14 +202,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           onPageChanged: (index) {
                             setState(() => _current = index);
                           },
-                          itemCount: ads?.length,
+                          itemCount: ads.length <= 3 ? ads.length :3,
                           itemBuilder: (context, index) {
                             return GestureDetector(
                               onTap: () {
                                 Get.to(
-                                  () => ShopByBrandScreen(
-                                    brandId: ads?[index].brand?[0].termId,
-                                    brandName: ads?[index].brand?[0].name,
+                                      () => ShopByBrandScreen(
+                                    brandId: ads[index].brand?[0].termId,
+                                    brandName: ads[index].brand?[0].name,
                                   ),
                                 );
                               },
@@ -220,7 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   child: ClipRRect(
                                     // borderRadius: BorderRadius.circular(15),
                                     child: FancyShimmerImage(
-                                      imageUrl: ads?[index].image ?? '',
+                                      imageUrl: ads[index].image ?? '',
                                       width: double.infinity,
                                       height: 50,
                                       shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
@@ -238,27 +238,25 @@ class _HomeScreenState extends State<HomeScreen> {
                       SizedBox(
                         height: 24.h,
                       ),
-                      ads == null
-                          ? SizedBox()
-                          : Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: ads.asMap().entries.map((entry) {
-                                return Container(
-                                  width: 12.w,
-                                  height: 12.h,
-                                  padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 6.w),
-                                  margin: EdgeInsets.symmetric(horizontal: 2.w),
-                                  decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: (Theme.of(context).brightness == Brightness.dark
-                                              ? Colors.white
-                                              : AppColors.primaryColor)
-                                          .withOpacity(_current == entry.key ? 0.9 : 0.4)),
-                                );
-                              }).toList(),
-                            ),
+                       Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [0,1,2].asMap().entries.map((entry) {
+                          return Container(
+                            width: 12.w,
+                            height: 12.h,
+                            padding: EdgeInsets.symmetric(vertical: 6.h, horizontal: 6.w),
+                            margin: EdgeInsets.symmetric(horizontal: 2.w),
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: (Theme.of(context).brightness == Brightness.dark
+                                    ? Colors.white
+                                    : AppColors.primaryColor)
+                                    .withOpacity(_current == entry.key ? 0.9 : 0.4)),
+                          );
+                        }).toList(),
+                      ),
                     ],
-                  );
+                  ) :SizedBox(height: 150.h,);
                 },
               ),
               SizedBox(
@@ -318,14 +316,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: ListView.builder(
                                 physics: const BouncingScrollPhysics(),
                                 scrollDirection: Axis.horizontal,
-                                itemCount: category.length < 6 ? category.length : 6,
+                                itemCount: category.length < 7 ? category.length : 7,
                                 itemBuilder: (context, index) {
                                   return CategoryItem(
                                     index: index,
                                     imgUrl: category[index].image?.src ?? '',
                                     title: category[index].name,
                                     onTap: () {
-                                      productController.getListSubCategoryProductData?.value = ListSubCategoryProductResponse();
+                                      // productController.getListSubCategoryProductData?.value = ListSubCategoryProductResponse();
                                       Get.to(() => ShopByCategoryScreen(
                                             categoryId: category[index].id,
                                             categoryName: category[index].name,
@@ -636,7 +634,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads?[0].image ?? '',
+                              imageUrl: ads?[4].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
@@ -904,7 +902,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads?[1].image ?? '',
+                              imageUrl: ads?[5].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
@@ -1020,7 +1018,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads?[2].image ?? '',
+                              imageUrl: ads?[6].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
@@ -1059,7 +1057,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads?[3].image ?? '',
+                              imageUrl: ads?[7].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
@@ -1170,7 +1168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: ClipRRect(
                             // borderRadius: BorderRadius.circular(15),
                             child: FancyShimmerImage(
-                              imageUrl: ads?[0].image ?? '',
+                              imageUrl: ads?[8].image ?? '',
                               width: double.infinity,
                               height: 50,
                               shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),

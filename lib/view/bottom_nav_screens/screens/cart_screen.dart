@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:geideapay/api/response/order_api_response.dart';
 import 'package:geideapay/common/geidea.dart';
 import 'package:geideapay/models/address.dart';
@@ -71,8 +72,8 @@ class _CartScreenState extends State<CartScreen> {
   bool _checkoutInProgress = false;
   final plugin = GeideapayPlugin();
 
-  String geideaPublicKey = 'e4d809d6-6a55-4627-bcb9-6628fe4f6171';//nafahat
-  String geideaApiPassword = '6686ecfb-2db6-4b73-9ab2-9c9f6c776efc';//nafahat
+  String geideaPublicKey = 'e4d809d6-6a55-4627-bcb9-6628fe4f6171'; //nafahat
+  String geideaApiPassword = '6686ecfb-2db6-4b73-9ab2-9c9f6c776efc'; //nafahat
 
   // String geideaPublicKey = 'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70'; // egypt test
   // String geideaApiPassword = '0c9b36c1-3410-4b96-878a-dbd54ace4e9a'; // egypt test
@@ -86,7 +87,6 @@ class _CartScreenState extends State<CartScreen> {
 
   int? paymentGroupValue;
 
-  MyMarker? myMarker;
 
   @override
   void initState() {
@@ -107,7 +107,7 @@ class _CartScreenState extends State<CartScreen> {
     OrderApies.orderApies.getShippingMethods();
     OrderApies.orderApies.getCountries();
     OrderApies.orderApies.getPaymentMethods();
-    OrderApies.orderApies.getRedBoxPlaces(lat: '24.608318', long: '46.710571', distance: '5000');
+    OrderApies.orderApies.getRedBoxPlaces(lat: '24.608318', long: '46.710571', distance: '15000');
   }
 
   LatLng? latLng;
@@ -159,11 +159,11 @@ class _CartScreenState extends State<CartScreen> {
         Navigator.pop(context);
         resultCode.name == 'authorized'
             ? Timer(
-                Duration(seconds: 2),
-                () {
-                  createOrder();
-                },
-              )
+          Duration(seconds: 2),
+              () {
+            createOrder();
+          },
+        )
             : print('failedPayment');
       },
     );
@@ -174,7 +174,7 @@ class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
     return Obx(
-      () {
+          () {
         var shippingMethod = orderController.getShippingMethodsData!.value.listShippingMethodsResponse;
         var countries = orderController.getCountriesData!.value.listCountriesResponse;
         var payment = orderController.getPaymentMethodsData!.value.listPaymentMethodsResponse;
@@ -195,6 +195,19 @@ class _CartScreenState extends State<CartScreen> {
             list.add({
               'product_id': value.id,
               'quantity': value.quantity!.toInt(),
+            });
+          });
+          return list;
+        }
+        List<Map<String, dynamic>> getRedboxCartItem() {
+          List<Map<String, dynamic>> list = [];
+          cart.items.forEach((key, value) {
+            list.add({
+              'name': value.name,
+              'quantity': value.quantity!.toInt(),
+              'description': value.name,
+              'unitPrice': value.price?.toInt(),
+              'currency': 'SAR',
             });
           });
           return list;
@@ -230,26 +243,27 @@ class _CartScreenState extends State<CartScreen> {
                     SizedBox(
                       height: 24.h,
                     ),
+
                     currentStepperIndex == 0
                         ? const SizedBox()
                         : Row(
-                            children: [
-                              SizedBox(
-                                width: 15.w,
-                              ),
-                              CustomButton(
-                                title: 'السابق',
-                                color: Colors.grey,
-                                width: 70.w,
-                                height: 40.h,
-                                onTap: () {
-                                  setState(() {
-                                    currentStepperIndex -= 1;
-                                  });
-                                },
-                              ),
-                            ],
-                          ),
+                      children: [
+                        SizedBox(
+                          width: 15.w,
+                        ),
+                        CustomButton(
+                          title: 'السابق',
+                          color: Colors.grey,
+                          width: 70.w,
+                          height: 40.h,
+                          onTap: () {
+                            setState(() {
+                              currentStepperIndex -= 1;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                     SizedBox(
                       height: 24.h,
                     ),
@@ -310,34 +324,34 @@ class _CartScreenState extends State<CartScreen> {
                                     builder: (controller) {
                                       return controller.items.isEmpty
                                           ? CustomText(
-                                              'لم تقم بإضافة عناصر إلى السلة',
-                                              fontSize: 15.sp,
-                                            )
+                                        'لم تقم بإضافة عناصر إلى السلة',
+                                        fontSize: 15.sp,
+                                      )
                                           : ListView.builder(
-                                              padding: EdgeInsets.zero,
-                                              shrinkWrap: true,
-                                              physics: const NeverScrollableScrollPhysics(),
-                                              itemCount: cart.items.length,
-                                              itemBuilder: (context, index) {
-                                                return CustomCartProductItem(
-                                                  imgUrl: cart.items.values.toList()[index].imgurl,
-                                                  price: cart.items.values.toList()[index].price.toString(),
-                                                  quantity: cart.items.values.toList()[index].quantity.toString(),
-                                                  total: (cart.items.values.toList()[index].quantity! *
-                                                          cart.items.values.toList()[index].price!)
-                                                      .toString(),
-                                                  onTapTrash: () {
-                                                    cart.removeItem(cart.items.values.toList()[index].id!);
-                                                  },
-                                                  onTapIncrease: () {
-                                                    cart.addItem(pdtid: cart.items.values.toList()[index].id.toString());
-                                                  },
-                                                  onTapDecrease: () {
-                                                    cart.removeSingleItem(cart.items.values.toList()[index].id.toString());
-                                                  },
-                                                );
-                                              },
-                                            );
+                                        padding: EdgeInsets.zero,
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: cart.items.length,
+                                        itemBuilder: (context, index) {
+                                          return CustomCartProductItem(
+                                            imgUrl: cart.items.values.toList()[index].imgurl,
+                                            price: cart.items.values.toList()[index].price.toString(),
+                                            quantity: cart.items.values.toList()[index].quantity.toString(),
+                                            total: (cart.items.values.toList()[index].quantity! *
+                                                cart.items.values.toList()[index].price!)
+                                                .toStringAsFixed(2),
+                                            onTapTrash: () {
+                                              cart.removeItem(cart.items.values.toList()[index].id!);
+                                            },
+                                            onTapIncrease: () {
+                                              cart.addItem(pdtid: cart.items.values.toList()[index].id.toString());
+                                            },
+                                            onTapDecrease: () {
+                                              cart.removeSingleItem(cart.items.values.toList()[index].id.toString());
+                                            },
+                                          );
+                                        },
+                                      );
                                     },
                                   ),
                                 ],
@@ -348,955 +362,1013 @@ class _CartScreenState extends State<CartScreen> {
                             ),
                             currentStepperIndex == 0
                                 ? Container(
-                                    margin: EdgeInsets.symmetric(horizontal: 20.w),
-                                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8.r), border: Border.all(color: AppColors.greyBorder)),
+                              margin: EdgeInsets.symmetric(horizontal: 20.w),
+                              padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8.r), border: Border.all(color: AppColors.greyBorder)),
+                              child: Column(
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    padding: EdgeInsets.all(12.w),
+                                    decoration:
+                                    BoxDecoration(color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
                                     child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        Container(
-                                          width: double.infinity,
-                                          padding: EdgeInsets.all(12.w),
-                                          decoration:
-                                              BoxDecoration(color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              CustomText(
-                                                'المجموع الكلي',
-                                                fontSize: 16.sp,
-                                              ),
-                                              SizedBox(
-                                                height: 15.h,
-                                              ),
-                                              CustomText(
-                                                'انت تمتلك ${cart.items.length} منتجات بالسلة',
-                                                fontSize: 14.sp,
-                                                color: AppColors.hintGrey,
-                                              ),
-                                            ],
-                                          ),
+                                        CustomText(
+                                          'المجموع الكلي',
+                                          fontSize: 16.sp,
                                         ),
                                         SizedBox(
-                                          height: 25.h,
+                                          height: 15.h,
                                         ),
-                                        CustomButton(
-                                          onTap: () {
-                                            if (cart.items.isNotEmpty) {
-                                              setState(() => currentStepperIndex = 1);
-                                            } else {
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                const SnackBar(
-                                                  content: Text('يرجى إدخال منتجات إلى السلة للمتابعة'),
-                                                ),
-                                              );
-                                            }
-                                          },
-                                          height: 40.h,
-                                          widget: Row(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              CustomText(
-                                                'تأكيد',
-                                                fontWeight: FontWeight.normal,
-                                                color: AppColors.whiteColor,
-                                                fontSize: 16.sp,
-                                              ),
-                                              SizedBox(
-                                                width: 14.w,
-                                              ),
-                                              const Icon(
-                                                Icons.arrow_forward,
-                                                color: AppColors.whiteColor,
-                                              )
-                                            ],
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 16.h,
-                                        ),
-                                        CustomButton(
-                                          onTap: () {
-                                            appController.setIndexScreen(0);
-                                          },
-                                          height: 40.h,
-                                          title: 'استمرار عملية الشراء',
-                                          titleColor: AppColors.hintGrey,
-                                          color: AppColors.whiteColor,
-                                          borderColor: AppColors.hintGrey,
+                                        CustomText(
+                                          'انت تمتلك ${cart.items.length} منتجات بالسلة',
+                                          fontSize: 14.sp,
+                                          color: AppColors.hintGrey,
                                         ),
                                       ],
                                     ),
-                                  )
+                                  ),
+                                  SizedBox(
+                                    height: 25.h,
+                                  ),
+                                  CustomButton(
+                                    onTap: () {
+                                      if (cart.items.isNotEmpty) {
+                                        setState(() => currentStepperIndex = 1);
+                                      } else {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          const SnackBar(
+                                            content: Text('يرجى إدخال منتجات إلى السلة للمتابعة'),
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    height: 40.h,
+                                    widget: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          'تأكيد',
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.whiteColor,
+                                          fontSize: 16.sp,
+                                        ),
+                                        SizedBox(
+                                          width: 14.w,
+                                        ),
+                                        const Icon(
+                                          Icons.arrow_forward,
+                                          color: AppColors.whiteColor,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 16.h,
+                                  ),
+                                  CustomButton(
+                                    onTap: () {
+                                      appController.setIndexScreen(0);
+                                    },
+                                    height: 40.h,
+                                    title: 'استمرار عملية الشراء',
+                                    titleColor: AppColors.hintGrey,
+                                    color: AppColors.whiteColor,
+                                    borderColor: AppColors.hintGrey,
+                                  ),
+                                ],
+                              ),
+                            )
                                 : currentStepperIndex == 1
-                                    ? Column(
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8.r),
-                                                border: Border.all(color: AppColors.greyBorder)),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(12.w),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
-                                                  child: CustomText(
-                                                    'عنوان التسليم',
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 17.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: firstNameController,
-                                                  hintText: 'الإسم الأول',
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: lastNameController,
-                                                  hintText: 'الإسم الأخير',
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: emailController,
-                                                  hintText: 'البريد الإلكتروني',
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: phoneController,
-                                                  hintText: 'رقم الهاتف',
-                                                  inputType: TextInputType.phone,
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: address1Controller,
-                                                  hintText: 'عنوان ١',
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: address2Controller,
-                                                  hintText: 'عنوان ٢',
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: postcodeController,
-                                                  hintText: 'الرمز البريدي',
-                                                  inputType: TextInputType.number,
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                Padding(
-                                                  padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-                                                  child: Row(
-                                                    children: [
-                                                      CustomText(
-                                                        'اختر الدولة',
-                                                        fontSize: 12.sp,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                      const Spacer(),
-                                                      countries != null
-                                                          ? DropdownButton<CountriesResponse>(
-                                                              focusColor: Colors.white,
-                                                              value: selectedCountries,
-                                                              style: const TextStyle(color: Colors.white),
-                                                              iconEnabledColor: Colors.black,
-                                                              items: countries.map((value) {
-                                                                return DropdownMenuItem<CountriesResponse>(
-                                                                  value: value,
-                                                                  child: CustomText(
-                                                                    value.name,
-                                                                    fontSize: 9.sp,
-                                                                  ),
-                                                                );
-                                                              }).toList(),
-                                                              hint: CustomText(
-                                                                "اختر الدولة",
-                                                                fontSize: 10.sp,
-                                                              ),
-                                                              onChanged: (CountriesResponse? value) {
-                                                                setState(() {
-                                                                  selectedCountries = value;
-                                                                  selectedCountriesName = value?.name;
-                                                                  selectedCountriesCod = value?.code;
-                                                                });
-                                                                print(selectedCountriesName);
-                                                                print(selectedCountriesCod);
-                                                              },
-                                                            )
-                                                          : const SizedBox(),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 10.h,
-                                                ),
-                                                CustomTextFormField(
-                                                  controller: cityController,
-                                                  hintText: 'المدينة',
-                                                ),
-                                              ],
+                                ? Column(
+                              children: [
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20.w),
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: AppColors.greyBorder)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(12.w),
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                                        child: CustomText(
+                                          'عنوان التسليم',
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 17.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: firstNameController,
+                                        hintText: 'الإسم الأول',
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: lastNameController,
+                                        hintText: 'الإسم الأخير',
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: emailController,
+                                        hintText: 'البريد الإلكتروني',
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: phoneController,
+                                        hintText: 'رقم الهاتف',
+                                        inputType: TextInputType.phone,
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: address1Controller,
+                                        hintText: 'عنوان ١',
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: address2Controller,
+                                        hintText: 'عنوان ٢',
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: postcodeController,
+                                        hintText: 'الرمز البريدي',
+                                        inputType: TextInputType.number,
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+                                        child: Row(
+                                          children: [
+                                            CustomText(
+                                              'اختر الدولة',
+                                              fontSize: 12.sp,
+                                              fontWeight: FontWeight.bold,
                                             ),
-                                          ),
-                                          SizedBox(
-                                            height: 30.h,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8.r),
-                                                border: Border.all(color: AppColors.greyBorder)),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(12.w),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                                            const Spacer(),
+                                            countries != null
+                                                ? DropdownButton<CountriesResponse>(
+                                              focusColor: Colors.white,
+                                              value: selectedCountries,
+                                              style: const TextStyle(color: Colors.white),
+                                              iconEnabledColor: Colors.black,
+                                              items: countries.map((value) {
+                                                return DropdownMenuItem<CountriesResponse>(
+                                                  value: value,
                                                   child: CustomText(
-                                                    'طريقة التوصيل',
-                                                    fontSize: 16.sp,
+                                                    value.name,
+                                                    fontSize: 9.sp,
                                                   ),
-                                                ),
-                                                SizedBox(
-                                                  height: 17.h,
-                                                ),
-                                                shippingMethod == null
-                                                    ? const SizedBox()
-                                                    : GetBuilder<CartController>(
-                                                        init: CartController(),
-                                                        builder: (controller) {
-                                                          return ListView.builder(
-                                                            shrinkWrap: true,
-                                                            physics: const NeverScrollableScrollPhysics(),
-                                                            itemCount: shippingMethod.length,
-                                                            itemBuilder: (context, index) {
-                                                              if (shippingMethod[index].id == 'naqel_shipping' ||
-                                                                  shippingMethod[index].id == 'redbox_pickup_delivery' ||
-                                                                  shippingMethod[index].id == 'free_shipping' &&
-                                                                      totalPrice() >= 300) {
-                                                                return Column(
+                                                );
+                                              }).toList(),
+                                              hint: CustomText(
+                                                "اختر الدولة",
+                                                fontSize: 10.sp,
+                                              ),
+                                              onChanged: (CountriesResponse? value) {
+                                                setState(() {
+                                                  selectedCountries = value;
+                                                  selectedCountriesName = value?.name;
+                                                  selectedCountriesCod = value?.code;
+                                                });
+                                                print(selectedCountriesName);
+                                                print(selectedCountriesCod);
+                                              },
+                                            )
+                                                : const SizedBox(),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 10.h,
+                                      ),
+                                      CustomTextFormField(
+                                        controller: cityController,
+                                        hintText: 'المدينة',
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20.w),
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: AppColors.greyBorder)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(12.w),
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                                        child: CustomText(
+                                          'طريقة التوصيل',
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 17.h,
+                                      ),
+                                      shippingMethod == null
+                                          ? const SizedBox()
+                                          : GetBuilder<CartController>(
+                                        init: CartController(),
+                                        builder: (controller) {
+                                          return ListView.builder(
+                                            shrinkWrap: true,
+                                            physics: const NeverScrollableScrollPhysics(),
+                                            itemCount: shippingMethod.length,
+                                            itemBuilder: (context, index) {
+                                              if (shippingMethod[index].id == 'naqel_shipping' ||
+                                                  shippingMethod[index].id == 'redbox_pickup_delivery' ||
+                                                  shippingMethod[index].id == 'free_shipping' &&
+                                                      totalPrice() >= 300) {
+                                                return Column(
+                                                  children: [
+                                                    Row(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      mainAxisAlignment: MainAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Radio(
+                                                          activeColor: Theme
+                                                              .of(context)
+                                                              .primaryColor,
+                                                          value: index,
+                                                          groupValue: shippingGroupValue,
+                                                          onChanged: (value) async {
+                                                            print(index);
+                                                            setState(() {
+                                                              shippingGroupValue = index;
+                                                              selectedAddress = shippingMethod[index].id;
+                                                              selectedAddressName = shippingMethod[index].title;
+
+                                                              print(selectedAddress);
+                                                              print(selectedAddressName);
+                                                            });
+
+                                                            if (selectedAddress == 'redbox_pickup_delivery') {
+                                                              appController.updateMyMarker(null);
+                                                              Get.to(RedBoxLocationsInMapScreen(
+                                                                listPoints: redBox!,
+                                                              ));
+                                                            }
+                                                          },
+                                                        ),
+                                                        Expanded(
+                                                          child: Container(
+                                                            padding: EdgeInsets.all(18.w),
+                                                            decoration: BoxDecoration(
+                                                              borderRadius: BorderRadius.circular(8.0),
+                                                              border:
+                                                              Border.all(width: 1.0, color: AppColors.greyBorder),
+                                                            ),
+                                                            child: Column(
+                                                              children: [
+                                                                CustomText(
+                                                                  shippingMethod[index].title!,
+                                                                  fontSize: 14.sp,
+                                                                  fontWeight: FontWeight.normal,
+                                                                ),
+                                                                shippingGroupValue == index &&
+                                                                    selectedAddress == 'redbox_pickup_delivery' &&
+                                                                    appController.myMarker != null
+                                                                    ? Column(
                                                                   children: [
+                                                                    SizedBox(
+                                                                      height: 5,
+                                                                    ),
+                                                                    Divider(),
                                                                     Row(
-                                                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                                                      mainAxisAlignment: MainAxisAlignment.start,
-                                                                      children: <Widget>[
-                                                                        Radio(
-                                                                          activeColor: Theme.of(context).primaryColor,
-                                                                          value: index,
-                                                                          groupValue: shippingGroupValue,
-                                                                          onChanged: (value) async {
-                                                                            print(index);
-                                                                            setState(() {
-                                                                              shippingGroupValue = index;
-                                                                              selectedAddress = shippingMethod[index].id;
-                                                                              selectedAddressName = shippingMethod[index].title;
-
-                                                                              print(selectedAddress);
-                                                                              print(selectedAddressName);
-                                                                            });
-
-                                                                            if (selectedAddress == 'redbox_pickup_delivery') {
-                                                                              appController.updateMyMarker(null);
-                                                                              Get.to(RedBoxLocationsInMapScreen(
-                                                                                listPoints: redBox!,
-                                                                              ));
-                                                                            }
-                                                                          },
+                                                                      children: [
+                                                                        Flexible(
+                                                                          child: CustomText(
+                                                                            appController.myMarker?.point
+                                                                                ?.address?.street ??
+                                                                                '',
+                                                                            fontSize: 13.sp,
+                                                                          ),
                                                                         ),
-                                                                        Expanded(
+                                                                        SizedBox(
+                                                                          width: 10.w,
+                                                                        ),
+                                                                        GestureDetector(
+                                                                          onTap: () {
+                                                                            appController.updateMyMarker(null);
+                                                                            Get.to(RedBoxLocationsInMapScreen(
+                                                                              listPoints: redBox!,
+                                                                            ));
+                                                                          },
                                                                           child: Container(
-                                                                            padding: EdgeInsets.all(18.w),
+                                                                            padding: EdgeInsets.all(6.w),
                                                                             decoration: BoxDecoration(
-                                                                              borderRadius: BorderRadius.circular(8.0),
-                                                                              border:
-                                                                                  Border.all(width: 1.0, color: AppColors.greyBorder),
-                                                                            ),
-                                                                            child: Column(
-                                                                              children: [
-                                                                                CustomText(
-                                                                                  shippingMethod[index].title!,
-                                                                                  fontSize: 14.sp,
-                                                                                  fontWeight: FontWeight.normal,
-                                                                                ),
-                                                                                shippingGroupValue == index &&
-                                                                                        selectedAddress == 'redbox_pickup_delivery' &&
-                                                                                        appController.myMarker != null
-                                                                                    ? Column(
-                                                                                        children: [
-                                                                                          SizedBox(
-                                                                                            height: 5,
-                                                                                          ),
-                                                                                          Divider(),
-                                                                                          Row(
-                                                                                            children: [
-                                                                                              Flexible(
-                                                                                                child: CustomText(
-                                                                                                  appController.myMarker?.point
-                                                                                                          ?.address?.street ??
-                                                                                                      '',
-                                                                                                  fontSize: 13.sp,
-                                                                                                ),
-                                                                                              ),
-                                                                                              SizedBox(
-                                                                                                width: 10.w,
-                                                                                              ),
-                                                                                              GestureDetector(
-                                                                                                onTap: () {
-                                                                                                  appController.updateMyMarker(null);
-                                                                                                  Get.to(RedBoxLocationsInMapScreen(
-                                                                                                    listPoints: redBox!,
-                                                                                                  ));
-                                                                                                },
-                                                                                                child: Container(
-                                                                                                  padding: EdgeInsets.all(6.w),
-                                                                                                  decoration: BoxDecoration(
-                                                                                                      color: AppColors.primaryColor,
-                                                                                                      borderRadius:
-                                                                                                          BorderRadius.circular(5.r)),
-                                                                                                  child: CustomText(
-                                                                                                    'تعديل العنوان',
-                                                                                                    fontSize: 11.sp,
-                                                                                                    color: Colors.white,
-                                                                                                  ),
-                                                                                                ),
-                                                                                              ),
-                                                                                            ],
-                                                                                          ),
-                                                                                        ],
-                                                                                      )
-                                                                                    : SizedBox(),
-                                                                              ],
+                                                                                color: AppColors.primaryColor,
+                                                                                borderRadius:
+                                                                                BorderRadius.circular(5.r)),
+                                                                            child: CustomText(
+                                                                              'تعديل العنوان',
+                                                                              fontSize: 11.sp,
+                                                                              color: Colors.white,
                                                                             ),
                                                                           ),
                                                                         ),
                                                                       ],
                                                                     ),
-                                                                    SizedBox(
-                                                                      height: 25.h,
-                                                                    ),
                                                                   ],
-                                                                );
-                                                              } else {
-                                                                return SizedBox();
-                                                              }
-                                                            },
-                                                          );
-                                                        },
-                                                      )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 30.h,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
-                                            decoration: BoxDecoration(
-                                                borderRadius: BorderRadius.circular(8.r),
-                                                border: Border.all(color: AppColors.greyBorder)),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(12.w),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
-                                                  child: CustomText(
-                                                    'طريقة الدفع',
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 17.h,
-                                                ),
-                                                payment == null
-                                                    ? const SizedBox()
-                                                    : ListView.builder(
-                                                        shrinkWrap: true,
-                                                        physics: const NeverScrollableScrollPhysics(),
-                                                        itemCount: payment.length,
-                                                        itemBuilder: (context, index) {
-                                                          if (payment[index].id == 'cod' ||
-                                                              payment[index].id == 'geidea' ||
-                                                              payment[index].id == 'tabby_credit_card_installments') {
-                                                            return Column(
-                                                              children: [
-                                                                Row(
-                                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                                  children: <Widget>[
-                                                                    Radio(
-                                                                        activeColor: Theme.of(context).primaryColor,
-                                                                        value: index,
-                                                                        groupValue: paymentGroupValue,
-                                                                        onChanged: (value) {
-                                                                          setState(() {
-                                                                            paymentGroupValue = value;
-                                                                            selectedPaymentMethods = payment[index].id;
-                                                                            selectedPaymentMethodsTitle = payment[index].title;
-                                                                            print(selectedPaymentMethods);
-                                                                            print(selectedPaymentMethodsTitle);
-                                                                          });
-                                                                        }),
-                                                                    Expanded(
-                                                                      child: Container(
-                                                                        padding: EdgeInsets.all(18.w),
-                                                                        decoration: BoxDecoration(
-                                                                          borderRadius: BorderRadius.circular(8.0),
-                                                                          border: Border.all(width: 1.0, color: AppColors.greyBorder),
-                                                                        ),
-                                                                        child: CustomText(
-                                                                          payment[index].title!,
-                                                                          fontSize: 14.sp,
-                                                                          fontWeight: FontWeight.normal,
-                                                                        ),
-                                                                      ),
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 25.h,
-                                                                ),
+                                                                )
+                                                                    : SizedBox(),
                                                               ],
-                                                            );
-                                                          } else {
-                                                            return SizedBox();
-                                                          }
-                                                        },
-                                                      )
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 32.h,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 19.0.w),
-                                            child: CustomButton(
-                                              onTap: () {
-                                                if (selectedCountriesName != null &&
-                                                    cart.items.isNotEmpty &&
-                                                    address1Controller.text.isNotEmpty &&
-                                                    address2Controller.text.isNotEmpty &&
-                                                    cityController.text.isNotEmpty &&
-                                                    emailController.text.isNotEmpty &&
-                                                    phoneController.text.isNotEmpty &&
-                                                    firstNameController.text.isNotEmpty &&
-                                                    lastNameController.text.isNotEmpty &&
-                                                    postcodeController.text.isNotEmpty &&
-                                                    selectedPaymentMethods != null &&
-                                                    selectedPaymentMethodsTitle != null &&
-                                                    selectedCountriesCod != null &&
-                                                    selectedAddress != null &&
-                                                    selectedAddressName != null &&
-                                                    emailRegex.hasMatch(emailController.text)) {
-                                                  setState(() => currentStepperIndex = 2);
-                                                } else {
-                                                  if (!emailRegex.hasMatch(emailController.text)) {
-                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                      const SnackBar(
-                                                        content: Text('البريد الالكتروني غير صالح'),
-                                                      ),
-                                                    );
-                                                  } else {
-                                                    ScaffoldMessenger.of(context).showSnackBar(
-                                                      const SnackBar(
-                                                        content: Text('يرجى إدخال كافة المعلومات'),
-                                                      ),
-                                                    );
-                                                  }
-                                                }
-                                              },
-                                              height: 40.h,
-                                              widget: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomText(
-                                                    'دفع ${totalPrice()} ر.س',
-                                                    fontWeight: FontWeight.normal,
-                                                    color: AppColors.whiteColor,
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 14.w,
-                                                  ),
-                                                  const Icon(
-                                                    Icons.arrow_forward,
-                                                    color: AppColors.whiteColor,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 29.h,
-                                          ),
-                                        ],
-                                      )
-                                    : Column(
-                                        children: [
-                                          SizedBox(
-                                            height: 25.h,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                            child: Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    CustomText(
-                                                      'المنتجات',
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 14.sp,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 22.w,
-                                                    ),
-                                                    CustomText(
-                                                      cart.items.length.toString(),
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 12.sp,
-                                                      color: AppColors.primaryColor,
-                                                    ),
-                                                  ],
-                                                ),
-                                                Row(
-                                                  children: [
-                                                    CustomText(
-                                                      'القيمة النهائية',
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 14.sp,
-                                                    ),
-                                                    SizedBox(
-                                                      width: 22.w,
-                                                    ),
-                                                    CustomText(
-                                                      totalPrice().toString(),
-                                                      fontWeight: FontWeight.normal,
-                                                      fontSize: 12.sp,
-                                                      color: AppColors.primaryColor,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 23.h,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
-                                            decoration: BoxDecoration(
-                                                color: AppColors.whiteColor,
-                                                borderRadius: BorderRadius.circular(8.r),
-                                                border: Border.all(color: AppColors.greyBorder)),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(12.w),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      CustomText(
-                                                        'عنوان التسليم',
-                                                        fontSize: 16.sp,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 29.h,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    CustomText(
-                                                      'عنوان التسليم',
-                                                      fontSize: 14.sp,
-                                                      color: const Color(0xff6C6C6C),
-                                                      fontWeight: FontWeight.normal,
-                                                    ),
-                                                    CustomText(
-                                                      selectedCountriesName,
-                                                      fontSize: 14.sp,
-                                                      fontWeight: FontWeight.normal,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 24.h,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
-                                            decoration: BoxDecoration(
-                                                color: AppColors.whiteColor,
-                                                borderRadius: BorderRadius.circular(8.r),
-                                                border: Border.all(color: AppColors.greyBorder)),
-                                            child: Column(
-                                              children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(12.w),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      CustomText(
-                                                        'طريقة الدفع',
-                                                        fontSize: 16.sp,
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(
-                                                  height: 29.h,
-                                                ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    CustomText(
-                                                      'طريقة الدفع',
-                                                      fontSize: 14.sp,
-                                                      color: const Color(0xff6C6C6C),
-                                                      fontWeight: FontWeight.normal,
-                                                    ),
-                                                    Column(
-                                                      crossAxisAlignment: CrossAxisAlignment.end,
-                                                      children: [
-                                                        CustomText(
-                                                          selectedPaymentMethodsTitle,
-                                                          fontSize: 14.sp,
-                                                          fontWeight: FontWeight.normal,
+                                                            ),
+                                                          ),
                                                         ),
                                                       ],
                                                     ),
+                                                    SizedBox(
+                                                      height: 25.h,
+                                                    ),
                                                   ],
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 24.h,
-                                          ),
-                                          Container(
-                                            margin: EdgeInsets.symmetric(horizontal: 20.w),
-                                            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
-                                            decoration: BoxDecoration(
-                                                color: AppColors.whiteColor,
-                                                borderRadius: BorderRadius.circular(8.r),
-                                                border: Border.all(color: AppColors.greyBorder)),
-                                            child: Column(
+                                                );
+                                              } else {
+                                                return SizedBox();
+                                              }
+                                            },
+                                          );
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30.h,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20.w),
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: AppColors.greyBorder)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(12.w),
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                                        child: CustomText(
+                                          'طريقة الدفع',
+                                          fontSize: 16.sp,
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 17.h,
+                                      ),
+                                      payment == null
+                                          ? const SizedBox()
+                                          : ListView.builder(
+                                        shrinkWrap: true,
+                                        physics: const NeverScrollableScrollPhysics(),
+                                        itemCount: payment.length,
+                                        itemBuilder: (context, index) {
+                                          if (payment[index].id == 'cod' ||
+                                              payment[index].id == 'geidea' ||
+                                              payment[index].id == 'tabby_credit_card_installments') {
+                                            return Column(
                                               children: [
-                                                Container(
-                                                  width: double.infinity,
-                                                  padding: EdgeInsets.all(12.w),
-                                                  decoration: BoxDecoration(
-                                                      color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: [
-                                                      CustomText(
-                                                        'طريقة  التوصيل',
-                                                        fontSize: 16.sp,
+                                                Row(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  mainAxisAlignment: MainAxisAlignment.start,
+                                                  children: <Widget>[
+                                                    Radio(
+                                                        activeColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        value: index,
+                                                        groupValue: paymentGroupValue,
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            paymentGroupValue = value;
+                                                            selectedPaymentMethods = payment[index].id;
+                                                            selectedPaymentMethodsTitle = payment[index].title;
+                                                            print(selectedPaymentMethods);
+                                                            print(selectedPaymentMethodsTitle);
+                                                            print(paymentGroupValue);
+                                                          });
+                                                        }),
+                                                    Expanded(
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(18.w),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(8.0),
+                                                          border: Border.all(width: 1.0, color: AppColors.greyBorder),
+                                                        ),
+                                                        child: Row(
+                                                          children: [
+                                                            Flexible(
+                                                              flex: 7,
+                                                              child: CustomText(
+                                                                payment[index].title!,
+                                                                fontSize: 14.sp,
+                                                                fontWeight: FontWeight.normal,
+                                                              ),
+                                                            ),
+                                                            Spacer(),
+                                                           index==5? Image.asset('assets/images/tabby.png',width: 40.w,height: 20.h,fit: BoxFit.fill,):SizedBox()
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ],
-                                                  ),
+                                                    )
+                                                  ],
                                                 ),
                                                 SizedBox(
-                                                  height: 29.h,
+                                                  height: 25.h,
                                                 ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    CustomText(
-                                                      'طريقة  التوصيل',
-                                                      fontSize: 14.sp,
-                                                      color: const Color(0xff6C6C6C),
-                                                      fontWeight: FontWeight.normal,
-                                                    ),
-                                                    Flexible(
-                                                      child: Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          CustomText(
-                                                            selectedAddressName,
-                                                            fontSize: 14.sp,
-                                                            fontWeight: FontWeight.normal,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ],
+                                              ],
+                                            );
+                                          } else {
+                                            return SizedBox();
+                                          }
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 32.h,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 19.0.w),
+                                  child: CustomButton(
+                                    onTap: () {
+                                      if (selectedCountriesName != null &&
+                                          cart.items.isNotEmpty &&
+                                          address1Controller.text.isNotEmpty &&
+                                          address2Controller.text.isNotEmpty &&
+                                          cityController.text.isNotEmpty &&
+                                          emailController.text.isNotEmpty &&
+                                          phoneController.text.isNotEmpty &&
+                                          firstNameController.text.isNotEmpty &&
+                                          lastNameController.text.isNotEmpty &&
+                                          postcodeController.text.isNotEmpty &&
+                                          selectedPaymentMethods != null &&
+                                          selectedPaymentMethodsTitle != null &&
+                                          selectedCountriesCod != null &&
+                                          selectedAddress != null &&
+                                          selectedAddressName != null &&
+                                          emailRegex.hasMatch(emailController.text)) {
+                                        setState(() => currentStepperIndex = 2);
+                                      } else {
+                                        if (!emailRegex.hasMatch(emailController.text)) {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('البريد الالكتروني غير صالح'),
+                                            ),
+                                          );
+                                        } else {
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            const SnackBar(
+                                              content: Text('يرجى إدخال كافة المعلومات'),
+                                            ),
+                                          );
+                                        }
+                                      }
+                                    },
+                                    height: 40.h,
+                                    widget: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          'دفع ${totalPrice().toStringAsFixed(2)} ر.س',
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.whiteColor,
+                                          fontSize: 16.sp,
+                                        ),
+                                        SizedBox(
+                                          width: 14.w,
+                                        ),
+                                        const Icon(
+                                          Icons.arrow_forward,
+                                          color: AppColors.whiteColor,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 29.h,
+                                ),
+                              ],
+                            )
+                                : Column(
+                              children: [
+                                SizedBox(
+                                  height: 25.h,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          CustomText(
+                                            'المنتجات',
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14.sp,
+                                          ),
+                                          SizedBox(
+                                            width: 22.w,
+                                          ),
+                                          CustomText(
+                                            cart.items.length.toString(),
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 12.sp,
+                                            color: AppColors.primaryColor,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          CustomText(
+                                            'القيمة النهائية',
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 14.sp,
+                                          ),
+                                          SizedBox(
+                                            width: 22.w,
+                                          ),
+                                          CustomText(
+                                            totalPrice().toStringAsFixed(2),
+                                            fontWeight: FontWeight.normal,
+                                            fontSize: 12.sp,
+                                            color: AppColors.primaryColor,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 23.h,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20.w),
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.whiteColor,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: AppColors.greyBorder)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(12.w),
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              'عنوان التسليم',
+                                              fontSize: 16.sp,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 29.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            'عنوان التسليم',
+                                            fontSize: 14.sp,
+                                            color: const Color(0xff6C6C6C),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          CustomText(
+                                            selectedCountriesName,
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 24.h,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20.w),
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.whiteColor,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: AppColors.greyBorder)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(12.w),
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              'طريقة الدفع',
+                                              fontSize: 16.sp,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 29.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            'طريقة الدفع',
+                                            fontSize: 14.sp,
+                                            color: const Color(0xff6C6C6C),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.end,
+                                            children: [
+                                              CustomText(
+                                                selectedPaymentMethodsTitle,
+                                                fontSize: 14.sp,
+                                                fontWeight: FontWeight.normal,
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 24.h,
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(horizontal: 20.w),
+                                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
+                                  decoration: BoxDecoration(
+                                      color: AppColors.whiteColor,
+                                      borderRadius: BorderRadius.circular(8.r),
+                                      border: Border.all(color: AppColors.greyBorder)),
+                                  child: Column(
+                                    children: [
+                                      Container(
+                                        width: double.infinity,
+                                        padding: EdgeInsets.all(12.w),
+                                        decoration: BoxDecoration(
+                                            color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            CustomText(
+                                              'طريقة  التوصيل',
+                                              fontSize: 16.sp,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 29.h,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          CustomText(
+                                            'طريقة  التوصيل',
+                                            fontSize: 14.sp,
+                                            color: const Color(0xff6C6C6C),
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          Flexible(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                CustomText(
+                                                  selectedAddressName,
+                                                  fontSize: 14.sp,
+                                                  fontWeight: FontWeight.normal,
                                                 ),
                                               ],
                                             ),
                                           ),
-                                          SizedBox(
-                                            height: 29.h,
-                                          ),
-                                          Padding(
-                                            padding: EdgeInsets.symmetric(horizontal: 19.0.w),
-                                            child: CustomButton(
-                                              onTap: () async {
-                                                if (selectedPaymentMethods == 'tabby_credit_card_installments') {
-                                                  session == null && _status == 'pending'
-                                                      ? null
-                                                      : await createSession(tabby.Payment(
-                                                          currency: tabby.Currency.sar,
-                                                          amount: totalPrice().toString(),
-                                                          buyer: Buyer(
-                                                            email: emailController.text ?? '',
-                                                            phone: phoneController.text ?? '',
-                                                            name: '${firstNameController.text} ${lastNameController.text}' ?? '',
-                                                            dob: '2019-08-24',
-                                                          ),
-                                                          buyerHistory: BuyerHistory(
-                                                            loyaltyLevel: 0,
-                                                            registeredSince: '2019-08-24T14:15:22Z',
-                                                            wishlistCount: 0,
-                                                          ),
-                                                          order: tabby.Order(referenceId: 'id123', items: getTabbyCartItem()),
-                                                          orderHistory: [],
-                                                          shippingAddress: ShippingAddress(
-                                                            city: selectedCountriesName ?? '',
-                                                            address:
-                                                                'address1: ${address1Controller.text} / address2: ${address2Controller.text}',
-                                                            zip: postcodeController.text,
-                                                          ),
-                                                        ));
-
-                                                  openInAppBrowser(() {
-                                                    OrderApies.orderApies
-                                                        .createOrder2(
-                                                      customer_id: auth?.id.toString(),
-                                                      payment_method: selectedPaymentMethods!,
-                                                      payment_method_title: selectedPaymentMethodsTitle!,
-                                                      firstName: firstNameController.text,
-                                                      lastName: lastNameController.text,
-                                                      addressOne: address1Controller.text,
-                                                      addressTwo: address2Controller.text,
-                                                      city: cityController.text,
-                                                      country: selectedCountriesCod!,
-                                                      state: "",
-                                                      postcode: postcodeController.text,
-                                                      email: emailController.text,
-                                                      phone: phoneController.text,
-                                                      total: totalPrice().toString(),
-                                                      listProduct: getCartItem(),
-                                                      setPaid: true,
-                                                      listShipment: [
-                                                        {
-                                                          "method_id": selectedAddress,
-                                                          "method_title": selectedAddressName,
-                                                          "total": selectedAddress == 'redbox_pickup_delivery'
-                                                              ? '17'
-                                                              : selectedAddress == 'naqel_shipping'
-                                                                  ? "30.00"
-                                                                  : '0'
-                                                        }
-                                                      ],
-                                                      listMetaData: appController.myMarker != null
-                                                          ? [
-                                                              {
-                                                                'key': '_redbox_point',
-                                                                'value':
-                                                                    "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point?.city} - ${appController.myMarker?.point?.address?.street}",
-                                                              },
-                                                              {
-                                                                'key': '_redbox_point_id',
-                                                                'value': "${appController.myMarker?.point?.id}",
-                                                              },
-                                                            ]
-                                                          : [],
-                                                    )
-                                                        .then((value) {
-                                                      Timer(
-                                                        Duration(milliseconds: 500),
-                                                        () {
-                                                          cart.clear();
-                                                          appController.setIndexScreen(0);
-                                                        },
-                                                      );
-                                                    });
-                                                  });
-                                                } else if (selectedPaymentMethods == 'cod') {
-                                                  OrderApies.orderApies
-                                                      .createOrder2(
-                                                    customer_id: auth?.id.toString(),
-                                                    payment_method: selectedPaymentMethods!,
-                                                    payment_method_title: selectedPaymentMethodsTitle!,
-                                                    firstName: firstNameController.text,
-                                                    lastName: lastNameController.text,
-                                                    addressOne: address1Controller.text,
-                                                    addressTwo: address2Controller.text,
-                                                    city: cityController.text,
-                                                    country: selectedCountriesCod!,
-                                                    state: "",
-                                                    postcode: postcodeController.text,
-                                                    email: emailController.text,
-                                                    phone: phoneController.text,
-                                                    total: totalPrice().toString(),
-                                                    listProduct: getCartItem(),
-                                                    setPaid: false,
-                                                    listShipment: [
-                                                      {
-                                                        "method_id": selectedAddress,
-                                                        "method_title": selectedAddressName,
-                                                        "total": selectedAddress == 'redbox_pickup_delivery'
-                                                            ? '17'
-                                                            : selectedAddress == 'naqel_shipping'
-                                                                ? "30.00"
-                                                                : '0'
-                                                      }
-                                                    ],
-                                                    listMetaData: appController.myMarker != null
-                                                        ? [
-                                                            {
-                                                              'key': '_redbox_point',
-                                                              'value':
-                                                                  "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point?.city} - ${appController.myMarker?.point?.address?.street}",
-                                                            },
-                                                            {
-                                                              'key': '_redbox_point_id',
-                                                              'value': "${appController.myMarker?.point?.id}",
-                                                            },
-                                                          ]
-                                                        : [],
-                                                  )
-                                                      .then((value) {
-                                                    cart.clear();
-                                                    appController.setIndexScreen(0);
-                                                  });
-                                                } else if (selectedPaymentMethods == 'geidea') {
-                                                  _handleCheckout(
-                                                      context: context,
-                                                      checkoutOptions: CheckoutOptions(
-                                                        totalPrice().toString(), 'SAR', //SAR //EGP
-                                                        callbackUrl: '',
-                                                        lang: 'EN',
-                                                        // billingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
-                                                        // shippingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
-                                                        customerEmail: emailController.text,
-                                                        merchantReferenceID: '',
-                                                        paymentIntentId: '',
-                                                        paymentOperation: 'Default (merchant configuration)',
-                                                        showShipping: false,
-                                                        showBilling: false,
-                                                        showSaveCard: false,
-                                                      ),
-                                                      createOrder: () {
-                                                        OrderApies.orderApies
-                                                            .createOrder2(
-                                                          customer_id: auth?.id.toString(),
-                                                          payment_method: selectedPaymentMethods!,
-                                                          payment_method_title: selectedPaymentMethodsTitle!,
-                                                          firstName: firstNameController.text,
-                                                          lastName: lastNameController.text,
-                                                          addressOne: address1Controller.text,
-                                                          addressTwo: address2Controller.text,
-                                                          city: cityController.text,
-                                                          country: selectedCountriesCod!,
-                                                          state: "",
-                                                          postcode: postcodeController.text,
-                                                          email: emailController.text,
-                                                          phone: phoneController.text,
-                                                          total: totalPrice().toString(),
-                                                          listProduct: getCartItem(),
-                                                          setPaid: true,
-                                                          listShipment: [
-                                                            {
-                                                              "method_id": selectedAddress,
-                                                              "method_title": selectedAddressName,
-                                                              "total": selectedAddress == 'redbox_pickup_delivery'
-                                                                  ? '17'
-                                                                  : selectedAddress == 'naqel_shipping'
-                                                                      ? "30.00"
-                                                                      : '0'
-                                                            }
-                                                          ],
-                                                          listMetaData: appController.myMarker != null
-                                                              ? [
-                                                                  {
-                                                                    'key': '_redbox_point',
-                                                                    'value':
-                                                                        "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point?.city} - ${appController.myMarker?.point?.address?.street}",
-                                                                  },
-                                                                  {
-                                                                    'key': '_redbox_point_id',
-                                                                    'value': "${appController.myMarker?.point?.id}",
-                                                                  },
-                                                                ]
-                                                              : [],
-                                                        )
-                                                            .then((value) {
-                                                          Timer(
-                                                            Duration(milliseconds: 500),
-                                                            () {
-                                                              cart.clear();
-                                                              appController.setIndexScreen(0);
-                                                            },
-                                                          );
-                                                        });
-                                                      });
-                                                }
-                                              },
-                                              height: 40.h,
-                                              widget: Row(
-                                                mainAxisAlignment: MainAxisAlignment.center,
-                                                children: [
-                                                  CustomText(
-                                                    'طلب',
-                                                    fontWeight: FontWeight.normal,
-                                                    color: AppColors.whiteColor,
-                                                    fontSize: 16.sp,
-                                                  ),
-                                                  SizedBox(
-                                                    width: 14.w,
-                                                  ),
-                                                  const Icon(
-                                                    Icons.arrow_forward,
-                                                    color: AppColors.whiteColor,
-                                                  )
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            height: 54.h,
-                                          ),
                                         ],
-                                      )
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 29.h,
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 19.0.w),
+                                  child: CustomButton(
+                                    onTap: () async {
+                                      if (selectedPaymentMethods == 'tabby_credit_card_installments') {
+                                        session == null && _status == 'pending'
+                                            ? null
+                                            : await createSession(tabby.Payment(
+                                          currency: tabby.Currency.sar,
+                                          amount: totalPrice().toString(),
+                                          buyer: Buyer(
+                                            email: emailController.text ?? '',
+                                            phone: phoneController.text ?? '',
+                                            name: '${firstNameController.text} ${lastNameController.text}' ?? '',
+                                            dob: '2019-08-24',
+                                          ),
+                                          buyerHistory: BuyerHistory(
+                                            loyaltyLevel: 0,
+                                            registeredSince: '2019-08-24T14:15:22Z',
+                                            wishlistCount: 0,
+                                          ),
+                                          order: tabby.Order(referenceId: 'id123', items: getTabbyCartItem()),
+                                          orderHistory: [],
+                                          shippingAddress: ShippingAddress(
+                                            city: selectedCountriesName ?? '',
+                                            address:
+                                            'address1: ${address1Controller.text} / address2: ${address2Controller.text}',
+                                            zip: postcodeController.text,
+                                          ),
+                                        ));
+
+                                        openInAppBrowser(() {
+                                          OrderApies.orderApies
+                                              .createOrder2(
+                                            customer_id: auth?.id.toString(),
+                                            payment_method: selectedPaymentMethods!,
+                                            payment_method_title: selectedPaymentMethodsTitle!,
+                                            firstName: firstNameController.text,
+                                            lastName: lastNameController.text,
+                                            addressOne: address1Controller.text,
+                                            addressTwo: address2Controller.text,
+                                            city: cityController.text,
+                                            country: selectedCountriesCod!,
+                                            state: "",
+                                            postcode: postcodeController.text,
+                                            email: emailController.text,
+                                            phone: phoneController.text,
+                                            total: totalPrice().toString(),
+                                            listProduct: getCartItem(),
+                                            setPaid: true,
+                                            listShipment: [
+                                              {
+                                                "method_id": selectedAddress,
+                                                "method_title": selectedAddressName,
+                                                "total": selectedAddress == 'redbox_pickup_delivery'
+                                                    ? '17'
+                                                    : selectedAddress == 'naqel_shipping'
+                                                    ? "30.00"
+                                                    : '0'
+                                              }
+                                            ],
+                                            listMetaData: appController.myMarker != null
+                                                ? [
+                                              {
+                                                'key': '_redbox_point',
+                                                'value':
+                                                "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point
+                                                    ?.city} - ${appController.myMarker?.point?.address?.street}",
+                                              },
+                                              {
+                                                'key': '_redbox_point_id',
+                                                'value': "${appController.myMarker?.point?.id}",
+                                              },
+                                            ]
+                                                : [],
+                                          )
+                                              .then((value) {
+                                            appController.myMarker != null ? OrderApies.orderApies.createRedBoxShippment(
+                                                items: getRedboxCartItem(),
+                                                reference: value.id.toString(),
+                                                point_id: appController.myMarker?.point?.id ?? '',
+                                                sender_name: 'مؤسسة الجمال والصحة للتجارة',
+                                                sender_email: 'info@dermarollersystemsa.com',
+                                                sender_phone: '0114130336',
+                                                sender_address: 'Riyadh -  - ',
+                                                customer_name: '${firstNameController.text} - ${lastNameController.text}',
+                                                customer_email: emailController.text,
+                                                customer_phone: phoneController.text,
+                                                customer_address: '${address1Controller.text} - ${address2Controller.text}',
+                                                cod_currency: 'SAR',
+                                                cod_amount: totalPrice().toString(),
+                                                nameOfPackage: 'nameOfPackage'): print('my Marker not Selected');
+                                            Timer(Duration(milliseconds: 400),(){
+                                              cart.clear();
+                                              appController.setIndexScreen(0);
+                                            });
+                                          });
+                                        });
+                                      } else if (selectedPaymentMethods == 'cod') {
+                                        OrderApies.orderApies
+                                            .createOrder2(
+                                          customer_id: auth?.id.toString(),
+                                          payment_method: selectedPaymentMethods!,
+                                          payment_method_title: selectedPaymentMethodsTitle!,
+                                          firstName: firstNameController.text,
+                                          lastName: lastNameController.text,
+                                          addressOne: address1Controller.text,
+                                          addressTwo: address2Controller.text,
+                                          city: cityController.text,
+                                          country: selectedCountriesCod!,
+                                          state: "",
+                                          postcode: postcodeController.text,
+                                          email: emailController.text,
+                                          phone: phoneController.text,
+                                          total: totalPrice().toString(),
+                                          listProduct: getCartItem(),
+                                          setPaid: false,
+                                          listShipment: [
+                                            {
+                                              "method_id": selectedAddress,
+                                              "method_title": selectedAddressName,
+                                              "total": selectedAddress == 'redbox_pickup_delivery'
+                                                  ? '17'
+                                                  : selectedAddress == 'naqel_shipping'
+                                                  ? "30.00"
+                                                  : '0'
+                                            }
+                                          ],
+                                          listMetaData: appController.myMarker != null
+                                              ? [
+                                            {
+                                              'key': '_redbox_point',
+                                              'value':
+                                              "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point
+                                                  ?.city} - ${appController.myMarker?.point?.address?.street}",
+                                            },
+                                            {
+                                              'key': '_redbox_point_id',
+                                              'value': "${appController.myMarker?.point?.id}",
+                                            },
+                                          ]
+                                              : [],
+                                        )
+                                            .then((value) {
+                                              appController.myMarker != null ? OrderApies.orderApies.createRedBoxShippment(
+                                                  items: getRedboxCartItem(),
+                                                  reference: value.id.toString(),
+                                                  point_id: appController.myMarker?.point?.id ?? '',
+                                                  sender_name: 'مؤسسة الجمال والصحة للتجارة',
+                                                  sender_email: 'info@dermarollersystemsa.com',
+                                                  sender_phone: '0114130336',
+                                                  sender_address: 'Riyadh -  - ',
+                                                  customer_name: '${firstNameController.text} - ${lastNameController.text}',
+                                                  customer_email: emailController.text,
+                                                  customer_phone: phoneController.text,
+                                                  customer_address: '${address1Controller.text} - ${address2Controller.text}',
+                                                  cod_currency: 'SAR',
+                                                  cod_amount: totalPrice().toString(),
+                                                  nameOfPackage: 'nameOfPackage'): print('my Marker not Selected');
+                                          Timer(Duration(milliseconds: 400),(){
+                                            cart.clear();
+                                            appController.setIndexScreen(0);
+                                          });
+                                        });
+                                      } else if (selectedPaymentMethods == 'geidea') {
+                                        _handleCheckout(
+                                            context: context,
+                                            checkoutOptions: CheckoutOptions(
+                                              totalPrice().toString(), 'SAR', //SAR //EGP
+                                              callbackUrl: '',
+                                              lang: 'EN',
+                                              // billingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
+                                              // shippingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
+                                              customerEmail: emailController.text,
+                                              merchantReferenceID: '',
+                                              paymentIntentId: '',
+                                              paymentOperation: 'Default (merchant configuration)',
+                                              showShipping: false,
+                                              showBilling: false,
+                                              showSaveCard: false,
+                                            ),
+                                            createOrder: () {
+                                              OrderApies.orderApies
+                                                  .createOrder2(
+                                                customer_id: auth?.id.toString(),
+                                                payment_method: selectedPaymentMethods!,
+                                                payment_method_title: selectedPaymentMethodsTitle!,
+                                                firstName: firstNameController.text,
+                                                lastName: lastNameController.text,
+                                                addressOne: address1Controller.text,
+                                                addressTwo: address2Controller.text,
+                                                city: cityController.text,
+                                                country: selectedCountriesCod!,
+                                                state: "",
+                                                postcode: postcodeController.text,
+                                                email: emailController.text,
+                                                phone: phoneController.text,
+                                                total: totalPrice().toString(),
+                                                listProduct: getCartItem(),
+                                                setPaid: true,
+                                                listShipment: [
+                                                  {
+                                                    "method_id": selectedAddress,
+                                                    "method_title": selectedAddressName,
+                                                    "total": selectedAddress == 'redbox_pickup_delivery'
+                                                        ? '17'
+                                                        : selectedAddress == 'naqel_shipping'
+                                                        ? "30.00"
+                                                        : '0'
+                                                  }
+                                                ],
+                                                listMetaData: appController.myMarker != null
+                                                    ? [
+                                                  {
+                                                    'key': '_redbox_point',
+                                                    'value':
+                                                    "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point
+                                                        ?.city} - ${appController.myMarker?.point?.address?.street}",
+                                                  },
+                                                  {
+                                                    'key': '_redbox_point_id',
+                                                    'value': "${appController.myMarker?.point?.id}",
+                                                  },
+                                                ]
+                                                    : [],
+                                              )
+                                                  .then((value) {
+                                                appController.myMarker != null ? OrderApies.orderApies.createRedBoxShippment(
+                                                    items: getRedboxCartItem(),
+                                                    reference: value.id.toString(),
+                                                    point_id: appController.myMarker?.point?.id ?? '',
+                                                    sender_name: 'مؤسسة الجمال والصحة للتجارة',
+                                                    sender_email: 'info@dermarollersystemsa.com',
+                                                    sender_phone: '0114130336',
+                                                    sender_address: 'Riyadh -  - ',
+                                                    customer_name: '${firstNameController.text} - ${lastNameController.text}',
+                                                    customer_email: emailController.text,
+                                                    customer_phone: phoneController.text,
+                                                    customer_address: '${address1Controller.text} - ${address2Controller.text}',
+                                                    cod_currency: 'SAR',
+                                                    cod_amount: totalPrice().toString(),
+                                                    nameOfPackage: 'nameOfPackage'): print('my Marker not Selected');
+                                                Timer(Duration(milliseconds: 400),(){
+                                                  cart.clear();
+                                                  appController.setIndexScreen(0);
+                                                });
+                                              });
+                                            });
+                                      }
+                                    },
+                                    height: 40.h,
+                                    widget: Row(
+                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      children: [
+                                        CustomText(
+                                          'طلب',
+                                          fontWeight: FontWeight.normal,
+                                          color: AppColors.whiteColor,
+                                          fontSize: 16.sp,
+                                        ),
+                                        SizedBox(
+                                          width: 14.w,
+                                        ),
+                                        const Icon(
+                                          Icons.arrow_forward,
+                                          color: AppColors.whiteColor,
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 54.h,
+                                ),
+                              ],
+                            )
                           ],
                         ),
                       ),
@@ -1317,18 +1389,19 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
-  Widget addRadioButtonPayment(
-      {required int btnValue,
-      required int groupValue,
-      required String title,
-      required List<PaymentMethodsResponse> lst,
-      required void Function(PaymentMethodsResponse?)? onChange}) {
+  Widget addRadioButtonPayment({required int btnValue,
+    required int groupValue,
+    required String title,
+    required List<PaymentMethodsResponse> lst,
+    required void Function(PaymentMethodsResponse?)? onChange}) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Radio(
-          activeColor: Theme.of(context).primaryColor,
+          activeColor: Theme
+              .of(context)
+              .primaryColor,
           value: lst[btnValue],
           groupValue: lst[groupValue],
           onChanged: onChange,

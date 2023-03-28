@@ -8,7 +8,10 @@ class ListCategoryResponse {
     if (json != null) {
       listCategoryResponse = <CategoryResponse>[];
       json.forEach((v) {
-        listCategoryResponse!.add(CategoryResponse.fromJson(v));
+        print(v['id']);
+        if(v['id']!= 183){
+          listCategoryResponse!.add(CategoryResponse.fromJson(v));
+        }
       });
     }
 

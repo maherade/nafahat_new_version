@@ -26,13 +26,15 @@ import 'controller/product_controller.dart';
 import 'controller/review_controller.dart';
 import 'services/app_imports.dart';
 import 'services/firebase_notification.dart';
+import 'services/tabby_flutter_inapp_sdk.dart';
 import 'view/splash/screen/splash_screen.dart';
-
+import 'package:location/location.dart' as location;
+import 'package:permission_handler/permission_handler.dart' as premession;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   TabbySDK().setup(
     withApiKey: 'pk_test_ba5ec72a-3026-41f5-bc3a-881f21b9614a', // Put here your Api key
-    // environment: Environment.production, // Or use Environment.stage
+    environment: Environment.production, // Or use Environment.stage
   );
   Firebase.initializeApp();
   await SPHelper.spHelper.initSharedPrefrences();
@@ -125,6 +127,73 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
+
+class CurrentLocationScreen extends StatefulWidget {
+  @override
+  _CurrentLocationScreenState createState() => _CurrentLocationScreenState();
+}
+
+class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
+  LocationData? _currentLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
+
+  _getCurrentLocation() async {
+    Location location = Location();
+    bool serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        return;
+      }
+    }
+
+    premession.PermissionStatus permission = await Permission.locationWhenInUse.status;
+    if (permission ==  premession.PermissionStatus.denied) {
+      permission = await Permission.locationWhenInUse.request();
+      if (permission !=  premession.PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    LocationData locationData = await location.getLocation();
+    setState(() {
+      _currentLocation = locationData;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Current Location'),
+      ),
+      body: Center(
+        child: _currentLocation == null
+            ? CircularProgressIndicator()
+            : Text(
+            'LAT: ${_currentLocation?.latitude}, LNG: ${_currentLocation?.longitude}'),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          if (_currentLocation != null) {
+            print(
+                'Current location: LAT: ${_currentLocation?.latitude}, LNG: ${_currentLocation?.longitude}');
+          } else {
+            print('Current location not available');
+          }
+        },
+        child: Icon(Icons.location_on),
+      ),
+    );
+  }
+}
+
 class TestGGG extends StatefulWidget {
   const TestGGG({Key? key}) : super(key: key);
 
