@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as myGet;
 import 'package:html/parser.dart';
+import 'package:perfume_store_mobile_app/controller/app_controller.dart';
 
 import '../const_urls.dart';
 import '../controller/auth_controller.dart';
@@ -27,6 +28,7 @@ class AuthApis {
 
   static AuthApis authApis = AuthApis._();
   AuthController authController = myGet.Get.find();
+  AppController appController = myGet.Get.find();
 
   String decryptToken(token){
     final encodedPayload = token.split('.')[1];
@@ -53,7 +55,7 @@ class AuthApis {
 
       );
 
-      if (response.statusCode == 200 && response.data['token']!=null) {
+      if (response.statusCode! >= 200 && response.data['token']!=null) {
         authController.getUserData!.value = UserResponse.fromJson(response.data);
 
         SPHelper.spHelper.setToken(response.data['token']);
@@ -90,16 +92,18 @@ class AuthApis {
         data: data
       );
 
-      if (response.statusCode == 201) {
+      if (response.statusCode! >= 200 && response.data['success'] == true) {
+        print(response.data);
         myGet.Get.to(()=> LoginScreen());
         Helper.getSheetSucsses('تم التسجيل بنجاح');
         ProgressDialogUtils.hide();
       } else{
         ProgressDialogUtils.hide();
+        Helper.getSheetError(response.data['data']['message']);
       }
     }on DioError catch(err){
       ProgressDialogUtils.hide();
-      Helper.getSheetError(parse(err.response!.data['message']).documentElement!.text);
+      Helper.getSheetError(err.response!.data['data']['message']);
       print(err.response);
 
     } catch (err) {
@@ -123,7 +127,9 @@ class AuthApis {
           )
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode! >= 200 && response.data['data']['status'] == 200) {
+        print(response.data);
+        appController.startTimer();
         Helper.getSheetSucsses(response.data['message']);
         myGet.Get.to(()=> const  VerificationCodeScreen());
         ProgressDialogUtils.hide();
@@ -157,7 +163,9 @@ class AuthApis {
           )
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode! >= 200 && response.data['message']!='You must provide a code.') {
+        print(response.data);
+
         Helper.getSheetSucsses(response.data['message']);
         myGet.Get.to(()=>ResetPasswordScreen(email:email , code:code));
         ProgressDialogUtils.hide();
@@ -167,7 +175,7 @@ class AuthApis {
       }
     }on DioError catch(err){
       ProgressDialogUtils.hide();
-      Helper.getSheetError(err.response!.data['message']);
+      Helper.getSheetError(err.response!.data['data']['message']);
       print(err.response);
 
     } catch (err) {
@@ -192,17 +200,19 @@ class AuthApis {
           )
       );
 
-      if (response.statusCode == 200) {
+      if (response.statusCode! >= 200 && response.data['data']['message'] == 'You must provide a code.') {
+        print(response.data);
+
         Helper.getSheetSucsses(response.data['message']);
         myGet.Get.offAll(()=>LoginScreen());
         ProgressDialogUtils.hide();
       } else{
         ProgressDialogUtils.hide();
-        Helper.getSheetError(response.data['message']);
+        Helper.getSheetError(response.data['data']['message']);
       }
     }on DioError catch(err){
       ProgressDialogUtils.hide();
-      Helper.getSheetError(err.response!.data['message']);
+      Helper.getSheetError(err.response?.data['data']['message']);
       print(err.response);
 
     } catch (err) {
@@ -217,7 +227,7 @@ class AuthApis {
       Response response = await Settingss.settings.dio!.get(
           'api-request.php?endpoint=customers&id=$customerId',
       );
-      if (response.statusCode == 200) {
+      if (response.statusCode! >= 200) {
         authController.getCustomerInformationData!.value = ViewAllInformationAboutCustomerResponse.fromJson(response.data);
         print('getCustomerInformation Successful'+authController.getCustomerInformationData!.value.data!.id.toString());
 

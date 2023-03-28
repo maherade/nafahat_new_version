@@ -25,6 +25,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   TextEditingController confirmPasswordController = TextEditingController();
 
   bool _termsChecked = false;
+  final RegExp emailRegex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
   @override
   Widget build(BuildContext context) {
@@ -207,13 +208,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     title: 'حساب جديد',
                     onTap: (){
                       if(_termsChecked){
-                        if(passwordController.text==confirmPasswordController.text){
-                          AuthApis.authApis.register(nameController.text, emailController.text, passwordController.text);
-                        }
-                        else{
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
-                        }
+                       if(emailRegex.hasMatch(emailController.text)){
+                         if(passwordController.text==confirmPasswordController.text){
+                           AuthApis.authApis.register(nameController.text, emailController.text, passwordController.text);
+                         }
+                         else{
+                           ScaffoldMessenger.of(context)
+                               .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
+                         }
+                       }else{
+                         ScaffoldMessenger.of(context)
+                             .showSnackBar(const SnackBar(content: Text('يرجى إدخال صيغة بريد الكتروني صحيحة')));
+                       }
                       }else{
                         ScaffoldMessenger.of(context)
                             .showSnackBar(const SnackBar(content: Text('الرجاء الموافقة على الشروط والاحكام')));

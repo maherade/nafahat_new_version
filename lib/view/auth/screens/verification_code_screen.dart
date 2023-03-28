@@ -91,7 +91,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                               title: 'أرسل رمز التحقق',
                               onTap: (){
                                 if(emailController.text != '' ){
-                                  controller.startTimer();
                                   AuthApis.authApis.resetPassword(email: emailController.text);
                                 }
                                 else{
