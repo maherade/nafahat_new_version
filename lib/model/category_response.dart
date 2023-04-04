@@ -8,8 +8,8 @@ class ListCategoryResponse {
     if (json != null) {
       listCategoryResponse = <CategoryResponse>[];
       json.forEach((v) {
-        print(v['id']);
-        if(v['id']!= 183){
+        if(v['id']!= 183 && v['image'] is !List){
+          print(true);
           listCategoryResponse!.add(CategoryResponse.fromJson(v));
         }
       });
@@ -24,10 +24,9 @@ class CategoryResponse {
   int? parent;
   String? description;
   String? display;
-  WooProductCategoryImage? image;
+  dynamic image;
   int? menuOrder;
   int? count;
-  WooProductCategoryLinks? links;
 
   CategoryResponse(
       {this.id,
@@ -38,8 +37,7 @@ class CategoryResponse {
         this.display,
         this.image,
         this.menuOrder,
-        this.count,
-        this.links});
+        this.count});
 
   CategoryResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -48,145 +46,70 @@ class CategoryResponse {
     parent = json['parent'];
     description = json['description'];
     display = json['display'];
-    image = json['image'] != null
-        ?  WooProductCategoryImage.fromJson(json['image'])
-        : null;
+    image = json['image'] != null ?  Image.fromJson(json['image']) : null;
     menuOrder = json['menu_order'];
     count = json['count'];
-    links = json['_links'] != null
-        ?  WooProductCategoryLinks.fromJson(json['_links'])
-        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['slug'] = slug;
-    data['parent'] = parent;
-    data['description'] = description;
-    data['display'] = display;
-    if (image != null) {
-      data['image'] = image!.toJson();
+    final Map<String, dynamic> data =  Map<String, dynamic>();
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['slug'] = this.slug;
+    data['parent'] = this.parent;
+    data['description'] = this.description;
+    data['display'] = this.display;
+    if (this.image != null) {
+      data['image'] = this.image!.toJson();
     }
-    data['menu_order'] = menuOrder;
-    data['count'] = count;
-    if (links != null) {
-      data['_links'] = links!.toJson();
-    }
+    data['menu_order'] = this.menuOrder;
+    data['count'] = this.count;
     return data;
   }
-
-  @override
-  toString() => toJson().toString();
 }
 
-class WooProductCategoryImage {
+class Image {
   int? id;
   String? dateCreated;
   String? dateCreatedGmt;
   String? dateModified;
   String? dateModifiedGmt;
   String? src;
-  String? name;
+  String? title;
   String? alt;
 
-  WooProductCategoryImage(
+  Image(
       {this.id,
         this.dateCreated,
         this.dateCreatedGmt,
         this.dateModified,
         this.dateModifiedGmt,
         this.src,
-        this.name,
+        this.title,
         this.alt});
 
-  WooProductCategoryImage.fromJson(Map<String, dynamic> json) {
+  Image.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     dateCreated = json['date_created'];
     dateCreatedGmt = json['date_created_gmt'];
     dateModified = json['date_modified'];
     dateModifiedGmt = json['date_modified_gmt'];
-    src = (json['src'] != null && json['src'] is String) ? json['src'] : "";
-    name = json['name'];
+    src = json['src'];
+    title = json['title'];
     alt = json['alt'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['date_created'] = dateCreated;
-    data['date_created_gmt'] = dateCreatedGmt;
-    data['date_modified'] = dateModified;
-    data['date_modified_gmt'] = dateModifiedGmt;
-    data['src'] = src;
-    data['name'] = name;
-    data['alt'] = alt;
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['date_created'] = this.dateCreated;
+    data['date_created_gmt'] = this.dateCreatedGmt;
+    data['date_modified'] = this.dateModified;
+    data['date_modified_gmt'] = this.dateModifiedGmt;
+    data['src'] = this.src;
+    data['title'] = this.title;
+    data['alt'] = this.alt;
     return data;
   }
 }
 
-class WooProductCategoryLinks {
-  List<WooProductCategorySelf>? self;
-  List<WooProductCategoryCollection>? collection;
-
-  WooProductCategoryLinks({this.self, this.collection});
-
-  WooProductCategoryLinks.fromJson(Map<String, dynamic> json) {
-    if (json['self'] != null) {
-      self = <WooProductCategorySelf>[];
-      json['self'].forEach((v) {
-        self!.add(WooProductCategorySelf.fromJson(v));
-      });
-    }
-    if (json['collection'] != null) {
-      collection = <WooProductCategoryCollection>[];
-      json['collection'].forEach((v) {
-        collection!.add(WooProductCategoryCollection.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    if (self != null) {
-      data['self'] = self!.map((v) => v.toJson()).toList();
-    }
-    if (collection != null) {
-      data['collection'] = collection!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class WooProductCategorySelf {
-  String? href;
-
-  WooProductCategorySelf({this.href});
-
-  WooProductCategorySelf.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['href'] = href;
-    return data;
-  }
-}
-
-class WooProductCategoryCollection {
-  String? href;
-
-  WooProductCategoryCollection({this.href});
-
-  WooProductCategoryCollection.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['href'] = href;
-    return data;
-  }
-}

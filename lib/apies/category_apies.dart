@@ -30,8 +30,9 @@ class CategoryApies {
 
       );
       if (response.statusCode == 200) {
-         categoryController.getCategoryData!.value = ListCategoryResponse.fromJson(response.data);
         print("getCategoryData Successful ");
+
+        categoryController.getCategoryData!.value = ListCategoryResponse.fromJson(response.data);
       } else {}
     } catch (e) {
       print(e.toString());

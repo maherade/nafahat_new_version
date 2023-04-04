@@ -7,6 +7,7 @@ import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:get/get.dart' as myGet;
 import 'package:perfume_store_mobile_app/model/payment_response.dart';
 import 'package:perfume_store_mobile_app/model/red_box_response.dart';
+import 'package:perfume_store_mobile_app/model/shippment_label_response.dart';
 import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 
 import '../const_urls.dart';
@@ -244,6 +245,8 @@ class OrderApies {
     required String nameOfPackage,
 
   }) async {
+    orderController.getShipmentLabelData!.value = ShipmentLabelResponse();
+
     try{
       String token =
           'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb25faWQiOiI2MTU5ZDdlNGNmNTczZTBkYzc2NzQzNWMiLCJrZXkiOiIyMDIzLTAzLTI0VDIwOjIwOjE2LjgwM1oiLCJpYXQiOjE2Nzk2ODkyMTZ9.KpIjND0ReqYnMx-pBypVWnzIs1DYViqVuuHN51yO0Tc';
@@ -275,6 +278,8 @@ class OrderApies {
 
 
       if (response.statusCode == 200) {
+        orderController.getShipmentLabelData!.value = ShipmentLabelResponse.fromJson(response.data);
+
         print('createRedBoxShippment'+ response.data.toString());
         // ProgressDialogUtils.hide();
 
