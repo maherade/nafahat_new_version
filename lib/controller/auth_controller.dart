@@ -9,6 +9,5 @@ import '../model/view_all_information_about_customer_response.dart';
 
 
 class AuthController extends GetxController{
-  Rx<UserResponse>? getUserData = UserResponse().obs;
-  Rx<ViewAllInformationAboutCustomerResponse>? getCustomerInformationData = ViewAllInformationAboutCustomerResponse().obs;
+  Rx<ListViewAllInformationAboutCustomerResponse>? getCustomerInformationData = ListViewAllInformationAboutCustomerResponse().obs;
 }

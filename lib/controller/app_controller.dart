@@ -1,8 +1,9 @@
 
 import 'dart:async';
+import 'dart:io';
 
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:perfume_store_mobile_app/model/my_marker.dart';
 
 import '../model/red_box_response.dart';
@@ -24,7 +25,6 @@ class AppController extends GetxController {
     update();
   }
 
-  InAppWebViewController? inAppWebViewController ;
 
   bool visibleButton = true;
 
@@ -59,4 +59,22 @@ class AppController extends GetxController {
       }
       update();
   }
+
+  //image picker
+  final imagePicker = ImagePicker();
+   File? selectedImage;
+
+  Future<void> pickImage(ImageSource source) async {
+    final pickedFile = await imagePicker.pickImage(source: source);
+    if (pickedFile != null) {
+        selectedImage = File(pickedFile.path);
+        update();
+    }
+  }
+
+  void removeImage() {
+    selectedImage = null;
+    update();
+  }
+
 }

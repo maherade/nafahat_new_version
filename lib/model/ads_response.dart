@@ -1,5 +1,6 @@
 class ListAdsResponse {
-  List<AdsResponse>? listAdsResponse ;
+  List<AdsResponse>? listAdsResponse;
+
   ListAdsResponse({this.listAdsResponse});
 
   ListAdsResponse.fromJson(json) {
@@ -8,9 +9,32 @@ class ListAdsResponse {
       json.forEach((v) {
         listAdsResponse!.add(AdsResponse.fromJson(v));
       });
+
+      // sort the list based on a specific order of image URLs
+      listAdsResponse!.sort((a, b) {
+        List<String> imageOrder = [
+          'https://nafahat.com/wp-content/uploads/sites/2/2023/03/حياكم-عروض-نفحات-بتستناكم-.png',
+          'https://nafahat.com/wp-content/uploads/sites/2/2023/04/5.png',
+          'https://nafahat.com/wp-content/uploads/sites/2/2023/04/2_1.png',
+        ];
+
+        int aIndex = imageOrder.indexOf(a.image!);
+        int bIndex = imageOrder.indexOf(b.image!);
+
+        if (aIndex != -1 && bIndex != -1) {
+          return aIndex.compareTo(bIndex); // sort by image order if both have specified images
+        } else if (aIndex != -1) {
+          return -1; // a should come before b
+        } else if (bIndex != -1) {
+          return 1; // b should come before a
+        } else {
+          return a.image!.compareTo(b.image!); // sort by name for all other items
+        }
+      });
     }
   }
 }
+
 
 
 class AdsResponse {
@@ -21,11 +45,13 @@ class AdsResponse {
   AdsResponse({this.brand, this.url, this.image});
 
   AdsResponse.fromJson(Map<String, dynamic> json) {
-    if (json['brand'] != null) {
+    if (json['brand'] != null && (json['brand'] as List).isNotEmpty ) {
       brand = <Brand>[];
       json['brand'].forEach((v) {
         brand!.add(new Brand.fromJson(v));
       });
+    }else{
+      brand = [Brand()];
     }
     url = json['url'];
     image = json['image'];
@@ -81,7 +107,7 @@ class Brand {
     parent = json['parent'];
     count = json['count'];
     filter = json['filter'];
-    brandImage = json['brand_image'].cast<String>();
+    brandImage = json['brand_image'] is bool ? [] :json['brand_image'].cast<String>();
     brandBanner = json['brand_banner'];
   }
 
@@ -102,3 +128,4 @@ class Brand {
     return data;
   }
 }
+

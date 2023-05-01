@@ -20,7 +20,11 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
 
   @override
   void initState() {
-    PostsApies.postsApies.getPostsData();
+    WidgetsBinding.instance.addPostFrameCallback((_){
+
+      PostsApies.postsApies.getPostsData();
+
+    });
     super.initState();
   }
   @override
@@ -39,42 +43,80 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
           SizedBox(
             height: 13.h,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 21.w),
-            child: CustomText(
-              'الرئيسية/المقالات',
-              color: const Color(0xff707070),
-              fontSize: 12.sp,
-              fontWeight: FontWeight.normal,
-            ),
-          ),
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 21.w),
+          //   child: CustomText(
+          //     'الرئيسية/المقالات',
+          //     color: const Color(0xff707070),
+          //     fontSize: 12.sp,
+          //     fontWeight: FontWeight.normal,
+          //   ),
+          // ),
           SizedBox(
             height: 19.h,
           ),
           Expanded(
-            child: Obx(
-              () {
-                var post = postsController.getPostsData!.value.listPostsResponse;
+            child: SingleChildScrollView(
+              child: Obx(
+                () {
+                  var post = postsController.getPostsData!.value.listPostsResponse;
+                  return post == null ? LoadingArticle() : Column(
+                    children: [
 
-                return post == null ? LoadingArticle() : ListView.builder(
-                  padding: EdgeInsets.zero,
-                  physics:const BouncingScrollPhysics(),
-                  itemCount: post.length,
-                  itemBuilder: (context, index) {
-                    return ArticleItem(
-                      imgUrl: post[index].eEmbedded?.wpFeaturedmedia?[0].sourceUrl ?? '',
-                      category: 'قسم المكياج',
-                      date: DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(post[index].date!)),
-                      title: post[index].title?.rendered ?? '',
-                      description: parse(post[index].excerpt?.rendered).documentElement!.text,
-                      onTapReadMore: (){
-                        Get.to(()=> ArticleDetailScreen(id: post[index].id.toString(),));
-                      },
-                    );
-                  },);
-              },
+                      ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics:const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: post.length,
+                        itemBuilder: (context, index) {
+                          return ArticleItem(
+                            imgUrl: post[index].eEmbedded?.wpFeaturedmedia?[0].sourceUrl ?? '',
+                            category: 'قسم المكياج',
+                            date: DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(post[index].date!)),
+                            title: post[index].title?.rendered ?? '',
+                            description: parse(post[index].excerpt?.rendered).documentElement!.text,
+                            onTapReadMore: (){
+                              Get.to(()=> ArticleDetailScreen(id: post[index].id.toString(),));
+                            },
+                          );
+                        },),
+                      SizedBox(height: 30.h,),
+
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.w),
+                        child: Row(
+                          children: [
+                            CustomText('المقالات المشهورة',fontSize: 17.sp,),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 10.h,),
+                      ListView.builder(
+                        padding: EdgeInsets.zero,
+                        physics:const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: post.length >3 ? 3 : post.length,
+                        itemBuilder: (context, index) {
+                          return ArticleItem(
+                            imgUrl: post[index].eEmbedded?.wpFeaturedmedia?[0].sourceUrl ?? '',
+                            category: 'قسم المكياج',
+                            date: DateFormat('dd-MM-yyyy').format(DateFormat('yyyy-MM-dd').parse(post[index].date!)),
+                            title: post[index].title?.rendered ?? '',
+                            description: parse(post[index].excerpt?.rendered).documentElement!.text,
+                            onTapReadMore: (){
+                              Get.to(()=> ArticleDetailScreen(id: post[index].id.toString(),));
+                            },
+                          );
+                        },),
+                      SizedBox(height: 10.h,),
+                    ],
+                  );
+                },
+              ),
             ),
-          )
+          ),
+
+
         ],
       ),
     );

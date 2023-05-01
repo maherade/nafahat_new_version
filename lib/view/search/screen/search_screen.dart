@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:perfume_store_mobile_app/controller/product_controller.dart';
 import 'package:shimmer/shimmer.dart';
@@ -12,16 +14,16 @@ import '../../bottom_nav_screens/widget/category_item.dart';
 import '../../bottom_nav_screens/widget/perfume_product_item.dart';
 import '../../custom_widget/Skelton.dart';
 import '../../custom_widget/custom_rate_write_bar.dart';
+import '../../custom_widget/custom_search_bar.dart';
 import '../../custom_widget/loading_efffect/loading_paggination.dart';
 import '../../custom_widget/loading_efffect/loading_product.dart';
 import '../../filter/screens/filter_screen.dart';
 import '../../perfume_details/screens/perfume_details_screen.dart';
 
 class SearchScreen extends StatefulWidget {
-final String? word ;
+  final String? word;
 
   const SearchScreen({super.key, this.word});
-
 
   @override
   State<SearchScreen> createState() => _SearchScreenState();
@@ -31,288 +33,210 @@ class _SearchScreenState extends State<SearchScreen> {
   CategoryController categoryController = Get.find();
   ProductController productController = Get.find();
 
-  String? selectedDropDown= 'ترتيب حسب الشهرة';
-  int? currentPage;
+  int _currentPage = 1;
 
 
-  String? order;
-  String? orderBy;
+  TextEditingController searchController = TextEditingController();
 
-  dropDown(String value) {
-    switch (value) {
-      case 'ترتيب حسب الشهرة':
-        ProductApies.productApies.searchProduct(
-            pageNumber: '1',
-            order: 'asc',
-            orderBy: 'popularity',
-            word: widget.word
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'popularity';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب معدل التقييم':
-        ProductApies.productApies.searchProduct(
-            pageNumber: '1',
-            order: 'asc',
-            orderBy: 'rating',
-            word: widget.word
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'rating';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب الأحدث':
-        ProductApies.productApies.searchProduct(
-            pageNumber: '1',
-            order: 'asc',
-            orderBy: 'date',
-            word: widget.word
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'date';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب الأدنى سعرا للأعلى':
-        ProductApies.productApies.searchProduct(
-            pageNumber: '1',
-            order: 'desc',
-            orderBy: 'price',
-            word: widget.word
-        );
-        setState(() {
-          order = 'desc';
-          orderBy = 'price';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب الأعلى سعرا للأدنى':
-        ProductApies.productApies.searchProduct(
-            pageNumber: '1',
-            order: 'desc',
-            orderBy: 'price',
-            word: widget.word
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'price';
-          currentPage = 0;
-        });
-        break;
-    }
-  }
 
   getData() async {
-    ProductApies.productApies.searchProduct(pageNumber: '1', word: widget.word);
+    ProductApies.productApies.searchProduct(pageNumber: '1', word: widget.word ?? '');
     ProductApies.productApies.getLastViewProduct();
+    searchController.text = widget.word ?? '';
   }
 
   @override
   void initState() {
+    ProductApies.productApies.listSearchProduct = null;
     getData();
     super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-            () {
+        () {
           var product = productController.getSearchProductDataData!.value.data;
           var lastViewedProduct = productController.getLastViewedProduct!.value.data;
 
-          return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 50.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-                  child: const BackButton(),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CustomText(
-                           'نتائج البحث',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12.sp,
-                          ),
-                          const Spacer(),
-                          SizedBox(
-                            child: DecoratedBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(color: const Color(0xffF5E7EA), width: 1),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 7.0.w),
-                                child: DropdownButton<String>(
-                                  underline: SizedBox(),
-                                  focusColor: Colors.white,
-                                  value: selectedDropDown,
-                                  style: TextStyle(color: Colors.white, fontSize: 10.sp),
-                                  iconEnabledColor: Colors.black,
-                                  items: <String>[
-                                    'ترتيب حسب الشهرة',
-                                    'ترتيب حسب معدل التقييم',
-                                    'ترتيب حسب الأحدث',
-                                    'ترتيب حسب الأدنى سعرا للأعلى',
-                                    'ترتيب حسب الأعلى سعرا للأدنى',
-                                  ].map<DropdownMenuItem<String>>((String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: CustomText(
-                                        value,
-                                        fontSize: 10.sp,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  hint: CustomText(
-                                    "الترتيب الإفتراضي",
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  onChanged: (String? value) {
-                                    dropDown(value!);
-                                    setState(() {
-                                      selectedDropDown = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(() => FilterScreen());
-                            },
-                            child: SvgPicture.asset(
-                              'assets/svg/filter.svg',
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // loadingProduct(),
-                      product == null ?const LoadingProduct(8) : product.isEmpty ? Center(child: CustomText('لا توجد عناصر')): GridView.builder(
-                        itemCount: product.length < 8 ? product.length : 8,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.45.h,
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 11.w,
-                          mainAxisSpacing: 16.h,
-                        ),
-                        itemBuilder: (_, index) {
-                          return PerfumeProductItem(
-                            imgUrl: product[index].images?[0].src??'',
-                            brandName: product[index].brands!.isNotEmpty ? product[index].brands != null ? product[index].brands![0].name : '' : '',
-                            perfumeName: product[index].title??'',
-                            perfumeRate:  double.parse(product[index].averageRating??'0.0'),
-                            rateCount: product[index].ratingCount.toString()?? '0',
-                            priceBeforeDiscount: product[index].regularPrice??'',
-                            priceAfterDiscount:  product[index].salePrice??'',
-                            onTapBuy: (){
-                              print(product[index].id.toString());
-                              Get.to(()=>PerfumeDetailsScreen(productId: product[index].id.toString(),));
-                            },
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      productController.getSearchProductDataData!.value.headers?.xWPTotalPages == null ? LoadingPaggination() : NumberPaginator(
-                        // controller: _controller, cause exception
-                        initialPage: currentPage??0,
-                        numberPages: productController.getSearchProductDataData!.value.headers!.xWPTotalPages!,
-                        config: NumberPaginatorUIConfig(
-                            contentPadding: EdgeInsets.zero,
-                            buttonSelectedBackgroundColor: AppColors.primaryColor,
-                            buttonUnselectedForegroundColor: AppColors.blackColor,
-                            buttonShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r), side:const BorderSide(color: AppColors.greyBorder))),
-                        onPageChange: (int index) {
-                          setState(() {
-                            currentPage = index;
-                          });
-                          ProductApies.productApies.searchProduct(
-                              pageNumber: (index+1).toString(),
-                              order: order,
-                              orderBy: orderBy,
-                              word: widget.word
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              CustomText(
-                                'أخر المشاهدات',
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ],
-                          ),
-                          lastViewedProduct == null ? LoadingProduct(2) :  GridView.builder(
-                            itemCount: lastViewedProduct.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.45.h,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 11.w,
-                              mainAxisSpacing: 16.h,
-                            ),
-                            itemBuilder: (_, index) {
-                              return PerfumeProductItem(
-                                imgUrl: lastViewedProduct[index].images?[0].src??'',
-                                brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                                perfumeName: lastViewedProduct[index].title??'',
-                                perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
-                                rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
-                                priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',
-                                priceAfterDiscount:  lastViewedProduct[index].salePrice??'',
-                                onTapBuy: (){
-                                  print(lastViewedProduct[index].id.toString());
-                                  Get.to(()=>PerfumeDetailsScreen(productId: lastViewedProduct[index].id.toString(),));
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
+          return LazyLoadScrollView(
+            onEndOfPage: (){
+              if (productController.getSearchProductDataData?.value.headers?.xWPTotal != 0){
+                setState(() {
+                  _currentPage++;
+                });
+                ProductApies.productApies
+                    .searchProduct(word: widget.word, pageNumber: _currentPage.toString())
+                    .then((value) {
+                  print('_currentPage ');
+                });
+              }
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 50.h,
                   ),
-                )
-              ],
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+                    child: const BackButton(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                    child: Column(
+                      children: [
+                        CustomSearchBar(
+                          hintText: 'search_by_product_value'.tr,
+                          controller: searchController,
+                          onTapSearch: () {
+                            ProductApies.productApies.listSearchProduct = null;
+                            ProductApies.productApies.searchProduct(pageNumber: '1', word: searchController.text);
+                          },
+                        ),
+                        SizedBox(height: 25.h,),
+                        // loadingProduct(),
+                        ProductApies.productApies.listSearchProduct == null
+                            ? const LoadingProduct(8)
+                            : ProductApies.productApies.listSearchProduct!.isEmpty
+                                ? Container(
+                                    margin: EdgeInsets.only(top: 50.h),
+                                    child: CustomText(
+                                      'no_item_found_value'.tr,
+                                      fontSize: 18.sp,
+                                    ),
+                                  )
+                                : GridView.builder(
+                          padding: EdgeInsets.zero,
+                                    itemCount: ProductApies.productApies.listSearchProduct?.length,
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 0.45.h,
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 11.w,
+                                      mainAxisSpacing: 16.h,
+                                    ),
+                                    itemBuilder: (_, index) {
+                                      return PerfumeProductItem(
+                                        id: ProductApies.productApies.listSearchProduct?[index].id.toString(),
+                                        imgUrl: ProductApies.productApies.listSearchProduct?[index].images?[0].src ?? '',
+                                        brandName: ProductApies.productApies.listSearchProduct![index].brands!.isNotEmpty
+                                            ? ProductApies.productApies.listSearchProduct![index].brands != null
+                                                ? ProductApies.productApies.listSearchProduct![index].brands![0].name
+                                                : ''
+                                            : '',
+                                        perfumeName: ProductApies.productApies.listSearchProduct?[index].title ?? '',
+                                        perfumeRate: double.parse(
+                                            ProductApies.productApies.listSearchProduct?[index].averageRating ?? '0.0'),
+                                        rateCount:
+                                            ProductApies.productApies.listSearchProduct?[index].ratingCount.toString() ?? '0',
+                                        priceBeforeDiscount: ProductApies.productApies.listSearchProduct?[index].regularPrice ?? '',
+                                        priceAfterDiscount: ProductApies.productApies.listSearchProduct?[index].salePrice ?? '',
+                                        onTapBuy: () {
+                                          print(ProductApies.productApies.listSearchProduct?[index].id.toString());
+                                          Get.to(() => PerfumeDetailsScreen(
+                                                productId: ProductApies.productApies.listSearchProduct?[index].id.toString(),
+                                              ));
+                                        },
+                                      );
+                                    },
+                                  ),
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        if (product == null) ...{
+                          CupertinoActivityIndicator()
+                        }
+                        // else if (productController.getSearchProductDataData?.value.headers?.xWPTotal != 0) ...{
+                        //   GestureDetector(
+                        //     onTap: () {
+                        //       setState(() {
+                        //         _currentPage++;
+                        //       });
+                        //       ProductApies.productApies
+                        //           .searchProduct(word: widget.word, pageNumber: _currentPage.toString())
+                        //           .then((value) {
+                        //         print('_currentPage ');
+                        //       });
+                        //     },
+                        //     child: Container(
+                        //         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                        //         decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(10.r)),
+                        //         child: CustomText(
+                        //           'عرض المزيد',
+                        //           fontSize: 13.sp,
+                        //           fontWeight: FontWeight.normal,
+                        //         )),
+                        //   )
+                        // }
+                        else ...{
+                          SizedBox()
+                        },
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                CustomText(
+                                  'last_seen_value'.tr,
+                                  fontSize: 16.sp,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ],
+                            ),
+                            lastViewedProduct == null
+                                ? LoadingProduct(2)
+                                : GridView.builder(
+                                    itemCount: lastViewedProduct.length,
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 0.45.h,
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 11.w,
+                                      mainAxisSpacing: 16.h,
+                                    ),
+                                    itemBuilder: (_, index) {
+                                      return PerfumeProductItem(
+                                        id: lastViewedProduct[index].id.toString(),
+                                        imgUrl: lastViewedProduct[index].images?[0].src ?? '',
+                                        brandName: lastViewedProduct[index].brands!.isNotEmpty
+                                            ? lastViewedProduct[index].brands != null
+                                                ? lastViewedProduct[index].brands![0].name
+                                                : ''
+                                            : '',
+                                        perfumeName: lastViewedProduct[index].title ?? '',
+                                        perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
+                                        rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
+                                        priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
+                                        priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
+                                        onTapBuy: () {
+                                          print(lastViewedProduct[index].id.toString());
+                                          Get.to(() => PerfumeDetailsScreen(
+                                                productId: lastViewedProduct[index].id.toString(),
+                                              ));
+                                        },
+                                      );
+                                    },
+                                  ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
       ),
     );
   }
-
-
 }

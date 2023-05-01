@@ -14,6 +14,7 @@ import '../model/review_response.dart';
 import '../services/Settingss.dart';
 import '../services/helper.dart';
 import '../services/progress_dialog_utils.dart';
+import '../services/sp_helper.dart';
 
 
 
@@ -31,6 +32,8 @@ class ContactUsApies {
           'api-request.php',
           queryParameters: {
             'endpoint': 'page',
+            'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+
           }
       );
       if (response.statusCode == 200) {
@@ -55,7 +58,9 @@ class ContactUsApies {
           data: data,
           queryParameters: {
             "endpoint":"forms",
-            "contact":"true"
+            "contact":"true",
+            'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+
           }
       );
       if (response.statusCode! >= 200) {
@@ -64,11 +69,11 @@ class ContactUsApies {
         print("postComment Successful ");
       } else {
         ProgressDialogUtils.hide();
-        Helper.getSheetError('يرجى التأكد من المعلومات المدخلة');
+        Helper.getSheetError('check_entered_data_value'.tr);
       }
     } catch (e) {
       ProgressDialogUtils.hide();
-      Helper.getSheetError('يرجى التأكد من المعلومات المدخلة');
+      Helper.getSheetError('check_entered_data_value'.tr);
       print(e.toString());
     }
   }

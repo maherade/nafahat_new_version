@@ -1,3 +1,5 @@
+import 'package:flutter/cupertino.dart';
+
 class ProductDetailResponse {
   List<Data>? data;
   Headers? headers;
@@ -41,6 +43,8 @@ class Data {
   int? ratingCount;
   List<Images>? images;
   List<Brands>? brands;
+  String? metaData;
+  List<dynamic>? relatedAds;
 
   Data(
       {this.title,
@@ -52,7 +56,9 @@ class Data {
         this.averageRating,
         this.ratingCount,
         this.images,
-        this.brands});
+        this.brands,
+        this.metaData,
+        this.relatedAds,});
 
   Data.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -73,6 +79,20 @@ class Data {
       brands = <Brands>[];
       json['brands'].forEach((v) {
         brands!.add(new Brands.fromJson(v));
+      });
+    }
+    if (json['meta_data'] != null) {
+      json['meta_data'].forEach((v) {
+        if(v['key']=='_lpfw_product_custom_points'){
+          metaData = v['value'].toString();
+          print('metaData'+v['value'].toString());
+        }
+      });
+    }
+    if (json['related_ids'] != null) {
+      relatedAds = [];
+      json['related_ids'].forEach((v) {
+        relatedAds!.add(v);
       });
     }
   }

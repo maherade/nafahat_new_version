@@ -22,7 +22,7 @@ class CustomSearchBar extends StatelessWidget {
       child: Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15.r)
+          borderRadius: BorderRadius.circular(6.r)
         ),
         child: Row(
           children: [
@@ -50,22 +50,22 @@ class CustomSearchBar extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderSide:  BorderSide(color: Colors.grey.withOpacity(0.5)),
                       borderRadius: BorderRadius.only(
-                        topRight:Radius.circular(15.0.r),
-                        bottomRight:Radius.circular(15.0.r),
+                        topRight:Radius.circular(6.0.r),
+                        bottomRight:Radius.circular(6.0.r),
 
                       ),                  ),
                     enabledBorder: OutlineInputBorder(
-                      borderSide:  BorderSide(color: Colors.grey.withOpacity(0.5)),
+                      borderSide:  BorderSide(color: Colors.transparent),
                       borderRadius: BorderRadius.only(
-                        topRight:Radius.circular(15.0.r),
-                        bottomRight:Radius.circular(15.0.r),
+                        topRight:Radius.circular(6.0.r),
+                        bottomRight:Radius.circular(6.0.r),
 
                       ),                  ),
                     disabledBorder: OutlineInputBorder(
                       borderSide:  BorderSide(color: Colors.grey.withOpacity(0.5)),
                       borderRadius: BorderRadius.only(
-                          topRight:Radius.circular(15.0.r),
-                          bottomRight:Radius.circular(15.0.r),
+                          topRight:Radius.circular(6.0.r),
+                          bottomRight:Radius.circular(6.0.r),
 
                       ),
                     )

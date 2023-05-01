@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:perfume_store_mobile_app/controller/product_controller.dart';
 import 'package:shimmer/shimmer.dart';
@@ -18,10 +20,6 @@ import '../../filter/screens/filter_screen.dart';
 import '../../perfume_details/screens/perfume_details_screen.dart';
 
 class ShowAllProductLessThan100Screen extends StatefulWidget {
-
-
-
-
   @override
   State<ShowAllProductLessThan100Screen> createState() => _ShowAllProductLessThan100ScreenState();
 }
@@ -29,91 +27,63 @@ class ShowAllProductLessThan100Screen extends StatefulWidget {
 class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan100Screen> {
   ProductController productController = Get.find();
 
-  String? selectedDropDown= 'ترتيب حسب الشهرة';
-  int? currentPage;
-
+  String? selectedDropDown = 'order_by_popularity_value'.tr;
+  int _currentPage = 1;
 
   String? order;
   String? orderBy;
 
-  dropDown(String value) {
-    switch (value) {
-      case 'ترتيب حسب الشهرة':
-        ProductApies.productApies.getLessThanPriceProductResponseData(
-            pageNumber: '1',
-            order: 'asc',
-            orderBy: 'popularity',
-            lessThan: '20'
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'popularity';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب معدل التقييم':
-        ProductApies.productApies.getLessThanPriceProductResponseData(
-            pageNumber: '1',
-            lessThan: '20',
-            order: 'asc',
-            orderBy: 'rating'
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'rating';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب الأحدث':
-        ProductApies.productApies.getLessThanPriceProductResponseData(
-            pageNumber: '1',
-            order: 'asc',
-            lessThan: '20',
-            orderBy: 'date'
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'date';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب الأدنى سعرا للأعلى':
-        ProductApies.productApies.getLessThanPriceProductResponseData(
-            pageNumber: '1',
-            lessThan: '20',
-            order: 'desc',
-            orderBy: 'price'
-        );
-        setState(() {
-          order = 'desc';
-          orderBy = 'price';
-          currentPage = 0;
-        });
-        break;
-      case 'ترتيب حسب الأعلى سعرا للأدنى':
-        ProductApies.productApies.getLessThanPriceProductResponseData(
-            pageNumber: '1',
-            lessThan: '20',
-            order: 'desc',
-            orderBy: 'price'
-        );
-        setState(() {
-          order = 'asc';
-          orderBy = 'price';
-          currentPage = 0;
-        });
-        break;
+  void dropDown(String value) {
+    if (value == 'order_by_popularity_value'.tr) {
+      ProductApies.productApies.getLessThanPriceProductResponseData(
+          pageNumber: '1', order: 'asc', orderBy: 'popularity', lessThan: '20');
+      setState(() {
+        order = 'asc';
+        orderBy = 'popularity';
+      });
+    } else if (value == 'order_by_rating_value'.tr) {
+      ProductApies.productApies.getLessThanPriceProductResponseData(
+          pageNumber: '1', lessThan: '20', order: 'asc', orderBy: 'rating');
+      setState(() {
+        order = 'asc';
+        orderBy = 'rating';
+      });
+    } else if (value == 'order_by_recent_value'.tr) {
+      ProductApies.productApies.getLessThanPriceProductResponseData(
+          pageNumber: '1', order: 'asc', lessThan: '20', orderBy: 'date');
+      setState(() {
+        order = 'asc';
+        orderBy = 'date';
+      });
+    } else if (value == 'order_by_min_to_height_price_value'.tr) {
+      ProductApies.productApies.getLessThanPriceProductResponseData(
+          pageNumber: '1', lessThan: '20', order: 'desc', orderBy: 'price');
+      setState(() {
+        order = 'desc';
+        orderBy = 'price';
+      });
+    } else if (value == 'order_by_height_to_min_price_value'.tr) {
+      ProductApies.productApies.getLessThanPriceProductResponseData(
+          pageNumber: '1', lessThan: '20', order: 'desc', orderBy: 'price');
+      setState(() {
+        order = 'asc';
+        orderBy = 'price';
+      });
     }
   }
 
-  getData() async {
-    ProductApies.productApies.getLessThanPriceProductResponseData(lessThan: '20',pageNumber: '1',);
-    ProductApies.productApies.getLastViewProduct(maxPrice: '20');
 
+  getData() async {
+    ProductApies.productApies.getLessThanPriceProductResponseData(
+      lessThan: '20',
+      pageNumber: '1',
+    );
+    ProductApies.productApies.getLastViewProduct(maxPrice: '20');
   }
 
   @override
   void initState() {
+    ProductApies.productApies.listLessThanPriceProduct = null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getData();
     });
@@ -124,193 +94,253 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-            () {
-              var product = productController.getListLessThanPriceProductResponseData!.value.data;
-              var lastViewedProduct = productController.getLastViewedProduct!.value.data;
+        () {
+          var product = productController.getListLessThanPriceProductResponseData!.value.data;
+          var lastViewedProduct = productController.getLastViewedProduct!.value.data;
 
-              return SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 50.h,
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-                  child: const BackButton(),
-                ),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          CustomText(
-                            'منتجات أقل من 20 ريال',
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14.sp,
-                          ),
-                          const Spacer(),
-                          DecoratedBox(
-                            decoration: BoxDecoration(
-                              border: Border.all(color: const Color(0xffF5E7EA), width: 1),
-                              borderRadius: BorderRadius.circular(5),
+          return LazyLoadScrollView(
+            onEndOfPage: (){
+              if (productController.getListLessThanPriceProductResponseData?.value.headers?.xWPTotal != 0){
+                setState(() {
+                  _currentPage++;
+                });
+                ProductApies.productApies
+                    .getLessThanPriceProductResponseData(
+                    lessThan: '20',
+                    order: order,
+                    orderBy: orderBy,
+                    pageNumber: _currentPage.toString())
+                    .then((value) {
+                  print('_currentPage ');
+                });
+              }
+
+            },
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 50.h,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+                    child: const BackButton(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            CustomText(
+                              'product_less_than_value'.tr,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
                             ),
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 7.0.w),
-                              child: DropdownButton<String>(
-                                underline: SizedBox(),
-                                focusColor: Colors.white,
-                                value: selectedDropDown,
-                                style: TextStyle(color: Colors.white, fontSize: 10.sp),
-                                iconEnabledColor: Colors.black,
-                                items: <String>[
-                                  'ترتيب حسب الشهرة',
-                                  'ترتيب حسب معدل التقييم',
-                                  'ترتيب حسب الأحدث',
-                                  'ترتيب حسب الأدنى سعرا للأعلى',
-                                  'ترتيب حسب الأعلى سعرا للأدنى',
-                                ].map<DropdownMenuItem<String>>((String value) {
-                                  return DropdownMenuItem<String>(
-                                    value: value,
-                                    child: CustomText(
-                                      value,
-                                      fontSize: 10.sp,
-                                    ),
+                            const Spacer(),
+                            DecoratedBox(
+                              decoration: BoxDecoration(
+                                border: Border.all(color: const Color(0xffF5E7EA), width: 1),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 7.0.w),
+                                child: DropdownButton<String>(
+                                  underline: SizedBox(),
+                                  focusColor: Colors.white,
+                                  value: selectedDropDown,
+                                  style: TextStyle(color: Colors.white, fontSize: 10.sp),
+                                  iconEnabledColor: Colors.black,
+                                  items: <String>[
+                                    'order_by_popularity_value'.tr,
+                                    'order_by_rating_value'.tr,
+                                    'order_by_recent_value'.tr,
+                                    'order_by_min_to_height_price_value'.tr,
+                                    'order_by_height_to_min_price_value'.tr,
+                                  ].map<DropdownMenuItem<String>>((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: CustomText(
+                                        value,
+                                        fontSize: 10.sp,
+                                      ),
+                                    );
+                                  }).toList(),
+                                  hint: CustomText(
+                                    "order_default_value".tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                  onChanged: (String? value) {
+                                    ProductApies.productApies.listLessThanPriceProduct = null;
+
+                                    dropDown(value!);
+                                    setState(() {
+                                      selectedDropDown = value;
+                                    });
+                                  },
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              width: 12.w,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => FilterScreen());
+                              },
+                              child: SvgPicture.asset(
+                                'assets/svg/filter.svg',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                          ],
+                        ),
+                        // loadingProduct(),
+                        ProductApies.productApies.listLessThanPriceProduct == null
+                            ? const LoadingProduct(8)
+                            : ProductApies.productApies.listLessThanPriceProduct!.isEmpty
+                            ? Container(
+                          margin: EdgeInsets.only(top: 50.h),
+                          child: CustomText(
+                            'no_item_found_value'.tr,
+                            fontSize: 18.sp,
+                          ),
+                        )
+                            : GridView.builder(
+                                itemCount: ProductApies.productApies.listLessThanPriceProduct?.length,
+                                shrinkWrap: true,
+                                physics: const NeverScrollableScrollPhysics(),
+                                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 0.45.h,
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 11.w,
+                                  mainAxisSpacing: 16.h,
+                                ),
+                                itemBuilder: (_, index) {
+                                  return PerfumeProductItem(
+                                    id: ProductApies.productApies.listLessThanPriceProduct?[index].id.toString(),
+                                    imgUrl: ProductApies.productApies.listLessThanPriceProduct?[index].images?[0].src ?? '',
+                                    brandName: ProductApies.productApies.listLessThanPriceProduct![index].brands!.isNotEmpty
+                                        ? ProductApies.productApies.listLessThanPriceProduct![index].brands != null
+                                            ? ProductApies.productApies.listLessThanPriceProduct![index].brands![0].name
+                                            : ''
+                                        : '',
+                                    perfumeName: ProductApies.productApies.listLessThanPriceProduct?[index].title ?? '',
+                                    perfumeRate: double.parse(
+                                        ProductApies.productApies.listLessThanPriceProduct?[index].averageRating ?? '0.0'),
+                                    rateCount:
+                                        ProductApies.productApies.listLessThanPriceProduct?[index].ratingCount.toString() ?? '0',
+                                    priceBeforeDiscount:
+                                        ProductApies.productApies.listLessThanPriceProduct?[index].regularPrice ?? '',
+                                    priceAfterDiscount: ProductApies.productApies.listLessThanPriceProduct?[index].salePrice ?? '',
+                                    onTapBuy: () {
+                                      print(ProductApies.productApies.listLessThanPriceProduct?[index].id.toString());
+                                      Get.to(() => PerfumeDetailsScreen(
+                                            productId: ProductApies.productApies.listLessThanPriceProduct?[index].id.toString(),
+                                          ));
+                                    },
                                   );
-                                }).toList(),
-                                hint: CustomText(
-                                  "الترتيب الإفتراضي",
-                                  fontSize: 12.sp,
+                                },
+                              ),
+                        SizedBox(
+                          height: 40.h,
+                        ),
+
+                        if (product == null) ...{
+                          CupertinoActivityIndicator()
+                        }
+                        // else if (productController.getListLessThanPriceProductResponseData?.value.headers?.xWPTotal != 0) ...{
+                        //   GestureDetector(
+                        //     onTap: () {
+                        //       setState(() {
+                        //         _currentPage++;
+                        //       });
+                        //       ProductApies.productApies
+                        //           .getLessThanPriceProductResponseData(
+                        //               lessThan: '20',
+                        //               order: order,
+                        //               orderBy: orderBy,
+                        //               pageNumber: _currentPage.toString())
+                        //           .then((value) {
+                        //         print('_currentPage ');
+                        //       });
+                        //     },
+                        //     child: Container(
+                        //         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
+                        //         decoration: BoxDecoration(border: Border.all(), borderRadius: BorderRadius.circular(10.r)),
+                        //         child: CustomText(
+                        //           'عرض المزيد',
+                        //           fontSize: 13.sp,
+                        //           fontWeight: FontWeight.normal,
+                        //         )),
+                        //   )
+                        // }
+                        else ...{
+                          SizedBox()
+                        },
+                        SizedBox(
+                          height: 40.h,
+                        ),
+                        Column(
+                          children: [
+                            Row(
+                              children: [
+                                CustomText(
+                                  'last_seen_value'.tr,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.normal,
                                 ),
-                                onChanged: (String? value) {
-                                  dropDown(value!);
-                                  setState(() {
-                                    selectedDropDown = value;
-                                  });
-                                },
-                              ),
+                              ],
                             ),
-                          ),
-                          SizedBox(
-                            width: 12.w,
-                          ),
-                          GestureDetector(
-                            onTap: () {
-                              Get.to(() => FilterScreen());
-                            },
-                            child: SvgPicture.asset(
-                              'assets/svg/filter.svg',
-                              fit: BoxFit.contain,
-                            ),
-                          ),
-                        ],
-                      ),
-                      // loadingProduct(),
-                      product == null ?const LoadingProduct(8) : product.isEmpty ? Center(child: CustomText('لا توجد عناصر')): GridView.builder(
-                        itemCount: product.length < 8 ? product.length : 8,
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                          childAspectRatio: 0.45.h,
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 11.w,
-                          mainAxisSpacing: 16.h,
+                            lastViewedProduct == null
+                                ? LoadingProduct(2)
+                                : GridView.builder(
+                                    itemCount: lastViewedProduct.length,
+                                    shrinkWrap: true,
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                      childAspectRatio: 0.45.h,
+                                      crossAxisCount: 2,
+                                      crossAxisSpacing: 11.w,
+                                      mainAxisSpacing: 16.h,
+                                    ),
+                                    itemBuilder: (_, index) {
+                                      return PerfumeProductItem(
+                                        id: lastViewedProduct[index].id.toString(),
+                                        imgUrl: lastViewedProduct[index].images?[0].src ?? '',
+                                        brandName: lastViewedProduct[index].brands!.isNotEmpty
+                                            ? lastViewedProduct[index].brands != null
+                                                ? lastViewedProduct[index].brands![0].name
+                                                : ''
+                                            : '',
+                                        perfumeName: lastViewedProduct[index].title ?? '',
+                                        perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
+                                        rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
+                                        priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
+                                        priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
+                                        onTapBuy: () {
+                                          print(lastViewedProduct[index].id.toString());
+                                          Get.to(() => PerfumeDetailsScreen(
+                                                productId: lastViewedProduct[index].id.toString(),
+                                              ));
+                                        },
+                                      );
+                                    },
+                                  ),
+                          ],
                         ),
-                        itemBuilder: (_, index) {
-                          return PerfumeProductItem(
-                            imgUrl: product[index].images?[0].src??'',
-                             brandName: product[index].brands!.isNotEmpty ? product[index].brands != null ? product[index].brands![0].name : '' : '',
-                            perfumeName: product[index].title??'',
-                            perfumeRate:  double.parse(product[index].averageRating??'0.0'),
-                            rateCount: product[index].ratingCount.toString()?? '0',
-                            priceBeforeDiscount: product[index].regularPrice??'',
-                            priceAfterDiscount:  product[index].salePrice??'',
-                            onTapBuy: (){
-                              print(product[index].id.toString());
-                              Get.to(()=>PerfumeDetailsScreen(productId: product[index].id.toString(),));
-                            },
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      productController.getListLessThanPriceProductResponseData!.value.headers?.xWPTotalPages == null ? LoadingPaggination() : NumberPaginator(
-                        // controller: _controller, cause exception
-                        initialPage: currentPage??0,
-                        numberPages: productController.getListLessThanPriceProductResponseData!.value.headers!.xWPTotalPages!,
-                        config: NumberPaginatorUIConfig(
-                            contentPadding: EdgeInsets.zero,
-                            buttonSelectedBackgroundColor: AppColors.primaryColor,
-                            buttonUnselectedForegroundColor: AppColors.blackColor,
-                            buttonShape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8.r), side:const BorderSide(color: AppColors.greyBorder))),
-                        onPageChange: (int index) {
-                          setState(() {
-                            currentPage = index;
-                          });
-                          ProductApies.productApies.getLessThanPriceProductResponseData(
-                              lessThan: '20', pageNumber: (index+1).toString(),
-                              order: order,
-                              orderBy: orderBy
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        height: 40.h,
-                      ),
-                      Column(
-                        children: [
-                          Row(
-                            children: [
-                              CustomText(
-                                'أخر المشاهدات',
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.normal,
-                              ),
-                            ],
-                          ),
-                          lastViewedProduct == null ? LoadingProduct(2) :  GridView.builder(
-                            itemCount: lastViewedProduct.length,
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              childAspectRatio: 0.45.h,
-                              crossAxisCount: 2,
-                              crossAxisSpacing: 11.w,
-                              mainAxisSpacing: 16.h,
-                            ),
-                            itemBuilder: (_, index) {
-                              return PerfumeProductItem(
-                                imgUrl: lastViewedProduct[index].images?[0].src??'',
-                                brandName: lastViewedProduct[index].brands!.isNotEmpty ? lastViewedProduct[index].brands != null ? lastViewedProduct[index].brands![0].name : '' : '',
-                                perfumeName: lastViewedProduct[index].title??'',
-                                perfumeRate:  double.parse(lastViewedProduct[index].averageRating??'0.0'),
-                                rateCount: lastViewedProduct[index].ratingCount.toString()?? '0',
-                                priceBeforeDiscount: lastViewedProduct[index].regularPrice??'',
-                                priceAfterDiscount:  lastViewedProduct[index].salePrice??'',
-                                onTapBuy: (){
-                                  print(lastViewedProduct[index].id.toString());
-                                  Get.to(()=>PerfumeDetailsScreen(productId: lastViewedProduct[index].id.toString(),));
-                                },
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
           );
         },
       ),
     );
   }
-
-
 }

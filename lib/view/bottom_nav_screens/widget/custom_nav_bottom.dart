@@ -1,14 +1,7 @@
-
-
-
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../../apies/order_apies.dart';
 import '../../../controller/app_controller.dart';
-import '../../../controller/cart_controller.dart';
 import '../../../services/app_imports.dart';
-import 'package:badges/badges.dart' as badges;
 
 class CustomNavBottom extends StatefulWidget {
   @override
@@ -16,33 +9,24 @@ class CustomNavBottom extends StatefulWidget {
 }
 
 class _CustomNavBottomState extends State<CustomNavBottom> {
-  CartController cartController = Get.find();
-
   @override
   Widget build(BuildContext context) {
     return GetBuilder<AppController>(
       init: AppController(),
       builder: (controller) => SizedBox(
-        height: 80.h,
+        height: 85.h,
         child: BottomNavigationBar(
           elevation: 0,
           // backgroundColor: Colors.white,
           currentIndex: controller.indexScreen,
-          onTap:(value) async {
+          onTap: (value) async {
             controller.setIndexScreen(value);
-            if(value == 0 ){
-
-            }else if (value == 1){
-
-            }
-            else if (value == 2){
-
-            }
-            else if (value == 3){
-
-            }else if (value == 4){
-
-            }
+            if (value == 0) {
+            } else if (value == 1) {
+            } else if (value == 2) {
+            } else if (value == 3) {
+            } else if (value == 4) {
+            } else if (value == 5) {}
           },
           showSelectedLabels: false,
           type: BottomNavigationBarType.fixed,
@@ -58,7 +42,11 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                     color: AppColors.greenText,
                     fit: BoxFit.contain,
                   ),
-                  CustomText('الرئيسية',fontSize: 12.sp,color: AppColors.greenText,)
+                  CustomText(
+                    'bottom_nav_home_value'.tr,
+                    fontSize: 12.sp,
+                    color: AppColors.greenText,
+                  )
                 ],
               ),
               icon: Column(
@@ -68,7 +56,11 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                     color: AppColors.blackColor,
                     fit: BoxFit.contain,
                   ),
-                  CustomText('الرئيسية',fontSize: 12.sp,fontWeight: FontWeight.normal,)
+                  CustomText(
+                    'bottom_nav_home_value'.tr,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.normal,
+                  )
                 ],
               ),
               label: "",
@@ -77,24 +69,36 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
             BottomNavigationBarItem(
               activeIcon: Column(
                 children: [
-                  SvgPicture.asset(
-                    'assets/svg/products.svg',
-                    color: AppColors.greenText,
+                  Image.asset(
+                    'assets/images/category.png',
+                    color: AppColors.green,
                     fit: BoxFit.contain,
+                    height: 24.h,
+                    width: 24.w,
                   ),
-                  CustomText('المنتجات',fontSize: 12.sp,color: AppColors.greenText,)
-
+                  CustomText(
+                    'bottom_nav_category_value'.tr,
+                    fontSize: 12.sp,
+                    color: AppColors.green,
+                  )
                 ],
               ),
-              icon:  Column(
+              icon: Column(
                 children: [
-                  SvgPicture.asset(
-                    'assets/svg/products.svg',
+                  Image.asset(
+                    'assets/images/category.png',
                     color: AppColors.blackColor,
                     fit: BoxFit.contain,
+                    height: 24.h,
+                    width: 24.w,
                   ),
-                  CustomText('المنتجات',fontSize: 12.sp,fontWeight: FontWeight.normal,)
+                  CustomText(
+                    'bottom_nav_category_value'.tr,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.normal,
+                    color: AppColors.blackColor,
 
+                  )
                 ],
               ),
               label: "",
@@ -103,22 +107,34 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
             BottomNavigationBarItem(
               activeIcon: Column(
                 children: [
-                  SvgPicture.asset(
-                    'assets/svg/wholesale.svg',
-                    color: AppColors.greenText,
-                    fit: BoxFit.contain,
-                  ),
-                  CustomText('البيع بالجملة',fontSize: 12.sp,color: AppColors.greenText,)
-                ],
-              ),
-              icon:  Column(
-                children: [
-                  SvgPicture.asset(
-                    'assets/svg/wholesale.svg',
+                  Image.asset(
+                    'assets/images/brand.png',
                     color: AppColors.blackColor,
                     fit: BoxFit.contain,
+                    height: 25.h,
+                    width: 25.w,
                   ),
-                  CustomText('البيع بالجملة',fontSize: 12.sp,fontWeight: FontWeight.normal,)
+                  CustomText(
+                    'bottom_nav_brand_value'.tr,
+                    fontSize: 12.sp,
+                    color: AppColors.greenText,
+                  )
+                ],
+              ),
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/brand.png',
+                    color: AppColors.blackColor,
+                    fit: BoxFit.contain,
+                    height: 25.h,
+                    width: 25.w,
+                  ),
+                  CustomText(
+                    'bottom_nav_brand_value'.tr,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.normal,
+                  )
                 ],
               ),
               label: "",
@@ -132,85 +148,59 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                     color: AppColors.greenText,
                     fit: BoxFit.contain,
                   ),
-                  CustomText('بكجات الهدايا',fontSize: 12.sp,color: AppColors.greenText,)
+                  CustomText(
+                    'bottom_nav_gift_package_value'.tr,
+                    fontSize: 12.sp,
+                    color: AppColors.greenText,
+                  )
                 ],
               ),
-              icon:  Column(
+              icon: Column(
                 children: [
                   SvgPicture.asset(
                     'assets/svg/gift.svg',
                     color: AppColors.blackColor,
                     fit: BoxFit.contain,
                   ),
-                  CustomText('بكجات الهدايا',fontSize: 12.sp,fontWeight: FontWeight.normal,)
+                  CustomText(
+                    'bottom_nav_gift_package_value'.tr,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.normal,
+                  )
                 ],
               ),
               label: "",
             ),
-//------------------------- Nav 5 -------------------------------------
+
+//------------------------- Nav 6 -------------------------------------
             BottomNavigationBarItem(
-              activeIcon: GetBuilder<CartController>(
-                init: CartController(),
-                builder: (controller) {
-                  return badges.Badge(
-                    showBadge: cartController.items.isNotEmpty ? true :false,
-                    position: badges.BadgePosition.topEnd(),
-                    badgeStyle: badges.BadgeStyle(
-                      shape: badges.BadgeShape.circle,
-                      borderRadius: BorderRadius.circular(12.r),
-                      badgeColor: AppColors.primaryColor,
-                    ),
-
-                    badgeContent: CustomText(
-                      controller.items.length.toString(),
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 11.sp,
-                      textAlign: TextAlign.center,
-                    ),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/svg/cart.svg',
-                          color: AppColors.greenText,
-                          fit: BoxFit.contain,
-                        ),
-                        CustomText('السلة',fontSize: 12.sp,color: AppColors.greenText,)
-                      ],
-                    ),
-                  );
-                },
+              activeIcon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/profilee.png',
+                    color: AppColors.greenText,
+                    fit: BoxFit.contain,
+                  ),
+                  CustomText(
+                    'bottom_nav_account_value'.tr,
+                    fontSize: 12.sp,
+                    color: AppColors.greenText,
+                  )
+                ],
               ),
-              icon:  GetBuilder<CartController>(
-                init: CartController(),
-                builder: (controller) {
-                  return badges.Badge(
-                    showBadge: cartController.items.isNotEmpty ? true :false,
-                    position: badges.BadgePosition.topEnd(),
-                    badgeStyle: badges.BadgeStyle(
-                      shape: badges.BadgeShape.circle,
-                      borderRadius: BorderRadius.circular(12.r),
-                      badgeColor: AppColors.primaryColor,
-                    ),
-
-                    badgeContent: CustomText(
-                      controller.items.length.toString(),
-                      color: Colors.white,
-                      fontWeight: FontWeight.normal,
-                      fontSize: 11.sp,
-                    ),
-                    child: Column(
-                      children: [
-                        SvgPicture.asset(
-                          'assets/svg/cart.svg',
-                          color: AppColors.blackColor,
-                          fit: BoxFit.contain,
-                        ),
-                        CustomText('السلة',fontSize: 12.sp,fontWeight: FontWeight.normal,)
-                      ],
-                    ),
-                  );
-                },
+              icon: Column(
+                children: [
+                  Image.asset(
+                    'assets/images/profilee.png',
+                    color: AppColors.blackColor,
+                    fit: BoxFit.contain,
+                  ),
+                  CustomText(
+                    'bottom_nav_account_value'.tr,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.normal,
+                  )
+                ],
               ),
               label: "",
             ),

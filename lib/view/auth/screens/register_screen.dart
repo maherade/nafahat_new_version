@@ -214,7 +214,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                          }
                          else{
                            ScaffoldMessenger.of(context)
-                               .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
+                               .showSnackBar(const SnackBar(content: Text('كلمة السر لا تتوافق مع الشروط')));
                          }
                        }else{
                          ScaffoldMessenger.of(context)

@@ -5,7 +5,9 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 import 'package:get/get.dart' as myGet;
+import 'package:perfume_store_mobile_app/model/customer_point_response.dart';
 import 'package:perfume_store_mobile_app/model/payment_response.dart';
+import 'package:perfume_store_mobile_app/model/points_response.dart';
 import 'package:perfume_store_mobile_app/model/red_box_response.dart';
 import 'package:perfume_store_mobile_app/model/shippment_label_response.dart';
 import 'package:perfume_store_mobile_app/services/sp_helper.dart';
@@ -14,13 +16,17 @@ import '../const_urls.dart';
 import '../controller/order_controller.dart';
 import '../controller/review_controller.dart';
 import '../model/countries_response.dart';
+import '../model/coupon_response.dart';
+import '../model/delivery_time_response.dart';
 import '../model/order.dart';
+import '../model/order_list_response.dart';
 import '../model/payment_method_response.dart';
 import '../model/review_response.dart';
 import '../model/shipping_method_response.dart';
 import '../services/Settingss.dart';
 import '../services/helper.dart';
 import '../services/progress_dialog_utils.dart';
+import '../view/custom_widget/custom_dialog.dart';
 
 class OrderApies {
   OrderApies._();
@@ -33,24 +39,29 @@ class OrderApies {
     try {
       Response response = await Dio().get(
         'https://nafahat.com/wp-json/wc/v3/shipping_methods',
+        queryParameters: {
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        }
       );
       if (response.statusCode == 200) {
         orderController.getShippingMethodsData!.value = ListShippingMethodsResponse.fromJson(response.data);
-        print("getShippingMethods Successful ");
+        print("getShippingMethods Successful");
       } else {}
     } catch (e) {
       print(e.toString());
     }
   }
 
-  getCountries() async {
+  Future getCountries() async {
     orderController.getCountriesData!.value = ListCountriesResponse();
     try {
       Response response = await Settingss.settings.dio!.get(
         getCountriesURL,
+        queryParameters: {
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        }
       );
       if (response.statusCode == 200) {
-        print(response.data);
         orderController.getCountriesData!.value = ListCountriesResponse.fromJson(response.data);
         print("getCountries Successful ");
       } else {}
@@ -64,9 +75,11 @@ class OrderApies {
     try {
       Response response = await Dio().get(
         'https://nafahat.com/wp-json/wc/v3/payment_gateways',
+        queryParameters: {
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        }
       );
       if (response.statusCode == 200) {
-        print(response.data);
         orderController.getPaymentMethodsData!.value = ListPaymentMethodsResponse.fromJson(response.data);
         print("getPaymentMethods Successful ");
       } else {}
@@ -77,7 +90,6 @@ class OrderApies {
 
 
 
-  final client = HttpClient();
   final key = 'ck_54b7ebd52fd718be81cb1043637c84732aa1705c';
   final secret = 'cs_df50caa82b6d05266923b0f9a6e2aaa000960410';
 
@@ -100,6 +112,7 @@ class OrderApies {
     required List<Map<String, dynamic>> listProduct,
     required List<Map<String, dynamic>> listShipment,
     required List<Map<String, dynamic>> listMetaData,
+     String? couponCode,
   }) async {
     try{
 
@@ -110,6 +123,7 @@ class OrderApies {
 
       final data = {
         if (customer_id != 'null') 'customer_id': customer_id,
+        "status":"processing",
         'payment_method_title': payment_method_title,
         'payment_method': payment_method,
         "set_paid": setPaid,
@@ -140,6 +154,13 @@ class OrderApies {
         'line_items': listProduct,
         "shipping_lines": listShipment,
         'meta_data': listMetaData,
+        if (couponCode != ''&&couponCode!=null) 'coupon_lines': [
+          {
+            'code': couponCode,
+          }
+        ],
+
+
       };
 
       ProgressDialogUtils.show();
@@ -147,9 +168,9 @@ class OrderApies {
       final response = await Dio().post(url, options: options, data: data);
 
       if (response.statusCode == 200) {
-        print('createOrder2'+ response.data.toString());
+        log('createOrder2'+ response.data.toString());
         ProgressDialogUtils.hide();
-        SVProgressHUD.showSuccess(status: 'تم إنشاء الطلب بنجاح');
+        CustomDialog.customDialog.showOrderDoneDialog();
 
         return Order.fromJson(response.data);
 
@@ -175,34 +196,6 @@ class OrderApies {
   }
 
 
-  getPaymentUrl({String? orderId, String? orderKey}) async {
-    try {
-      final token = SPHelper.spHelper.getToken();
-      log(token!);
-
-      orderController.getPaymentHtmlPage!.value = PaymentResponse();
-      log('yehya');
-
-      Response response = await Dio().get(
-        "https://nafahat.com/checkout/order-pay/${orderId}/?pay_for_order=true&key=${orderKey}&naf-token=true",
-        options: Options(headers: {"Authorization": "Bearer ${token}"}),
-      );
-      log('yehya3');
-
-      if (response.statusCode! >= 200) {
-        log('yehya4');
-        orderController.getPaymentHtmlPage!.value = PaymentResponse.fromJson(response.data);
-        // log(orderController.getPaymentHtmlPage!.value.htmlUrl!);
-
-        SPHelper.spHelper.setPaymentHtml(response.data);
-      } else {
-        Helper.getSheetError('error');
-      }
-    } catch (e) {
-      Helper.getSheetError('error');
-      print(e.toString());
-    }
-  }
 
   getRedBoxPlaces({String? lat, String? long, String? distance}) async {
     try {
@@ -218,7 +211,7 @@ class OrderApies {
 
       if (response.statusCode! >= 200) {
         orderController.getRedBoxData!.value = RedBoxResponse.fromJson(jsonDecode(response.data));
-        log(orderController.getRedBoxData!.value.points.toString());
+        log("getRedBoxPlaces");
       } else {
         Helper.getSheetError('error');
       }
@@ -295,6 +288,220 @@ class OrderApies {
 
     } catch (err) {
       // ProgressDialogUtils.hide();
+      print(err);
+    }
+
+  }
+
+
+  getOrderList({String? customerID, String? status}) async {
+    orderController.getOrderListData!.value = ListOrderListResponse();
+    try {
+      Response response = await Dio().get(
+        'https://nafahat.com/wp-json/wc/v3/orders',
+        queryParameters: {
+          if (status != null) 'status': status,
+          "customer" : customerID,
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+
+        }
+      );
+      if (response.statusCode! >= 200) {
+        orderController.getOrderListData!.value = ListOrderListResponse.fromJson(response.data);
+        print("getOrderList Successful ");
+      } else {}
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+   cancelOrder({
+    required String? orderID,
+  }) async {
+    try{
+
+
+      final options = Options(headers: {"Content-Type": "application/json; charset=utf-8"});
+
+      final data = {
+        "status": "cancelled",
+      };
+
+      ProgressDialogUtils.show();
+
+      final response = await Dio().put("https://nafahat.com/wp-json/wc/v3/orders/$orderID", options: options, data: data);
+
+      if (response.statusCode == 200) {
+        print('orderCancelled'+ response.data.toString());
+        ProgressDialogUtils.hide();
+        getOrderList(customerID: SPHelper.spHelper.getUserId(),status: 'processing');
+      } else {
+        ProgressDialogUtils.hide();
+        SVProgressHUD.showError(status: 'حدث خطأ');
+
+      }
+
+    }on DioError catch(err){
+      ProgressDialogUtils.hide();
+      Helper.getSheetError(err.response!.data);
+      print(err.response);
+
+    } catch (err) {
+      ProgressDialogUtils.hide();
+      print(err);
+    }
+  }
+
+
+  getPointList({String? customerID}) async {
+    orderController.getPointsListData!.value = PointsResponse();
+    try {
+      Response response = await Dio().get(
+          'https://nafahat.com/wp-json/loyalty-program/v1/customers/status/$customerID',
+        queryParameters: {
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${SPHelper.spHelper.getAdminToken()}',
+          },
+        ),
+      );
+      if (response.statusCode! >= 200) {
+        orderController.getPointsListData!.value = PointsResponse.fromJson(response.data);
+        print("getPointList Successful ");
+      } else {}
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  getCustomerPoints({String? customerID}) async {
+
+    orderController.getCustomerPointsData!.value = CustomerPointResponse();
+    try {
+      Response response = await Dio().get(
+          'https://nafahat.com/wp-json/wc-loyalty-program/v1/customers/points/$customerID',
+        queryParameters: {
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${SPHelper.spHelper.getAdminToken()}',
+          },
+        ),
+      );
+      if (response.statusCode! >= 200) {
+        orderController.getCustomerPointsData!.value = CustomerPointResponse.fromJson(response.data);
+        print("getCustomerPoints Successful ");
+      } else {}
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+
+
+ Future decreasePoints({String? point,}) async {
+   ProgressDialogUtils.show();
+
+
+    try {
+      final data = {
+        "type": "decrease",
+        "points": point
+      };
+      Response response = await Dio().post(
+          'https://nafahat.com/wp-json/wc-loyalty-program/v1/customers/points/${SPHelper.spHelper.getUserId()}',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${SPHelper.spHelper.getAdminToken()}',
+            "Content-Type": "application/json; charset=utf-8"
+          },
+      ),
+        data: data
+      );
+      if (response.statusCode! >= 200) {
+        ProgressDialogUtils.hide();
+        SVProgressHUD.showSuccess(status: 'تم خصم النقاط');
+        getCustomerPoints(customerID:SPHelper.spHelper.getUserId() );
+        print("decreasePoints Successful ");
+      } else {
+        ProgressDialogUtils.hide();
+        // SVProgressHUD.showError(status: 'ليس لديك نقاط كافية');
+      }
+    } catch (e) {
+      // SVProgressHUD.showError(status: 'ليس لديك نقاط كافية');
+      ProgressDialogUtils.hide();
+
+      print(e.toString());
+    }
+  }
+
+  Future checkCoupon({String? coupon}) async {
+    ProgressDialogUtils.show();
+
+    orderController.getCouponData!.value = CouponResponse();
+    try {
+      Response response = await Dio().get(
+          'https://nafahat.com/wp-json/nafahatapi/v1/validcoupon?code=$coupon',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${SPHelper.spHelper.getAdminToken()}',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        ProgressDialogUtils.hide();
+
+        orderController.getCouponData!.value = CouponResponse.fromJson(response.data);
+        Helper.getSheetSucsses('coupon_active_value'.tr +'${response.data['amount']}'+ 'sar_value'.tr);
+
+      } else {
+        ProgressDialogUtils.hide();
+
+      }
+    }on DioError catch(e){
+      ProgressDialogUtils.hide();
+
+      Helper.getSheetError(e.response!.data['message'].toString());
+    } catch (e) {
+      ProgressDialogUtils.hide();
+
+      Helper.getSheetError('Not Valid');
+    }
+  }
+
+  getTheEstimateDeliveryTime() async {
+    orderController.getDeliveryTimeData!.value = DeliveryTimeResponse();
+    try{
+      String token =
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJvcmdhbml6YXRpb25faWQiOiI2MTU5ZDdlNGNmNTczZTBkYzc2NzQzNWMiLCJrZXkiOiIyMDIzLTAzLTI0VDIwOjIwOjE2LjgwM1oiLCJpYXQiOjE2Nzk2ODkyMTZ9.KpIjND0ReqYnMx-pBypVWnzIs1DYViqVuuHN51yO0Tc';
+
+
+      Response response = await Dio().get(
+        "https://app.redboxsa.com/api/business/v1/estimate-delivery-day",
+        queryParameters: {"point_id":'5ff814063fa47933f7b28f45'},
+        options: Options(headers: {"Authorization": "Bearer ${token}","Content-Type":"application/json",},),
+      );
+
+
+
+      if (response.statusCode == 200) {
+        orderController.getDeliveryTimeData!.value = DeliveryTimeResponse.fromJson(json.decode(response.data));
+
+        print('getTheEstimateDeliveryTime'+ response.data.toString());
+
+      } else {
+
+      }
+
+    }on DioError catch(err){
+
+      print(err.response);
+
+    } catch (err) {
       print(err);
     }
 

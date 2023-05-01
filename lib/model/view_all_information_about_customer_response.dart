@@ -1,73 +1,56 @@
-class ViewAllInformationAboutCustomerResponse {
-  bool? success;
-  Data? data;
+class ListViewAllInformationAboutCustomerResponse {
+  List<ViewAllInformationAboutCustomerResponse>? listViewAllInformationAboutCustomerList;
 
-  ViewAllInformationAboutCustomerResponse({this.success, this.data});
-
-  ViewAllInformationAboutCustomerResponse.fromJson(Map<String, dynamic> json) {
-    success = json['success'];
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.data != null) {
-      data['data'] = this.data!.toJson();
+  ListViewAllInformationAboutCustomerResponse({this.listViewAllInformationAboutCustomerList});
+  ListViewAllInformationAboutCustomerResponse.fromJson(json) {
+    if (json != null) {
+      listViewAllInformationAboutCustomerList = <ViewAllInformationAboutCustomerResponse>[];
+      for (var v in json) {
+        listViewAllInformationAboutCustomerList!.add(ViewAllInformationAboutCustomerResponse.fromJson(v));
+      }
     }
-    return data;
+
   }
+
 }
 
-class Data {
-  int? id;
-  String? dateCreated;
-  String? dateModified;
-  String? email;
-  String? firstName;
-  String? lastName;
-  String? displayName;
-  String? role;
-  String? username;
-  String? avatarUrl;
+class ViewAllInformationAboutCustomerResponse {
+  String? userId;
+  String? userAvatar;
+  String? userBillingFullname;
+  String? userAddress;
+  String? userBillingEmail;
+  String? userMainEmail;
+  String? userLang;
 
-  Data(
-      {this.id,
-        this.dateCreated,
-        this.dateModified,
-        this.email,
-        this.firstName,
-        this.lastName,
-        this.displayName,
-        this.role,
-        this.username,
-        this.avatarUrl});
+  ViewAllInformationAboutCustomerResponse(
+      {this.userId,
+        this.userAvatar,
+        this.userBillingFullname,
+        this.userAddress,
+        this.userBillingEmail,
+        this.userMainEmail,
+        this.userLang});
 
-  Data.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    dateCreated = json['date_created'];
-    dateModified = json['date_modified'];
-    email = json['email'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    displayName = json['display_name'];
-    role = json['role'];
-    username = json['username'];
-    avatarUrl = json['avatar_url'];
+  ViewAllInformationAboutCustomerResponse.fromJson(Map<String, dynamic> json) {
+    userId = json['user_id'];
+    userAvatar = json['user_avatar'];
+    userBillingFullname = json['user_billing_fullname'];
+    userAddress = json['user_address'];
+    userBillingEmail = json['user_billing_email'];
+    userMainEmail = json['user_main_email'];
+    userLang = json['user_lang'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date_created'] = this.dateCreated;
-    data['date_modified'] = this.dateModified;
-    data['email'] = this.email;
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['display_name'] = this.displayName;
-    data['role'] = this.role;
-    data['username'] = this.username;
-    data['avatar_url'] = this.avatarUrl;
+    data['user_id'] = this.userId;
+    data['user_avatar'] = this.userAvatar;
+    data['user_billing_fullname'] = this.userBillingFullname;
+    data['user_address'] = this.userAddress;
+    data['user_billing_email'] = this.userBillingEmail;
+    data['user_main_email'] = this.userMainEmail;
+    data['user_lang'] = this.userLang;
     return data;
   }
 }

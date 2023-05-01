@@ -14,7 +14,17 @@ class SPHelper {
       return sharedPreferences!;
     }
   }
+  setAdminToken(String value) async {
+    await sharedPreferences?.setString('adminToken', value);
+  }
 
+  String? getAdminToken() {
+    String? x = sharedPreferences?.getString('adminToken');
+    return x;
+  }
+  removeAdminToken() async {
+    await sharedPreferences?.remove('adminToken');
+  }
   setToken(String value) async {
    await sharedPreferences?.setString('accessToken', value);
   }
@@ -27,28 +37,31 @@ class SPHelper {
    await sharedPreferences?.remove('accessToken');
   }
 
-
-  setPaymentHtml(String value) async {
-    sharedPreferences?.setString('PaymentHtml', value);
+  setUserId(String value) async {
+   await sharedPreferences?.setString('userId', value);
   }
 
-  String? getPaymentHtml() {
-    String? active = sharedPreferences?.getString('PaymentHtml');
-    return active;
+  String? getUserId() {
+    String? x = sharedPreferences?.getString('userId');
+    return x;
   }
-  clearPaymentHtml(){
-    sharedPreferences?.remove('PaymentHtml');
+  removeUserId() async {
+   await sharedPreferences?.remove('userId');
   }
 
 
-  setUserType(String value) async {
-    sharedPreferences?.setString('userType', value);
+
+
+
+  setDefaultLanguage(String value) async {
+    sharedPreferences?.setString('lang', value);
   }
-  String? getUserType() {
-    String? active = sharedPreferences?.getString('userType');
-    return active;
+
+  String? getDefaultLanguage() {
+    String? defaultLang = sharedPreferences?.getString('lang');
+    return defaultLang??'ar';
   }
-  cleatUserType(){
-    sharedPreferences?.remove('userType');
+  removeDefaultLanguage(){
+    sharedPreferences?.remove('lang');
   }
 }

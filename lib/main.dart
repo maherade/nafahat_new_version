@@ -1,25 +1,35 @@
+import 'dart:async';
+import 'dart:developer';
+import 'dart:io' show Platform;
+
+
+import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
+import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
+import 'package:flutter_paytabs_bridge/PaymentSDKQueryConfiguration.dart';
+import 'package:flutter_paytabs_bridge/PaymentSDKSavedCardInfo.dart';
+import 'package:flutter_paytabs_bridge/PaymentSdkApms.dart';
+import 'package:flutter_paytabs_bridge/PaymentSdkConfigurationDetails.dart';
+import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
+import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
+
 import 'dart:io';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:geideapay/geideapay.dart';
-import 'package:geideapay/widgets/checkout/checkout_options.dart';
+
 import 'package:location/location.dart';
 import 'package:perfume_store_mobile_app/services/Settingss.dart';
-import 'package:perfume_store_mobile_app/services/helper.dart';
+import 'package:perfume_store_mobile_app/services/locale.dart';
+import 'package:perfume_store_mobile_app/services/locale_controller.dart';
 import 'package:perfume_store_mobile_app/services/sp_helper.dart';
-import 'package:perfume_store_mobile_app/services/src/internal/tabby_sdk.dart';
-import 'package:perfume_store_mobile_app/view/geidea_payy/screen/apiFlow.dart';
-import 'package:perfume_store_mobile_app/view/geidea_payy/screen/checkoutFlow.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'apies/auth_apies.dart';
+import 'apies/product_apies.dart';
 import 'controller/app_controller.dart';
 import 'controller/auth_controller.dart';
 import 'controller/brand_controller.dart';
 import 'controller/cart_controller.dart';
 import 'controller/category_controller.dart';
 import 'controller/contact_us_controller.dart';
+import 'controller/favourite_controller.dart';
 import 'controller/order_controller.dart';
 import 'controller/posts_controller.dart';
 import 'controller/product_controller.dart';
@@ -28,40 +38,21 @@ import 'services/app_imports.dart';
 import 'services/firebase_notification.dart';
 import 'services/tabby_flutter_inapp_sdk.dart';
 import 'view/splash/screen/splash_screen.dart';
-import 'package:location/location.dart' as location;
 import 'package:permission_handler/permission_handler.dart' as premession;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  TabbySDK().setup(
-    withApiKey: 'pk_test_ba5ec72a-3026-41f5-bc3a-881f21b9614a', // Put here your Api key
-    environment: Environment.production, // Or use Environment.stage
-  );
-  Firebase.initializeApp();
+  // Firebase.initializeApp();
   await SPHelper.spHelper.initSharedPrefrences();
   await Settingss.settings.initDio();
+  TabbySDK().setup(
+    withApiKey: 'pk_test_ba5ec72a-3026-41f5-bc3a-881f21b9614a', // Put here your Api key
+     environment: Environment.production, // Or use Environment.stage
+  );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.primaryColor,
   ));
-  if (Platform.isAndroid) {
-    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
-    var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
-        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
-    var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
-        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
 
-    if (swAvailable && swInterceptAvailable) {
-      AndroidServiceWorkerController serviceWorkerController =
-      AndroidServiceWorkerController.instance();
-
-      serviceWorkerController.serviceWorkerClient = AndroidServiceWorkerClient(
-        shouldInterceptRequest: (request) async {
-          print(request);
-          return null;
-        },
-      );
-    }
-  }
   runApp(
     const MyApp(),
   );
@@ -75,9 +66,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+
   @override
   void initState() {
-    NotificationHelper().initialNotification();
+    // NotificationHelper().initialNotification();
+    log("User Token${SPHelper.spHelper.getToken()}");
     Location.instance.requestPermission();
     requestMapPermission();
     super.initState();
@@ -87,6 +80,8 @@ class _MyAppState extends State<MyApp> {
 }
   @override
   Widget build(BuildContext context) {
+    MyLocaleController controller = Get.put(MyLocaleController());
+
     return ScreenUtilInit(
       designSize: const Size(375, 853),
       builder: (context, child) {
@@ -98,13 +93,9 @@ class _MyAppState extends State<MyApp> {
           defaultTransition: Transition.fadeIn,
           transitionDuration: const Duration(milliseconds: 300),
           debugShowCheckedModeBanner: false,
-          locale: const Locale('ar'),
-          fallbackLocale: const Locale('ar'),
-          localizationsDelegates: const [
-            GlobalCupertinoLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-          ],
+           // locale: Locale('ar'),
+           locale: controller.initialLang,
+          translations: MyLocale(),
           builder: (context, widget) {
             Get.put(AppController());
             Get.put(CategoryController());
@@ -116,11 +107,9 @@ class _MyAppState extends State<MyApp> {
             Get.put(AuthController());
             Get.put(OrderController());
             Get.put(ContactUsController());
+            Get.put(FavouriteController());
             return widget!;
           },
-          supportedLocales: const [
-            Locale('ar', 'AE'),
-          ],
           home: SplashScreen() ,
         );
       },
@@ -129,375 +118,344 @@ class _MyAppState extends State<MyApp> {
 }
 
 
-class CurrentLocationScreen extends StatefulWidget {
+
+class Bannders extends StatefulWidget {
+  const Bannders({Key? key}) : super(key: key);
+
   @override
-  _CurrentLocationScreenState createState() => _CurrentLocationScreenState();
+  State<Bannders> createState() => _BanndersState();
 }
 
-class _CurrentLocationScreenState extends State<CurrentLocationScreen> {
-  LocationData? _currentLocation;
+class _BanndersState extends State<Bannders> {
+  ProductController productController = Get.find();
+
+  @override
+  void initState() {
+    ProductApies.productApies.getAds();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Obx(
+            () {
+          var ads = productController.getAdsData?.value.listAdsResponse;
+          return ListView.builder(
+            itemCount: ads?.length,
+            itemBuilder: (context, index) {
+              return Row(
+                children: [
+                  CustomText(index.toString()),
+                  Image.network(ads?[index].image??'',width: 300,height: 70,fit: BoxFit.fill,)
+                ],
+              );
+            },);
+        },
+      ),
+    );
+  }
+}
+
+
+class TestPay extends StatefulWidget {
+  @override
+  _TestPayState createState() => _TestPayState();
+}
+
+class _TestPayState extends State<TestPay> {
+  String _instructions = 'Tap on "Pay" Button to try PayTabs plugin';
 
   @override
   void initState() {
     super.initState();
-    _getCurrentLocation();
   }
 
-  _getCurrentLocation() async {
-    Location location = Location();
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) {
-      serviceEnabled = await location.requestService();
-      if (!serviceEnabled) {
-        return;
-      }
-    }
+  PaymentSdkConfigurationDetails generateConfig() {
+    var billingDetails = BillingDetails("John Smith", "email@domain.com",
+        "+97311111111", "st. 12", "eg", "dubai", "dubai", "12345");
+    var shippingDetails = ShippingDetails("John Smith", "email@domain.com",
+        "+97311111111", "st. 12", "eg", "dubai", "dubai", "12345");
+    List<PaymentSdkAPms> apms = [];
+    apms.add(PaymentSdkAPms.STC_PAY);
+    var configuration = PaymentSdkConfigurationDetails(
+        profileId: "63904",
+        serverKey: "STJNNNTDKB-JBKWMD9Z9R-LKLNZBJLG2",
+        clientKey: "CHKMMD-6MQ962-KVNDP9-NVRM92",
+        cartId: "12433",
+        cartDescription: "Flowers",
+        merchantName: "Flowers Store",
+        screentTitle: "Pay with Card",
+        amount: 20.0,
+        showBillingInfo: true,
+        forceShippingInfo: false,
+        currencyCode: "EGP",
+        merchantCountryCode: "EG",
+        billingDetails: billingDetails,
+        shippingDetails: shippingDetails,
+        alternativePaymentMethods: apms,
+        linkBillingNameWithCardHolderName: true);
 
-    premession.PermissionStatus permission = await Permission.locationWhenInUse.status;
-    if (permission ==  premession.PermissionStatus.denied) {
-      permission = await Permission.locationWhenInUse.request();
-      if (permission !=  premession.PermissionStatus.granted) {
-        return;
-      }
-    }
+    var theme = IOSThemeConfigurations();
 
-    LocationData locationData = await location.getLocation();
-    setState(() {
-      _currentLocation = locationData;
+    theme.logoImage = "assets/images/logo.png";
+
+    configuration.iOSThemeConfigurations = theme;
+    configuration.tokeniseType = PaymentSdkTokeniseType.MERCHANT_MANDATORY;
+    return configuration;
+  }
+
+  Future<void> payPressed() async {
+    FlutterPaytabsBridge.startCardPayment(generateConfig(), (event) {
+      setState(() {
+        if (event["status"] == "success") {
+          // Handle transaction details here.
+          var transactionDetails = event["data"];
+          print(transactionDetails);
+          if (transactionDetails["isSuccess"]) {
+            print("successful transaction");
+            if (transactionDetails["isPending"]) {
+              print("transaction pending");
+            }
+          } else {
+            print("failed transaction");
+          }
+
+          // print(transactionDetails["isSuccess"]);
+        } else if (event["status"] == "error") {
+          // Handle error here.
+        } else if (event["status"] == "event") {
+          // Handle events here.
+        }
+      });
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Current Location'),
-      ),
-      body: Center(
-        child: _currentLocation == null
-            ? CircularProgressIndicator()
-            : Text(
-            'LAT: ${_currentLocation?.latitude}, LNG: ${_currentLocation?.longitude}'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (_currentLocation != null) {
-            print(
-                'Current location: LAT: ${_currentLocation?.latitude}, LNG: ${_currentLocation?.longitude}');
+  Future<void> payWithTokenPressed() async {
+    FlutterPaytabsBridge.startTokenizedCardPayment(
+        generateConfig(), "*Token*", "*TransactionReference*", (event) {
+      setState(() {
+        if (event["status"] == "success") {
+          // Handle transaction details here.
+          var transactionDetails = event["data"];
+          print(transactionDetails);
+          if (transactionDetails["isSuccess"]) {
+            print("successful transaction");
+            if (transactionDetails["isPending"]) {
+              print("transaction pending");
+            }
           } else {
-            print('Current location not available');
+            print("failed transaction");
           }
+
+          // print(transactionDetails["isSuccess"]);
+        } else if (event["status"] == "error") {
+          // Handle error here.
+        } else if (event["status"] == "event") {
+          // Handle events here.
+        }
+      });
+    });
+  }
+
+  Future<void> payWith3ds() async {
+    FlutterPaytabsBridge.start3DSecureTokenizedCardPayment(
+        generateConfig(),
+        PaymentSDKSavedCardInfo("4111 11## #### 1111", "visa"),
+        "*Token*", (event) {
+      setState(() {
+        if (event["status"] == "success") {
+          // Handle transaction details here.
+          var transactionDetails = event["data"];
+          print(transactionDetails);
+          if (transactionDetails["isSuccess"]) {
+            print("successful transaction");
+            if (transactionDetails["isPending"]) {
+              print("transaction pending");
+            }
+          } else {
+            print("failed transaction");
+          }
+
+          // print(transactionDetails["isSuccess"]);
+        } else if (event["status"] == "error") {
+          // Handle error here.
+        } else if (event["status"] == "event") {
+          // Handle events here.
+        }
+      });
+    });
+  }
+
+  Future<void> payWithSavedCards() async {
+    FlutterPaytabsBridge.startPaymentWithSavedCards(generateConfig(), false,
+            (event) {
+          setState(() {
+            if (event["status"] == "success") {
+              // Handle transaction details here.
+              var transactionDetails = event["data"];
+              print(transactionDetails);
+              if (transactionDetails["isSuccess"]) {
+                print("successful transaction");
+                if (transactionDetails["isPending"]) {
+                  print("transaction pending");
+                }
+              } else {
+                print("failed transaction");
+              }
+
+              // print(transactionDetails["isSuccess"]);
+            } else if (event["status"] == "error") {
+              // Handle error here.
+            } else if (event["status"] == "event") {
+              // Handle events here.
+            }
+          });
+        });
+  }
+
+  Future<void> apmsPayPressed() async {
+    FlutterPaytabsBridge.startAlternativePaymentMethod(await generateConfig(),
+            (event) {
+          setState(() {
+            if (event["status"] == "success") {
+              // Handle transaction details here.
+              var transactionDetails = event["data"];
+              print(transactionDetails);
+            } else if (event["status"] == "error") {
+              // Handle error here.
+            } else if (event["status"] == "event") {
+              // Handle events here.
+            }
+          });
+        });
+  }
+
+  Future<void> queryPressed() async {
+    FlutterPaytabsBridge.queryTransaction(
+        generateConfig(), generateQueryConfig(), (event) {
+      setState(() {
+        if (event["status"] == "success") {
+          // Handle transaction details here.
+          var transactionDetails = event["data"];
+          print(transactionDetails);
+        } else if (event["status"] == "error") {
+          // Handle error here.
+        } else if (event["status"] == "event") {
+          // Handle events here.
+        }
+      });
+    });
+  }
+
+  Future<void> applePayPressed() async {
+    var configuration = PaymentSdkConfigurationDetails(
+        profileId: "*Profile id*",
+        serverKey: "*server key*",
+        clientKey: "*client key*",
+        cartId: "12433",
+        cartDescription: "Flowers",
+        merchantName: "Flowers Store",
+        amount: 20.0,
+        currencyCode: "AED",
+        merchantCountryCode: "ae",
+        merchantApplePayIndentifier: "merchant.com.bunldeId",
+        simplifyApplePayValidation: true);
+    FlutterPaytabsBridge.startApplePayPayment(configuration, (event) {
+      setState(() {
+        if (event["status"] == "success") {
+          // Handle transaction details here.
+          var transactionDetails = event["data"];
+          print(transactionDetails);
+        } else if (event["status"] == "error") {
+          // Handle error here.
+        } else if (event["status"] == "event") {
+          // Handle events here.
+        }
+      });
+    });
+  }
+
+  Widget applePayButton() {
+    if (Platform.isIOS) {
+      return TextButton(
+        onPressed: () {
+          applePayPressed();
         },
-        child: Icon(Icons.location_on),
-      ),
-    );
-  }
-}
-
-class TestGGG extends StatefulWidget {
-  const TestGGG({Key? key}) : super(key: key);
-
-  @override
-  State<TestGGG> createState() => _TestGGGState();
-}
-
-class _TestGGGState extends State<TestGGG> {
-  bool _checkoutInProgress = false;
-  final plugin = GeideapayPlugin();
-  String geideaPublicKey = 'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70';
-  String geideaApiPassword = '0c9b36c1-3410-4b96-878a-dbd54ace4e9a';
-  @override
-  void initState() {
-    plugin.initialize(publicKey: geideaPublicKey, apiPassword: geideaApiPassword );
-    super.initState();
-  }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _getPlatformButton(
-                'Checkout',
-                    () => _handleCheckout(context,CheckoutOptions(
-                  '100', 'EGP',
-                  callbackUrl: '',
-                  lang: 'EN',
-                  customerEmail: '',
-                  merchantReferenceID: '',
-                  paymentIntentId: '',
-                  paymentOperation: 'Default (merchant configuration)',
-                  showShipping: false,
-                  showBilling: false,
-                  showSaveCard: false,
-                )),
-                true
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  String truncate(String text, { length: 200, omission: '...' }) {
-    if (length >= text.length) {
-      return text;
-    }
-    return text.replaceRange(length, text.length, omission);
-  }
-  _handleCheckout(BuildContext context,checkoutOptions) async {
-
-    setState(() => _checkoutInProgress = true);
-    try {
-      OrderApiResponse response =
-      await plugin.checkout(
-          context: context, checkoutOptions: checkoutOptions);
-      print('Response = $response');
-      setState(() => _checkoutInProgress = false);
-
-      _updateStatus(
-          response.detailedResponseMessage, truncate(response.toString()));
-    } catch (e) {
-      setState(() => _checkoutInProgress = false);
-      _showMessage(e.toString());
-      //rethrow;
-    }
-
-  }
-  _updateStatus(String? reference, String? message) {
-    _showMessage('Reference: $reference \n Response: $message',
-        const Duration(seconds: 7));
-  }
-
-  _showMessage(String message,
-      [Duration duration = const Duration(seconds: 4)]) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      duration: duration,
-      action: SnackBarAction(
-          label: 'CLOSE',
-          onPressed: () =>
-              ScaffoldMessenger.of(context).removeCurrentSnackBar()),
-    ));
-  }
-  Widget _getPlatformButton(String string, Function() function, bool active) {
-    // is still in progress
-    Widget widget;
-    if (Platform.isIOS) {
-      widget = CupertinoButton(
-        onPressed: function,
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        color: active? CupertinoColors.activeBlue : CupertinoColors.inactiveGray,
-        child: Text(
-          string,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    } else {
-      widget = ElevatedButton(
-        onPressed: active? function : null,
-        child: Text(
-          string.toUpperCase(),
-          style: const TextStyle(fontSize: 17.0),
-        ),
-        style: ButtonStyle(
-            backgroundColor: active? MaterialStateProperty.all(Colors.lightBlue) : MaterialStateProperty.all(Colors.grey)),
+        child: Text('Pay with Apple Pay'),
       );
     }
-    return widget;
-  }
-}
-
-class TestGeidea extends StatefulWidget {
-  @override
-  State<TestGeidea> createState() => _TestGeideaState();
-}
-
-class _TestGeideaState extends State<TestGeidea> {
-  String geideaPublicKey = '';
-
-  String geideaApiPassword = '';
-
-  var publicKeyTxt = TextEditingController();
-
-  var apiPasswordTxt = TextEditingController();
-
-  @override
-  void initState() {
-    publicKeyTxt.text = geideaPublicKey = 'f7bdf1db-f67e-409b-8fe7-f7ecf9634f70';
-    apiPasswordTxt.text = geideaApiPassword = '0c9b36c1-3410-4b96-878a-dbd54ace4e9a';
-    super.initState();
+    return SizedBox(height: 0);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-            padding: const EdgeInsets.all(20.0),
-            child: Form(
-                child: SingleChildScrollView(
-                    child: ListBody(
-                        children: <Widget>[
-                          TextField(
-                            controller: publicKeyTxt,
-                            onChanged: (value) {
-                              setState(() {
-                                geideaPublicKey = value;
-                              });
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'Public Key',
-                              labelText: 'Public Key',
-                              contentPadding:
-                              EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(1.0)),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          TextField(
-                            controller: apiPasswordTxt,
-                            onChanged: (value) {
-                              setState(() {
-                                geideaApiPassword = value;
-                              });
-                            },
-                            decoration: const InputDecoration(
-                              hintText: 'Api Password',
-                              labelText: 'Api Password',
-                              contentPadding:
-                              EdgeInsets.symmetric(vertical: 10.0, horizontal: 20.0),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.all(Radius.circular(1.0)),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 30.0,
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Flexible(
-                                flex: 2,
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: _getPlatformButton(
-                                      'Checkout Flow',
-                                          () => _handleCheckout(context),
-                                      (geideaApiPassword != '' && geideaPublicKey != '') ?  true : false
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 10.0,
-                          ),
-                          Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: <Widget>[
-                              Flexible(
-                                flex: 2,
-                                child: SizedBox(
-                                  width: double.infinity,
-                                  child: _getPlatformButton(
-                                      'API Flow',
-                                          () => _handleApi(context),
-                                      (geideaApiPassword != '' && geideaPublicKey != '') ?  true : false
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ]
-                    )
-                )
-            )
-        )
-    );
-  }
-  _handleCheckout(BuildContext context) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => CheckoutFlow(geideaPublicKey, geideaApiPassword)),
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: const Text('PayTabs Plugin Example App'),
+        ),
+        body: Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Text('$_instructions'),
+                  SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      payPressed();
+                    },
+                    child: Text('Pay with Card'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      payWithTokenPressed();
+                    },
+                    child: Text('Pay with Token'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      payWith3ds();
+                    },
+                    child: Text('Pay with 3ds'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      payWithSavedCards();
+                    },
+                    child: Text('Pay with saved cards'),
+                  ),
+                  SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      apmsPayPressed();
+                    },
+                    child: Text('Pay with Alternative payment methods'),
+                  ),
+                  SizedBox(height: 16),
+                  TextButton(
+                    onPressed: () {
+                      queryPressed();
+                    },
+                    child: Text('Query transaction'),
+                  ),
+                  SizedBox(height: 16),
+                  applePayButton()
+                ])),
+      ),
     );
   }
 
-  _handleApi(BuildContext context) async {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ApiFlow(geideaPublicKey, geideaApiPassword)),
-    );
-  }
-
-  Widget _getPlatformButton(String string, Function() function, bool active) {
-    // is still in progress
-    Widget widget;
-    if (Platform.isIOS) {
-      widget = CupertinoButton(
-        onPressed: function,
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        color: active? CupertinoColors.activeBlue : CupertinoColors.inactiveGray,
-        child: Text(
-          string,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-      );
-    } else {
-      widget = ElevatedButton(
-        onPressed: active? function : null,
-        child: Text(
-          string.toUpperCase(),
-          style: const TextStyle(fontSize: 17.0),
-        ),
-        style: ButtonStyle(
-            backgroundColor: active? MaterialStateProperty.all(Colors.lightBlue) : MaterialStateProperty.all(Colors.grey)),
-      );
-    }
-    return widget;
+  PaymentSDKQueryConfiguration generateQueryConfig() {
+    return new PaymentSDKQueryConfiguration("ServerKey", "ClientKey",
+        "Country Iso 2", "Profile Id", "Transaction Reference");
   }
 }
 
 
-//yehyâaaaaa
-// class Tesstt extends StatelessWidget {
-//   const Tesstt({Key? key}) : super(key: key);
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       floatingActionButton: FloatingActionButton(
-//         onPressed: () async {
-//           Order order = await OrderApies.orderApies.createOrder2(payment_method: 'bacs',
-//               payment_method_title: "Direct Bank Transfer",
-//               firstName: "bawaseem",
-//               lastName: "shawwa",
-//               addressOne: "969 Market",
-//               addressTwo: "",
-//               city:"San Francisco",
-//               country: "US",
-//               state:"CA",
-//               postcode:  "94103",
-//               email: "john.doe@example.com",
-//               phone: "(555) 555-5555",
-//               total: '500',
-//               product_id: 1023,
-//               quantity: 1);
-//           print(order);
-//         },
-//       ),
-//     );
-//   }
-// }
+
+
+
+
+
+
 

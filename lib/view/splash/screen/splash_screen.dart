@@ -1,6 +1,7 @@
 
 
 
+import '../../../apies/auth_apies.dart';
 import '../../../services/app_imports.dart';
 import '../../../services/sp_helper.dart';
 import '../../auth/screens/login_screen.dart';
@@ -14,11 +15,15 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-    var delay =const Duration(seconds: 3);
+    AuthApis.authApis.getAdminToken().then((value) {
+      var delay =const Duration(seconds: 2);
 
-    Future.delayed(delay, () {
-      Get.to(()=>NavBarScreen());
+      Future.delayed(delay, () {
+        Get.to(()=>NavBarScreen());
+      });
     });
+
+
     super.initState();
   }
 

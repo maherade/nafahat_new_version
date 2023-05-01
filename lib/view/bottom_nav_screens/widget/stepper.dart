@@ -4,9 +4,9 @@ import '../../../services/app_imports.dart';
 class StepperRealEstates extends StatelessWidget {
   final int index;
   List<String> titles = [
-    'سلة التسوق',
-    "تأكيد",
-    "اتمام عملية الشراء",
+    'cart_value'.tr,
+    "confirm_value".tr,
+    "complete_buy_process_value".tr,
   ];
 
   //todo:two list: icons and text ;

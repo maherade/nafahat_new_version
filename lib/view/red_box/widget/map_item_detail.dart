@@ -39,7 +39,7 @@ class _MapItemDetailsState extends State<MapItemDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('المضيف :'.tr),
+                      Text('host_value'.tr),
                       Text(appController.myMarker?.point?.hostNameAr ?? ''),
                     ],
                   ),
@@ -49,7 +49,7 @@ class _MapItemDetailsState extends State<MapItemDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('الشارع :'.tr),
+                      Text('street_value'.tr),
                       SizedBox(
                         width: 20,
                       ),
@@ -62,8 +62,8 @@ class _MapItemDetailsState extends State<MapItemDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('المدينة :'.tr),
-                      Text(appController.myMarker?.point?.city?.ar ?? 'No Name'),
+                      Text('city_value'.tr),
+                      Text(appController.myMarker?.point?.city?.ar ?? '--'),
                     ],
                   ),
                   const SizedBox(
@@ -72,7 +72,7 @@ class _MapItemDetailsState extends State<MapItemDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('اسم النقطة :'.tr),
+                      Text('point_name_value'.tr),
                       Text(appController.myMarker?.point?.pointName ?? ''),
                     ],
                   ),
@@ -82,7 +82,7 @@ class _MapItemDetailsState extends State<MapItemDetails> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text('تفاصيل :'.tr),
+                      Text('details_value'.tr),
                       SizedBox(width: 15,),
                       Flexible(child: Text(appController.myMarker?.point?.description ?? '')),
                     ],
@@ -101,7 +101,7 @@ class _MapItemDetailsState extends State<MapItemDetails> {
                         borderRadius: BorderRadius.circular(15.r),
                       ),
                       child: CustomText(
-                        'اختر النقطة',
+                        'select_point_value'.tr,
                         fontSize: 14.sp,
                         color: Colors.white,
                       ),

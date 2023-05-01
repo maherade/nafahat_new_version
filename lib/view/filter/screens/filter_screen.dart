@@ -1,6 +1,9 @@
+import 'package:flutter/cupertino.dart';
+import 'package:perfume_store_mobile_app/apies/brand_apies.dart';
 import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import 'package:perfume_store_mobile_app/controller/category_controller.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
+import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field.dart';
 
 import '../../../apies/category_apies.dart';
 import '../../../services/app_imports.dart';
@@ -27,6 +30,7 @@ class _FilterScreenState extends State<FilterScreen> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       CategoryApies.categoryApies.getCategoryData('0');
+      BrandApies.brandApies.getBrandData();
     });
     super.initState();
   }
@@ -71,7 +75,7 @@ class _FilterScreenState extends State<FilterScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         CustomText(
-                          'فرز حسب',
+                          'frz_by_value'.tr,
                           fontSize: 18.sp,
                         ),
                         Divider(
@@ -81,17 +85,17 @@ class _FilterScreenState extends State<FilterScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText('الماركات', fontSize: 18.sp, fontWeight: FontWeight.normal),
+                            CustomText('brands_value'.tr, fontSize: 18.sp, fontWeight: FontWeight.normal),
                             SizedBox(
                               height: 18.h,
                             ),
-                            CustomText(
-                              'بحث في الماركات',
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.normal,
-                              color: const Color(0xff9E9E9E),
+                            CustomTextFormField(
+                              hintText: 'search_by_brand_value'.tr,
+                              onChange: (value){
+                                BrandApies.brandApies.getBrandData(search: value);
+                              },
                             ),
-                           brand == null || brand.isEmpty ?SizedBox() :ListView.builder(
+                           brand == null ?Center(child: CupertinoActivityIndicator()) :brand.isEmpty? CustomText('لا تتوفر نتائج',fontSize: 13.sp,):ListView.builder(
                              padding: EdgeInsets.symmetric(vertical: 5.h),
                               physics: const NeverScrollableScrollPhysics(),
                               shrinkWrap: true,
@@ -100,16 +104,16 @@ class _FilterScreenState extends State<FilterScreen> {
                                 return Row(
                                   children: [
                                     Checkbox(
-                                      value: selectedBrandId == brand[index].termId,
+                                      value: selectedBrandId == brand[index].data?.termId,
                                       onChanged: (bool? value) {
                                         setState(() {
-                                          selectedBrandId = brand[index].termId;
-                                          selectedBrandName = brand[index].name;
+                                          selectedBrandId = int.parse(brand[index].data!.termId!);
+                                          selectedBrandName = brand[index].data?.name;
                                         });
                                       },
                                       activeColor: AppColors.primaryColor,
                                     ),
-                                    CustomText(brand[index].name, fontSize: 16.sp, fontWeight: FontWeight.normal),
+                                    CustomText(brand[index].data?.name, fontSize: 16.sp, fontWeight: FontWeight.normal),
                                   ],
                                 );
 
@@ -125,7 +129,7 @@ class _FilterScreenState extends State<FilterScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText('السعر', fontSize: 18.sp, fontWeight: FontWeight.normal),
+                            CustomText('price_value'.tr, fontSize: 18.sp, fontWeight: FontWeight.normal),
                             RangeSlider(
                                 min: 0,
                                 max: 1000,
@@ -167,12 +171,12 @@ class _FilterScreenState extends State<FilterScreen> {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            CustomText('القسم', fontSize: 18.sp, fontWeight: FontWeight.normal),
+                            CustomText('category_value'.tr, fontSize: 18.sp, fontWeight: FontWeight.normal),
                             SizedBox(
                               height: 18.h,
                             ),
                             CustomText(
-                              'بحث في الأقسام',
+                              'search_by_category_value'.tr,
                               fontSize: 14.sp,
                               fontWeight: FontWeight.normal,
                               color: const Color(0xff9E9E9E),
@@ -216,10 +220,10 @@ class _FilterScreenState extends State<FilterScreen> {
                               ));
                             }else{
                               ScaffoldMessenger.of(context)
-                                  .showSnackBar(const SnackBar(content: Text('يرجى اختيار القسم')));
+                                  .showSnackBar( SnackBar(content: Text('please_select_category_value'.tr)));
                             }
                           },
-                          title:'عرض النتائج',
+                          title:'view_result_value'.tr,
                           height: 60.h,
                         ),
                         SizedBox(height: 40.h,),
@@ -236,15 +240,4 @@ class _FilterScreenState extends State<FilterScreen> {
   }
 }
 
-class BrandModel {
-  String? brandName;
-  bool? checked;
 
-  BrandModel(this.brandName, this.checked);
-}
-class CategoryModel {
-  String? categoryName;
-  bool? checked;
-
-  CategoryModel(this.categoryName, this.checked);
-}

@@ -9,10 +9,12 @@ class CustomTextFormFieldWithTopTitle extends StatelessWidget {
   final String? topTitle;
   final Widget? suffixIcon;
   final int? maxLines;
+  final Color? borderColor;
+  final void Function(String)? onChange;
   final String? Function(String?)? validator;
 
   const CustomTextFormFieldWithTopTitle(
-      {super.key, this.controller, this.hintText, this.topTitle, this.suffixIcon, this.maxLines,this.validator});
+      {super.key, this.controller, this.hintText,this.borderColor, this.topTitle, this.suffixIcon,this.onChange, this.maxLines,this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -21,13 +23,14 @@ class CustomTextFormFieldWithTopTitle extends StatelessWidget {
       children: [
         CustomText(
           topTitle ?? "",
-          fontSize: 16.sp,
+          fontSize: 15.sp,
           fontWeight: FontWeight.normal,
         ),
         SizedBox(
           height: 12.h,
         ),
         TextFormField(
+          onChanged: onChange,
           maxLines: maxLines ?? 1,
           controller: controller,
           validator:validator,
@@ -47,7 +50,7 @@ class CustomTextFormFieldWithTopTitle extends StatelessWidget {
               contentPadding: EdgeInsets.symmetric(
                   horizontal: 10.w, vertical: 15.h),
               focusedBorder: OutlineInputBorder(
-                borderSide: const BorderSide(color: AppColors.greyBorder),
+                borderSide:  BorderSide(color:borderColor?? AppColors.greyBorder),
                 borderRadius: BorderRadius.circular(8.0),
               ),
               enabledBorder: OutlineInputBorder(

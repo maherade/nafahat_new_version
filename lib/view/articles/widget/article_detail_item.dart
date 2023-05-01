@@ -22,14 +22,11 @@ class ArticleDetailItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Hero(
-            tag: 'img',
-            child: CachedNetworkImageShare(
-                urlImage: imgUrl,
-                fit: BoxFit.cover,
-                heigthNumber: 250.h,
-                widthNumber: double.infinity),
-          ),
+          CachedNetworkImageShare(
+              urlImage: imgUrl,
+              fit: BoxFit.cover,
+              heigthNumber: 250.h,
+              widthNumber: double.infinity),
           SizedBox(
             height: 18.h,
           ),

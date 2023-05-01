@@ -40,9 +40,30 @@ class AuthApis {
 
     return payload.data!.user!.id!;
   }
+  Future getAdminToken() async {
+    try {
+      Response response = await Dio().post(
+        'https://nafahat.com/wp-json/jwt-auth/v1/token',
+        queryParameters: {
+          "username":"mohammed",
+          "password":"AssadMohammed203045@s",
+
+        }
+      );
+      if (response.statusCode == 200 ) {
+        print(response.data);
+         SPHelper.spHelper.setAdminToken(response.data['token']);
+          print("Admin Token"+SPHelper.spHelper.getAdminToken().toString());
+      } else{
+      }
+    }on DioError catch(err){
+    } catch (err) {
+      print(err);
+    }
+  }
+
 
   login(String userName, String password) async {
-    authController.getUserData!.value = UserResponse();
     try {
       ProgressDialogUtils.show();
       FormData data = FormData.fromMap({
@@ -56,17 +77,17 @@ class AuthApis {
       );
 
       if (response.statusCode! >= 200 && response.data['token']!=null) {
-        authController.getUserData!.value = UserResponse.fromJson(response.data);
 
         SPHelper.spHelper.setToken(response.data['token']);
+        SPHelper.spHelper.setUserId(decryptToken(response.data['token']));
 
         getCustomerInformation(decryptToken(response.data['token']));
-        Helper.getSheetSucsses('تم تسجيل الدخول بنجاح');
+        Helper.getSheetSucsses('login_successful_value'.tr);
         myGet.Get.to(()=> NavBarScreen());
         ProgressDialogUtils.hide();
       } else{
         ProgressDialogUtils.hide();
-        Helper.getSheetError('يرجى التأكد من المعلومات المدخلة');
+        Helper.getSheetError('check_entered_data_value'.tr);
       }
     }on DioError catch(err){
       ProgressDialogUtils.hide();
@@ -94,8 +115,9 @@ class AuthApis {
 
       if (response.statusCode! >= 200 && response.data['success'] == true) {
         print(response.data);
-        myGet.Get.to(()=> LoginScreen());
-        Helper.getSheetSucsses('تم التسجيل بنجاح');
+        Helper.getSheetSucsses('register_successful_value'.tr);
+
+        login(email,password);
         ProgressDialogUtils.hide();
       } else{
         ProgressDialogUtils.hide();
@@ -221,15 +243,21 @@ class AuthApis {
     }
   }
 
-  getCustomerInformation(String customerId)async{
-    authController.getCustomerInformationData!.value = ViewAllInformationAboutCustomerResponse();
+  Future getCustomerInformation(String? customerId)async{
+
+    authController.getCustomerInformationData!.value = ListViewAllInformationAboutCustomerResponse();
     try {
-      Response response = await Settingss.settings.dio!.get(
-          'api-request.php?endpoint=customers&id=$customerId',
+      Response response = await Dio().get(
+          'https://nafahat.com/wp-json/nafahatapi/v1/userdata?user_id=$customerId',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${SPHelper.spHelper.getAdminToken()}',
+          },
+        ),
       );
       if (response.statusCode! >= 200) {
-        authController.getCustomerInformationData!.value = ViewAllInformationAboutCustomerResponse.fromJson(response.data);
-        print('getCustomerInformation Successful'+authController.getCustomerInformationData!.value.data!.id.toString());
+        authController.getCustomerInformationData!.value = ListViewAllInformationAboutCustomerResponse.fromJson(response.data);
+        print('getCustomerInformation Successful');
 
       } else {}
     } catch (e) {
@@ -237,6 +265,46 @@ class AuthApis {
     }
   }
 
+  updateCustomerProfile({String? user_id, String? user_email, String? user_fullname, String? user_password, String? user_address, String? user_lang}) async {
+    try {
+      ProgressDialogUtils.show();
+
+      Response response = await Dio().post(
+          'https://nafahat.com/wp-json/nafahatapi/v1/user-update',
+          queryParameters: {
+            "user_id" : user_id,
+            "user_email" : user_email,
+            "user_fullname" : user_fullname,
+            "user_password" : user_password,
+            "user_address" : user_address,
+            "user_lang" : user_lang
+          },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer ${SPHelper.spHelper.getAdminToken()}',
+          },
+        ),
+      );
+
+      if (response.statusCode! >= 200 ) {
+        print(response.data);
+        getCustomerInformation(user_id);
+        Helper.getSheetSucsses(response.data['message']);
+        ProgressDialogUtils.hide();
+      } else{
+        ProgressDialogUtils.hide();
+        Helper.getSheetError('حدث خطأ');
+      }
+    }on DioError catch(err){
+      ProgressDialogUtils.hide();
+      Helper.getSheetError('حدث خطأ');
+      print(err.response);
+
+    } catch (err) {
+      ProgressDialogUtils.hide();
+      print(err);
+    }
+  }
 
 
 }

@@ -1,17 +1,15 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart' as myGet;
-import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 
 import '../const_urls.dart';
 import '../controller/review_controller.dart';
-import '../model/brand_response.dart';
-import '../model/decode_token_response.dart';
+
 import '../model/review_response.dart';
 import '../services/Settingss.dart';
 import '../services/helper.dart';
 import '../services/progress_dialog_utils.dart';
+import '../services/sp_helper.dart';
 
 
 
@@ -29,7 +27,8 @@ class ReviewApies {
           reviewURL,
         queryParameters: {
           'endpoint': 'reviews',
-          'product': productId
+          'product': productId,
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
         }
       );
       if (response.statusCode == 200) {
@@ -58,21 +57,23 @@ class ReviewApies {
         data: data,
         queryParameters: {
             "endpoint":"reviews",
-            "create":"true"
+            "create":"true",
+          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+
         }
       );
       if (response.statusCode! >= 200) {
         getReviewData(productId!);
         ProgressDialogUtils.hide();
-        Helper.getSheetSucsses('تم إضافة التقييم بنجاح');
+        Helper.getSheetSucsses('rate_add_successful_value'.tr);
         print("postComment Successful ");
       } else {
         ProgressDialogUtils.hide();
-        Helper.getSheetError('يرجى التأكد من المعلومات المدخلة');
+        Helper.getSheetError('check_entered_data_value'.tr);
       }
     } catch (e) {
       ProgressDialogUtils.hide();
-      Helper.getSheetError('يرجى التأكد من المعلومات المدخلة');
+      Helper.getSheetError('check_entered_data_value'.tr);
       print(e.toString());
     }
   }

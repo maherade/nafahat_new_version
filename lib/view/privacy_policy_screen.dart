@@ -11,7 +11,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.primaryColor,
         elevation: 0,
-        title: CustomText('سياسة الخصوصية',color: Colors.white,fontSize: 18.sp,),
+        title: CustomText('privacy_policy_value'.tr,color: Colors.white,fontSize: 18.sp,),
       ),
       body: SingleChildScrollView(
         child: Padding(

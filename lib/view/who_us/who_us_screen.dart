@@ -22,28 +22,40 @@ class _WhoUsScreenState extends State<WhoUsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: AppColors.primaryColor,
-        elevation: 0,
-        title: CustomText('من نحن', fontSize: 18.sp, fontFamily: 'din',color: Colors.white,),
-      ),
-      body: Obx(
-            () {
-          var commonQuestion =
-              contactUsController.getCommonQuestionData?.value.commonQuestions;
-          return commonQuestion == null ?const Center(
-              child: CircularProgressIndicator(
-                color: AppColors.primaryColor,)):Padding(
-                  padding:  EdgeInsets.all(20.w),
-                  child: Column(
+
+      body: Column(
+        children: [
+          SizedBox(height: 60.h,),
+          Row(
             children: [
-              // CustomText(commonQuestion[0].title,fontFamily: 'din',fontSize: 18.sp,),
-              // SizedBox(height: 20.h,),
-              CustomText(commonQuestion[0].content,fontFamily: 'din',fontSize: 15.sp,fontWeight: FontWeight.normal,),
+              IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back)),
+              CustomText('who_us_value'.tr,fontSize: 15.sp,),
             ],
           ),
-                );
-        },
+          SizedBox(height: 10.h,),
+          Expanded(
+            child: Obx(
+                  () {
+                var commonQuestion =
+                    contactUsController.getCommonQuestionData?.value.commonQuestions;
+                return commonQuestion == null ?const Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,)):SingleChildScrollView(
+                        child: Padding(
+                          padding:  EdgeInsets.all(20.w),
+                          child: Column(
+                  children: [
+                    // CustomText(commonQuestion[0].title,fontFamily: 'din',fontSize: 18.sp,),
+                    // SizedBox(height: 20.h,),
+                    CustomText(commonQuestion[0].content,fontFamily: 'din',fontSize: 15.sp,fontWeight: FontWeight.normal,),
+                  ],
+                ),
+                        ),
+                      );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

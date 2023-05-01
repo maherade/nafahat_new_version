@@ -135,7 +135,7 @@ class _RedBoxLocationsInMapScreenState extends State<RedBoxLocationsInMapScreen>
                               },
                               decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'search',
+                                  hintText: 'search_value'.tr,
                                   filled: true,
                                   fillColor: Colors.white,
                                   hintStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.normal, fontFamily: 'urw_din'),

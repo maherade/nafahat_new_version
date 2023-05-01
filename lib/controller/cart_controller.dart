@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 
@@ -13,6 +14,20 @@ class CartItem {
 }
 
 class CartController extends GetxController {
+  double quantitiy = 1.0;
+  increaseQuentity(){
+    quantitiy++;
+    totalPrice();
+    update();
+  }
+  decreaseQuentity(){
+    if(quantitiy>1){
+      quantitiy--;
+      totalPrice();
+      update();
+    }
+  }
+
   Map<String, CartItem> _items = {};
 
   Map<String, CartItem> get items {
@@ -38,6 +53,7 @@ class CartController extends GetxController {
               imgurl: existingCartItem.imgurl,
               quantity: existingCartItem.quantity! + 1,
               price: existingCartItem.price));
+      totalPrice();
       update();
     } else {
       _items.putIfAbsent(
@@ -49,6 +65,7 @@ class CartController extends GetxController {
             quantity: quantitiy,
             price: price,
           ));
+      totalPrice();
       update();
     }
     update();
@@ -57,11 +74,13 @@ class CartController extends GetxController {
 
   void removeItem(String id) {
     _items.remove(id);
+    totalPrice();
     update();
   }
 
   void removeSingleItem(String id) {
     if (!_items.containsKey(id)) {
+      totalPrice();
       update();
       return;
     }
@@ -74,8 +93,10 @@ class CartController extends GetxController {
               name: existingCartItem.name,
               quantity: existingCartItem.quantity! - 1,
               price: existingCartItem.price));
+      totalPrice();
       update();
     }
+    totalPrice();
     update();
   }
 
@@ -90,15 +111,28 @@ class CartController extends GetxController {
 
   void clear() {
     _items = {};
+    totalPrice();
     update();
   }
 
-  double totalPrice () {
-    double total = 0;
-    _items.forEach((key, value) {
-      total += value.price!;
+  double total = 0;
+  double totalAfterDiscount = 0;
+  void totalPrice() {
+    total = 0;
+    totalAfterDiscount = 0;
+    items.forEach((key, value) {
+      total += (value.price! * value.quantity!);
+      totalAfterDiscount += (value.price! * value.quantity!);
       update();
     });
-    return total;
+
+  }
+  void addToPrice(value) {
+    totalAfterDiscount += value;
+    update();
+  }
+  void subtractFromPrice(value) {
+    totalAfterDiscount -= value;
+    update();
   }
 }

@@ -8,8 +8,6 @@ import '../model/sub_category_response.dart';
 import '../services/Settingss.dart';
 import '../services/sp_helper.dart';
 
-
-
 class CategoryApies {
   CategoryApies._();
 
@@ -24,10 +22,10 @@ class CategoryApies {
       Response response = await Settingss.settings.dio!.get(
         categoryURL,
         queryParameters: {
-          'endpoint':'product-category',
-          'parent': id
-      },
-
+          'endpoint': 'product-category',
+          'parent': id,
+          'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        },
       );
       if (response.statusCode == 200) {
         print("getCategoryData Successful ");
@@ -42,18 +40,17 @@ class CategoryApies {
   getSubCategoryData(String id) async {
     categoryController.getSubCategoryData!.value = ListSubCategoryResponse();
     try {
-      Response response = await Settingss.settings.dio!.get(
-        categoryURL,
-        queryParameters: {'parent': id}
-      );
+      Response response = await Settingss.settings.dio!.get(categoryURL, queryParameters: {
+        'endpoint': 'product-category',
+        'parent': id,
+        'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+      });
       if (response.statusCode == 200) {
-         categoryController.getSubCategoryData!.value = ListSubCategoryResponse.fromJson(response.data);
-        print("getSubCategoryData Successful ${categoryController.getSubCategoryData!.value.listSupCategoryResponse![0].name}");
+        categoryController.getSubCategoryData!.value = ListSubCategoryResponse.fromJson(response.data);
+        print("getSubCategoryData Successful ");
       } else {}
     } catch (e) {
       print(e.toString());
     }
   }
-
-
 }

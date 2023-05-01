@@ -8,12 +8,14 @@ import '../../../controller/app_controller.dart';
 import '../../../model/decode_token_response.dart';
 import '../../../services/app_imports.dart';
 import '../../../services/sp_helper.dart';
-import '../../send_request/screen/send_request_screen.dart';
+import 'show_all_brand_screen.dart';
+import '../../wholesale/whole_sale_screen.dart';
 import '../widget/custom_nav_bottom.dart';
-import 'cart_screen.dart';
+import '../../cart/screen/cart_screen.dart';
 import 'gift_screen.dart';
 import 'home_screen.dart';
-import 'product_screen.dart';
+import 'my_account.dart';
+import 'category_screen.dart';
 
 class NavBarScreen extends StatefulWidget {
   NavBarScreen({Key? key}) : super(key: key);
@@ -39,17 +41,10 @@ class _NavBarScreenState extends State<NavBarScreen> {
         ? AuthApis.authApis.getCustomerInformation(
         decryptToken(SPHelper.spHelper.getToken()))
         : print('null Token');
-    CategoryApies.categoryApies.getCategoryData('0');
-    BrandApies.brandApies.getBrandData();
-    ProductApies.productApies.getFamousProductData(category: "27");
-    ProductApies.productApies.getGiftPackageProductData(feature: true, pageNumber: '1');
-    ProductApies.productApies.getWholeSaleProductData(onSale: true);
-    ProductApies.productApies.getOffersProductData();
-    ProductApies.productApies.getLessThanPriceProductResponseData(order: 'asc', orderBy: 'price', lessThan: '20', pageNumber: '1');
+
     ProductApies.productApies.getAds();
-    ProductApies.productApies.getCareProductData(category: '25', pageNumber: '1');
-    ProductApies.productApies.getRecentlyAddedProductData(pageNumber: '1');
     ProductApies.productApies.getFamousBrandAds();
+
   });
     super.initState();
   }
@@ -71,9 +66,9 @@ class _NavBarScreenState extends State<NavBarScreen> {
 class PageNav {
   static List<Widget> widgetOptions = <Widget>[
     HomeScreen(),
-    ProductScreen(),
-    SendRequestScreen(),
+    CategoryScreen(),
+    ShowAllBrandScreen(),
     GiftScreen(),
-    CartScreen(),
+    MyAccount(),
   ];
 }
