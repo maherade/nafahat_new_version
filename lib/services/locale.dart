@@ -251,7 +251,8 @@ class MyLocale implements Translations {
           "top_makeup_product_value":"أفضل منتجات قسم المكياج",
           "top_devices_product_value":"أفضل منتجات قسم الأجهزة",
           "top_azafer_product_value":"أفضل منتجات قسم الأظافر",
-          "top_perfume_product_value":"أفضل منتجات قسم العطور"
+          "top_perfume_product_value":"أفضل منتجات قسم العطور",
+
 
 
 

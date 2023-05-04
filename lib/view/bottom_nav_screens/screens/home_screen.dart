@@ -144,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Spacer(),
                     Row(
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTap: () {
                             Get.to(() => CartScreen());
                           },
@@ -205,7 +205,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           itemCount: ads.length <= 3 ? ads.length : 3,
                           itemBuilder: (context, index) {
-                            return GestureDetector(
+                            return InkWell(
                               onTap: () {
                                 Get.to(
                                       () =>  ShopByBrandScreen(
@@ -320,7 +320,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -337,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -364,14 +364,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShowAllFamousProductScreen());
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -381,7 +384,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       SizedBox(
                         height: 150.h,
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
                             Get.to(
                                   () =>  ShopByBrandScreen(
@@ -412,7 +415,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   width: 21.w,
                                 )
                                     : const SizedBox(),
-                                GestureDetector(
+                                InkWell(
                                   onTap: () {
                                     setState(() => currentIndex = index);
                                     setState(() => categoryName = category[index].name!);
@@ -461,17 +464,20 @@ class _HomeScreenState extends State<HomeScreen> {
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
-                                GestureDetector(
+                                InkWell(
                                     onTap: () {
                                       Get.to(() => ShopByCategoryScreen(
                                         categoryName: categoryName,
                                         categoryId: categoryId,
                                       ));
                                     },
-                                    child: CustomText(
-                                      'view_all_value'.tr,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.normal,
+                                    child: Container(
+                                      padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                      child: CustomText(
+                                        'view_all_value'.tr,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.normal,
+                                      ),
                                     )),
                               ],
                             ),
@@ -525,7 +531,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 140.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -552,14 +558,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShowAllGiftPackageScreen());
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -573,38 +582,39 @@ class _HomeScreenState extends State<HomeScreen> {
                           'no_item_found_with_you_choice_value'.tr,
                           fontSize: 15.sp,
                         )
-                            : GridView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: giftProduct.length < 2 ? giftProduct.length : 2,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: 0.45.h,
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 11.w,
-                            mainAxisSpacing: 16.h,
+                            : SizedBox(
+                          height: 430.h,
+                          child: ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            itemCount: giftProduct.length < 8 ? giftProduct.length : 8,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (_, index) {
+                              return PerfumeProductItem(
+                                id: giftProduct[index].id.toString(),
+                                imgUrl: giftProduct[index].images?[0].src ?? '',
+                                brandName: giftProduct[index].brands!.isNotEmpty
+                                    ? giftProduct[index].brands != null
+                                    ? giftProduct[index].brands![0].name
+                                    : ''
+                                    : '',
+                                perfumeName: giftProduct[index].title ?? '',
+                                perfumeRate: double.parse(giftProduct[index].averageRating ?? '0.0'),
+                                rateCount: giftProduct[index].ratingCount.toString() ?? '0',
+                                priceBeforeDiscount: giftProduct[index].regularPrice ?? '',
+                                priceAfterDiscount: giftProduct[index].salePrice ?? '',
+                                onTapBuy: () {
+                                  Get.to(() => PerfumeDetailsScreen(
+                                    productId: giftProduct[index].id.toString(),
+                                  ));
+                                },
+                              );
+                            },
+                            separatorBuilder: (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 10.w,
+                              );
+                            },
                           ),
-                          itemBuilder: (_, index) {
-                            return PerfumeProductItem(
-                              id: giftProduct[index].id.toString(),
-                              imgUrl: giftProduct[index].images?[0].src ?? '',
-                              brandName: giftProduct[index].brands!.isNotEmpty
-                                  ? giftProduct[index].brands != null
-                                  ? giftProduct[index].brands![0].name
-                                  : ''
-                                  : '',
-                              perfumeName: giftProduct[index].title ?? '',
-                              perfumeRate: double.parse(giftProduct[index].averageRating ?? '0.0'),
-                              rateCount: giftProduct[index].ratingCount.toString() ?? '0',
-                              priceBeforeDiscount: giftProduct[index].regularPrice ?? '',
-                              priceAfterDiscount: giftProduct[index].salePrice ?? '',
-                              onTapBuy: () {
-                                Get.to(() => PerfumeDetailsScreen(
-                                  productId: giftProduct[index].id.toString(),
-                                ));
-                              },
-                            );
-                          },
                         )
                       ],
                     ),
@@ -642,7 +652,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               runSpacing: 10,
                               children: famousBrandAds
                                   .map(
-                                    (e) => GestureDetector(
+                                    (e) => InkWell(
                                   onTap: () {
 
                                     Get.to(() => ShopByBrandScreen(
@@ -661,18 +671,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(8.r),
                                       ),
-                                      child: FancyShimmerImage(
-                                        imageUrl: e.image ?? '',
-                                        width: double.infinity,
-                                        boxFit: BoxFit.fill,
-                                        height: 50,
-                                        shimmerBaseColor:
-                                        Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                        shimmerHighlightColor:
-                                        Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                        shimmerBackColor:
-                                        Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                        errorWidget: SizedBox(),
+                                      child: CachedNetworkImageShare(
+                                        urlImage:  e.image ?? '',
+                                        widthNumber: double.infinity,
+                                        fit: BoxFit.fill,
+                                        heigthNumber: double.infinity,
                                       )),
                                 ),
                               )
@@ -686,7 +689,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                       SizedBox(
                         height: 150.h,
-                        child: GestureDetector(
+                        child: InkWell(
                           onTap: () {
                             Get.to(
                                   () =>  ShopByBrandScreen(
@@ -716,14 +719,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShopByCategoryScreen(categoryName: "care_in_ramadan_value".tr,categoryId: 1975,fullCategoryName: true,));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -775,7 +781,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -802,14 +808,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShowAllCareProductScreen());
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -860,7 +869,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 200.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -877,7 +886,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 200.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -906,14 +915,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShopByCategoryScreen(categoryName: "top_lenses_product_value".tr,categoryId: 18,fullCategoryName: true,));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -965,7 +977,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -994,14 +1006,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShopByCategoryScreen(categoryName: "top_ramadan_offer_product_value".tr,categoryId: 1980,fullCategoryName: true,));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -1053,7 +1068,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1082,14 +1097,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShopByCategoryScreen(categoryName: "top_makeup_product_value".tr,categoryId: 24,fullCategoryName: true,));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child:Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -1141,7 +1159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 200.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1158,7 +1176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 200.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1189,14 +1207,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShopByCategoryScreen(categoryName: "top_devices_product_value".tr,categoryId: 27,fullCategoryName: true,));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -1247,7 +1268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1277,14 +1298,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShopByCategoryScreen(categoryName: "top_azafer_product_value".tr,categoryId: 28,fullCategoryName: true,));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -1335,7 +1359,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1365,14 +1389,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShopByCategoryScreen(categoryName: "top_perfume_product_value".tr,categoryId: 26,fullCategoryName: true,));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -1423,7 +1450,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1451,14 +1478,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ShowAllProductLessThan100Screen());
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -1509,7 +1539,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 150.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1537,17 +1567,20 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() =>  ShopByCategoryScreen(
                                     categoryId: 24,
                                     categoryName: 'top_offers_value'.tr,
                                   ));
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),
@@ -1598,7 +1631,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 200.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1615,7 +1648,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   SizedBox(
                     height: 200.h,
-                    child: GestureDetector(
+                    child: InkWell(
                       onTap: () {
                         Get.to(
                               () =>  ShopByBrandScreen(
@@ -1704,14 +1737,17 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
-                            GestureDetector(
+                            InkWell(
                                 onTap: () {
                                   Get.to(() => ArticlesScreen());
                                 },
-                                child: CustomText(
-                                  'view_all_value'.tr,
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.normal,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(vertical: 10.h,horizontal: 13.w),
+                                  child: CustomText(
+                                    'view_all_value'.tr,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
                                 )),
                           ],
                         ),

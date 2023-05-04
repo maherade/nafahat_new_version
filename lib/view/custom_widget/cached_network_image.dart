@@ -44,14 +44,19 @@ class CachedNetworkImageShare extends StatelessWidget {
           ),
         ),
       ),
-      errorWidget: (context, url, error) => Container(
-        width: widthNumber,
-        height: heigthNumber,
-        decoration: BoxDecoration(
-          shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
-        ),
-        child: Center(
-          child: Icon(Icons.error),
+      errorWidget: (context, url, error) => ClipRRect(
+        borderRadius: BorderRadius.circular(borderRadious!.r),
+        child: SkeletonAnimation(
+          borderRadius: BorderRadius.circular(borderRadious!.r),
+          shimmerColor: Colors.grey,
+          child: Container(
+            width: widthNumber,
+            height: heigthNumber,
+            decoration: BoxDecoration(
+              shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
+              color: Colors.grey[300],
+            ),
+          ),
         ),
       ),
     );

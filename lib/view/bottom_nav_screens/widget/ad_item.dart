@@ -15,17 +15,11 @@ class AdItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: SizedBox(
         height: 200.h,
-        child: ClipRRect(
-          // borderRadius: BorderRadius.circular(15),
-          child: FancyShimmerImage(
-            imageUrl: imgUrl ?? '',
-            width: double.infinity,
-            height: 50,
-            shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-            shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-            shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-            errorWidget: SizedBox(),
-          ),
+        child: CachedNetworkImageShare(
+          urlImage:  imgUrl ?? '',
+          widthNumber: double.infinity,
+          fit: BoxFit.fill,
+          heigthNumber: double.infinity,
         ),
       ),
     );

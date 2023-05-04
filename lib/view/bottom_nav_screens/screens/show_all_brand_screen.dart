@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:perfume_store_mobile_app/apies/brand_apies.dart';
 import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/Skelton.dart';
+import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_search_bar.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field.dart';
 import 'package:perfume_store_mobile_app/view/shop_by_brand/screen/shop_by_brand_screen.dart';
@@ -57,11 +60,22 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                child: CustomTextFormField(
-                  onChange: (value) {
-                    BrandApies.brandApies.getBrandData(search: value);
-                  },
-                  hintText: 'search_by_brand_value'.tr,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextFormField(
+                        controller: searchController,
+                        hintText: 'search_by_brand_value'.tr,
+                      ),
+
+                    ),
+                    SizedBox(width: 10.w,),
+                    CustomButton(
+                      onTap: (){
+                        BrandApies.brandApies.getBrandData(search: searchController.text);
+                      },
+                      height: 52.h,width: 65.w,radious:5,title: 'search_value'.tr,)
+                  ],
                 ),
               ),
               SizedBox(
@@ -70,7 +84,7 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                 child: brand != null
-                    ? ListView.builder(
+                    ? ListView.separated(
                         padding: EdgeInsets.zero,
                         shrinkWrap: true,
                         physics: NeverScrollableScrollPhysics(),
@@ -87,13 +101,15 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                             ),
                             trailing: CachedNetworkImageShare(
                               urlImage: brand[index].logo ?? '',
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                               heigthNumber: 50.h,
                               widthNumber: 60.w,
                             ),
                           );
                         },
-                        itemCount: brand.length,
+                        itemCount: brand.length, separatorBuilder: (BuildContext context, int index) {
+                          return SizedBox(height: 10.h,);
+                },
                       )
                     : ListView.builder(
                         padding: EdgeInsets.zero,
