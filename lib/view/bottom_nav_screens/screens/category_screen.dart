@@ -158,7 +158,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                  child: CachedNetworkImageShare(
                                    urlImage:  ads?[selectAdNumber].image ?? '',
                                    widthNumber: double.infinity,
-                                   heigthNumber: 50,
+                                   heigthNumber: double.infinity,
                                   borderRadious: 3,
                                    fit: BoxFit.fill,
                                  ),
