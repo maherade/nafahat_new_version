@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -156,14 +155,12 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                height: 200.h,
                                child: ClipRRect(
                                  // borderRadius: BorderRadius.circular(15),
-                                 child: FancyShimmerImage(
-                                   imageUrl: ads?[selectAdNumber].image ?? '',
-                                   width: double.infinity,
-                                   height: 50,
-                                   shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                   shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                   shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                   errorWidget: SizedBox(),
+                                 child: CachedNetworkImageShare(
+                                   urlImage:  ads?[selectAdNumber].image ?? '',
+                                   widthNumber: double.infinity,
+                                   heigthNumber: 50,
+                                  borderRadious: 3,
+                                   fit: BoxFit.fill,
                                  ),
                                ),
                              ),

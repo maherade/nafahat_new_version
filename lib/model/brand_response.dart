@@ -39,10 +39,10 @@ class BrandResponse {
 }
 
 class Data {
-  String? termId;
-  String? name;
-  String? slug;
-  String? termGroup;
+  dynamic termId;
+  dynamic name;
+  dynamic slug;
+  dynamic termGroup;
 
   Data({this.termId, this.name, this.slug, this.termGroup});
 

@@ -177,14 +177,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-  fancy_shimmer_image:
-    dependency: "direct main"
-    description:
-      name: fancy_shimmer_image
-      sha256: "01d2731b1fcb757ddcd2ecd4306fbcbe8c0ca6012c3e73efce25452ea5f5638e"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.0.2"
   ffi:
     dependency: transitive
     description:

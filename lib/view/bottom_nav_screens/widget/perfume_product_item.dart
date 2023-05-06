@@ -1,7 +1,5 @@
 import 'dart:math';
 
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:perfume_store_mobile_app/controller/favourite_controller.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_dialog.dart';
