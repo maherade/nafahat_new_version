@@ -245,9 +245,9 @@ class MyLocale implements Translations {
           "cannot_return_value": "إرحاع أو استبدال المنتجات غير ممكن",
           "from_the_market_value":"الطلبات في منطقة الرياض يمكنك استلامها من المعرض",
 
-          "care_in_ramadan_value":"عنايتك في رمضان",
+          "care_in_ramadan_value":"عنايتك في الصيف",
           "top_lenses_product_value":"أفضل منتجات قسم العدسات",
-          "top_ramadan_offer_product_value":"عروض رمضان",
+          "top_ramadan_offer_product_value":"عروض الصيف",
           "top_makeup_product_value":"أفضل منتجات قسم المكياج",
           "top_devices_product_value":"أفضل منتجات قسم الأجهزة",
           "top_azafer_product_value":"أفضل منتجات قسم الأظافر",
@@ -498,9 +498,9 @@ class MyLocale implements Translations {
           "cannot_return_value": "Returning or exchanging products is not possible",
           "from_the_market_value":"Orders in the Riyadh region can be collected from the Market",
 
-          "care_in_ramadan_value": "Your Care During Ramadan",
+          "care_in_ramadan_value": "Your Care During Summer",
           "top_lenses_product_value": "Top Products in Lenses Category",
-          "top_ramadan_offer_product_value": "Ramadan Offers",
+          "top_ramadan_offer_product_value": "Summer Offers",
           "top_makeup_product_value": "Top Products in Makeup Category",
           "top_devices_product_value": "Top Products in Devices Category",
           "top_azafer_product_value": "Top Products in Nails Category",

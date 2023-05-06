@@ -46,7 +46,7 @@ class AuthApis {
         'https://nafahat.com/wp-json/jwt-auth/v1/token',
         queryParameters: {
           "username":"mohammed",
-          "password":"AssadMohammed203045@s",
+          "password":"As0987654@",
 
         }
       );
