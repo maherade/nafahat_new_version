@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 
 import '../../../services/app_imports.dart';
 

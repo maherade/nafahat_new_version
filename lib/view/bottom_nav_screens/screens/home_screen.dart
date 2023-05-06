@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:math';
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:html/parser.dart';
 import 'package:intl/intl.dart';

@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
@@ -187,14 +186,12 @@ class _GiftScreenState extends State<GiftScreen> {
                                       height: 200.h,
                                       child: ClipRRect(
                                         // borderRadius: BorderRadius.circular(15),
-                                        child: FancyShimmerImage(
-                                          imageUrl: ads[1].image ?? '',
-                                          width: double.infinity,
-                                          height: 50,
-                                          shimmerBaseColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                          shimmerHighlightColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                          shimmerBackColor: Color((Random().nextDouble() * 0xFFFFFF).toInt()).withOpacity(1.0),
-                                          errorWidget: SizedBox(),
+                                        child: CachedNetworkImageShare(
+                                          urlImage: ads[1].image ?? '',
+                                          widthNumber: double.infinity,
+                                          heigthNumber: double.infinity,
+                                          fit: BoxFit.fill,
+                                          borderRadious: 3,
                                         ),
                                       ),
                                     ),
