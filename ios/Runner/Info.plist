@@ -27,13 +27,13 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>متجر نفحات requires to access your photo library to select image</string>
+	<string>Nafahat store requires to access your Camera to capture image</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>متجر نفحات uses your Location To choose the delivery location</string>
+	<string>Nafahat store uses your Location To choose the delivery location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>متجر نفحات uses your Location To choose the delivery location</string>
+	<string>Nafahat store uses your Location To choose the delivery location</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>متجر نفحات uses your Location To choose the delivery location</string>
+	<string>Nafahat store uses your Location To choose the delivery location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Nafahat store would access to Photo Library to select photo</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
