@@ -270,7 +270,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                        GestureDetector(
                                          onTap: (){
                                            Get.to(ShopByBrandScreen(
-                                             brandId: int.parse(brand[index].data!.termId!),
+                                             brandId: brand[index].data!.termId,
                                              brandName: brand[index].data?.name,
                                            ));
                                          },
