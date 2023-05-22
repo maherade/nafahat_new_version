@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:skeleton_text/skeleton_text.dart';
+// import 'package:skeleton_text/skeleton_text.dart';
 
 class CachedNetworkImageShare extends StatelessWidget {
   final String? urlImage;
@@ -17,6 +17,9 @@ class CachedNetworkImageShare extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: urlImage!,
+      placeholderFadeInDuration: Duration.zero,
+      fadeInDuration: Duration.zero,
+      fadeOutDuration: Duration.zero,
       imageBuilder: (context, imageProvider) => Container(
         width: widthNumber,
         height: heigthNumber,
@@ -29,35 +32,37 @@ class CachedNetworkImageShare extends StatelessWidget {
           ),
         ),
       ),
-      placeholder: (context, url) => ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadious!.r),
-        child: SkeletonAnimation(
-          borderRadius: BorderRadius.circular(borderRadious!.r),
-          shimmerColor: Colors.grey,
-          child: Container(
-            width: widthNumber,
-            height: heigthNumber,
-            decoration: BoxDecoration(
-              shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
-              color: Colors.grey[300],
-            ),
+      placeholder: (context, url) => Container(
+        width: widthNumber,
+        height: heigthNumber,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
+        ),
+        child: Container(
+          width: widthNumber,
+          height: heigthNumber,
+          decoration: BoxDecoration(
+            shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
+            color: Colors.grey[200],
           ),
         ),
       ),
-      errorWidget: (context, url, error) => ClipRRect(
-        borderRadius: BorderRadius.circular(borderRadious!.r),
-        child: SkeletonAnimation(
-          borderRadius: BorderRadius.circular(borderRadious!.r),
-          shimmerColor: Colors.grey,
-          child: Container(
-            width: widthNumber,
-            height: heigthNumber,
-            decoration: BoxDecoration(
-              shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
-              color: Colors.grey[300],
-            ),
-          ),
+      errorWidget: (context, url, error) => Container(
+        width: widthNumber,
+        height: heigthNumber,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
+        decoration: BoxDecoration(
+          shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
         ),
+        child: Container(
+          width: widthNumber,
+          height: heigthNumber,
+          decoration: BoxDecoration(
+            shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
+            color: Colors.grey[200],
+          ),
+        )
       ),
     );
   }

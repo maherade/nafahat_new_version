@@ -506,4 +506,40 @@ class OrderApies {
     }
 
   }
+
+  Future<Response> sendSms({String? phone, String? pinCode}) async {
+    print(phone);
+    ProgressDialogUtils.show();
+
+    final options = Options(headers: {"Content-Type": "application/json; charset=utf-8"});
+
+    try {
+      final data = {
+        "userName": "Kh500",
+        "numbers": phone,
+        "userSender": 'dermaroller',
+        "apiKey": 'df8e159c310ec9f6d5226720801dedbb',
+        "msg": "Your OTP is: $pinCode @Nafahat app #$pinCode"
+      };
+      Response response = await Dio().post(
+        'https://www.msegat.com/gw/sendsms.php',
+        options: options,
+        data: data,
+      );
+      if (response.data['code'] == '1') {
+        ProgressDialogUtils.hide();
+        SVProgressHUD.showSuccess(status: 'تم إرسال رمز التحقق برسالة إلى رقم هاتفك المسجل بنجاح');
+        print("sendSms Successful " + response.data.toString());
+      } else {
+        ProgressDialogUtils.hide();
+        SVProgressHUD.showError(status: 'الرجاء التحقق من الرقم المدخل');
+      }
+      return response;
+    } catch (e) {
+      SVProgressHUD.showError(status: 'حدث خطأ');
+      ProgressDialogUtils.hide();
+      print(e.toString());
+      rethrow;
+    }
+  }
 }

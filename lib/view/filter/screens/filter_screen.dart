@@ -104,8 +104,10 @@ class _FilterScreenState extends State<FilterScreen> {
                                 return Row(
                                   children: [
                                     Checkbox(
-                                      value: selectedBrandId == brand[index].data?.termId,
+                                      value: selectedBrandId == int.parse(brand[index].data!.termId),
                                       onChanged: (bool? value) {
+                                        print(int.parse(brand[index].data!.termId!));
+                                        print(brand[index].data?.name);
                                         setState(() {
                                           selectedBrandId = int.parse(brand[index].data!.termId!);
                                           selectedBrandName = brand[index].data?.name;

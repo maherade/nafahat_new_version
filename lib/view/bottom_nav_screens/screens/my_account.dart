@@ -42,7 +42,7 @@ class _MyAccountState extends State<MyAccount> {
     return SingleChildScrollView(
       child: Obx(
         () {
-          var auth = authController.getCustomerInformationData?.value.listViewAllInformationAboutCustomerList;
+          var auth = authController.getCustomerInformationData?.value.data;
           return SPHelper.spHelper.getToken() != null
               ? Column(
                   children: [
@@ -61,7 +61,7 @@ class _MyAccountState extends State<MyAccount> {
                               child: Image.asset(
                                 'assets/images/logo.png',
                                 fit: BoxFit.contain,
-                              )),
+                              ),),
                           SizedBox(
                             width: 15.w,
                           ),

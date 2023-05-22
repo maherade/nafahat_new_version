@@ -34,7 +34,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_){
 
       AuthApis.authApis.getCustomerInformation(SPHelper.spHelper.getUserId()).then((value) {
-       var auth = authController.getCustomerInformationData?.value.listViewAllInformationAboutCustomerList?[0];
+       var auth = authController.getCustomerInformationData?.value.data?[0];
        emailController.text = auth?.userMainEmail??'';
        nameController.text = auth?.userBillingFullname??'';
        addressController.text = auth?.userAddress??'';
@@ -51,7 +51,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
     return Scaffold(
       body: Obx(
         () {
-          var user = authController.getCustomerInformationData?.value.listViewAllInformationAboutCustomerList;
+          var user = authController.getCustomerInformationData?.value.data;
           return Column(
             children: [
               SizedBox(

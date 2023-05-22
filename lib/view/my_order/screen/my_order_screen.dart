@@ -13,8 +13,8 @@ import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:geideapay/geideapay.dart';
-import 'package:geideapay/widgets/checkout/checkout_options.dart';
+// import 'package:geideapay/geideapay.dart';
+// import 'package:geideapay/widgets/checkout/checkout_options.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:perfume_store_mobile_app/apies/order_apies.dart';
 import 'package:perfume_store_mobile_app/controller/order_controller.dart';
@@ -38,7 +38,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
 
   //----------------- Giedea Payment----------------
   bool _checkoutInProgress = false;
-  final plugin = GeideapayPlugin();
+  // final plugin = GeideapayPlugin();
 
   String geideaPublicKey = 'e4d809d6-6a55-4627-bcb9-6628fe4f6171'; //nafahat
   String geideaApiPassword = '6686ecfb-2db6-4b73-9ab2-9c9f6c776efc'; //nafahat
@@ -139,10 +139,10 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
 /////
   @override
   void initState() {
-    plugin.initialize(
-      publicKey: geideaPublicKey,
-      apiPassword: geideaApiPassword,
-    );
+    // plugin.initialize(
+    //   publicKey: geideaPublicKey,
+    //   apiPassword: geideaApiPassword,
+    // );
     SchedulerBinding.instance.addPostFrameCallback((_) {
       getCurrentLang();
     });
@@ -583,89 +583,89 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                               : print('my Marker not Selected');
                                         });
                                       }
-                                      else if (order[index].paymentMethod == 'geidea') {
-                                        _handleCheckout(
-                                            context: context,
-                                            checkoutOptions: CheckoutOptions(
-                                              order[index].total, 'SAR', //SAR //EGP
-                                              callbackUrl: '',
-                                              lang: 'EN',
-                                              // billingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
-                                              // shippingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
-                                              customerEmail: order[index].billing?.email,
-                                              merchantReferenceID: '',
-                                              paymentIntentId: '',
-                                              paymentOperation: 'Default (merchant configuration)',
-                                              showShipping: false,
-                                              showBilling: false,
-                                              showSaveCard: false,
-                                            ),
-                                            createOrder: () {
-                                              OrderApies.orderApies
-                                                  .createOrder2(
-                                                customer_id: SPHelper.spHelper.getUserId(),
-                                                payment_method: order[index].paymentMethod,
-                                                payment_method_title: order[index].paymentMethodTitle,
-                                                firstName: order[index].billing?.firstName,
-                                                lastName: order[index].billing?.lastName,
-                                                addressOne: order[index].billing?.address1,
-                                                addressTwo: order[index].billing?.address2,
-                                                city: order[index].billing?.city,
-                                                country: order[index].billing?.country,
-                                                state: "",
-                                                postcode: order[index].billing?.postcode,
-                                                email: order[index].billing?.email,
-                                                phone: order[index].billing?.phone,
-                                                total: order[index].total,
-                                                listProduct: getCartItem(),
-                                                setPaid: true,
-                                                listShipment: [
-                                                  {
-                                                    "method_id": order[index].shippingLines?[0].methodId,
-                                                    "method_title": order[index].shippingLines?[0].methodTitle,
-                                                    "total": order[index].shippingLines?[0].methodId == 'redbox_pickup_delivery'
-                                                        ? '17'
-                                                        : order[index].shippingLines?[0].methodId == 'naqel_shipping'
-                                                        ? "30.00"
-                                                        : '0'
-                                                  }
-                                                ],
-                                                listMetaData: order[index].metaData!.isNotEmpty
-                                                    ? [
-                                                  {
-                                                    'key': '_redbox_point',
-                                                    'value': order[index].metaData?[0].value,
-                                                  },
-                                                  {
-                                                    'key': '_redbox_point_id',
-                                                    'value': order[index].metaData?[1].value,
-                                                  },
-                                                ]
-                                                    : [],
-                                              )
-                                                  .then((value) {
-                                                order[index].metaData!.isNotEmpty
-                                                    ? OrderApies.orderApies.createRedBoxShippment(
-                                                    items: getRedboxCartItem(),
-                                                    reference: value.id.toString(),
-                                                    point_id: order[index].metaData?[1].value ?? '',
-                                                    sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                                    sender_email: 'info@dermarollersystemsa.com',
-                                                    sender_phone: '0114130336',
-                                                    sender_address: 'Riyadh -  - ',
-                                                    customer_name:
-                                                    '${order[index].billing?.firstName} - ${order[index].billing?.firstName}',
-                                                    customer_email: order[index].billing?.email,
-                                                    customer_phone: order[index].billing?.phone,
-                                                    customer_address:
-                                                    '${order[index].billing?.address1} - ${order[index].billing?.address2}',
-                                                    cod_currency: 'SAR',
-                                                    cod_amount: order[index].total,
-                                                    nameOfPackage: 'nameOfPackage')
-                                                    : print('my Marker not Selected');
-                                              });
-                                            });
-                                      }
+                                      // else if (order[index].paymentMethod == 'geidea') {
+                                      //   _handleCheckout(
+                                      //       context: context,
+                                      //       checkoutOptions: CheckoutOptions(
+                                      //         order[index].total, 'SAR', //SAR //EGP
+                                      //         callbackUrl: '',
+                                      //         lang: 'EN',
+                                      //         // billingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
+                                      //         // shippingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
+                                      //         customerEmail: order[index].billing?.email,
+                                      //         merchantReferenceID: '',
+                                      //         paymentIntentId: '',
+                                      //         paymentOperation: 'Default (merchant configuration)',
+                                      //         showShipping: false,
+                                      //         showBilling: false,
+                                      //         showSaveCard: false,
+                                      //       ),
+                                      //       createOrder: () {
+                                      //         OrderApies.orderApies
+                                      //             .createOrder2(
+                                      //           customer_id: SPHelper.spHelper.getUserId(),
+                                      //           payment_method: order[index].paymentMethod,
+                                      //           payment_method_title: order[index].paymentMethodTitle,
+                                      //           firstName: order[index].billing?.firstName,
+                                      //           lastName: order[index].billing?.lastName,
+                                      //           addressOne: order[index].billing?.address1,
+                                      //           addressTwo: order[index].billing?.address2,
+                                      //           city: order[index].billing?.city,
+                                      //           country: order[index].billing?.country,
+                                      //           state: "",
+                                      //           postcode: order[index].billing?.postcode,
+                                      //           email: order[index].billing?.email,
+                                      //           phone: order[index].billing?.phone,
+                                      //           total: order[index].total,
+                                      //           listProduct: getCartItem(),
+                                      //           setPaid: true,
+                                      //           listShipment: [
+                                      //             {
+                                      //               "method_id": order[index].shippingLines?[0].methodId,
+                                      //               "method_title": order[index].shippingLines?[0].methodTitle,
+                                      //               "total": order[index].shippingLines?[0].methodId == 'redbox_pickup_delivery'
+                                      //                   ? '17'
+                                      //                   : order[index].shippingLines?[0].methodId == 'naqel_shipping'
+                                      //                   ? "30.00"
+                                      //                   : '0'
+                                      //             }
+                                      //           ],
+                                      //           listMetaData: order[index].metaData!.isNotEmpty
+                                      //               ? [
+                                      //             {
+                                      //               'key': '_redbox_point',
+                                      //               'value': order[index].metaData?[0].value,
+                                      //             },
+                                      //             {
+                                      //               'key': '_redbox_point_id',
+                                      //               'value': order[index].metaData?[1].value,
+                                      //             },
+                                      //           ]
+                                      //               : [],
+                                      //         )
+                                      //             .then((value) {
+                                      //           order[index].metaData!.isNotEmpty
+                                      //               ? OrderApies.orderApies.createRedBoxShippment(
+                                      //               items: getRedboxCartItem(),
+                                      //               reference: value.id.toString(),
+                                      //               point_id: order[index].metaData?[1].value ?? '',
+                                      //               sender_name: 'مؤسسة الجمال والصحة للتجارة',
+                                      //               sender_email: 'info@dermarollersystemsa.com',
+                                      //               sender_phone: '0114130336',
+                                      //               sender_address: 'Riyadh -  - ',
+                                      //               customer_name:
+                                      //               '${order[index].billing?.firstName} - ${order[index].billing?.firstName}',
+                                      //               customer_email: order[index].billing?.email,
+                                      //               customer_phone: order[index].billing?.phone,
+                                      //               customer_address:
+                                      //               '${order[index].billing?.address1} - ${order[index].billing?.address2}',
+                                      //               cod_currency: 'SAR',
+                                      //               cod_amount: order[index].total,
+                                      //               nameOfPackage: 'nameOfPackage')
+                                      //               : print('my Marker not Selected');
+                                      //         });
+                                      //       });
+                                      // }
                                       else if (order[index].paymentMethod == 'paytabs_all') {
                                         payPressed(generateConfig: generateConfig(),createOrder:(){
                                           OrderApies.orderApies
@@ -753,42 +753,42 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
   }
 
   // ------------------------ Giedea Payment ---------------------------
-  String truncate(String text, {length: 200, omission: '...'}) {
-    if (length >= text.length) {
-      return text;
-    }
-    return text.replaceRange(length, text.length, omission);
-  }
+  // String truncate(String text, {length: 200, omission: '...'}) {
+  //   if (length >= text.length) {
+  //     return text;
+  //   }
+  //   return text.replaceRange(length, text.length, omission);
+  // }
+  //
+  // _showMessage(String message, [Duration duration = const Duration(seconds: 4)]) {
+  //   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+  //     content: Text(message),
+  //     duration: duration,
+  //     action: SnackBarAction(label: 'CLOSE', onPressed: () => ScaffoldMessenger.of(context).removeCurrentSnackBar()),
+  //   ));
+  // }
 
-  _showMessage(String message, [Duration duration = const Duration(seconds: 4)]) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      duration: duration,
-      action: SnackBarAction(label: 'CLOSE', onPressed: () => ScaffoldMessenger.of(context).removeCurrentSnackBar()),
-    ));
-  }
-
-  _handleCheckout({required BuildContext context, required checkoutOptions, required Function createOrder}) async {
-    setState(() => _checkoutInProgress = true);
-    try {
-      OrderApiResponse response = await plugin.checkout(context: context, checkoutOptions: checkoutOptions).then((value) {
-        value.responseCode == '000' && value.order?.status == 'Success' ? createOrder() : print('failed');
-        return value;
-      });
-      print('Response = ${response.responseCode}');
-      print('Response = ${response.order?.status}');
-      print('Response = ${response.order?.detailedStatus}');
-      setState(() => _checkoutInProgress = false);
-
-      // _updateStatus(
-      //     response.detailedResponseMessage, truncate(response.toString()));
-      // if(response.responseCode == '000'&&response.order?.status == 'Success'&&response.order?.detailedStatus == 'Paid'){
-      //
-      // }
-    } catch (e) {
-      setState(() => _checkoutInProgress = false);
-      _showMessage(e.toString());
-      //rethrow;
-    }
-  }
+  // _handleCheckout({required BuildContext context, required checkoutOptions, required Function createOrder}) async {
+  //   setState(() => _checkoutInProgress = true);
+  //   try {
+  //     OrderApiResponse response = await plugin.checkout(context: context, checkoutOptions: checkoutOptions).then((value) {
+  //       value.responseCode == '000' && value.order?.status == 'Success' ? createOrder() : print('failed');
+  //       return value;
+  //     });
+  //     print('Response = ${response.responseCode}');
+  //     print('Response = ${response.order?.status}');
+  //     print('Response = ${response.order?.detailedStatus}');
+  //     setState(() => _checkoutInProgress = false);
+  //
+  //     // _updateStatus(
+  //     //     response.detailedResponseMessage, truncate(response.toString()));
+  //     // if(response.responseCode == '000'&&response.order?.status == 'Success'&&response.order?.detailedStatus == 'Paid'){
+  //     //
+  //     // }
+  //   } catch (e) {
+  //     setState(() => _checkoutInProgress = false);
+  //     _showMessage(e.toString());
+  //     //rethrow;
+  //   }
+  // }
 }

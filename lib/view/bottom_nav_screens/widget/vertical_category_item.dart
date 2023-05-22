@@ -31,8 +31,9 @@ class VerticalCategoryItem extends StatelessWidget {
                   urlImage:
                   imgUrl,
                   fit: BoxFit.contain,
-                  heigthNumber: 30.h,
-                  widthNumber: 40.w,
+                  heigthNumber: double.infinity,
+                  widthNumber: double.infinity,
+                  borderRadious: 0,
                 ),
               ),
               SizedBox(

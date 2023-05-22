@@ -79,21 +79,21 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "category": category,
-                "per_page": '56',
-                "page": pageNumber,
-                'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-              }
+          "endpoint": "products",
+          "category": category,
+          "per_page": '56',
+          "page": pageNumber,
+          'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        }
             : {
-                "endpoint": "products",
-                "category": category,
-                "per_page": '56',
-                "page": pageNumber,
-                "order": order,
-                "orderby": orderBy,
-                'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-              },
+          "endpoint": "products",
+          "category": category,
+          "per_page": '56',
+          "page": pageNumber,
+          "order": order,
+          "orderby": orderBy,
+          'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        },
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -126,21 +126,21 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "category": '183',
-                "per_page": '56',
-                "page": pageNumber,
-                'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-              }
+          "endpoint": "products",
+          "category": '183',
+          "per_page": '56',
+          "page": pageNumber,
+          'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        }
             : {
-                "endpoint": "products",
-                "category": '183',
-                "per_page": '56',
-                "page": pageNumber,
-                "order": order,
-                "orderby": orderBy,
-                'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-              },
+          "endpoint": "products",
+          "category": '183',
+          "per_page": '56',
+          "page": pageNumber,
+          "order": order,
+          "orderby": orderBy,
+          'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        },
       );
       if (response.statusCode == 200) {
         listGiftProduct == null ? listGiftProduct = [] : print('');
@@ -216,20 +216,20 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "max_price": lessThan,
-                "per_page": '56',
-                "page": pageNumber,
+          "endpoint": "products",
+          "max_price": lessThan,
+          "per_page": '56',
+          "page": pageNumber,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         }
             : {
-                "endpoint": "products",
-                "max_price": lessThan,
-                "per_page": '56',
-                "page": pageNumber,
-                "order": order,
-                "orderby": orderBy,
+          "endpoint": "products",
+          "max_price": lessThan,
+          "per_page": '56',
+          "page": pageNumber,
+          "order": order,
+          "orderby": orderBy,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         },
@@ -298,21 +298,21 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "category": category,
-                "per_page": '56',
-                "page": pageNumber,
-                "on_sale": onSale ?? false,
+          "endpoint": "products",
+          "category": category,
+          "per_page": '56',
+          "page": pageNumber,
+          "on_sale": onSale ?? false,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
         }
             : {
-                "endpoint": "products",
-                "category": category,
-                "per_page": '56',
-                "page": pageNumber,
-                "order": order,
-                "orderby": orderBy,
-                "on_sale": onSale ?? false,
+          "endpoint": "products",
+          "category": category,
+          "per_page": '56',
+          "page": pageNumber,
+          "order": order,
+          "orderby": orderBy,
+          "on_sale": onSale ?? false,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         },
@@ -347,20 +347,20 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "brand": brand,
-                "per_page": '56',
-                "page": pageNumber,
+          "endpoint": "products",
+          "brand": brand,
+          "per_page": '56',
+          "page": pageNumber,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         }
             : {
-                "endpoint": "products",
-                "brand": brand,
-                "per_page": '56',
-                "page": pageNumber,
-                "order": order,
-                "orderby": orderBy,
+          "endpoint": "products",
+          "brand": brand,
+          "per_page": '56',
+          "page": pageNumber,
+          "order": order,
+          "orderby": orderBy,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         },
@@ -388,12 +388,12 @@ class ProductApies {
 
   getProductByFilter(
       {String? pageNumber,
-      String? category,
-      String? brand,
-      String? minPrice,
-      String? maxPrice,
-      String? order,
-      String? orderBy}) async {
+        String? category,
+        String? brand,
+        String? minPrice,
+        String? maxPrice,
+        String? order,
+        String? orderBy}) async {
     String? token = SPHelper.spHelper.getToken();
 
     productController.getFilteredProductData!.value = filtered_product_response.ListFilteredProductResponse();
@@ -402,26 +402,26 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "category": category,
-                "brand": brand,
-                "per_page": '56',
-                "page": pageNumber,
-                "min_price": minPrice,
-                "max_price": maxPrice,
+          "endpoint": "products",
+          "category": category,
+          "brand": brand,
+          "per_page": '56',
+          "page": pageNumber,
+          "min_price": minPrice,
+          "max_price": maxPrice,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         }
             : {
-                "endpoint": "products",
-                "category": category,
-                "brand": brand,
-                "per_page": '56',
-                "page": pageNumber,
-                "min_price": minPrice,
-                "max_price": maxPrice,
-                "order": order,
-                "orderby": orderBy,
+          "endpoint": "products",
+          "category": category,
+          "brand": brand,
+          "per_page": '56',
+          "page": pageNumber,
+          "min_price": minPrice,
+          "max_price": maxPrice,
+          "order": order,
+          "orderby": orderBy,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         },
@@ -561,20 +561,20 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "category": '25',
-                "per_page": '56',
-                "page": pageNumber,
+          "endpoint": "products",
+          "category": '25',
+          "per_page": '56',
+          "page": pageNumber,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         }
             : {
-                "endpoint": "products",
-                "category": '25',
-                "per_page": '56',
-                "page": pageNumber,
-                "order": order,
-                "orderby": orderBy,
+          "endpoint": "products",
+          "category": '25',
+          "per_page": '56',
+          "page": pageNumber,
+          "order": order,
+          "orderby": orderBy,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         },
@@ -631,21 +631,21 @@ class ProductApies {
         famousProductURL,
         queryParameters: order == null || orderBy == null
             ? {
-                "endpoint": "products",
-                "search": word,
-                // "category": category,
-                "per_page": '56',
-                "page": pageNumber,
+          "endpoint": "products",
+          "search": word,
+          // "category": category,
+          "per_page": '56',
+          "page": pageNumber,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         }
             : {
-                "endpoint": "products",
-                // "category": category,
-                "per_page": '56',
-                "page": pageNumber,
-                "order": order,
-                "orderby": orderBy,
+          "endpoint": "products",
+          // "category": category,
+          "per_page": '56',
+          "page": pageNumber,
+          "order": order,
+          "orderby": orderBy,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
 
         },

@@ -104,7 +104,7 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
           var product = productController.getProductDetailResponseData?.value.data;
           var review = reviewController.getReviewData?.value.listReviewResponse;
           var relatedProduct = productController.getRelatedProductData!.value.listRelatedProductModel;
-          var auth = authController.getCustomerInformationData?.value.listViewAllInformationAboutCustomerList;
+          var auth = authController.getCustomerInformationData?.value.data;
           var cart = cartController;
           return product == null
               ? LoadingPerfumeDetail()
