@@ -18,7 +18,7 @@ class Settingss {
      dio!.options.headers = {
        'authorization': 'Basic ${base64.encode(utf8.encode('$username:$password'))}'
      };
-     dio!.options.receiveTimeout = 10000;
+     dio!.options.receiveTimeout = 100000;
   }
 
   Map<String, dynamic> getHeaders() {

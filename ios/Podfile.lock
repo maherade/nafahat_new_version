@@ -7,6 +7,8 @@ PODS:
   - flutter_inappwebview/Core (0.0.1):
     - Flutter
     - OrderedSet (~> 5.0)
+  - flutter_localization (0.0.1):
+    - Flutter
   - flutter_paytabs_bridge (2.3.2):
     - Flutter
     - PayTabsSDK (= 6.4.1)
@@ -59,6 +61,7 @@ PODS:
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
+  - flutter_localization (from `.symlinks/plugins/flutter_localization/ios`)
   - flutter_paytabs_bridge (from `.symlinks/plugins/flutter_paytabs_bridge/ios`)
   - flutter_svprogresshud (from `.symlinks/plugins/flutter_svprogresshud/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -87,6 +90,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_inappwebview:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
+  flutter_localization:
+    :path: ".symlinks/plugins/flutter_localization/ios"
   flutter_paytabs_bridge:
     :path: ".symlinks/plugins/flutter_paytabs_bridge/ios"
   flutter_svprogresshud:
@@ -119,6 +124,7 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
+  flutter_localization: f43b18844a2b3d2c71fd64f04ffd6b1e64dd54d4
   flutter_paytabs_bridge: 449d587d9950dbd63b36968467105d2262833f1c
   flutter_svprogresshud: 821512698d752572c11a1c0ad11fd359c687054e
   fluttertoast: eb263d302cc92e04176c053d2385237e9f43fad0

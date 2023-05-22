@@ -17,14 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
-  auto_size_text:
-    dependency: transitive
-    description:
-      name: auto_size_text
-      sha256: "3f5261cd3fb5f2a9ab4e2fc3fba84fd9fcaac8821f20a1d4e71f557521b22599"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   awesome_dialog:
     dependency: "direct main"
     description:
@@ -246,8 +238,16 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.1"
-  flutter_localizations:
+  flutter_localization:
     dependency: "direct main"
+    description:
+      name: flutter_localization
+      sha256: "331698b371173f5e49812d5b3829a73b5a0b8d22c5fdd1270c8bd6d03d653716"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.10"
+  flutter_localizations:
+    dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.0"
@@ -325,15 +325,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "8.2.1"
-  geideapay:
-    dependency: "direct main"
-    description:
-      path: "."
-      ref: main
-      resolved-ref: ca1c37366b05846b32b7eb27baf7f830d125759d
-      url: "https://github.com/MIMOCODES-DEV/geideapay.git"
-    source: git
-    version: "0.0.1"
   get:
     dependency: "direct main"
     description:
@@ -574,14 +565,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  number_paginator:
-    dependency: "direct main"
-    description:
-      name: number_paginator
-      sha256: d0372a06c3d52922247d0fd4e58da621f122926011db2b8304e065225ece7b86
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.3"
   numerus:
     dependency: transitive
     description:
@@ -870,14 +853,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.0"
-  skeleton_text:
-    dependency: "direct main"
-    description:
-      name: skeleton_text
-      sha256: "6e088723b97ddcccfcce45312ce5e385ed1e5139a57afdf574f753d51eaa77f1"
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.0.0"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -1115,6 +1090,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.9.5"
+  widgets_to_image:
+    dependency: "direct main"
+    description:
+      name: widgets_to_image
+      sha256: e32c7b77267c01d319dc97333d4f3d894e9d81c8b3a408fd33862fa7775ee398
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.2"
   win32:
     dependency: transitive
     description:

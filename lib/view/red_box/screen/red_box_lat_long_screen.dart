@@ -98,6 +98,7 @@ class _RedBoxLocationsInMapScreenState extends State<RedBoxLocationsInMapScreen>
                   children: [
                     GoogleMap(
                       mapType: MapType.normal,
+                    // minMaxZoomPreference: MinMaxZoomPreference(1,1),
                       initialCameraPosition: CameraPosition(
                         target: LatLng(snapshot.data?.latitude ?? 0.0, snapshot.data!.longitude!),
                         zoom: 19,

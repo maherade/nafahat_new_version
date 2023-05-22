@@ -388,4 +388,67 @@ class CustomDialog {
           ],
         ));
   }
+
+  showConfirmSendMessageDialog({VoidCallback? onTap,String? phone}) {
+    Get.defaultDialog(
+        titleStyle: TextStyle(fontSize: 0),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Get.back();
+                    },
+                    child: Icon(Icons.close),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 20,
+            ),
+
+            SizedBox(
+              height: 20,
+            ),
+            CustomText("${"send_message_value".tr} $phone", fontSize: 16, ),
+            SizedBox(
+              height: 20,
+            ),
+            Divider(
+              height: 20,
+              thickness: 2,
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    onPressed: (){Get.back();},
+                    child: CustomText(
+                      "back_value".tr,
+                      fontSize: 14.sp,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: onTap,
+                    child: CustomText(
+                      "send_value".tr,
+                      fontSize: 14.sp,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ));
+  }
+
+
 }

@@ -248,7 +248,11 @@ class AuthApis {
     authController.getCustomerInformationData!.value = ListViewAllInformationAboutCustomerResponse();
     try {
       Response response = await Dio().get(
-          'https://nafahat.com/wp-json/nafahatapi/v1/userdata?user_id=$customerId',
+          'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php',
+        queryParameters: {
+            "endpoint":"customers",
+            "id":customerId,
+        },
         options: Options(
           headers: {
             'Authorization': 'Bearer ${SPHelper.spHelper.getAdminToken()}',

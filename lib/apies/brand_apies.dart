@@ -21,8 +21,9 @@ class BrandApies {
     brandController.getBrandData!.value = ListBrandResponse();
     try {
       Response response = await Dio().get(
-          'https://nafahat.com/wp-json/nafahatapi/v1/brands',
+          'https://nafahat.com/wp-content/plugins/nafahat/rest/v1/api-request.php',
         queryParameters: {
+            "endpoint":"brands",
             "search": search ??'',
             "orderasc":"name",
             "cat_id": categoryID ?? '',

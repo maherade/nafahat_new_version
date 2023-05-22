@@ -9,7 +9,7 @@ class MyLocale implements Translations {
           "favourite_value": "المفضلة",
           "my_order_value": "طلباتي",
           "gift_card_value": "بطاقات الهدايا",
-          "whole_sale_value": "البيع بالحملة",
+          "whole_sale_value": "البيع بالجملة",
           "who_us_value": "من نحن",
           "privacy_policy_value": "سياسة الخصوصية",
           "terms_and_condition_value": "الشروط والأحكام",
@@ -26,8 +26,8 @@ class MyLocale implements Translations {
           "order_by_min_to_height_price_value": "ترتيب حسب الأدنى سعرا للأعلى",
           "order_by_height_to_min_price_value": "ترتيب حسب الأعلى سعرا للأدنى",
           "order_default_value": "الترتيب الإفتراضي",
-          "gift_package_value": "بكجات الهدايا",
-          "discover_gift_package_value": "استكشاف بكجات الهدايا",
+          "gift_package_value": "بكجات نفحات",
+          "discover_gift_package_value": "استكشاف بكجات نفحات",
           "no_item_found_value": "لا توجد عناصر",
           "last_seen_value": "أخر المشاهدات",
           "shop_by_brand_value": "تسوق حسب الماركات التجارية",
@@ -230,7 +230,7 @@ class MyLocale implements Translations {
           "bottom_nav_home_value": "الرئيسية",
           "bottom_nav_category_value": "الأقسام",
           "bottom_nav_brand_value": "الماركات",
-          "bottom_nav_gift_package_value": "بكجات الهدايا",
+          "bottom_nav_gift_package_value": "بكجات نفحات",
           "bottom_nav_account_value": "حسابي",
           "complete_buy_process_value": "اتمام عملية الشراء",
           "add_to_cart_value": "أضف إلي السلة",
@@ -252,8 +252,9 @@ class MyLocale implements Translations {
           "top_devices_product_value":"أفضل منتجات قسم الأجهزة",
           "top_azafer_product_value":"أفضل منتجات قسم الأظافر",
           "top_perfume_product_value":"أفضل منتجات قسم العطور",
+          "send_message_value":"هل أنت متأكد من الطلب ؟ سيتم إرسال رسالة نصية تحتوي على كود التحقق إلى رقم الهاتف :",
 
-
+          "cod_value":"رسوم إضافية"
 
 
         },
@@ -279,8 +280,8 @@ class MyLocale implements Translations {
           "order_by_min_to_height_price_value": "Sort by Price: Low to High",
           "order_by_height_to_min_price_value": "Sort by Price: High to Low",
           "order_default_value": "Default Sort",
-          "gift_package_value": "Gift Packages",
-          "discover_gift_package_value": "Discover Gift Packages",
+          "gift_package_value": "Nafahat Packages",
+          "discover_gift_package_value": "Discover Nafahat Packages",
           "no_item_found_value": "No Items Found",
           "last_seen_value": "Last Seen",
           "shop_by_brand_value": "Shop by Brand",
@@ -483,7 +484,7 @@ class MyLocale implements Translations {
           "bottom_nav_home_value": "Home",
           "bottom_nav_category_value": "Category",
           "bottom_nav_brand_value": "Brands",
-          "bottom_nav_gift_package_value": "Gift Package",
+          "bottom_nav_gift_package_value": "Nafahat Package",
           "bottom_nav_account_value": "My Account",
           "complete_buy_process_value": "Complete Purchase",
           "add_to_cart_value": "Add to cart",
@@ -504,7 +505,8 @@ class MyLocale implements Translations {
           "top_makeup_product_value": "Top Products in Makeup Category",
           "top_devices_product_value": "Top Products in Devices Category",
           "top_azafer_product_value": "Top Products in Nails Category",
-          "top_perfume_product_value": "Top Products in Perfume Category"
+          "top_perfume_product_value": "Top Products in Perfume Category",
+          "cod_value":"charge value"
         },
       };
 }

@@ -1,20 +1,31 @@
 class ListViewAllInformationAboutCustomerResponse {
-  List<ViewAllInformationAboutCustomerResponse>? listViewAllInformationAboutCustomerList;
+  bool? success;
+  List<Data>? data;
 
-  ListViewAllInformationAboutCustomerResponse({this.listViewAllInformationAboutCustomerList});
-  ListViewAllInformationAboutCustomerResponse.fromJson(json) {
-    if (json != null) {
-      listViewAllInformationAboutCustomerList = <ViewAllInformationAboutCustomerResponse>[];
-      for (var v in json) {
-        listViewAllInformationAboutCustomerList!.add(ViewAllInformationAboutCustomerResponse.fromJson(v));
-      }
+  ListViewAllInformationAboutCustomerResponse({this.success, this.data});
+
+  ListViewAllInformationAboutCustomerResponse.fromJson(
+      Map<String, dynamic> json) {
+    success = json['success'];
+    if (json['data'] != null) {
+      data = <Data>[];
+      json['data'].forEach((v) {
+        data!.add(new Data.fromJson(v));
+      });
     }
-
   }
 
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['success'] = this.success;
+    if (this.data != null) {
+      data['data'] = this.data!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
 }
 
-class ViewAllInformationAboutCustomerResponse {
+class Data {
   String? userId;
   String? userAvatar;
   String? userBillingFullname;
@@ -23,7 +34,7 @@ class ViewAllInformationAboutCustomerResponse {
   String? userMainEmail;
   String? userLang;
 
-  ViewAllInformationAboutCustomerResponse(
+  Data(
       {this.userId,
         this.userAvatar,
         this.userBillingFullname,
@@ -32,7 +43,7 @@ class ViewAllInformationAboutCustomerResponse {
         this.userMainEmail,
         this.userLang});
 
-  ViewAllInformationAboutCustomerResponse.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     userId = json['user_id'];
     userAvatar = json['user_avatar'];
     userBillingFullname = json['user_billing_fullname'];

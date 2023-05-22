@@ -31,17 +31,16 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_localizations:
-    sdk: flutter
-  number_paginator:
-  geideapay:
-    git:
-      url: https://github.com/MIMOCODES-DEV/geideapay.git
-      ref: main # branch name
+
+#  geideapay:
+#    git:
+#      url: https://github.com/MIMOCODES-DEV/geideapay.git
+#      ref: main # branch name
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  flutter_localization: ^0.1.10
   lazy_load_scrollview: ^1.3.0
   get: ^4.6.5
   dio: ^4.0.6
@@ -49,7 +48,7 @@ dependencies:
   flutter_screenutil: ^5.6.0
   shared_preferences: ^2.0.15
   cached_network_image: ^3.2.2
-  skeleton_text: ^3.0.0
+#  skeleton_text: ^3.0.0
   flutter_rating_bar: ^4.0.1
   fluttertoast: ^8.1.1
   flutter_svprogresshud: ^1.0.0
@@ -63,7 +62,7 @@ dependencies:
   pin_code_fields: ^7.4.0
   html: ^0.15.1
   flutter_html:
-  intl: ^0.17.0
+  intl:
   awesome_dialog:
   json_annotation: ^4.7.0
   flutter_inappwebview: ^5.7.2+3
@@ -79,6 +78,10 @@ dependencies:
   intl_phone_field: ^3.1.0
   flutter_paytabs_bridge: ^2.3.5
   transparent_image: ^2.0.1
+  widgets_to_image: ^0.0.2
+
+
+#  tamara_sdk:
 
 
 
