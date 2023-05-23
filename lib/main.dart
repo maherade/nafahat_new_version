@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'dart:io' show Platform;
 
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
 import 'package:flutter_paytabs_bridge/PaymentSDKQueryConfiguration.dart';
@@ -41,7 +42,7 @@ import 'view/splash/screen/splash_screen.dart';
 import 'package:permission_handler/permission_handler.dart' as premession;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // Firebase.initializeApp();
+  Firebase.initializeApp();
   await SPHelper.spHelper.initSharedPrefrences();
   await Settingss.settings.initDio();
   TabbySDK().setup(
@@ -69,7 +70,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   void initState() {
-    // NotificationHelper().initialNotification();
+    NotificationHelper.notificationHelper.initialNotification();
     log("User Token${SPHelper.spHelper.getToken()}");
     Location.instance.requestPermission();
     requestMapPermission();
