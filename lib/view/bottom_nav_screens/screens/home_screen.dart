@@ -275,8 +275,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               Get.to(
                                     () =>  ShopByBrandScreen(
-                                  brandId: ads?[index].brand?[0].termId??1781,
-                                  brandName: ads?[index].brand?[0].name??'Acure'.tr,
+                                      brandId: int.parse(brand[index].data!.termId!),
                                 ),
                               );
                             },
