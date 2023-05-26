@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
 import 'package:perfume_store_mobile_app/view/profile/screen/update_profile_screen.dart';
+import 'package:perfume_store_mobile_app/view/splash/screen/splash_screen.dart';
 
 import '../../../controller/auth_controller.dart';
 import '../../../services/app_imports.dart';
@@ -627,6 +628,7 @@ class _MyAccountState extends State<MyAccount> {
                   selectedLang = value;
                   myLocaleController.changeLang(value == 'العربية' ? 'ar' : 'en');
                 });
+                Get.offAll(()=>SplashScreen());
               },
             ),
           );

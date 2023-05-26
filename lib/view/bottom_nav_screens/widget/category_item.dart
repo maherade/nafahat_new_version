@@ -20,7 +20,7 @@ final VoidCallback? onTap ;
           )
               : const SizedBox(),
           SizedBox(
-            height: 110.h,
+            height: 130.h,
             width: 78.w,
             child: Column(
               children: [

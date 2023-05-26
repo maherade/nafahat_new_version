@@ -303,7 +303,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         category == null
                             ? LoadingCategory()
                             : SizedBox(
-                          height: 120.h,
+                          height: 130.h,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
