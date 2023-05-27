@@ -425,7 +425,7 @@ class ConfirmWidget extends StatelessWidget {
                              crossAxisCount: 2, // number of columns in the grid
                              crossAxisSpacing: 5.0, // spacing between columns
                              mainAxisSpacing: 10.0, // spacing between rows
-                             childAspectRatio: 1.4.h, // width to height ratio of each child
+                             childAspectRatio: 1.0.h, // width to height ratio of each child
                            ),
                            itemBuilder: (BuildContext context, int index) {
                              String? image = 'pay.png';
