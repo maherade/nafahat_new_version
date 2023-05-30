@@ -11,26 +11,26 @@ class ListAdsResponse {
       });
 
       // sort the list based on a specific order of image URLs
-      listAdsResponse!.sort((a, b) {
-        List<String> imageOrder = [
-          'https://nafahat.com/wp-content/uploads/sites/2/2023/03/حياكم-عروض-نفحات-بتستناكم-.png',
-          'https://nafahat.com/wp-content/uploads/sites/2/2023/04/5.png',
-          'https://nafahat.com/wp-content/uploads/sites/2/2023/04/2_1.png',
-        ];
-
-        int aIndex = imageOrder.indexOf(a.image!);
-        int bIndex = imageOrder.indexOf(b.image!);
-
-        if (aIndex != -1 && bIndex != -1) {
-          return aIndex.compareTo(bIndex); // sort by image order if both have specified images
-        } else if (aIndex != -1) {
-          return -1; // a should come before b
-        } else if (bIndex != -1) {
-          return 1; // b should come before a
-        } else {
-          return a.image!.compareTo(b.image!); // sort by name for all other items
-        }
-      });
+      // listAdsResponse!.sort((a, b) {
+      //   List<String> imageOrder = [
+      //     'https://nafahat.com/wp-content/uploads/sites/2/2023/03/حياكم-عروض-نفحات-بتستناكم-.png',
+      //     'https://nafahat.com/wp-content/uploads/sites/2/2023/04/5.png',
+      //     'https://nafahat.com/wp-content/uploads/sites/2/2023/04/2_1.png',
+      //   ];
+      //
+      //   int aIndex = imageOrder.indexOf(a.image!);
+      //   int bIndex = imageOrder.indexOf(b.image!);
+      //
+      //   if (aIndex != -1 && bIndex != -1) {
+      //     return aIndex.compareTo(bIndex); // sort by image order if both have specified images
+      //   } else if (aIndex != -1) {
+      //     return -1; // a should come before b
+      //   } else if (bIndex != -1) {
+      //     return 1; // b should come before a
+      //   } else {
+      //     return a.image!.compareTo(b.image!); // sort by name for all other items
+      //   }
+      // });
     }
   }
 }

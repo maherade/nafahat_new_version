@@ -14,6 +14,7 @@ import '../../../apies/category_apies.dart';
 import '../../../apies/product_apies.dart';
 import '../../../controller/category_controller.dart';
 import '../../../controller/product_controller.dart';
+import '../../../model/ads_response.dart';
 import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_search_bar.dart';
 
@@ -57,7 +58,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
     super.dispose();
   }
 
-  int selectAdNumber = 0;
+  String selectAdTitle = 'بنر قسم الاجهزة ';
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -66,8 +67,16 @@ class _CategoryScreenState extends State<CategoryScreen> {
         var category = categoryController.getCategoryData!.value.listCategoryResponse;
         var subCategory = categoryController.getSubCategoryData!.value.listSubCategoryResponse;
         var brand = brandController.getBrandData!.value.listBrandResponse;
-        var ads = productController.getAdsData?.value.listAdsResponse;
-
+        // var ads = productController.getAdsData?.value.listAdsResponse;
+        AdsResponse? getAd ({String? title}){
+          AdsResponse? adsResponse;
+          productController.getAdsData?.value.listAdsResponse?.forEach((element) {
+            if(element.image != null){
+              title == element.url ? adsResponse = element : null;
+            }
+          });
+          return adsResponse;
+        }
         return RefreshIndicator(
           displacement: 250,
           backgroundColor: AppColors.whiteColor,
@@ -127,22 +136,22 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                    setState(() {
                                      switch(index){
                                        case 0:
-                                         selectAdNumber = 1;
+                                         selectAdTitle = 'بنر قسم المكياج';
                                          break;
                                        case 1:
-                                         selectAdNumber = 6;
+                                         selectAdTitle = 'بنر قسم العناية';
                                          break;
                                        case 2:
-                                         selectAdNumber = 5;
+                                         selectAdTitle = 'بنر قسم الأظافر';
                                          break;
                                        case 3:
-                                         selectAdNumber = 6;
+                                         selectAdTitle = 'بنر قسم الاجهزة ';
                                          break;
                                        case 4:
-                                         selectAdNumber = 7;
+                                         selectAdTitle = 'بنر قسم العطور ';
                                          break;
                                        case 5:
-                                         selectAdNumber = 2;
+                                         selectAdTitle = 'بنر قسم العدسات';
                                          break;
                                      }
                                    });
@@ -156,14 +165,15 @@ class _CategoryScreenState extends State<CategoryScreen> {
                          SizedBox(width: 15.w,),
                          Expanded(flex: 2,child: Column(
                            children: [
-                             SizedBox(
-                               height: 120.h,
+                             getAd(title: selectAdTitle) == null
+                                 ? SizedBox(height: 150.h,):  SizedBox(
+                               height: 200.h,
                                child: SizedBox(
                                  height: 200.h,
                                  child: ClipRRect(
                                    // borderRadius: BorderRadius.circular(15),
                                    child: CachedNetworkImageShare(
-                                     urlImage:  ads?[selectAdNumber].image ?? '',
+                                     urlImage:  getAd(title: selectAdTitle)?.image??'',
                                      widthNumber: double.infinity,
                                      heigthNumber: double.infinity,
                                     borderRadious: 3,
