@@ -42,7 +42,7 @@ import 'view/splash/screen/splash_screen.dart';
 import 'package:permission_handler/permission_handler.dart' as premession;
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Firebase.initializeApp();
+  await Firebase.initializeApp();
   await SPHelper.spHelper.initSharedPrefrences();
   await Settingss.settings.initDio();
   TabbySDK().setup(

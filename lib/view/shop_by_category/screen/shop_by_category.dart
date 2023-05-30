@@ -82,16 +82,45 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
 
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     ProductApies.productApies.listProductByCategory = null;
     getData();
     super.initState();
   }
 
-  ScrollController _scrollController = ScrollController();
-
+  late ScrollController _scrollController;
+  bool _showBackToTopButton = false;
+  void _scrollListener() {
+    if (_scrollController.offset >= 400 && !_showBackToTopButton) {
+      setState(() {
+        _showBackToTopButton = true;
+      });
+    } else if (_scrollController.offset < 400 && _showBackToTopButton) {
+      setState(() {
+        _showBackToTopButton = false;
+      });
+    }
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose(); // dispose the controller
+    super.dispose();
+  }
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.linear);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _showBackToTopButton == false
+          ? null
+          : FloatingActionButton(
+        onPressed: _scrollToTop,
+        backgroundColor: AppColors.primaryColor,
+        child: const Icon(Icons.arrow_upward),
+      ),
       body: Obx(
             () {
           var product = productController.getProductByCategoryData!.value.data;
@@ -115,6 +144,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
               }
             },
             child: CustomScrollView(
+              controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverPadding(

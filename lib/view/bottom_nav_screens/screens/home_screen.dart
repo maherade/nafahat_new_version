@@ -19,6 +19,7 @@ import '../../../controller/auth_controller.dart';
 import '../../../controller/cart_controller.dart';
 import '../../../controller/posts_controller.dart';
 import '../../../controller/product_controller.dart';
+import '../../../model/ads_response.dart';
 import '../../../model/decode_token_response.dart';
 import '../../../model/sub_category_product.dart';
 import '../../../services/app_imports.dart';
@@ -99,6 +100,16 @@ class _HomeScreenState extends State<HomeScreen> {
         var topDevices = productController.getTopDevicesProductData?.value.data;
         var topNails = productController.getTopNailsProductData?.value.data;
         var topPerfume = productController.getTopPerfumeProductData?.value.data;
+
+        AdsResponse? getAd ({String? title}){
+          AdsResponse? adsResponse;
+          productController.getAdsData?.value.listAdsResponse?.forEach((element) {
+            if(element.image != null){
+              title == element.url ? adsResponse = element : null;
+            }
+          });
+          return adsResponse;
+        }
         return RefreshIndicator(
           displacement: 250,
           backgroundColor: AppColors.whiteColor,
@@ -136,10 +147,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 SizedBox(
                   height: 50.h,
                 ),
-                // FloatingActionButton(onPressed: () {
-                //   String s = 'asd sd dsa d';
-                //   print(s.trim());
-                // },),
+
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Row(
@@ -206,7 +214,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 25.h,
                     ),
-                    ads != null
+                    getAd(title: 'بنر الهيدر الاول ترتيب البنر 1') != null
                         ? Column(
                       children: [
                         SizedBox(
@@ -215,19 +223,19 @@ class _HomeScreenState extends State<HomeScreen> {
                             onPageChanged: (index) {
                               setState(() => _current = index);
                             },
-                            itemCount: ads.length <= 3 ? ads.length : 3,
+                            itemCount: 1,
                             itemBuilder: (context, index) {
                               return InkWell(
                                 onTap: () {
                                   Get.to(
                                         () =>  ShopByBrandScreen(
-                                      brandId: ads[index].brand?[0].termId??1781,
-                                      brandName: ads[index].brand?[0].name??'Acure'.tr,
+                                      brandId: getAd(title: 'بنر الهيدر الاول ترتيب البنر 1')?.brand?[0].termId??1781,
+                                      brandName: getAd(title: 'بنر الهيدر الاول ترتيب البنر 1')?.brand?[0].name??'Acure'.tr,
                                     ),
                                   );
 
                                 },
-                                child: AdItem(imgUrl: ads[index].image),
+                                child: AdItem(imgUrl: getAd(title: 'بنر الهيدر الاول ترتيب البنر 1')?.image),
                               );
                             },
                           ),
@@ -275,8 +283,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               Get.to(
                                     () =>  ShopByBrandScreen(
-                                  brandId: ads?[index].brand?[0].termId??1781,
-                                  brandName: ads?[index].brand?[0].name??'Acure'.tr,
+                                      brandId: int.parse(brand[index].data!.termId!),
                                 ),
                               );
                             },
@@ -304,7 +311,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         category == null
                             ? LoadingCategory()
                             : SizedBox(
-                          height: 120.h,
+                          height: 130.h,
                           child: ListView.builder(
                             physics: const BouncingScrollPhysics(),
                             scrollDirection: Axis.horizontal,
@@ -330,35 +337,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر مهرجان الجمال ترتيب البنر 2') == null
+                        ? SizedBox(height: 150.h,): SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[24].brand?[0].termId??1781,
-                              brandName: ads?[24].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر مهرجان الجمال ترتيب البنر 2')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر مهرجان الجمال ترتيب البنر 2')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[24].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر مهرجان الجمال ترتيب البنر 2')?.image),
                       ),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر مهرجان الجمال يسار ترتيب البنر 3') == null
+                        ? SizedBox(height: 150.h,): SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[25].brand?[0].termId??1781,
-                              brandName: ads?[25].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر مهرجان الجمال يسار ترتيب البنر 3')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر مهرجان الجمال يسار ترتيب البنر 3')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[25].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر مهرجان الجمال يسار ترتيب البنر 3')?.image),
                       ),
                     ),
                     SizedBox(
@@ -394,18 +403,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 18.h,
                         ),
-                        SizedBox(
+                        getAd(title: 'بنر الأفضل مبيعاً ترتيب البنر 4') == null
+                            ? SizedBox(height: 150.h,): SizedBox(
                           height: 150.h,
                           child: InkWell(
                             onTap: () {
                               Get.to(
                                     () =>  ShopByBrandScreen(
-                                  brandId: ads?[20].brand?[0].termId??1781,
-                                  brandName: ads?[20].brand?[0].name??'Acure'.tr,
+                                      brandId: getAd(title: 'بنر الأفضل مبيعاً ترتيب البنر 4')?.brand?[0].termId??1781,
+                                      brandName: getAd(title: 'بنر الأفضل مبيعاً ترتيب البنر 4')?.brand?[0].name??'Acure'.tr,
                                 ),
                               );
                             },
-                            child: AdItem(imgUrl: ads?[20].image),
+                            child: AdItem(imgUrl: getAd(title: 'بنر الأفضل مبيعاً ترتيب البنر 4')?.image),
                           ),
                         ),
                         SizedBox(
@@ -541,18 +551,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 40.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر بكجات الهدايا ترتيب البنر 5') == null
+                        ? SizedBox(height: 140.h,): SizedBox(
                       height: 140.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[3].brand?[0].termId??1781,
-                              brandName: ads?[3].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر بكجات الهدايا ترتيب البنر 5')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر بكجات الهدايا ترتيب البنر 5')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[3].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر بكجات الهدايا ترتيب البنر 5')?.image),
                       ),
                     ),
                     SizedBox(
@@ -699,18 +710,19 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(
                           height: 30.h,
                         ),
-                        SizedBox(
+                        getAd(title: 'بنر هديا رمضان ترتيب البنر 6') == null
+                            ? SizedBox(height: 150.h,): SizedBox(
                           height: 150.h,
                           child: InkWell(
                             onTap: () {
                               Get.to(
                                     () =>  ShopByBrandScreen(
-                                  brandId: ads?[16].brand?[0].termId??1781,
-                                  brandName: ads?[16].brand?[0].name??'Acure'.tr,
+                                      brandId: getAd(title: 'بنر هديا رمضان ترتيب البنر 6')?.brand?[0].termId??1781,
+                                      brandName: getAd(title: 'بنر هديا رمضان ترتيب البنر 6')?.brand?[0].name??'Acure'.tr,
                                 ),
                               );
                             },
-                            child: AdItem(imgUrl: ads?[16].image),
+                            child: AdItem(imgUrl: getAd(title: 'بنر هديا رمضان ترتيب البنر 6')?.image),
                           ),
                         )
                       ],
@@ -791,18 +803,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر العناية ترتيب البنر 7') == null
+                        ? SizedBox(height: 150.h,):  SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[7].brand?[0].termId??1781,
-                              brandName: ads?[7].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر العناية ترتيب البنر 7')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر العناية ترتيب البنر 7')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[7].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر العناية ترتيب البنر 7')?.image),
                       ),
                     ),
                     SizedBox(
@@ -879,35 +892,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر العدسات الاول ترتيب البنر 8') == null
+                        ? SizedBox(height: 200.h,):  SizedBox(
                       height: 200.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[13].brand?[0].termId??1781,
-                              brandName: ads?[13].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر العدسات الاول ترتيب البنر 8')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر العدسات الاول ترتيب البنر 8')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[13].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر العدسات الاول ترتيب البنر 8')?.image),
                       ),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر العدسات الثاني ترتيب البنر 9') == null
+                        ? SizedBox(height: 200.h,):  SizedBox(
                       height: 200.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[14].brand?[0].termId??1781,
-                              brandName: ads?[14].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر العدسات الثاني ترتيب البنر 9')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر العدسات الثاني ترتيب البنر 9')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[14].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر العدسات الثاني ترتيب البنر 9')?.image),
                       ),
                     ),
 
@@ -987,18 +1002,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر عروض رمضان ترتيب البنر 10') == null
+                        ? SizedBox(height: 150.h,):  SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[22].brand?[0].termId??1781,
-                              brandName: ads?[22].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر عروض رمضان ترتيب البنر 10')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر عروض رمضان ترتيب البنر 10')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[22].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر عروض رمضان ترتيب البنر 10')?.image),
                       ),
                     ),
                     SizedBox(
@@ -1078,18 +1094,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر المكياج ترتيب البنر 11') == null
+                        ? SizedBox(height: 150.h,): SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[6].brand?[0].termId??1781,
-                              brandName: ads?[6].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر المكياج ترتيب البنر 11')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر المكياج ترتيب البنر 11')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[6].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر المكياج ترتيب البنر 11')?.image),
                       ),
                     ),
                     SizedBox(
@@ -1169,35 +1186,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر الأجهزة الاول ترتيب البنر 12 ') == null
+                        ? SizedBox(height: 200.h,):  SizedBox(
                       height: 200.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[8].brand?[0].termId??1781,
-                              brandName: ads?[8].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر الأجهزة الاول ترتيب البنر 12 ')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر الأجهزة الاول ترتيب البنر 12 ')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[8].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر الأجهزة الاول ترتيب البنر 12 ')?.image),
                       ),
                     ),
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر الأجهزة الثاني ترتيب البنر 13') == null
+                        ? SizedBox(height: 200.h,):  SizedBox(
                       height: 200.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[15].brand?[0].termId??1781,
-                              brandName: ads?[15].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر الأجهزة الثاني ترتيب البنر 13')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر الأجهزة الثاني ترتيب البنر 13')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[15].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر الأجهزة الثاني ترتيب البنر 13')?.image),
                       ),
                     ),
 
@@ -1278,18 +1297,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر الأظافر ترتيب البنر 14') == null
+                        ? SizedBox(height: 150.h,): SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[5].brand?[0].termId??1781,
-                              brandName: ads?[5].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر الأظافر ترتيب البنر 14')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر الأظافر ترتيب البنر 14')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[5].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر الأظافر ترتيب البنر 14')?.image),
                       ),
                     ),
 
@@ -1369,18 +1389,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر العطور ترتيب البنر 15') == null
+                        ? SizedBox(height: 150.h,): SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[9].brand?[0].termId??1781,
-                              brandName: ads?[9].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر العطور ترتيب البنر 15')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر العطور ترتيب البنر 15')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[9].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر العطور ترتيب البنر 15')?.image),
                       ),
                     ),
 
@@ -1460,18 +1481,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر منتجات اقل من 20 ريال ترتيب البنر 16') == null
+                        ? SizedBox(height: 150.h,): SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[4].brand?[0].termId??1781,
-                              brandName: ads?[4].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر منتجات اقل من 20 ريال ترتيب البنر 16')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر منتجات اقل من 20 ريال ترتيب البنر 16')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[4].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر منتجات اقل من 20 ريال ترتيب البنر 16')?.image),
                       ),
                     ),
                     SizedBox(
@@ -1549,18 +1571,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر أفضل العروض ترتيب البنر 17') == null
+                        ? SizedBox(height: 150.h,):  SizedBox(
                       height: 150.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[23].brand?[0].termId??1781,
-                              brandName: ads?[23].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر أفضل العروض ترتيب البنر 17')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر أفضل العروض ترتيب البنر 17')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[23].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر أفضل العروض ترتيب البنر 17')?.image),
                       ),
                     ),
                     SizedBox(
@@ -1641,35 +1664,37 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر وصل حديثا الاول ترتيب البنر 18') == null
+                        ? SizedBox(height: 200.h,): SizedBox(
                       height: 200.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[11].brand?[0].termId??1781,
-                              brandName: ads?[11].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر وصل حديثا الاول ترتيب البنر 18')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر وصل حديثا الاول ترتيب البنر 18')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[11].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر وصل حديثا الاول ترتيب البنر 18')?.image),
                       ),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
-                    SizedBox(
+                    getAd(title: 'بنر وصل حديثا الثاني ترتيب البنر 19') == null
+                        ? SizedBox(height: 200.h,):  SizedBox(
                       height: 200.h,
                       child: InkWell(
                         onTap: () {
                           Get.to(
                                 () =>  ShopByBrandScreen(
-                              brandId: ads?[19].brand?[0].termId??1781,
-                              brandName: ads?[19].brand?[0].name??'Acure'.tr,
+                                  brandId: getAd(title: 'بنر وصل حديثا الثاني ترتيب البنر 19')?.brand?[0].termId??1781,
+                                  brandName: getAd(title: 'بنر وصل حديثا الثاني ترتيب البنر 19')?.brand?[0].name??'Acure'.tr,
                             ),
                           );
                         },
-                        child: AdItem(imgUrl: ads?[19].image),
+                        child: AdItem(imgUrl: getAd(title: 'بنر وصل حديثا الثاني ترتيب البنر 19')?.image),
                       ),
                     ),
                     SizedBox(

@@ -79,6 +79,8 @@ class _GiftScreenState extends State<GiftScreen> {
 
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     // ProductApies.productApies.listGiftProduct = null;
 
     // WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -86,7 +88,28 @@ class _GiftScreenState extends State<GiftScreen> {
     // });
     super.initState();
   }
-
+  late ScrollController _scrollController;
+  bool _showBackToTopButton = false;
+  void _scrollListener() {
+    if (_scrollController.offset >= 400 && !_showBackToTopButton) {
+      setState(() {
+        _showBackToTopButton = true;
+      });
+    } else if (_scrollController.offset < 400 && _showBackToTopButton) {
+      setState(() {
+        _showBackToTopButton = false;
+      });
+    }
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose(); // dispose the controller
+    super.dispose();
+  }
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.linear);
+  }
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -124,291 +147,307 @@ class _GiftScreenState extends State<GiftScreen> {
               );
               ProductApies.productApies.getLastViewProduct();
             },
-            child: CustomScrollView(
-              physics: const BouncingScrollPhysics(),
-              slivers: [
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 15.w),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                        height: 60.h,
-                      ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
+            child: Stack(
+              alignment: AlignmentDirectional.bottomEnd,
+              children: [
+                CustomScrollView(
+                  controller: _scrollController,
+                  physics: const BouncingScrollPhysics(),
+                  slivers: [
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(horizontal: 15.w),
+                      sliver: SliverToBoxAdapter(
+                        child: Column(
                           children: [
-                            GestureDetector(
-                              onTap: (){
-                                Get.to(()=>CartScreen());
-                              },
-                              child: GetBuilder<CartController>(
-                                init: CartController(),
-                                builder: (controller) {
-                                  return badges.Badge(
-                                    showBadge: controller.items.isNotEmpty ? true :false,
-                                    position: badges.BadgePosition.topEnd(),
-                                    badgeStyle: badges.BadgeStyle(
-                                      shape: badges.BadgeShape.circle,
-                                      borderRadius: BorderRadius.circular(12.r),
-                                      badgeColor: AppColors.primaryColor,
-                                    ),
+                            SizedBox(
+                            height: 60.h,
+                          ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                GestureDetector(
+                                  onTap: (){
+                                    Get.to(()=>CartScreen());
+                                  },
+                                  child: GetBuilder<CartController>(
+                                    init: CartController(),
+                                    builder: (controller) {
+                                      return badges.Badge(
+                                        showBadge: controller.items.isNotEmpty ? true :false,
+                                        position: badges.BadgePosition.topEnd(),
+                                        badgeStyle: badges.BadgeStyle(
+                                          shape: badges.BadgeShape.circle,
+                                          borderRadius: BorderRadius.circular(12.r),
+                                          badgeColor: AppColors.primaryColor,
+                                        ),
 
-                                    badgeContent: CustomText(
-                                      controller.items.length.toString(),
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 11.sp,
-                                      textAlign: TextAlign.center,
-                                    ),
-                                    child: SvgPicture.asset(
-                                      'assets/svg/cart.svg',
-                                      color: AppColors.greenText,
-                                      fit: BoxFit.contain,
+                                        badgeContent: CustomText(
+                                          controller.items.length.toString(),
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.normal,
+                                          fontSize: 11.sp,
+                                          textAlign: TextAlign.center,
+                                        ),
+                                        child: SvgPicture.asset(
+                                          'assets/svg/cart.svg',
+                                          color: AppColors.greenText,
+                                          fit: BoxFit.contain,
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                                SizedBox(width: 3.w,),
+                                IconButton(onPressed: () {
+                                  Get.to(()=>SearchScreen());
+                                }, icon: Icon(Icons.search))
+                              ],
+                            ),
+                            SizedBox(
+                              height: 160.h,
+                              child: PageView.builder(
+                                onPageChanged: (index) {},
+                                itemCount: ads?.length,
+                                itemBuilder: (context, index) {
+                                  return ads == null
+                                      ? SizedBox(
+                                    height: 200.h,
+                                  )
+                                      : GestureDetector(
+                                    onTap: () {
+                                      Get.to(() =>  ShopByCategoryScreen(
+                                        categoryId: 183,
+                                        categoryName: 'gift_package_value'.tr,
+                                      ));
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                                      child: SizedBox(
+                                        height: 200.h,
+                                        child: ClipRRect(
+                                          // borderRadius: BorderRadius.circular(15),
+                                          child: CachedNetworkImageShare(
+                                            urlImage: ads[1].image ?? '',
+                                            widthNumber: double.infinity,
+                                            heigthNumber: double.infinity,
+                                            fit: BoxFit.fill,
+                                            borderRadious: 3,
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   );
                                 },
                               ),
                             ),
-                            SizedBox(width: 3.w,),
-                            IconButton(onPressed: () {
-                              Get.to(()=>SearchScreen());
-                            }, icon: Icon(Icons.search))
-                          ],
-                        ),
-                        SizedBox(
-                          height: 160.h,
-                          child: PageView.builder(
-                            onPageChanged: (index) {},
-                            itemCount: ads?.length,
-                            itemBuilder: (context, index) {
-                              return ads == null
-                                  ? SizedBox(
-                                height: 200.h,
-                              )
-                                  : GestureDetector(
-                                onTap: () {
-                                  Get.to(() =>  ShopByCategoryScreen(
-                                    categoryId: 183,
-                                    categoryName: 'gift_package_value'.tr,
-                                  ));
-                                },
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                                  child: SizedBox(
-                                    height: 200.h,
-                                    child: ClipRRect(
-                                      // borderRadius: BorderRadius.circular(15),
-                                      child: CachedNetworkImageShare(
-                                        urlImage: ads[1].image ?? '',
-                                        widthNumber: double.infinity,
-                                        heigthNumber: double.infinity,
-                                        fit: BoxFit.fill,
-                                        borderRadious: 3,
+                            SizedBox(
+                              height: 30.h,
+                            ),
+                            Row(
+                              children: [
+                                Expanded(
+                                  flex: 6,
+                                  child: CustomText(
+                                    'discover_gift_package_value'.tr,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+
+                                Expanded(
+                                  flex: 8,
+                                  child: DecoratedBox(
+                                    decoration: BoxDecoration(
+                                      border: Border.all(color: const Color(0xffF5E7EA), width: 1),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(horizontal: 7.0.w),
+                                      child: DropdownButton<String>(
+                                        underline: SizedBox(),
+                                        focusColor: Colors.white,
+                                        value: selectedDropDown,
+                                        style: TextStyle(color: Colors.white, fontSize: 10.sp),
+                                        iconEnabledColor: Colors.black,
+                                        items: <String>[
+                                          'order_by_popularity_value'.tr,
+                                          'order_by_rating_value'.tr,
+                                          'order_by_recent_value'.tr,
+                                          'order_by_min_to_height_price_value'.tr,
+                                          'order_by_height_to_min_price_value'.tr,
+                                        ].map<DropdownMenuItem<String>>((String value) {
+                                          return DropdownMenuItem<String>(
+                                            value: value,
+                                            child: CustomText(
+                                              value,
+                                              fontSize: 10.sp,
+                                            ),
+                                          );
+                                        }).toList(),
+                                        hint: CustomText(
+                                          "order_default_value".tr,
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        onChanged: (String? value) {
+                                          ProductApies.productApies.listGiftProduct = null;
+                                          dropDown(value!);
+                                          setState(() {
+                                            selectedDropDown = value;
+                                          });
+                                        },
                                       ),
                                     ),
                                   ),
                                 ),
-                              );
-                            },
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30.h,
-                        ),
-                        Row(
-                          children: [
-                            Expanded(
-                              flex: 6,
-                              child: CustomText(
-                                'discover_gift_package_value'.tr,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14.sp,
-                              ),
-                            ),
-
-                            Expanded(
-                              flex: 8,
-                              child: DecoratedBox(
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: const Color(0xffF5E7EA), width: 1),
-                                  borderRadius: BorderRadius.circular(5),
+                                SizedBox(
+                                  width: 12.w,
                                 ),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 7.0.w),
-                                  child: DropdownButton<String>(
-                                    underline: SizedBox(),
-                                    focusColor: Colors.white,
-                                    value: selectedDropDown,
-                                    style: TextStyle(color: Colors.white, fontSize: 10.sp),
-                                    iconEnabledColor: Colors.black,
-                                    items: <String>[
-                                      'order_by_popularity_value'.tr,
-                                      'order_by_rating_value'.tr,
-                                      'order_by_recent_value'.tr,
-                                      'order_by_min_to_height_price_value'.tr,
-                                      'order_by_height_to_min_price_value'.tr,
-                                    ].map<DropdownMenuItem<String>>((String value) {
-                                      return DropdownMenuItem<String>(
-                                        value: value,
-                                        child: CustomText(
-                                          value,
-                                          fontSize: 10.sp,
-                                        ),
-                                      );
-                                    }).toList(),
-                                    hint: CustomText(
-                                      "order_default_value".tr,
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.normal,
-                                    ),
-                                    onChanged: (String? value) {
-                                      ProductApies.productApies.listGiftProduct = null;
-                                      dropDown(value!);
-                                      setState(() {
-                                        selectedDropDown = value;
-                                      });
+                                Expanded(
+                                  flex: 2,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Get.to(() => FilterScreen());
                                     },
+                                    child: SvgPicture.asset(
+                                      'assets/svg/filter.svg',
+                                      fit: BoxFit.contain,
+                                    ),
                                   ),
                                 ),
-                              ),
+                              ],
                             ),
                             SizedBox(
-                              width: 12.w,
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Get.to(() => FilterScreen());
-                                },
-                                child: SvgPicture.asset(
-                                  'assets/svg/filter.svg',
-                                  fit: BoxFit.contain,
-                                ),
-                              ),
+                              height: 20.h,
                             ),
                           ],
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
-                  sliver: ProductApies.productApies.listGiftProduct == null
-                      ? SliverLoadingProduct(8)
-                      : ProductApies.productApies.listGiftProduct!.isEmpty
-                      ? SliverToBoxAdapter(
-                    child: Center(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 50.h),
-                        child: CustomText(
-                          'no_item_found_value'.tr,
-                          fontSize: 18.sp,
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                      sliver: ProductApies.productApies.listGiftProduct == null
+                          ? SliverLoadingProduct(8)
+                          : ProductApies.productApies.listGiftProduct!.isEmpty
+                          ? SliverToBoxAdapter(
+                        child: Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 50.h),
+                            child: CustomText(
+                              'no_item_found_value'.tr,
+                              fontSize: 18.sp,
+                            ),
+                          ),
+                        ),
+                      )
+                          : SliverGrid(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.45.h,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 11.w,
+                          mainAxisSpacing: 16.h,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                          childCount: ProductApies.productApies.listGiftProduct?.length,
+
+                              (_, index) {
+                            print(index);
+                            return PerfumeProductItem(
+                              id: ProductApies.productApies.listGiftProduct?[index].id.toString(),
+                              imgUrl:  ProductApies.productApies.listGiftProduct?[index].images?[0].src ?? '',
+                              brandName:  ProductApies.productApies.listGiftProduct![index].brands!.isNotEmpty
+                                  ?  ProductApies.productApies.listGiftProduct![index].brands != null
+                                  ?  ProductApies.productApies.listGiftProduct![index].brands![0].name
+                                  : ''
+                                  : '',
+                              perfumeName:  ProductApies.productApies.listGiftProduct?[index].title ?? '',
+                              perfumeRate: double.parse( ProductApies.productApies.listGiftProduct?[index].averageRating ?? '0.0'),
+                              rateCount:  ProductApies.productApies.listGiftProduct?[index].ratingCount.toString() ?? '0',
+                              priceBeforeDiscount:  ProductApies.productApies.listGiftProduct?[index].regularPrice ?? '',
+                              priceAfterDiscount:  ProductApies.productApies.listGiftProduct?[index].salePrice ?? '',
+                              onTapBuy: () {
+                                print( ProductApies.productApies.listGiftProduct?[index].id.toString());
+                                Get.to(() => PerfumeDetailsScreen(
+                                  productId:  ProductApies.productApies.listGiftProduct?[index].id.toString(),
+                                ));
+                              },
+                            );
+                          },
                         ),
                       ),
                     ),
-                  )
-                      : SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.45.h,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 11.w,
-                      mainAxisSpacing: 16.h,
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(vertical: 40.h),
+                      sliver: SliverToBoxAdapter(
+                        child: product == null ? CupertinoActivityIndicator() : SizedBox(),
+                      ),
                     ),
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: ProductApies.productApies.listGiftProduct?.length,
-
-                          (_, index) {
-                        print(index);
-                        return PerfumeProductItem(
-                          id: ProductApies.productApies.listGiftProduct?[index].id.toString(),
-                          imgUrl:  ProductApies.productApies.listGiftProduct?[index].images?[0].src ?? '',
-                          brandName:  ProductApies.productApies.listGiftProduct![index].brands!.isNotEmpty
-                              ?  ProductApies.productApies.listGiftProduct![index].brands != null
-                              ?  ProductApies.productApies.listGiftProduct![index].brands![0].name
-                              : ''
-                              : '',
-                          perfumeName:  ProductApies.productApies.listGiftProduct?[index].title ?? '',
-                          perfumeRate: double.parse( ProductApies.productApies.listGiftProduct?[index].averageRating ?? '0.0'),
-                          rateCount:  ProductApies.productApies.listGiftProduct?[index].ratingCount.toString() ?? '0',
-                          priceBeforeDiscount:  ProductApies.productApies.listGiftProduct?[index].regularPrice ?? '',
-                          priceAfterDiscount:  ProductApies.productApies.listGiftProduct?[index].salePrice ?? '',
-                          onTapBuy: () {
-                            print( ProductApies.productApies.listGiftProduct?[index].id.toString());
-                            Get.to(() => PerfumeDetailsScreen(
-                              productId:  ProductApies.productApies.listGiftProduct?[index].id.toString(),
-                            ));
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(vertical: 40.h),
-                  sliver: SliverToBoxAdapter(
-                    child: product == null ? CupertinoActivityIndicator() : SizedBox(),
-                  ),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.w),
-                  sliver: SliverToBoxAdapter(
-                    child:  Row(
-                      children: [
-                        CustomText(
-                          'last_seen_value'.tr,
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.normal,
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.w),
+                      sliver: SliverToBoxAdapter(
+                        child:  Row(
+                          children: [
+                            CustomText(
+                              'last_seen_value'.tr,
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
-                ),
-                SliverPadding(
-                  padding: EdgeInsets.symmetric(vertical: 40.h,horizontal: 20.w),
-                  sliver:  lastViewedProduct == null
-                      ? SliverLoadingProduct(2)
-                      : SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.45.h,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 11.w,
-                      mainAxisSpacing: 16.h,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                          (_, index) {
-                        return PerfumeProductItem(
-                          id: lastViewedProduct[index].images?[0].id.toString(),
-                          imgUrl: lastViewedProduct[index].images?[0].src ?? '',
-                          brandName: lastViewedProduct[index].brands!.isNotEmpty
-                              ? lastViewedProduct[index].brands != null
-                              ? lastViewedProduct[index].brands![0].name
-                              : ''
-                              : '',
-                          perfumeName: lastViewedProduct[index].title ?? '',
-                          perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
-                          rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
-                          priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
-                          priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
-                          onTapBuy: () {
-                            print(lastViewedProduct[index].id.toString());
-                            Get.to(() => PerfumeDetailsScreen(
-                              productId: lastViewedProduct[index].id.toString(),
-                            ));
+                    SliverPadding(
+                      padding: EdgeInsets.symmetric(vertical: 40.h,horizontal: 20.w),
+                      sliver:  lastViewedProduct == null
+                          ? SliverLoadingProduct(2)
+                          : SliverGrid(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          childAspectRatio: 0.45.h,
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 11.w,
+                          mainAxisSpacing: 16.h,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                              (_, index) {
+                            return PerfumeProductItem(
+                              id: lastViewedProduct[index].images?[0].id.toString(),
+                              imgUrl: lastViewedProduct[index].images?[0].src ?? '',
+                              brandName: lastViewedProduct[index].brands!.isNotEmpty
+                                  ? lastViewedProduct[index].brands != null
+                                  ? lastViewedProduct[index].brands![0].name
+                                  : ''
+                                  : '',
+                              perfumeName: lastViewedProduct[index].title ?? '',
+                              perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
+                              rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
+                              priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
+                              priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
+                              onTapBuy: () {
+                                print(lastViewedProduct[index].id.toString());
+                                Get.to(() => PerfumeDetailsScreen(
+                                  productId: lastViewedProduct[index].id.toString(),
+                                ));
+                              },
+                            );
                           },
-                        );
-                      },
-                      childCount: lastViewedProduct.length ?? 0,
+                          childCount: lastViewedProduct.length ?? 0,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
-              ],
+                  ],
 
+                ),
+                _showBackToTopButton == false
+                    ? SizedBox()
+                    : Padding(
+                      padding:  EdgeInsetsDirectional.only(bottom: 20,end: 20),
+                      child: FloatingActionButton(
+                  onPressed: _scrollToTop,
+                  backgroundColor: AppColors.primaryColor,
+                  child: const Icon(Icons.arrow_upward),
+                ),
+                    )
+              ],
             ),
           ),
         );

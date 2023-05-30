@@ -1,5 +1,6 @@
 // import 'dart:typed_data';
 // import 'package:flutter/material.dart';
+// import 'package:perfume_store_mobile_app/view/custom_widget/custom_text.dart';
 // import 'package:q8allo/colors.dart';
 // import 'package:q8allo/services/app_imports.dart';
 // import 'package:widgets_to_image/widgets_to_image.dart';
@@ -34,7 +35,7 @@
 //               width: 130,
 //               height: 130,
 //               decoration:const BoxDecoration(
-//                   color: AppColors.primaryColor,
+//                   color: Colors.white,
 //                   shape: BoxShape.circle
 //               ),
 //               child: SizedBox(width: 100,height: 100,child: CustomText('ألو',fontSize: 70,color: AppColors.yellowColor,textAlign: TextAlign.center,)),

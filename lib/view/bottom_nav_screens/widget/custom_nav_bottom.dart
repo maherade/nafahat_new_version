@@ -44,7 +44,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_home_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     color: AppColors.greenText,
                   )
                 ],
@@ -58,7 +58,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_home_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
                   )
                 ],
@@ -78,7 +78,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_category_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     color: AppColors.green,
                   )
                 ],
@@ -94,7 +94,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_category_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
                     color: AppColors.blackColor,
 
@@ -116,7 +116,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_brand_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     color: AppColors.greenText,
                   )
                 ],
@@ -132,7 +132,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_brand_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
                   )
                 ],
@@ -150,7 +150,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_gift_package_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     color: AppColors.greenText,
                   )
                 ],
@@ -164,7 +164,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_gift_package_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
                   )
                 ],
@@ -183,7 +183,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_account_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     color: AppColors.greenText,
                   )
                 ],
@@ -197,7 +197,7 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                   ),
                   CustomText(
                     'bottom_nav_account_value'.tr,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
                   )
                 ],

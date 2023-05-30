@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:perfume_store_mobile_app/model/my_marker.dart';
 
+import '../model/countries_response.dart';
 import '../model/red_box_response.dart';
 
 class AppController extends GetxController {
@@ -59,8 +60,47 @@ class AppController extends GetxController {
       }
       update();
   }
+  //----------------------------- Cart Functionality ------------------------------
 
-  //image picker
+  int currentStepperIndex = 0;
+  updateCurrentStepperIndex(int value){
+    currentStepperIndex = value ;
+    update();
+  }
+  CountriesResponse? selectedCountries;
+  updateSelectedCountries(CountriesResponse value){
+    selectedCountries = value ;
+    update();
+  }
+
+  String? selectedAddress;
+  updateSelectedAddress(String? value){
+    selectedAddress = value ;
+    update();
+  }
+  String? selectedAddressName;
+  updateSelectedAddressName(String? value){
+    selectedAddressName = value ;
+    update();
+  }
+  String? selectedPaymentMethods;
+  updateSelectedPaymentMethods(String? value){
+    selectedPaymentMethods = value ;
+    update();
+  }
+  String? selectedPaymentMethodsTitle;
+  updateSelectedPaymentMethodsTitle(String? value){
+    selectedPaymentMethodsTitle = value ;
+    update();
+  }
+  int? shippingGroupValue;
+  updateShippingGroupValue(int? value){
+    shippingGroupValue = value ;
+    update();
+  }
+  int? paymentGroupValue;
+
+  //----------------------------- Image Picker ------------------------------
   final imagePicker = ImagePicker();
    File? selectedImage;
 

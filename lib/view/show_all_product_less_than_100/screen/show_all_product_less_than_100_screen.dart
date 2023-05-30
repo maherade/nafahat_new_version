@@ -84,16 +84,46 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
 
   @override
   void initState() {
+    _scrollController = ScrollController();
+    _scrollController.addListener(_scrollListener);
     ProductApies.productApies.listLessThanPriceProduct = null;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       getData();
     });
     super.initState();
   }
-
+  late ScrollController _scrollController;
+  bool _showBackToTopButton = false;
+  void _scrollListener() {
+    if (_scrollController.offset >= 400 && !_showBackToTopButton) {
+      setState(() {
+        _showBackToTopButton = true;
+      });
+    } else if (_scrollController.offset < 400 && _showBackToTopButton) {
+      setState(() {
+        _showBackToTopButton = false;
+      });
+    }
+  }
+  @override
+  void dispose() {
+    _scrollController.dispose(); // dispose the controller
+    super.dispose();
+  }
+  void _scrollToTop() {
+    _scrollController.animateTo(0,
+        duration: const Duration(seconds: 1), curve: Curves.linear);
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: _showBackToTopButton == false
+          ? null
+          : FloatingActionButton(
+        onPressed: _scrollToTop,
+        backgroundColor: AppColors.primaryColor,
+        child: const Icon(Icons.arrow_upward),
+      ),
       body: Obx(
         () {
           var product = productController.getListLessThanPriceProductResponseData!.value.data;
@@ -118,6 +148,7 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
 
             },
             child: CustomScrollView(
+              controller: _scrollController,
               slivers: [
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 5.0.w),

@@ -55,10 +55,8 @@ class _SplashScreenState extends State<SplashScreen> {
       // BrandApies.brandApies.getBrandData();
 
     });
-    AuthApis.authApis.getAdminToken().then((value) {
-
-      Get.offAll(()=>NavBarScreen());
-    });
+    AuthApis.authApis.getAdminToken();
+    Future.delayed(Duration(seconds: 8),() =>  Get.offAll(()=>NavBarScreen()),);
 
 
     super.initState();
@@ -68,22 +66,7 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return  Scaffold(
         backgroundColor:const Color(0xfff7f7f7),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/images/logo.png',fit: BoxFit.cover,),
-              SizedBox(height: 30.h,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  CustomText('نفحــــــــــات',fontSize: 30.sp,fontWeight: FontWeight.bold,),
-                  CustomText('NAFAHAT',fontSize: 30.sp,fontWeight: FontWeight.bold,),
-                ],
-              ),
-            ],
-          ),
-        )
+        body: Image.asset('assets/nafahatـintro.gif',height: double.infinity,width: double.infinity,fit: BoxFit.cover,)
     );
   }
 }
