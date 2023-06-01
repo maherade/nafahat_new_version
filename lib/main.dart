@@ -46,7 +46,7 @@ Future<void> main() async {
   await SPHelper.spHelper.initSharedPrefrences();
   await Settingss.settings.initDio();
   TabbySDK().setup(
-    withApiKey: 'pk_test_ba5ec72a-3026-41f5-bc3a-881f21b9614a', // Put here your Api key
+    withApiKey: 'pk_ad7698e9-0586-4af9-8db5-3d41ac039436', // Put here your Api key
      environment: Environment.production, // Or use Environment.stage
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
