@@ -672,7 +672,6 @@ class ProductApies {
         queryParameters: {
           "endpoint": "brands-feature",
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-
         },
       );
       if (response.statusCode == 200) {

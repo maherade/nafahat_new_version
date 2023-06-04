@@ -73,6 +73,7 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
   AuthController authController = Get.find();
   AppController appController = Get.find();
 
+ String pointInSar = '0.0';
 
   @override
   void initState() {
@@ -558,6 +559,32 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               CustomText(
+                                'discount_value'.tr,
+                                fontSize: 14.sp,
+                                color: const Color(0xff6C6C6C),
+                                fontWeight: FontWeight.normal,
+                              ),
+                              Flexible(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomText(
+                                      (double.parse(orderController.getCouponData?.value.amount??'0.0')+double.parse(pointInSar)).toStringAsFixed(1),
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 10.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
                                 'total_amount_value'.tr,
                                 fontSize: 14.sp,
                                 color: const Color(0xff6C6C6C),
@@ -685,6 +712,9 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                                           .decreasePoints(point: points.toString())
                                           .then((value) {
                                         cartController.subtractFromPrice(SAR);
+                                        setState(() {
+                                          pointInSar = SAR.toString();
+                                        });
                                       });
                                     } else {
                                       SVProgressHUD.showError(
