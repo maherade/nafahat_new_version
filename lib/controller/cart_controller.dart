@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter/foundation.dart';
 
+import '../model/product_detail_response.dart';
+
 class CartItem {
   String? id;
   String? name;
@@ -14,6 +16,13 @@ class CartItem {
 }
 
 class CartController extends GetxController {
+  Variations? variations ;
+ setVariations(Variations? value){
+   variations = value ;
+   update();
+ }
+
+
   double quantitiy = 1.0;
   increaseQuentity(){
     quantitiy++;

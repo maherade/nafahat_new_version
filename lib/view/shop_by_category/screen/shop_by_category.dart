@@ -91,6 +91,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
 
   late ScrollController _scrollController;
   bool _showBackToTopButton = false;
+
   void _scrollListener() {
     if (_scrollController.offset >= 400 && !_showBackToTopButton) {
       setState(() {
@@ -102,27 +103,29 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
       });
     }
   }
+
   @override
   void dispose() {
     _scrollController.dispose(); // dispose the controller
     super.dispose();
   }
+
   void _scrollToTop() {
-    _scrollController.animateTo(0,
-        duration: const Duration(seconds: 1), curve: Curves.linear);
+    _scrollController.animateTo(0, duration: const Duration(seconds: 1), curve: Curves.linear);
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: _showBackToTopButton == false
           ? null
           : FloatingActionButton(
-        onPressed: _scrollToTop,
-        backgroundColor: AppColors.primaryColor,
-        child: const Icon(Icons.arrow_upward),
-      ),
+              onPressed: _scrollToTop,
+              backgroundColor: AppColors.primaryColor,
+              child: const Icon(Icons.arrow_upward),
+            ),
       body: Obx(
-            () {
+        () {
           var product = productController.getProductByCategoryData!.value.data;
           var lastViewedProduct = productController.getLastViewedProduct!.value.data;
 
@@ -134,10 +137,10 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                 });
                 ProductApies.productApies
                     .getProductByCategory(
-                    order: order,
-                    category: widget.categoryId.toString(),
-                    orderBy: orderBy,
-                    pageNumber: _currentPage.toString())
+                        order: order,
+                        category: widget.categoryId.toString(),
+                        orderBy: orderBy,
+                        pageNumber: _currentPage.toString())
                     .then((value) {
                   print('_currentPage ');
                 });
@@ -148,7 +151,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
               physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.only(top: 40.h,right: 5.w,left: 5.w),
+                  padding: EdgeInsets.only(top: 40.h, right: 5.w, left: 5.w),
                   sliver: SliverToBoxAdapter(
                     child: Row(
                       children: [
@@ -165,7 +168,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                   ),
                 ),
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w,vertical: 15.h),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 15.h),
                   sliver: SliverToBoxAdapter(
                     child: Column(
                       children: [
@@ -176,17 +179,17 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                               flex: 3,
                               child: widget.fullCategoryName
                                   ? CustomText(
-                                widget.categoryName,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.sp,
-                              )
+                                      widget.categoryName,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.sp,
+                                    )
                                   : CustomText(
-                                widget.categoryName == 'top_offers_value'.tr
-                                    ? widget.categoryName
-                                    : '${"shop_from_category_value".tr}${widget.categoryName}',
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12.sp,
-                              ),
+                                      widget.categoryName == 'top_offers_value'.tr
+                                          ? widget.categoryName
+                                          : '${"shop_from_category_value".tr}${widget.categoryName}',
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 12.sp,
+                                    ),
                             ),
                             const Spacer(),
                             SizedBox(
@@ -258,54 +261,60 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                   sliver: ProductApies.productApies.listProductByCategory == null
                       ? SliverLoadingProduct(8)
                       : ProductApies.productApies.listProductByCategory!.isEmpty
-                      ? SliverToBoxAdapter(
-                    child: Center(
-                      child: Container(
-                        margin: EdgeInsets.only(top: 50.h),
-                        child: CustomText(
-                          'no_item_found_value'.tr,
-                          fontSize: 18.sp,
-                        ),
-                      ),
-                    ),
-                  )
-                      : SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.45.h,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 11.w,
-                      mainAxisSpacing: 16.h,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                      childCount: ProductApies.productApies.listProductByCategory?.length ?? 0,
-
-                      (_, index) {
-                        print(index);
-                        return PerfumeProductItem(
-                          id: ProductApies.productApies.listProductByCategory?[index].id.toString(),
-                          imgUrl: ProductApies.productApies.listProductByCategory?[index].images?[0].src ?? '',
-                          brandName: ProductApies.productApies.listProductByCategory![index].brands!.isNotEmpty
-                              ? ProductApies.productApies.listProductByCategory![index].brands != null
-                              ? ProductApies.productApies.listProductByCategory![index].brands![0].name
-                              : ''
-                              : '',
-                          perfumeName: ProductApies.productApies.listProductByCategory?[index].title ?? '',
-                          perfumeRate: double.parse(
-                              ProductApies.productApies.listProductByCategory?[index].averageRating ?? '0.0'),
-                          rateCount: ProductApies.productApies.listProductByCategory?[index].ratingCount.toString() ??
-                              '0',
-                          priceBeforeDiscount: ProductApies.productApies.listProductByCategory?[index].regularPrice ?? '',
-                          priceAfterDiscount: ProductApies.productApies.listProductByCategory?[index].salePrice ?? '',
-                          onTapBuy: () {
-                            print(ProductApies.productApies.listProductByCategory?[index].id.toString());
-                            Get.to(() => PerfumeDetailsScreen(
-                              productId: ProductApies.productApies.listProductByCategory?[index].id.toString(),
-                            ));
-                          },
-                        );
-                      },
-                    ),
-                  ),
+                          ? SliverToBoxAdapter(
+                              child: Center(
+                                child: Container(
+                                  margin: EdgeInsets.only(top: 50.h),
+                                  child: CustomText(
+                                    'no_item_found_value'.tr,
+                                    fontSize: 18.sp,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SliverGrid(
+                              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                childAspectRatio: 0.45.h,
+                                crossAxisCount: 2,
+                                crossAxisSpacing: 11.w,
+                                mainAxisSpacing: 16.h,
+                              ),
+                              delegate: SliverChildBuilderDelegate(
+                                childCount: ProductApies.productApies.listProductByCategory?.length ?? 0,
+                                (_, index) {
+                                  var product = ProductApies.productApies.listProductByCategory;
+                                  print(index);
+                                  return PerfumeProductItem(
+                                    id: ProductApies.productApies.listProductByCategory?[index].id.toString(),
+                                    imgUrl: ProductApies.productApies.listProductByCategory?[index].images?[0].src ?? '',
+                                    brandName: ProductApies.productApies.listProductByCategory![index].brands!.isNotEmpty
+                                        ? ProductApies.productApies.listProductByCategory![index].brands != null
+                                            ? ProductApies.productApies.listProductByCategory![index].brands![0].name
+                                            : ''
+                                        : '',
+                                    perfumeName: ProductApies.productApies.listProductByCategory?[index].title ?? '',
+                                    perfumeRate: double.parse(
+                                        ProductApies.productApies.listProductByCategory?[index].averageRating ?? '0.0'),
+                                    rateCount:
+                                        ProductApies.productApies.listProductByCategory?[index].ratingCount.toString() ?? '0',
+                                    priceBeforeDiscount:
+                                        (product?[index].regularPrice == null) || (product?[index].regularPrice == '0.00')
+                                            ? (product?[index].price).toString()
+                                            : product?[index].regularPrice,
+                                    priceAfterDiscount:
+                                        (product?[index].salePrice == null) || (product?[index].salePrice == '0.00')
+                                            ? (product?[index].price).toString()
+                                            : product?[index].salePrice,
+                                    onTapBuy: () {
+                                      print(ProductApies.productApies.listProductByCategory?[index].id.toString());
+                                      Get.to(() => PerfumeDetailsScreen(
+                                            productId: ProductApies.productApies.listProductByCategory?[index].id.toString(),
+                                          ));
+                                    },
+                                  );
+                                },
+                              ),
+                            ),
                 ),
                 SliverPadding(
                   padding: EdgeInsets.symmetric(vertical: 40.h),
@@ -316,7 +325,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   sliver: SliverToBoxAdapter(
-                    child:  Row(
+                    child: Row(
                       children: [
                         CustomText(
                           'last_seen_value'.tr,
@@ -328,42 +337,48 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                   ),
                 ),
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(vertical: 40.h,horizontal: 20.w),
-                  sliver:  lastViewedProduct == null
+                  padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 20.w),
+                  sliver: lastViewedProduct == null
                       ? SliverLoadingProduct(2)
                       : SliverGrid(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      childAspectRatio: 0.45.h,
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 11.w,
-                      mainAxisSpacing: 16.h,
-                    ),
-                    delegate: SliverChildBuilderDelegate(
-                          (_, index) {
-                        return PerfumeProductItem(
-                          id: lastViewedProduct[index].images?[0].id.toString(),
-                          imgUrl: lastViewedProduct[index].images?[0].src ?? '',
-                          brandName: lastViewedProduct[index].brands!.isNotEmpty
-                              ? lastViewedProduct[index].brands != null
-                              ? lastViewedProduct[index].brands![0].name
-                              : ''
-                              : '',
-                          perfumeName: lastViewedProduct[index].title ?? '',
-                          perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
-                          rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
-                          priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
-                          priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
-                          onTapBuy: () {
-                            print(lastViewedProduct[index].id.toString());
-                            Get.to(() => PerfumeDetailsScreen(
-                              productId: lastViewedProduct[index].id.toString(),
-                            ));
-                          },
-                        );
-                      },
-                      childCount: lastViewedProduct.length ?? 0,
-                    ),
-                  ),
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            childAspectRatio: 0.45.h,
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 11.w,
+                            mainAxisSpacing: 16.h,
+                          ),
+                          delegate: SliverChildBuilderDelegate(
+                            (_, index) {
+                              return PerfumeProductItem(
+                                id: lastViewedProduct[index].images?[0].id.toString(),
+                                imgUrl: lastViewedProduct[index].images?[0].src ?? '',
+                                brandName: lastViewedProduct[index].brands!.isNotEmpty
+                                    ? lastViewedProduct[index].brands != null
+                                        ? lastViewedProduct[index].brands![0].name
+                                        : ''
+                                    : '',
+                                perfumeName: lastViewedProduct[index].title ?? '',
+                                perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
+                                rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
+                                priceBeforeDiscount:
+                                (lastViewedProduct[index].regularPrice == null) || (lastViewedProduct[index].regularPrice == '0.00')
+                                    ? (lastViewedProduct[index].price).toString()
+                                    : lastViewedProduct[index].regularPrice,
+                                priceAfterDiscount:
+                                (lastViewedProduct[index].salePrice == null) || (lastViewedProduct[index].salePrice == '0.00')
+                                    ? (lastViewedProduct[index].price).toString()
+                                    : lastViewedProduct[index].salePrice,
+                                onTapBuy: () {
+                                  print(lastViewedProduct[index].id.toString());
+                                  Get.to(() => PerfumeDetailsScreen(
+                                        productId: lastViewedProduct[index].id.toString(),
+                                      ));
+                                },
+                              );
+                            },
+                            childCount: lastViewedProduct.length ?? 0,
+                          ),
+                        ),
                 ),
               ],
             ),

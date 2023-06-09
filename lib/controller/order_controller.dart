@@ -2,6 +2,7 @@
 
 import 'package:get/get.dart';
 import 'package:perfume_store_mobile_app/model/coupon_response.dart';
+import 'package:perfume_store_mobile_app/model/order.dart';
 import 'package:perfume_store_mobile_app/model/shippment_label_response.dart';
 
 import '../model/countries_response.dart';
@@ -29,4 +30,5 @@ class OrderController extends GetxController{
    Rx<CustomerPointResponse>? getCustomerPointsData = CustomerPointResponse().obs;
    Rx<CouponResponse>? getCouponData = CouponResponse().obs;
    Rx<DeliveryTimeResponse>? getDeliveryTimeData = DeliveryTimeResponse().obs;
+   Rx<CreateOrderResponse>? getCreateOrderData = CreateOrderResponse().obs;
 }

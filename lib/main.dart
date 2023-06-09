@@ -4,6 +4,7 @@ import 'dart:io' show Platform;
 
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
 import 'package:flutter_paytabs_bridge/PaymentSDKQueryConfiguration.dart';
@@ -53,7 +54,27 @@ Future<void> main() async {
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.primaryColor,
   ));
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
+    var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+    var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+    if (swAvailable && swInterceptAvailable) {
+      AndroidServiceWorkerController serviceWorkerController =
+      AndroidServiceWorkerController.instance();
+
+      await serviceWorkerController
+          .setServiceWorkerClient(AndroidServiceWorkerClient(
+        shouldInterceptRequest: (request) async {
+          print(request);
+          return null;
+        },
+      ));
+    }
+  }
   runApp(
     const MyApp(),
   );

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as log;
 import 'dart:io' show Platform;
 import 'dart:math';
 
@@ -11,14 +12,13 @@ import 'package:flutter_paytabs_bridge/PaymentSdkLocale.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
 import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
 
-import 'dart:io';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
 
 
 import 'package:perfume_store_mobile_app/controller/auth_controller.dart';
 import 'package:perfume_store_mobile_app/model/coupon_response.dart';
 import 'package:perfume_store_mobile_app/model/order.dart' as order_model;
+import 'package:perfume_store_mobile_app/view/cart/widget/tamara_webview_page.dart';
 
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field_with_top_title.dart';
@@ -362,22 +362,28 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomText(
-                                'payment_method_value'.tr,
-                                fontSize: 14.sp,
-                                color: const Color(0xff6C6C6C),
-                                fontWeight: FontWeight.normal,
+                              Expanded(
+                                child: CustomText(
+                                  'payment_method_value'.tr,
+                                  fontSize: 14.sp,
+                                  color: const Color(0xff6C6C6C),
+                                  fontWeight: FontWeight.normal,
+                                ),
                               ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  CustomText(
-                                    appController.selectedPaymentMethodsTitle,
-                                    fontSize: 14.sp,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                ],
+
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    CustomText(
+                                      appController.selectedPaymentMethodsTitle,
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
@@ -782,6 +788,7 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                               OrderApies.orderApies
                                   .createOrder2(
                                 customer_id: SPHelper.spHelper.getUserId(),
+                                items: getRedboxCartItem(),
                                 payment_method: appController.selectedPaymentMethods!,
                                 payment_method_title: appController.selectedPaymentMethodsTitle!,
                                 firstName: widget.firstNameController.text,
@@ -827,6 +834,7 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                                     'key': '_redbox_point_id',
                                     'value': "${appController.myMarker?.point?.id}",
                                   },
+
                                 ]
                                     : [],
                               )
@@ -859,6 +867,7 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                             OrderApies.orderApies
                                 .createOrder2(
                               customer_id: SPHelper.spHelper.getUserId(),
+                              items: getRedboxCartItem(),
                               payment_method: appController.selectedPaymentMethods!,
                               payment_method_title: appController.selectedPaymentMethodsTitle!,
                               firstName: widget.firstNameController.text,
@@ -906,31 +915,8 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                                 },
                               ]
                                   : [],
-                            )
-                                .then((value) {
-                              orderController.getCouponData!.value = CouponResponse();
-                              appController.myMarker != null
-                                  ? OrderApies.orderApies.createRedBoxShippment(
-                                  items: getRedboxCartItem(),
-                                  reference: value.id.toString(),
-                                  point_id: appController.myMarker?.point?.id ?? '',
-                                  sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                  sender_email: 'info@dermarollersystemsa.com',
-                                  sender_phone: '0114130336',
-                                  sender_address: 'Riyadh -  - ',
-                                  customer_name:
-                                  '${widget.firstNameController.text} - ${widget.lastNameController.text}',
-                                  customer_email: widget.emailController.text.replaceAll(' ', ''),
-                                  customer_phone: appController.selectedCountries?.code == 'SA'
-                                      ? '+966${widget.phoneController.text.replaceAll(' ', '')}'
-                                      : widget.phoneController.text.replaceAll(' ', ''),
-                                  customer_address:
-                                  '${widget.address1Controller.text} - ${widget.address2Controller.text}',
-                                  cod_currency: 'SAR',
-                                  cod_amount: cartController.totalAfterDiscount.toString(),
-                                  nameOfPackage: 'nameOfPackage')
-                                  : print('my Marker not Selected');
-                            });
+                            );
+
                           }
                           else if (appController.selectedPaymentMethods == 'paytabs_all') {
                             payPressed(
@@ -938,6 +924,7 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                                 createOrder: () {
                                   OrderApies.orderApies
                                       .createOrder2(
+                                    items: getRedboxCartItem(),
                                     customer_id: SPHelper.spHelper.getUserId(),
                                     payment_method: appController.selectedPaymentMethods!,
                                     payment_method_title: appController.selectedPaymentMethodsTitle!,
@@ -986,32 +973,7 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                                       },
                                     ]
                                         : [],
-                                  )
-                                      .then((value) {
-                                    orderController.getCouponData!.value = CouponResponse();
-                                    appController.myMarker != null
-                                        ? OrderApies.orderApies.createRedBoxShippment(
-                                        items: getRedboxCartItem(),
-                                        reference: value.id.toString(),
-                                        point_id: appController.myMarker?.point?.id ?? '',
-                                        sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                        sender_email: 'info@dermarollersystemsa.com',
-                                        sender_phone: '0114130336',
-                                        sender_address: 'Riyadh -  - ',
-                                        customer_name:
-                                        '${widget.firstNameController.text} - ${widget.lastNameController.text}',
-                                        customer_email: widget.emailController.text.replaceAll(' ', ''),
-                                        customer_phone: appController.selectedCountries?.code == 'SA'
-                                            ? '+966${widget.phoneController.text.replaceAll(' ', '')}'
-                                            : widget.phoneController.text.replaceAll(' ', ''),
-                                        customer_address:
-                                        '${widget.address1Controller.text} - ${widget.address2Controller.text}',
-                                        cod_currency: 'SAR',
-                                        cod_amount:
-                                        cartController.totalAfterDiscount.toString(),
-                                        nameOfPackage: 'nameOfPackage')
-                                        : print('my Marker not Selected');
-                                  });
+                                  );
                                 });
                           }
                           else if (appController.selectedPaymentMethods == 'paytabs_stcpay' ||
@@ -1026,6 +988,7 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                                   OrderApies.orderApies
                                       .createOrder2(
                                     customer_id: SPHelper.spHelper.getUserId(),
+                                    items: getRedboxCartItem(),
                                     payment_method: appController.selectedPaymentMethods!,
                                     payment_method_title: appController.selectedPaymentMethodsTitle!,
                                     firstName: widget.firstNameController.text,
@@ -1073,33 +1036,125 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                                       },
                                     ]
                                         : [],
-                                  )
-                                      .then((value) {
-                                    orderController.getCouponData!.value = CouponResponse();
-                                    appController.myMarker != null
-                                        ? OrderApies.orderApies.createRedBoxShippment(
-                                        items: getRedboxCartItem(),
-                                        reference: value.id.toString(),
-                                        point_id: appController.myMarker?.point?.id ?? '',
-                                        sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                        sender_email: 'info@dermarollersystemsa.com',
-                                        sender_phone: '0114130336',
-                                        sender_address: 'Riyadh -  - ',
-                                        customer_name:
-                                        '${widget.firstNameController.text} - ${widget.lastNameController.text}',
-                                        customer_email: widget.emailController.text.replaceAll(' ', ''),
-                                        customer_phone: appController.selectedCountries?.code == 'SA'
-                                            ? '+966${widget.phoneController.text.replaceAll(' ', '')}'
-                                            : widget.phoneController.text.replaceAll(' ', ''),
-                                        customer_address:
-                                        '${widget.address1Controller.text} - ${widget.address2Controller.text}',
-                                        cod_currency: 'SAR',
-                                        cod_amount:
-                                        cartController.totalAfterDiscount.toString(),
-                                        nameOfPackage: 'nameOfPackage')
-                                        : print('my Marker not Selected');
-                                  });
+                                  );
                                 });
+                          }
+                          else if (appController.selectedPaymentMethods == 'tamara-gateway') {
+                            OrderApies.orderApies
+                                .createTamaraOrder(
+                              customer_id: SPHelper.spHelper.getUserId(),
+                              status: 'pending',
+                              items: getRedboxCartItem(),
+                              payment_method: 'tamara-gateway-pay-in-3',
+                              payment_method_title: 'اطلب الآن وادفع خلال 30 یوم مع تمارا. بدون رسوم',
+                              firstName: widget.firstNameController.text,
+                              lastName: widget.lastNameController.text,
+                              addressOne: widget.address1Controller.text,
+                              addressTwo: widget.address2Controller.text,
+                              city: widget.cityController.text,
+                              country: appController.selectedCountries?.code,
+                              state: "",
+                              postcode: widget.postcodeController.text,
+                              email: widget.emailController.text.replaceAll(' ', ''),
+                              phone: appController.selectedCountries?.code == 'SA'
+                                  ? '+966${widget.phoneController.text.replaceAll(' ', '')}'
+                                  : widget.phoneController.text.replaceAll(' ', ''),
+                              total: cartController.totalAfterDiscount.toString(),
+                              listProduct: getCartItem(),
+                              setPaid: false,
+                              couponCode: widget.couponController.text,
+                              listShipment: [
+                                {
+                                  "method_id": appController.selectedAddress,
+                                  "method_title": appController.selectedAddressName,
+                                  "total": appController.selectedAddress == 'redbox_pickup_delivery'&&appController.selectedPaymentMethods == 'cod'
+                                      ? '${17+17}'
+                                      : appController.selectedAddress == 'naqel_shipping'&&appController.selectedPaymentMethods == 'cod'
+                                      ? '${30+17}'
+                                      :appController.selectedPaymentMethods == 'cod'? '17'
+                                      : appController.selectedAddress == 'redbox_pickup_delivery'
+                                      ? '17'
+                                      : appController.selectedAddress == 'naqel_shipping'
+                                      ? "30.00"
+                                      : '0',
+                                }
+                              ],
+                              listMetaData: appController.myMarker != null
+                                  ? [
+                                {
+                                  'key': '_redbox_point',
+                                  'value':
+                                  "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point?.city} - ${appController.myMarker?.point?.address?.street}",
+                                },
+                                {
+                                  'key': '_redbox_point_id',
+                                  'value': "${appController.myMarker?.point?.id}",
+                                },
+                              ]
+                                  : [],
+                            ).then((value) {
+                              value.metaData!= null? value.metaData!.forEach((element) {
+                                if(element.key=='tamara_checkout_url'){
+                                  log.log(element.value.toString());
+                                  Get.to(TamaraWebViewPage(
+                                    paymentUrl: element.value.toString(),
+                                    orderId: value.id.toString(),
+                                    customer_id: SPHelper.spHelper.getUserId(),
+                                    status: 'pending',
+                                    items: getRedboxCartItem(),
+                                    payment_method: 'tamara-gateway-pay-in-3',
+                                    payment_method_title: 'اطلب الآن وادفع خلال 30 یوم مع تمارا. بدون رسوم',
+                                    firstName: widget.firstNameController.text,
+                                    lastName: widget.lastNameController.text,
+                                    addressOne: widget.address1Controller.text,
+                                    addressTwo: widget.address2Controller.text,
+                                    city: widget.cityController.text,
+                                    country: appController.selectedCountries?.code,
+                                    state: "",
+                                    postcode: widget.postcodeController.text,
+                                    email: widget.emailController.text.replaceAll(' ', ''),
+                                    phone: appController.selectedCountries?.code == 'SA'
+                                        ? '+966${widget.phoneController.text.replaceAll(' ', '')}'
+                                        : widget.phoneController.text.replaceAll(' ', ''),
+                                    total: cartController.totalAfterDiscount.toString(),
+                                    listProduct: getCartItem(),
+                                    setPaid: false,
+                                    couponCode: widget.couponController.text,
+                                    listShipment: [
+                                      {
+                                        "method_id": appController.selectedAddress,
+                                        "method_title": appController.selectedAddressName,
+                                        "total": appController.selectedAddress == 'redbox_pickup_delivery'&&appController.selectedPaymentMethods == 'cod'
+                                            ? '${17+17}'
+                                            : appController.selectedAddress == 'naqel_shipping'&&appController.selectedPaymentMethods == 'cod'
+                                            ? '${30+17}'
+                                            :appController.selectedPaymentMethods == 'cod'? '17'
+                                            : appController.selectedAddress == 'redbox_pickup_delivery'
+                                            ? '17'
+                                            : appController.selectedAddress == 'naqel_shipping'
+                                            ? "30.00"
+                                            : '0',
+                                      }
+                                    ],
+                                    listMetaData: appController.myMarker != null
+                                        ? [
+                                      {
+                                        'key': '_redbox_point',
+                                        'value':
+                                        "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point?.city} - ${appController.myMarker?.point?.address?.street}",
+                                      },
+                                      {
+                                        'key': '_redbox_point_id',
+                                        'value': "${appController.myMarker?.point?.id}",
+                                      },
+                                    ]
+                                        : [],
+                                  ));
+                                }
+                              }) : null;
+
+                            });
+
                           }
 
                         },

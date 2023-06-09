@@ -83,7 +83,13 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
   }
 
 
+@override
+  void dispose() {
+  WidgetsBinding.instance
+      .addPostFrameCallback((_) =>  cartController.setVariations(null));
 
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     // Current date and time
@@ -129,6 +135,8 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                           children: [
                             PerfumeDetailsItem(
                               imgUrl: product[0].images,
+                              variations: product[0].variations,
+                              variationsAttributes: product[0].attributes,
                               brandName:
                                   product[0].brands != null && product[0].brands!.isNotEmpty ? product[0].brands![0].name : '',
                               onTapBrand: () {
@@ -140,8 +148,8 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                               perfumeName: product[0].title ?? '',
                               perfumeRate: double.parse(product[0].averageRating ?? '0.0'),
                               rateCount: product[0].ratingCount.toString() ?? '0',
-                              priceBeforeDiscount: product[0].regularPrice ?? '',
-                              priceAfterDiscount: product[0].salePrice ?? '',
+                              priceBeforeDiscount: (product[0].regularPrice == null || product[0].regularPrice == '0.00') ? product[0].price : product[0].regularPrice,
+                              priceAfterDiscount:  (product[0].salePrice == null || product[0].salePrice == '0.00') ? product[0].price : product[0].salePrice,
                             ),
                             SizedBox(
                               height: 24.h,
@@ -157,13 +165,13 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                         child: CustomButton(
                                           onTap: () {
                                             bool added = cart.addItem(
-                                              imgurl: product[0].images?[0].src ?? '',
-                                              name: product[0].title ?? '',
-                                              price: double.parse(product[0].salePrice == '' || product[0].salePrice == null
+                                              imgurl: cart.variations!=null ? cart.variations?.image?.url : product[0].images?[0].src ?? '',
+                                              name:  cart.variations!=null ?"${product[0].title} ${cart.variations?.attributes?.attributePaD8A7D984D8AdD8AcD985}" :product[0].title ?? '',
+                                              price:cart.variations!=null ? cart.variations?.displayPrice : double.parse(product[0].salePrice == '' || product[0].salePrice == null
                                                   ? '0.0'
                                                   : product[0].salePrice!),
                                               quantitiy: controller.quantitiy,
-                                              pdtid: product[0].id.toString() ?? '',
+                                              pdtid: cart.variations!=null ? cart.variations?.variationId.toString() : product[0].id.toString() ?? '',
                                             );
                                             if (added) {
                                               CustomDialog.customDialog.showCartDialog();
@@ -217,8 +225,8 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                               perfumeName: product[0].title ?? '',
                                               perfumeRate: double.parse(product[0].averageRating ?? '0.0'),
                                               rateCount: product[0].ratingCount.toString() ?? '0',
-                                              priceBeforeDiscount: product[0].regularPrice ?? '',
-                                              priceAfterDiscount: product[0].salePrice ?? '',
+                                              priceBeforeDiscount: (product[0].regularPrice == null || product[0].regularPrice == '0.00') ? product[0].price : product[0].regularPrice,
+                                              priceAfterDiscount:  (product[0].salePrice == null || product[0].salePrice == '0.00') ? product[0].price : product[0].salePrice,
                                             );
                                             if (added) {
                                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -517,8 +525,8 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                               perfumeName: relatedProduct[index].name ?? '',
                                               perfumeRate: double.parse(relatedProduct[index].averageRating ?? '0.0'),
                                               rateCount: relatedProduct[index].ratingCount.toString() ?? '0',
-                                              priceBeforeDiscount: relatedProduct[index].regularPrice ?? '',
-                                              priceAfterDiscount: relatedProduct[index].salePrice ?? '',
+                                              priceBeforeDiscount: (product[0].regularPrice == null || product[0].regularPrice == '0.00') ? product[0].price : product[0].regularPrice,
+                                              priceAfterDiscount:  (product[0].salePrice == null || product[0].salePrice == '0.00') ? product[0].price : product[0].salePrice,
                                               onTapBuy: () {
                                                 print(relatedProduct[index].id.toString());
                                                 ProductApies.productApies

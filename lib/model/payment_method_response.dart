@@ -6,7 +6,7 @@ class ListPaymentMethodsResponse {
     if (json != null) {
       listPaymentMethodsResponse = <PaymentMethodsResponse>[];
       json.forEach((v) {
-       if((v['enabled'])&&v['id']!='paytabs_applepay'&&v['id']!='tamara-gateway'&&v['id']!='tabby_installments'){
+       if((v['enabled'])&&v['id']!='paytabs_applepay'&&v['id']!='tabby_installments'){
          listPaymentMethodsResponse!.add(PaymentMethodsResponse.fromJson(v));
        }
       });

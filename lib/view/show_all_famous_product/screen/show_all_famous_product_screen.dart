@@ -315,6 +315,7 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                     delegate: SliverChildBuilderDelegate(
                       childCount: ProductApies.productApies.listProduct?.length,
                           (_, index) {
+                            var product = ProductApies.productApies.listProduct;
                         print(index);
                         return PerfumeProductItem(
                           id: ProductApies.productApies.listProduct?[index].id.toString(),
@@ -328,8 +329,15 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                           perfumeName: ProductApies.productApies.listProduct?[index].title ?? '',
                           perfumeRate: double.parse(ProductApies.productApies.listProduct?[index].averageRating ?? '0.0'),
                           rateCount: ProductApies.productApies.listProduct?[index].ratingCount.toString() ?? '0',
-                          priceBeforeDiscount: ProductApies.productApies.listProduct?[index].regularPrice ?? '',
-                          priceAfterDiscount: ProductApies.productApies.listProduct?[index].salePrice ?? '',
+                          priceBeforeDiscount:
+                          (product?[index].regularPrice == null) ||
+                              (product?[index].regularPrice == '0.00')
+                              ? (product?[index].price).toString()
+                              : product?[index].regularPrice,
+                          priceAfterDiscount: (product?[index].salePrice == null) ||
+                              (product?[index].salePrice == '0.00')
+                              ? (product?[index].price).toString()
+                              : product?[index].salePrice,
                           onTapBuy: () {
                             Get.to(() => PerfumeDetailsScreen(
                               productId: ProductApies.productApies.listProduct?[index].id.toString(),
@@ -384,8 +392,14 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                           perfumeName: lastViewedProduct[index].title ?? '',
                           perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
                           rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
-                          priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
-                          priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
+                          priceBeforeDiscount:
+                          (lastViewedProduct[index].regularPrice == null) || (lastViewedProduct[index].regularPrice == '0.00')
+                              ? (lastViewedProduct[index].price).toString()
+                              : lastViewedProduct[index].regularPrice,
+                          priceAfterDiscount:
+                          (lastViewedProduct[index].salePrice == null) || (lastViewedProduct[index].salePrice == '0.00')
+                              ? (lastViewedProduct[index].price).toString()
+                              : lastViewedProduct[index].salePrice,
                           onTapBuy: () {
                             print(lastViewedProduct[index].id.toString());
                             Get.to(() => PerfumeDetailsScreen(
