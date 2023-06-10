@@ -500,7 +500,54 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                                 : [],
                                           );
                                         });
-                                      } else if (order[index].paymentMethod == 'cod') {
+                                      }
+                                      else if (order[index].paymentMethod  == 'bacs') {
+                                        OrderApies.orderApies
+                                            .createOrder2(
+                                          customer_id: SPHelper.spHelper.getUserId(),
+                                          items: getRedboxCartItem(),
+                                          payment_method: order[index].paymentMethod,
+                                          payment_method_title: order[index].paymentMethodTitle,
+                                          firstName: order[index].billing?.firstName,
+                                          lastName: order[index].billing?.lastName,
+                                          addressOne: order[index].billing?.address1,
+                                          addressTwo: order[index].billing?.address2,
+                                          city: order[index].billing?.city,
+                                          country: order[index].billing?.country,
+                                          state: "",
+                                          postcode: order[index].billing?.postcode,
+                                          email: order[index].billing?.email,
+                                          phone: order[index].billing?.phone,
+                                          total: order[index].total,
+                                          listProduct: getCartItem(),
+                                          setPaid: false,
+                                          listShipment: [
+                                            {
+                                              "method_id": order[index].shippingLines?[0].methodId,
+                                              "method_title": order[index].shippingLines?[0].methodTitle,
+                                              "total": order[index].shippingLines?[0].methodId == 'redbox_pickup_delivery'
+                                                  ? '17'
+                                                  : order[index].shippingLines?[0].methodId == 'naqel_shipping'
+                                                  ? "30.00"
+                                                  : '0'
+                                            }
+                                          ],
+                                          listMetaData: order[index].metaData!.isNotEmpty
+                                              ? [
+                                            {
+                                              'key': '_redbox_point',
+                                              'value': order[index].metaData?[0].value,
+                                            },
+                                            {
+                                              'key': '_redbox_point_id',
+                                              'value': order[index].metaData?[1].value,
+                                            },
+                                          ]
+                                              : [],
+                                        );
+
+                                      }
+                                      else if (order[index].paymentMethod == 'cod') {
                                         OrderApies.orderApies
                                             .createOrder2(
                                           customer_id: SPHelper.spHelper.getUserId(),

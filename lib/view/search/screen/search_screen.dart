@@ -173,6 +173,8 @@ class _SearchScreenState extends State<SearchScreen> {
                             var product = ProductApies.productApies.listSearchProduct;
                         print(index);
                         return PerfumeProductItem(
+                          variations:  ProductApies.productApies.listSearchProduct?[index].variations,
+
                           id: ProductApies.productApies.listSearchProduct?[index].id.toString(),
                           imgUrl: ProductApies.productApies.listSearchProduct?[index].images?[0].src ?? '',
                           brandName: ProductApies.productApies.listSearchProduct![index].brands!.isNotEmpty
@@ -239,6 +241,8 @@ class _SearchScreenState extends State<SearchScreen> {
                     delegate: SliverChildBuilderDelegate(
                           (_, index) {
                         return PerfumeProductItem(
+                          variations:  lastViewedProduct[index].variations,
+
                           id: lastViewedProduct[index].images?[0].id.toString(),
                           imgUrl: lastViewedProduct[index].images?[0].src ?? '',
                           brandName: lastViewedProduct[index].brands!.isNotEmpty

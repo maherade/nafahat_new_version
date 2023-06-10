@@ -79,6 +79,7 @@ dependencies:
   flutter_paytabs_bridge: ^2.3.5
   transparent_image: ^2.0.1
   widgets_to_image: ^0.0.2
+  full_screen_image: ^2.0.0
 
 
 #  tamara_sdk:

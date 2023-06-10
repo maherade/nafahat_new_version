@@ -274,6 +274,8 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
 
                           print(index);
                       return  PerfumeProductItem(
+                        variations: ProductApies.productApies.listLessThanPriceProduct?[index].variations,
+
                         id: ProductApies.productApies.listLessThanPriceProduct?[index].id.toString(),
                         imgUrl: ProductApies.productApies.listLessThanPriceProduct?[index].images?[0].src ?? '',
                         brandName: ProductApies.productApies.listLessThanPriceProduct![index].brands!.isNotEmpty
@@ -340,6 +342,8 @@ class _ShowAllProductLessThan100ScreenState extends State<ShowAllProductLessThan
                     delegate: SliverChildBuilderDelegate(
                           (_, index) {
                         return PerfumeProductItem(
+                          variations: lastViewedProduct[index].variations,
+
                           id: lastViewedProduct[index].images?[0].id.toString(),
                           imgUrl: lastViewedProduct[index].images?[0].src ?? '',
                           brandName: lastViewedProduct[index].brands!.isNotEmpty

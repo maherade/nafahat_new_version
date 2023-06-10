@@ -301,6 +301,8 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                             var product = ProductApies.productApies.listProductByFilter;
                         print(index);
                         return PerfumeProductItem(
+                          variations:  ProductApies.productApies.listProductByFilter?[index].variations,
+
                           id:  ProductApies.productApies.listProductByFilter?[index].id.toString(),
                           imgUrl: ProductApies.productApies.listProductByFilter?[index].images?[0].src ?? '',
                           brandName: ProductApies.productApies.listProductByFilter![index].brands!.isNotEmpty
@@ -366,6 +368,8 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                     delegate: SliverChildBuilderDelegate(
                           (_, index) {
                         return PerfumeProductItem(
+                          variations:  lastViewedProduct[index].variations,
+
                           id: lastViewedProduct[index].images?[0].id.toString(),
                           imgUrl: lastViewedProduct[index].images?[0].src ?? '',
                           brandName: lastViewedProduct[index].brands!.isNotEmpty

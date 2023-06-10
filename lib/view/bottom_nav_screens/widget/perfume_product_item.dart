@@ -6,6 +6,7 @@ import 'package:perfume_store_mobile_app/view/custom_widget/custom_dialog.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 import '../../../controller/cart_controller.dart';
+import '../../../model/care_product_response.dart';
 import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_rate_write_bar.dart';
 
@@ -20,8 +21,10 @@ class PerfumeProductItem extends StatelessWidget {
   final String? priceBeforeDiscount;
   final String? priceAfterDiscount;
   final VoidCallback? onTapBuy;
+  final List<dynamic>? variations;
 
- const PerfumeProductItem(
+
+  const PerfumeProductItem(
       {super.key,
       required this.id,
       this.imgUrl,
@@ -31,7 +34,9 @@ class PerfumeProductItem extends StatelessWidget {
       this.rateCount,
       this.priceBeforeDiscount,
       this.priceAfterDiscount,
-      this.onTapBuy});
+      this.onTapBuy,
+      this.variations,
+      });
 
   @override
   Widget build(BuildContext context) {
@@ -157,16 +162,20 @@ class PerfumeProductItem extends StatelessWidget {
                               builder: (cart) {
                                 return GestureDetector(
                                   onTap: () {
-                                    bool added = cart.addItem(
-                                      imgurl: imgUrl ?? '',
-                                      name: perfumeName ?? '',
-                                      price: double.parse(priceAfterDiscount ?? '0.0'),
-                                      quantitiy: 1,
-                                      pdtid: id ?? '',
-                                    );
-                                    if (added) {
-                                      CustomDialog.customDialog.showCartDialog();
-                                    }
+                                if(variations==null){
+                                  bool added = cart.addItem(
+                                    imgurl: imgUrl ?? '',
+                                    name: perfumeName ?? '',
+                                    price: double.parse(priceAfterDiscount ?? '0.0'),
+                                    quantitiy: 1,
+                                    pdtid: id ?? '',
+                                  );
+                                  if (added) {
+                                    CustomDialog.customDialog.showCartDialog();
+                                  }
+                                }else{
+                                  onTapBuy!();
+                                }
                                   },
                                   child: SvgPicture.asset(
                                     'assets/svg/buy.svg',
