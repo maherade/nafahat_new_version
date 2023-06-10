@@ -82,6 +82,7 @@ class MyLocale implements Translations {
           "product_in_cart_value": "منتجات بالسلة",
           "total_orders_value": "مجموع الطلبات",
           "delivery_cost_value": "تكاليف الشحن",
+          "discount_value": "مبلغ الخصم",
           "total_amount_value": "المبلغ الكلي",
           "coupon_value": "كوبون الخصم",
           "enter_coupon_value": "أدخل الكوبون",
@@ -336,6 +337,8 @@ class MyLocale implements Translations {
           "product_in_cart_value": "products in your cart",
           "total_orders_value": "Total orders",
           "delivery_cost_value": "Delivery cost",
+          "discount_value": "discount amount",
+
           "total_amount_value": "Total amount",
           "coupon_value": "Discount coupon",
           "enter_coupon_value": "Enter coupon",

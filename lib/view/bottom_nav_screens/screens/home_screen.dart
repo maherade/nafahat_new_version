@@ -526,8 +526,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                       perfumeName: famousProduct[index].title ?? '',
                                       perfumeRate: double.parse(famousProduct[index].averageRating ?? '0.0'),
                                       rateCount: famousProduct[index].ratingCount.toString() ?? '0',
-                                      priceBeforeDiscount: famousProduct[index].regularPrice ?? '',
-                                      priceAfterDiscount: famousProduct[index].salePrice ?? '',
+                                      priceBeforeDiscount:
+                                      (famousProduct[index].regularPrice == null) || (famousProduct[index].regularPrice == '0.00')
+                                          ? (famousProduct[index].price).toString()
+                                          : famousProduct[index].regularPrice,
+                                      priceAfterDiscount:
+                                      (famousProduct[index].salePrice == null) || (famousProduct[index].salePrice == '0.00')
+                                          ? (famousProduct[index].price).toString()
+                                          : famousProduct[index].salePrice,
                                       onTapBuy: () {
                                         print(famousProduct[index].id.toString());
                                         Get.to(() => PerfumeDetailsScreen(
@@ -623,8 +629,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: giftProduct[index].title ?? '',
                                   perfumeRate: double.parse(giftProduct[index].averageRating ?? '0.0'),
                                   rateCount: giftProduct[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: giftProduct[index].regularPrice ?? '',
-                                  priceAfterDiscount: giftProduct[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (giftProduct[index].regularPrice == null) || (giftProduct[index].regularPrice == '0.00')
+                                      ? (giftProduct[index].price).toString()
+                                      : giftProduct[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (giftProduct[index].salePrice == null) || (giftProduct[index].salePrice == '0.00')
+                                      ? (giftProduct[index].price).toString()
+                                      : giftProduct[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: giftProduct[index].id.toString(),
@@ -679,8 +691,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                     onTap: () {
 
                                       Get.to(() => ShopByBrandScreen(
-                                        brandName: e.brand?[0].name,
-                                        brandId: e.brand?[0].termId,
+                                        brandName: e.brand!.isEmpty?'Acure':e.brand?[0].name,
+                                        brandId:e.brand!.isEmpty?'1781': e.brand?[0].termId,
                                       ));
                                     },
                                     child: Container(
@@ -780,8 +792,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: ramadanCare[index].title ?? '',
                                   perfumeRate: double.parse(ramadanCare[index].averageRating ?? '0.0'),
                                   rateCount: ramadanCare[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: ramadanCare[index].regularPrice ?? '',
-                                  priceAfterDiscount: ramadanCare[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (ramadanCare[index].regularPrice == null) || (ramadanCare[index].regularPrice == '0.00')
+                                      ? (ramadanCare[index].price).toString()
+                                      : ramadanCare[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (ramadanCare[index].salePrice == null) || (ramadanCare[index].salePrice == '0.00')
+                                      ? (ramadanCare[index].price).toString()
+                                      : ramadanCare[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: ramadanCare[index].id.toString(),
@@ -870,8 +888,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: careProduct[index].title ?? '',
                                   perfumeRate: double.parse(careProduct[index].averageRating ?? '0.0'),
                                   rateCount: careProduct[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: careProduct[index].regularPrice ?? '',
-                                  priceAfterDiscount: careProduct[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (careProduct[index].regularPrice == null) || (careProduct[index].regularPrice == '0.00')
+                                      ? (careProduct[index].price).toString()
+                                      : careProduct[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (careProduct[index].salePrice == null) || (careProduct[index].salePrice == '0.00')
+                                      ? (careProduct[index].price).toString()
+                                      : careProduct[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: careProduct[index].id.toString(),
@@ -979,8 +1003,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: lensesProduct[index].title ?? '',
                                   perfumeRate: double.parse(lensesProduct[index].averageRating ?? '0.0'),
                                   rateCount: lensesProduct[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: lensesProduct[index].regularPrice ?? '',
-                                  priceAfterDiscount: lensesProduct[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (lensesProduct[index].regularPrice == null) || (lensesProduct[index].regularPrice == '0.00')
+                                      ? (lensesProduct[index].price).toString()
+                                      : lensesProduct[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (lensesProduct[index].salePrice == null) || (lensesProduct[index].salePrice == '0.00')
+                                      ? (lensesProduct[index].price).toString()
+                                      : lensesProduct[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: lensesProduct[index].id.toString(),
@@ -1071,8 +1101,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: ramadanOffers[index].title ?? '',
                                   perfumeRate: double.parse(ramadanOffers[index].averageRating ?? '0.0'),
                                   rateCount: ramadanOffers[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: ramadanOffers[index].regularPrice ?? '',
-                                  priceAfterDiscount: ramadanOffers[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (ramadanOffers[index].regularPrice == null) || (ramadanOffers[index].regularPrice == '0.00')
+                                      ? (ramadanOffers[index].price).toString()
+                                      : ramadanOffers[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (ramadanOffers[index].salePrice == null) || (ramadanOffers[index].salePrice == '0.00')
+                                      ? (ramadanOffers[index].price).toString()
+                                      : ramadanOffers[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: ramadanOffers[index].id.toString(),
@@ -1163,8 +1199,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: topMakeup[index].title ?? '',
                                   perfumeRate: double.parse(topMakeup[index].averageRating ?? '0.0'),
                                   rateCount: topMakeup[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: topMakeup[index].regularPrice ?? '',
-                                  priceAfterDiscount: topMakeup[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (topMakeup[index].regularPrice == null) || (topMakeup[index].regularPrice == '0.00')
+                                      ? (topMakeup[index].price).toString()
+                                      : topMakeup[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (topMakeup[index].salePrice == null) || (topMakeup[index].salePrice == '0.00')
+                                      ? (topMakeup[index].price).toString()
+                                      : topMakeup[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: topMakeup[index].id.toString(),
@@ -1275,8 +1317,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: topDevices[index].title ?? '',
                                   perfumeRate: double.parse(topDevices[index].averageRating ?? '0.0'),
                                   rateCount: topDevices[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: topDevices[index].regularPrice ?? '',
-                                  priceAfterDiscount: topDevices[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (topDevices[index].regularPrice == null) || (topDevices[index].regularPrice == '0.00')
+                                      ? (topDevices[index].price).toString()
+                                      : topDevices[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (topDevices[index].salePrice == null) || (topDevices[index].salePrice == '0.00')
+                                      ? (topDevices[index].price).toString()
+                                      : topDevices[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: topDevices[index].id.toString(),
@@ -1367,8 +1415,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: topNails[index].title ?? '',
                                   perfumeRate: double.parse(topNails[index].averageRating ?? '0.0'),
                                   rateCount: topNails[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: topNails[index].regularPrice ?? '',
-                                  priceAfterDiscount: topNails[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (topNails[index].regularPrice == null) || (topNails[index].regularPrice == '0.00')
+                                      ? (topNails[index].price).toString()
+                                      : topNails[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (topNails[index].salePrice == null) || (topNails[index].salePrice == '0.00')
+                                      ? (topNails[index].price).toString()
+                                      : topNails[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: topNails[index].id.toString(),
@@ -1459,8 +1513,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: topPerfume[index].title ?? '',
                                   perfumeRate: double.parse(topPerfume[index].averageRating ?? '0.0'),
                                   rateCount: topPerfume[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: topPerfume[index].regularPrice ?? '',
-                                  priceAfterDiscount: topPerfume[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (topPerfume[index].regularPrice == null) || (topPerfume[index].regularPrice == '0.00')
+                                      ? (topPerfume[index].price).toString()
+                                      : topPerfume[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (topPerfume[index].salePrice == null) || (topPerfume[index].salePrice == '0.00')
+                                      ? (topPerfume[index].price).toString()
+                                      : topPerfume[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: topPerfume[index].id.toString(),
@@ -1549,8 +1609,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: lessThanProduct[index].title ?? '',
                                   perfumeRate: double.parse(lessThanProduct[index].averageRating ?? '0.0'),
                                   rateCount: lessThanProduct[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: lessThanProduct[index].regularPrice ?? '',
-                                  priceAfterDiscount: lessThanProduct[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (lessThanProduct[index].regularPrice == null) || (lessThanProduct[index].regularPrice == '0.00')
+                                      ? (lessThanProduct[index].price).toString()
+                                      : lessThanProduct[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (lessThanProduct[index].salePrice == null) || (lessThanProduct[index].salePrice == '0.00')
+                                      ? (lessThanProduct[index].price).toString()
+                                      : lessThanProduct[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: lessThanProduct[index].id.toString(),
@@ -1642,8 +1708,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: listOffersProduct[index + 7].title ?? '',
                                   perfumeRate: double.parse(listOffersProduct[index + 7].averageRating ?? '0.0'),
                                   rateCount: listOffersProduct[index + 7].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: listOffersProduct[index + 7].regularPrice ?? '',
-                                  priceAfterDiscount: listOffersProduct[index + 7].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (listOffersProduct[index + 7].regularPrice == null) || (listOffersProduct[index + 7].regularPrice == '0.00')
+                                      ? (listOffersProduct[index + 7].price).toString()
+                                      : listOffersProduct[index + 7].regularPrice,
+                                  priceAfterDiscount:
+                                  (listOffersProduct[index + 7].salePrice == null) || (listOffersProduct[index + 7].salePrice == '0.00')
+                                      ? (listOffersProduct[index + 7].price).toString()
+                                      : listOffersProduct[index + 7].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: listOffersProduct[index + 7].id.toString(),
@@ -1740,8 +1812,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                   perfumeName: recentlyAddedProduct[index].title ?? '',
                                   perfumeRate: double.parse(recentlyAddedProduct[index].averageRating ?? '0.0'),
                                   rateCount: recentlyAddedProduct[index].ratingCount.toString() ?? '0',
-                                  priceBeforeDiscount: recentlyAddedProduct[index].regularPrice ?? '',
-                                  priceAfterDiscount: recentlyAddedProduct[index].salePrice ?? '',
+                                  priceBeforeDiscount:
+                                  (recentlyAddedProduct[index].regularPrice == null) || (recentlyAddedProduct[index].regularPrice == '0.00')
+                                      ? (recentlyAddedProduct[index].price).toString()
+                                      : recentlyAddedProduct[index].regularPrice,
+                                  priceAfterDiscount:
+                                  (recentlyAddedProduct[index].salePrice == null) || (recentlyAddedProduct[index].salePrice == '0.00')
+                                      ? (recentlyAddedProduct[index].price).toString()
+                                      : recentlyAddedProduct[index].salePrice,
                                   onTapBuy: () {
                                     Get.to(() => PerfumeDetailsScreen(
                                       productId: recentlyAddedProduct[index].id.toString(),

@@ -298,6 +298,7 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                     delegate: SliverChildBuilderDelegate(
                       childCount: ProductApies.productApies.listProductByFilter?.length,
                           (_, index) {
+                            var product = ProductApies.productApies.listProductByFilter;
                         print(index);
                         return PerfumeProductItem(
                           id:  ProductApies.productApies.listProductByFilter?[index].id.toString(),
@@ -311,8 +312,15 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                           perfumeRate:
                           double.parse(ProductApies.productApies.listProductByFilter?[index].averageRating ?? '0.0'),
                           rateCount: ProductApies.productApies.listProductByFilter?[index].ratingCount.toString() ?? '0',
-                          priceBeforeDiscount: ProductApies.productApies.listProductByFilter?[index].regularPrice ?? '',
-                          priceAfterDiscount: ProductApies.productApies.listProductByFilter?[index].salePrice ?? '',
+                          priceBeforeDiscount:
+                          (product?[index].regularPrice == null) ||
+                              (product?[index].regularPrice == '0.00')
+                              ? (product?[index].price).toString()
+                              : product?[index].regularPrice,
+                          priceAfterDiscount: (product?[index].salePrice == null) ||
+                              (product?[index].salePrice == '0.00')
+                              ? (product?[index].price).toString()
+                              : product?[index].salePrice,
                           onTapBuy: () {
                             print(ProductApies.productApies.listProductByFilter?[index].id.toString());
                             Get.to(() => PerfumeDetailsScreen(
@@ -368,8 +376,14 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                           perfumeName: lastViewedProduct[index].title ?? '',
                           perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
                           rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
-                          priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
-                          priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
+                          priceBeforeDiscount:
+                          (lastViewedProduct[index].regularPrice == null) || (lastViewedProduct[index].regularPrice == '0.00')
+                              ? (lastViewedProduct[index].price).toString()
+                              : lastViewedProduct[index].regularPrice,
+                          priceAfterDiscount:
+                          (lastViewedProduct[index].salePrice == null) || (lastViewedProduct[index].salePrice == '0.00')
+                              ? (lastViewedProduct[index].price).toString()
+                              : lastViewedProduct[index].salePrice,
                           onTapBuy: () {
                             print(lastViewedProduct[index].id.toString());
                             Get.to(() => PerfumeDetailsScreen(

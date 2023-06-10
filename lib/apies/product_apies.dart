@@ -262,7 +262,6 @@ class ProductApies {
           "endpoint": "products",
           "product_id": id,
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-
         },
 
         // options: Options(validateStatus: (status) {
@@ -272,7 +271,7 @@ class ProductApies {
       if (response.statusCode == 200) {
         productController.getProductDetailResponseData!.value = ProductDetailResponse.fromJson(response.data);
         getRelatedProduct(related_ids: productController.getProductDetailResponseData!.value.data?[0].relatedAds.toString());
-        print("getProductDetailData Successful ");
+        print("getProductDetailData Successful ${response.data['data'][0]['variations'][0]['attributes']['attribute_pa_%d8%a7%d9%84%d9%84%d9%88%d9%86']}");
       } else {}
     } on DioError catch (e) {
       print(e.response.toString());
@@ -672,7 +671,6 @@ class ProductApies {
         queryParameters: {
           "endpoint": "brands-feature",
           'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-
         },
       );
       if (response.statusCode == 200) {

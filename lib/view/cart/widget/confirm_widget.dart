@@ -441,6 +441,8 @@ class ConfirmWidget extends StatelessWidget {
                                  ? image = 'visa.png'
                                  : payment[index].id == 'paytabs_stcpay'
                                  ? image = 'stc.png' //stc
+                                 : payment[index].id == 'tamara-gateway'
+                                 ? image = 'tamara.png' //stc
                                  : 'pay.png';
 
                              // print("id: "+payment[index].id.toString());

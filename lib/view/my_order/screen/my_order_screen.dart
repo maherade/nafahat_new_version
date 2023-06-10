@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:math';
+import 'dart:developer' as log;
 
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
@@ -22,6 +23,7 @@ import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 
 import '../../../services/app_imports.dart';
 import '../../../services/src/models/models.dart';
+import '../../cart/widget/tamara_webview_page.dart';
 import '../../custom_widget/custom_dialog.dart';
 import '../widget/current_order_item.dart';
 import '../widget/previous_order_item.dart';
@@ -457,6 +459,7 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                           OrderApies.orderApies
                                               .createOrder2(
                                             customer_id: SPHelper.spHelper.getUserId(),
+                                            items: getRedboxCartItem(),
                                             payment_method: order[index].paymentMethod,
                                             payment_method_title: order[index].paymentMethodTitle,
                                             firstName: order[index].billing?.firstName,
@@ -495,33 +498,13 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                               },
                                             ]
                                                 : [],
-                                          )
-                                              .then((value) {
-                                            order[index].metaData!.isNotEmpty
-                                                ? OrderApies.orderApies.createRedBoxShippment(
-                                                items: getRedboxCartItem(),
-                                                reference: value.id.toString(),
-                                                point_id: order[index].metaData?[1].value ?? '',
-                                                sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                                sender_email: 'info@dermarollersystemsa.com',
-                                                sender_phone: '0114130336',
-                                                sender_address: 'Riyadh -  - ',
-                                                customer_name:
-                                                '${order[index].billing?.firstName} - ${order[index].billing?.firstName}',
-                                                customer_email: order[index].billing?.email,
-                                                customer_phone: order[index].billing?.phone,
-                                                customer_address:
-                                                '${order[index].billing?.address1} - ${order[index].billing?.address2}',
-                                                cod_currency: 'SAR',
-                                                cod_amount: order[index].total,
-                                                nameOfPackage: 'nameOfPackage')
-                                                : print('my Marker not Selected');
-                                          });
+                                          );
                                         });
                                       } else if (order[index].paymentMethod == 'cod') {
                                         OrderApies.orderApies
                                             .createOrder2(
                                           customer_id: SPHelper.spHelper.getUserId(),
+                                          items: getRedboxCartItem(),
                                           payment_method: order[index].paymentMethod,
                                           payment_method_title: order[index].paymentMethodTitle,
                                           firstName: order[index].billing?.firstName,
@@ -560,117 +543,15 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                             },
                                           ]
                                               : [],
-                                        )
-                                            .then((value) {
-                                          order[index].metaData!.isNotEmpty
-                                              ? OrderApies.orderApies.createRedBoxShippment(
-                                              items: getRedboxCartItem(),
-                                              reference: value.id.toString(),
-                                              point_id: order[index].metaData?[1].value ?? '',
-                                              sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                              sender_email: 'info@dermarollersystemsa.com',
-                                              sender_phone: '0114130336',
-                                              sender_address: 'Riyadh -  - ',
-                                              customer_name:
-                                              '${order[index].billing?.firstName} - ${order[index].billing?.firstName}',
-                                              customer_email: order[index].billing?.email,
-                                              customer_phone: order[index].billing?.phone,
-                                              customer_address:
-                                              '${order[index].billing?.address1} - ${order[index].billing?.address2}',
-                                              cod_currency: 'SAR',
-                                              cod_amount: order[index].total,
-                                              nameOfPackage: 'nameOfPackage')
-                                              : print('my Marker not Selected');
-                                        });
+                                        );
                                       }
-                                      // else if (order[index].paymentMethod == 'geidea') {
-                                      //   _handleCheckout(
-                                      //       context: context,
-                                      //       checkoutOptions: CheckoutOptions(
-                                      //         order[index].total, 'SAR', //SAR //EGP
-                                      //         callbackUrl: '',
-                                      //         lang: 'EN',
-                                      //         // billingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
-                                      //         // shippingAddress: Address(city: cityController.text, countryCode: selectedCountriesName, street: address1Controller.text, postCode: postcodeController.text),
-                                      //         customerEmail: order[index].billing?.email,
-                                      //         merchantReferenceID: '',
-                                      //         paymentIntentId: '',
-                                      //         paymentOperation: 'Default (merchant configuration)',
-                                      //         showShipping: false,
-                                      //         showBilling: false,
-                                      //         showSaveCard: false,
-                                      //       ),
-                                      //       createOrder: () {
-                                      //         OrderApies.orderApies
-                                      //             .createOrder2(
-                                      //           customer_id: SPHelper.spHelper.getUserId(),
-                                      //           payment_method: order[index].paymentMethod,
-                                      //           payment_method_title: order[index].paymentMethodTitle,
-                                      //           firstName: order[index].billing?.firstName,
-                                      //           lastName: order[index].billing?.lastName,
-                                      //           addressOne: order[index].billing?.address1,
-                                      //           addressTwo: order[index].billing?.address2,
-                                      //           city: order[index].billing?.city,
-                                      //           country: order[index].billing?.country,
-                                      //           state: "",
-                                      //           postcode: order[index].billing?.postcode,
-                                      //           email: order[index].billing?.email,
-                                      //           phone: order[index].billing?.phone,
-                                      //           total: order[index].total,
-                                      //           listProduct: getCartItem(),
-                                      //           setPaid: true,
-                                      //           listShipment: [
-                                      //             {
-                                      //               "method_id": order[index].shippingLines?[0].methodId,
-                                      //               "method_title": order[index].shippingLines?[0].methodTitle,
-                                      //               "total": order[index].shippingLines?[0].methodId == 'redbox_pickup_delivery'
-                                      //                   ? '17'
-                                      //                   : order[index].shippingLines?[0].methodId == 'naqel_shipping'
-                                      //                   ? "30.00"
-                                      //                   : '0'
-                                      //             }
-                                      //           ],
-                                      //           listMetaData: order[index].metaData!.isNotEmpty
-                                      //               ? [
-                                      //             {
-                                      //               'key': '_redbox_point',
-                                      //               'value': order[index].metaData?[0].value,
-                                      //             },
-                                      //             {
-                                      //               'key': '_redbox_point_id',
-                                      //               'value': order[index].metaData?[1].value,
-                                      //             },
-                                      //           ]
-                                      //               : [],
-                                      //         )
-                                      //             .then((value) {
-                                      //           order[index].metaData!.isNotEmpty
-                                      //               ? OrderApies.orderApies.createRedBoxShippment(
-                                      //               items: getRedboxCartItem(),
-                                      //               reference: value.id.toString(),
-                                      //               point_id: order[index].metaData?[1].value ?? '',
-                                      //               sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                      //               sender_email: 'info@dermarollersystemsa.com',
-                                      //               sender_phone: '0114130336',
-                                      //               sender_address: 'Riyadh -  - ',
-                                      //               customer_name:
-                                      //               '${order[index].billing?.firstName} - ${order[index].billing?.firstName}',
-                                      //               customer_email: order[index].billing?.email,
-                                      //               customer_phone: order[index].billing?.phone,
-                                      //               customer_address:
-                                      //               '${order[index].billing?.address1} - ${order[index].billing?.address2}',
-                                      //               cod_currency: 'SAR',
-                                      //               cod_amount: order[index].total,
-                                      //               nameOfPackage: 'nameOfPackage')
-                                      //               : print('my Marker not Selected');
-                                      //         });
-                                      //       });
-                                      // }
+
                                       else if (order[index].paymentMethod == 'paytabs_all') {
                                         payPressed(generateConfig: generateConfig(),createOrder:(){
                                           OrderApies.orderApies
                                               .createOrder2(
                                             customer_id: SPHelper.spHelper.getUserId(),
+                                            items: getRedboxCartItem(),
                                             payment_method: order[index].paymentMethod,
                                             payment_method_title: order[index].paymentMethodTitle,
                                             firstName: order[index].billing?.firstName,
@@ -709,29 +590,107 @@ class _MyOrderScreenState extends State<MyOrderScreen> {
                                               },
                                             ]
                                                 : [],
-                                          )
-                                              .then((value) {
-                                            order[index].metaData!.isNotEmpty
-                                                ? OrderApies.orderApies.createRedBoxShippment(
-                                                items: getRedboxCartItem(),
-                                                reference: value.id.toString(),
-                                                point_id: order[index].metaData?[1].value ?? '',
-                                                sender_name: 'مؤسسة الجمال والصحة للتجارة',
-                                                sender_email: 'info@dermarollersystemsa.com',
-                                                sender_phone: '0114130336',
-                                                sender_address: 'Riyadh -  - ',
-                                                customer_name:
-                                                '${order[index].billing?.firstName} - ${order[index].billing?.firstName}',
-                                                customer_email: order[index].billing?.email,
-                                                customer_phone: order[index].billing?.phone,
-                                                customer_address:
-                                                '${order[index].billing?.address1} - ${order[index].billing?.address2}',
-                                                cod_currency: 'SAR',
-                                                cod_amount: order[index].total,
-                                                nameOfPackage: 'nameOfPackage')
-                                                : print('my Marker not Selected');
-                                          });
+                                          );
                                         });
+                                      }
+                                      else if (order[index].paymentMethod == 'tamara-gateway-pay-in-3') {
+                                        OrderApies.orderApies
+                                            .createTamaraOrder(
+                                          customer_id: SPHelper.spHelper.getUserId(),
+                                          status: 'pending',
+                                          items: getRedboxCartItem(),
+                                          payment_method: order[index].paymentMethod,
+                                          payment_method_title: order[index].paymentMethodTitle,
+                                          firstName: order[index].billing?.firstName,
+                                          lastName: order[index].billing?.lastName,
+                                          addressOne: order[index].billing?.address1,
+                                          addressTwo: order[index].billing?.address2,
+                                          city: order[index].billing?.city,
+                                          country: order[index].billing?.country,
+                                          state: "",
+                                          postcode: order[index].billing?.postcode,
+                                          email: order[index].billing?.email,
+                                          phone: order[index].billing?.phone,
+                                          total: order[index].total,
+                                          listProduct: getCartItem(),
+                                          setPaid: true,
+                                          listShipment: [
+                                            {
+                                              "method_id": order[index].shippingLines?[0].methodId,
+                                              "method_title": order[index].shippingLines?[0].methodTitle,
+                                              "total": order[index].shippingLines?[0].methodId == 'redbox_pickup_delivery'
+                                                  ? '17'
+                                                  : order[index].shippingLines?[0].methodId == 'naqel_shipping'
+                                                  ? "30.00"
+                                                  : '0'
+                                            }
+                                          ],
+                                          listMetaData: order[index].metaData!.isNotEmpty
+                                              ? [
+                                            {
+                                              'key': '_redbox_point',
+                                              'value': order[index].metaData?[0].value,
+                                            },
+                                            {
+                                              'key': '_redbox_point_id',
+                                              'value': order[index].metaData?[1].value,
+                                            },
+                                          ]
+                                              : [],
+                                        ).then((value) {
+                                          value.metaData!= null? value.metaData!.forEach((element) {
+                                            if(element.key=='tamara_checkout_url'){
+                                              log.log(element.value.toString());
+                                              Get.to(TamaraWebViewPage(
+                                                paymentUrl: element.value.toString(),
+                                                orderId: value.id.toString(),
+                                                customer_id: SPHelper.spHelper.getUserId(),
+                                                status: 'pending',
+                                                items: getRedboxCartItem(),
+                                                payment_method: order[index].paymentMethod,
+                                                payment_method_title: order[index].paymentMethodTitle,
+                                                firstName: order[index].billing?.firstName,
+                                                lastName: order[index].billing?.lastName,
+                                                addressOne: order[index].billing?.address1,
+                                                addressTwo: order[index].billing?.address2,
+                                                city: order[index].billing?.city,
+                                                country: order[index].billing?.country,
+                                                state: "",
+                                                postcode: order[index].billing?.postcode,
+                                                email: order[index].billing?.email,
+                                                phone: order[index].billing?.phone,
+                                                total: order[index].total,
+                                                listProduct: getCartItem(),
+                                                setPaid: true,
+                                                listShipment: [
+                                                  {
+                                                    "method_id": order[index].shippingLines?[0].methodId,
+                                                    "method_title": order[index].shippingLines?[0].methodTitle,
+                                                    "total": order[index].shippingLines?[0].methodId == 'redbox_pickup_delivery'
+                                                        ? '17'
+                                                        : order[index].shippingLines?[0].methodId == 'naqel_shipping'
+                                                        ? "30.00"
+                                                        : '0'
+                                                  }
+                                                ],
+                                                listMetaData: order[index].metaData!.isNotEmpty
+                                                    ? [
+                                                  {
+                                                    'key': '_redbox_point',
+                                                    'value': order[index].metaData?[0].value,
+                                                  },
+                                                  {
+                                                    'key': '_redbox_point_id',
+                                                    'value': order[index].metaData?[1].value,
+                                                  },
+                                                ]
+                                                    : [],
+                                              ));
+                                            }
+                                          }) : null;
+
+                                        });
+
                                       }
                                     }
                                   );

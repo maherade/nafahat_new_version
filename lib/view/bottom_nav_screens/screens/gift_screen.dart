@@ -351,7 +351,9 @@ class _GiftScreenState extends State<GiftScreen> {
                           childCount: ProductApies.productApies.listGiftProduct?.length,
 
                               (_, index) {
-                            print(index);
+                                var product = ProductApies.productApies.listGiftProduct;
+
+                                print(index);
                             return PerfumeProductItem(
                               id: ProductApies.productApies.listGiftProduct?[index].id.toString(),
                               imgUrl:  ProductApies.productApies.listGiftProduct?[index].images?[0].src ?? '',
@@ -363,8 +365,15 @@ class _GiftScreenState extends State<GiftScreen> {
                               perfumeName:  ProductApies.productApies.listGiftProduct?[index].title ?? '',
                               perfumeRate: double.parse( ProductApies.productApies.listGiftProduct?[index].averageRating ?? '0.0'),
                               rateCount:  ProductApies.productApies.listGiftProduct?[index].ratingCount.toString() ?? '0',
-                              priceBeforeDiscount:  ProductApies.productApies.listGiftProduct?[index].regularPrice ?? '',
-                              priceAfterDiscount:  ProductApies.productApies.listGiftProduct?[index].salePrice ?? '',
+                              priceBeforeDiscount:
+                              (product?[index].regularPrice == null) ||
+                                  (product?[index].regularPrice == '0.00')
+                                  ? (product?[index].price).toString()
+                                  : product?[index].regularPrice,
+                              priceAfterDiscount: (product?[index].salePrice == null) ||
+                                  (product?[index].salePrice == '0.00')
+                                  ? (product?[index].price).toString()
+                                  : product?[index].salePrice,
                               onTapBuy: () {
                                 print( ProductApies.productApies.listGiftProduct?[index].id.toString());
                                 Get.to(() => PerfumeDetailsScreen(
@@ -420,8 +429,15 @@ class _GiftScreenState extends State<GiftScreen> {
                               perfumeName: lastViewedProduct[index].title ?? '',
                               perfumeRate: double.parse(lastViewedProduct[index].averageRating ?? '0.0'),
                               rateCount: lastViewedProduct[index].ratingCount.toString() ?? '0',
-                              priceBeforeDiscount: lastViewedProduct[index].regularPrice ?? '',
-                              priceAfterDiscount: lastViewedProduct[index].salePrice ?? '',
+                              priceBeforeDiscount:
+                              (lastViewedProduct[index].regularPrice == null) ||
+                                  (lastViewedProduct[index].regularPrice == '0.00')
+                                  ? (lastViewedProduct[index].price).toString()
+                                  : lastViewedProduct[index].regularPrice,
+                              priceAfterDiscount: (lastViewedProduct[index].salePrice == null) ||
+                                  (lastViewedProduct[index].salePrice == '0.00')
+                                  ? (lastViewedProduct[index].price).toString()
+                                  : lastViewedProduct[index].salePrice,
                               onTapBuy: () {
                                 print(lastViewedProduct[index].id.toString());
                                 Get.to(() => PerfumeDetailsScreen(

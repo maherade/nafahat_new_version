@@ -4,6 +4,7 @@ import 'dart:io' show Platform;
 
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
 import 'package:flutter_paytabs_bridge/PaymentSDKQueryConfiguration.dart';
@@ -46,14 +47,34 @@ Future<void> main() async {
   await SPHelper.spHelper.initSharedPrefrences();
   await Settingss.settings.initDio();
   TabbySDK().setup(
-    withApiKey: 'pk_test_ba5ec72a-3026-41f5-bc3a-881f21b9614a', // Put here your Api key
+    withApiKey: 'pk_ad7698e9-0586-4af9-8db5-3d41ac039436', // Put here your Api key
      environment: Environment.production, // Or use Environment.stage
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: AppColors.primaryColor,
   ));
+  if (Platform.isAndroid) {
+    await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
+    var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+    var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
+        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+    if (swAvailable && swInterceptAvailable) {
+      AndroidServiceWorkerController serviceWorkerController =
+      AndroidServiceWorkerController.instance();
+
+      await serviceWorkerController
+          .setServiceWorkerClient(AndroidServiceWorkerClient(
+        shouldInterceptRequest: (request) async {
+          print(request);
+          return null;
+        },
+      ));
+    }
+  }
   runApp(
     const MyApp(),
   );
