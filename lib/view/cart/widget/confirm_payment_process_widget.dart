@@ -918,6 +918,61 @@ class _ConfirmPaymentProcessWidgetState extends State<ConfirmPaymentProcessWidge
                             );
 
                           }
+                          else if (appController.selectedPaymentMethods == 'bacs') {
+                            OrderApies.orderApies
+                                .createOrder2(
+                              customer_id: SPHelper.spHelper.getUserId(),
+                              items: getRedboxCartItem(),
+                              payment_method: appController.selectedPaymentMethods!,
+                              payment_method_title: appController.selectedPaymentMethodsTitle!,
+                              firstName: widget.firstNameController.text,
+                              lastName: widget.lastNameController.text,
+                              addressOne: widget.address1Controller.text,
+                              addressTwo: widget.address2Controller.text,
+                              city: widget.cityController.text,
+                              country: appController.selectedCountries?.code,
+                              state: "",
+                              postcode: widget.postcodeController.text,
+                              email: widget.emailController.text.replaceAll(' ', ''),
+                              phone: appController.selectedCountries?.code == 'SA'
+                                  ? '+966${widget.phoneController.text.replaceAll(' ', '')}'
+                                  : widget.phoneController.text.replaceAll(' ', ''),
+                              total: cartController.totalAfterDiscount.toString(),
+                              listProduct: getCartItem(),
+                              setPaid: false,
+                              couponCode: widget.couponController.text,
+                              listShipment: [
+                                {
+                                  "method_id": appController.selectedAddress,
+                                  "method_title": appController.selectedAddressName,
+                                  "total": appController.selectedAddress == 'redbox_pickup_delivery'&&appController.selectedPaymentMethods == 'cod'
+                                      ? '${17+17}'
+                                      : appController.selectedAddress == 'naqel_shipping'&&appController.selectedPaymentMethods == 'cod'
+                                      ? '${30+17}'
+                                      :appController.selectedPaymentMethods == 'cod'? '17'
+                                      : appController.selectedAddress == 'redbox_pickup_delivery'
+                                      ? '17'
+                                      : appController.selectedAddress == 'naqel_shipping'
+                                      ? "30.00"
+                                      : '0',
+                                }
+                              ],
+                              listMetaData: appController.myMarker != null
+                                  ? [
+                                {
+                                  'key': '_redbox_point',
+                                  'value':
+                                  "${appController.myMarker?.point?.pointName} - ${appController.myMarker?.point?.city} - ${appController.myMarker?.point?.address?.street}",
+                                },
+                                {
+                                  'key': '_redbox_point_id',
+                                  'value': "${appController.myMarker?.point?.id}",
+                                },
+                              ]
+                                  : [],
+                            );
+
+                          }
                           else if (appController.selectedPaymentMethods == 'paytabs_all') {
                             payPressed(
                                 generateConfig: generateConfig(),

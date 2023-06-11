@@ -318,6 +318,8 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                             var product = ProductApies.productApies.listProduct;
                         print(index);
                         return PerfumeProductItem(
+                          variations: ProductApies.productApies.listProduct?[index].variations,
+
                           id: ProductApies.productApies.listProduct?[index].id.toString(),
                           imgUrl: ProductApies.productApies.listProduct?[index].images?[0].src ?? '',
                           // brandName: 'brand',
@@ -382,6 +384,7 @@ class _ShowAllFamousProductScreenState extends State<ShowAllFamousProductScreen>
                     delegate: SliverChildBuilderDelegate(
                           (_, index) {
                         return PerfumeProductItem(
+                          variations: lastViewedProduct[index].variations,
                           id: lastViewedProduct[index].images?[0].id.toString(),
                           imgUrl: lastViewedProduct[index].images?[0].src ?? '',
                           brandName: lastViewedProduct[index].brands!.isNotEmpty

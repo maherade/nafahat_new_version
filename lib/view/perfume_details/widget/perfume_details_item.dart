@@ -70,6 +70,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                     onPageChanged: (index) {
                       setState(() => _current = index);
                       controller.setVariations(widget.variations![index]);
+                      print(controller.variations?.variationId.toString());
                       // controller.setPriceBeforeDiscountVariations( widget.variations?[index].displayRegularPrice.toString());
                       // controller.setPriceAfterDiscountVariations( widget.variations?[index].displayPrice.toString());
                     },

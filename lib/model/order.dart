@@ -392,7 +392,7 @@ class LineItems {
 }
 
 class Image {
-  String? id;
+  dynamic id;
   String? src;
 
   Image({this.id, this.src});

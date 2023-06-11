@@ -355,6 +355,7 @@ class _GiftScreenState extends State<GiftScreen> {
 
                                 print(index);
                             return PerfumeProductItem(
+                              variations: ProductApies.productApies.listGiftProduct?[index].variations,
                               id: ProductApies.productApies.listGiftProduct?[index].id.toString(),
                               imgUrl:  ProductApies.productApies.listGiftProduct?[index].images?[0].src ?? '',
                               brandName:  ProductApies.productApies.listGiftProduct![index].brands!.isNotEmpty
@@ -419,6 +420,7 @@ class _GiftScreenState extends State<GiftScreen> {
                         delegate: SliverChildBuilderDelegate(
                               (_, index) {
                             return PerfumeProductItem(
+                              variations: lastViewedProduct[index].variations,
                               id: lastViewedProduct[index].images?[0].id.toString(),
                               imgUrl: lastViewedProduct[index].images?[0].src ?? '',
                               brandName: lastViewedProduct[index].brands!.isNotEmpty

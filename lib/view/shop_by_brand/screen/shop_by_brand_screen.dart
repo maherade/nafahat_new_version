@@ -312,6 +312,7 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
                                   var product = ProductApies.productApies.listProductByBrand;
                                   print(index);
                                   return PerfumeProductItem(
+                                    variations: ProductApies.productApies.listProductByBrand?[index].variations,
                                     id: ProductApies.productApies.listProductByBrand?[index].id.toString(),
                                     imgUrl: ProductApies.productApies.listProductByBrand?[index].images?[0].src ?? '',
                                     brandName: ProductApies.productApies.listProductByBrand![index].brands!.isNotEmpty
@@ -400,6 +401,8 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
 
                         print(index);
                         return PerfumeProductItem(
+                          variations:  lastViewedProduct[index].variations,
+
                           id: lastViewedProduct[index].id.toString(),
                           imgUrl: lastViewedProduct[index].images?[0].src ?? '',
                           brandName: lastViewedProduct[index].brands!.isNotEmpty

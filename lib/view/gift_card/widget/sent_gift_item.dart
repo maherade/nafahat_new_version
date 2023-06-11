@@ -1,6 +1,5 @@
 import 'package:intl/intl.dart' as intl;
 import 'package:intl_phone_field/intl_phone_field.dart';
-import 'package:perfume_store_mobile_app/model/care_product_response.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field_with_top_title.dart';

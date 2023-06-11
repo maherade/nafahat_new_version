@@ -285,6 +285,8 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                                   var product = ProductApies.productApies.listProductByCategory;
                                   print(index);
                                   return PerfumeProductItem(
+                                    variations: ProductApies.productApies.listProductByCategory?[index].variations,
+
                                     id: ProductApies.productApies.listProductByCategory?[index].id.toString(),
                                     imgUrl: ProductApies.productApies.listProductByCategory?[index].images?[0].src ?? '',
                                     brandName: ProductApies.productApies.listProductByCategory![index].brands!.isNotEmpty
@@ -350,6 +352,8 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                           delegate: SliverChildBuilderDelegate(
                             (_, index) {
                               return PerfumeProductItem(
+                                variations: lastViewedProduct[index].variations,
+
                                 id: lastViewedProduct[index].images?[0].id.toString(),
                                 imgUrl: lastViewedProduct[index].images?[0].src ?? '',
                                 brandName: lastViewedProduct[index].brands!.isNotEmpty

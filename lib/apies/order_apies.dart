@@ -153,7 +153,7 @@ class OrderApies {
       };
 
       ProgressDialogUtils.show();
-
+     log(data.toString());
       final response = await Dio().post('https://nafahat.com/wp-json/wc/v3/orders', options: options, data: data);
 
       if (response.statusCode! >= 200) {
@@ -172,7 +172,7 @@ class OrderApies {
       }
     } on DioError catch (err) {
       ProgressDialogUtils.hide();
-      Helper.getSheetError(err.response!.data);
+      Helper.getSheetError(err.response!.data['message'].toString());
       print(err.response);
       return Future.error(err);
     } catch (err) {

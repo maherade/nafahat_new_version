@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:flutter_svprogresshud/flutter_svprogresshud.dart';
+import 'package:full_screen_image/full_screen_image.dart';
 import 'package:perfume_store_mobile_app/controller/app_controller.dart';
 import 'package:perfume_store_mobile_app/controller/cart_controller.dart';
+import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 
 import '../../../apies/order_apies.dart';
 import '../../../controller/auth_controller.dart';
@@ -458,7 +460,7 @@ class ConfirmWidget extends StatelessWidget {
                                  alignment: AlignmentDirectional.topStart,
                                  children: [
                                    Container(
-                                     padding: EdgeInsets.all(15.w),
+                                     padding: EdgeInsets.all(10.w),
                                      decoration: BoxDecoration(
                                          color: Colors.white,
                                          border: Border.all(
@@ -490,6 +492,27 @@ class ConfirmWidget extends StatelessWidget {
                                                "${'cod_value'.tr} : 17 ${'sar_value'.tr}",
                                                fontSize: 10.sp,
                                                textAlign: TextAlign.center,
+                                             ),
+                                           ],
+                                         ):payment[index].id == 'bacs'?Column(
+                                           children: [
+                                             SizedBox(
+                                               height: 10.h,
+                                             ),
+                                             FullScreenWidget(
+                                               disposeLevel: DisposeLevel.Medium,
+                                               child:SPHelper.spHelper.getDefaultLanguage()=='en'? Image.asset(
+                                                 'assets/images/english_bank.png',
+                                                 width: double.infinity,
+                                                 fit: BoxFit.fill,
+
+                                                 height: 60.h,
+                                               ):Image.asset(
+                                                 'assets/images/arabic_bank.png',
+                                                 width: double.infinity,
+                                                 fit: BoxFit.fill,
+                                                 height: 60.h,
+                                               ),
                                              ),
                                            ],
                                          )

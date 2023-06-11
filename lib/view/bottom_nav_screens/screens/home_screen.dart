@@ -21,7 +21,6 @@ import '../../../controller/posts_controller.dart';
 import '../../../controller/product_controller.dart';
 import '../../../model/ads_response.dart';
 import '../../../model/decode_token_response.dart';
-import '../../../model/sub_category_product.dart';
 import '../../../services/app_imports.dart';
 import '../../../services/sp_helper.dart';
 import '../../articles/screen/article_detail_screen.dart';
@@ -516,6 +515,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   scrollDirection: Axis.horizontal,
                                   itemBuilder: (_, index) {
                                     return PerfumeProductItem(
+                                      variations: famousProduct[index].variations,
                                       id: famousProduct[index].id.toString(),
                                       imgUrl: famousProduct[index].images?[0].src ?? '',
                                       brandName: famousProduct[index].brands!.isNotEmpty
@@ -619,6 +619,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: giftProduct[index].variations,
                                   id: giftProduct[index].id.toString(),
                                   imgUrl: giftProduct[index].images?[0].src ?? '',
                                   brandName: giftProduct[index].brands!.isNotEmpty
@@ -782,6 +783,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: ramadanCare[index].variations,
                                   id: ramadanCare[index].id.toString(),
                                   imgUrl: ramadanCare[index].images?[0].src ?? '',
                                   brandName: ramadanCare[index].brands!.isNotEmpty
@@ -878,6 +880,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: careProduct[index].variations,
                                   id: careProduct[index].id.toString(),
                                   imgUrl: careProduct[index].images?[0].src ?? '',
                                   brandName: careProduct[index].brands!.isNotEmpty
@@ -993,6 +996,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: lensesProduct[index].variations,
                                   id: lensesProduct[index].id.toString(),
                                   imgUrl: lensesProduct[index].images?[0].src ?? '',
                                   brandName: lensesProduct[index].brands!.isNotEmpty
@@ -1091,6 +1095,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: ramadanOffers[index].variations,
                                   id: ramadanOffers[index].id.toString(),
                                   imgUrl: ramadanOffers[index].images?[0].src ?? '',
                                   brandName: ramadanOffers[index].brands!.isNotEmpty
@@ -1189,6 +1194,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: topMakeup[index].variations,
                                   id: topMakeup[index].id.toString(),
                                   imgUrl: topMakeup[index].images?[0].src ?? '',
                                   brandName: topMakeup[index].brands!.isNotEmpty
@@ -1307,6 +1313,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: topDevices[index].variations,
                                   id: topDevices[index].id.toString(),
                                   imgUrl: topDevices[index].images?[0].src ?? '',
                                   brandName: topDevices[index].brands!.isNotEmpty
@@ -1405,6 +1412,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: topNails[index].variations,
                                   id: topNails[index].id.toString(),
                                   imgUrl: topNails[index].images?[0].src ?? '',
                                   brandName: topNails[index].brands!.isNotEmpty
@@ -1503,6 +1511,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: topPerfume[index].variations,
+
                                   id: topPerfume[index].id.toString(),
                                   imgUrl: topPerfume[index].images?[0].src ?? '',
                                   brandName: topPerfume[index].brands!.isNotEmpty
@@ -1599,6 +1609,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: lessThanProduct[index].variations,
+
                                   id: lessThanProduct[index].id.toString(),
                                   imgUrl: lessThanProduct[index].images?[0].src ?? '',
                                   brandName: lessThanProduct[index].brands!.isNotEmpty
@@ -1698,6 +1710,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: listOffersProduct[index + 7].variations,
+
                                   id: listOffersProduct[index + 7].id.toString(),
                                   imgUrl: listOffersProduct[index + 7].images?[0].src ?? '',
                                   brandName: listOffersProduct[index + 7].brands!.isNotEmpty
@@ -1802,6 +1816,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (_, index) {
                                 return PerfumeProductItem(
+                                  variations: recentlyAddedProduct[index].variations,
+
                                   id: recentlyAddedProduct[index].id.toString(),
                                   imgUrl: recentlyAddedProduct[index].images?[0].src ?? '',
                                   brandName: recentlyAddedProduct[index].brands!.isNotEmpty
