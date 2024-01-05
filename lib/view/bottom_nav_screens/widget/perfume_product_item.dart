@@ -1,17 +1,14 @@
-import 'dart:math';
-
 import 'package:flutter_svg/svg.dart';
 import 'package:perfume_store_mobile_app/controller/favourite_controller.dart';
+import 'package:perfume_store_mobile_app/view/auth/screens/login_screen.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_dialog.dart';
-import 'package:transparent_image/transparent_image.dart';
 
 import '../../../controller/cart_controller.dart';
-import '../../../model/care_product_response.dart';
 import '../../../services/app_imports.dart';
+import '../../../services/sp_helper.dart';
 import '../../custom_widget/custom_rate_write_bar.dart';
 
 class PerfumeProductItem extends StatelessWidget {
-
   final String? id;
   final String? imgUrl;
   final String? brandName;
@@ -23,27 +20,26 @@ class PerfumeProductItem extends StatelessWidget {
   final VoidCallback? onTapBuy;
   final List<dynamic>? variations;
 
-
-  const PerfumeProductItem(
-      {super.key,
-      required this.id,
-      this.imgUrl,
-      this.brandName,
-      this.perfumeName,
-      this.perfumeRate,
-      this.rateCount,
-      this.priceBeforeDiscount,
-      this.priceAfterDiscount,
-      this.onTapBuy,
-      this.variations,
-      });
+  const PerfumeProductItem({
+    super.key,
+    required this.id,
+    this.imgUrl,
+    this.brandName,
+    this.perfumeName,
+    this.perfumeRate,
+    this.rateCount,
+    this.priceBeforeDiscount,
+    this.priceAfterDiscount,
+    this.onTapBuy,
+    this.variations,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-        GetBuilder<FavouriteController>(
-          init: FavouriteController(),
+        GetBuilder<FavoriteController>(
+          init: FavoriteController(),
           builder: (favourite) {
             return Stack(
               alignment: AlignmentDirectional.topEnd,
@@ -51,7 +47,7 @@ class PerfumeProductItem extends StatelessWidget {
                 GestureDetector(
                   onTap: onTapBuy,
                   child: Container(
-                    padding: EdgeInsets.all(12.w),
+                    padding: const EdgeInsets.all(12),
                     width: 162.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
@@ -73,7 +69,7 @@ class PerfumeProductItem extends StatelessWidget {
                               child: CachedNetworkImageShare(
                                 urlImage: imgUrl,
                                 fit: BoxFit.contain,
-                                heigthNumber: 120.h,
+                                heigthNumber: 120,
                                 widthNumber: double.infinity,
                                 borderRadious: 14.r,
                               ),
@@ -97,29 +93,29 @@ class PerfumeProductItem extends StatelessWidget {
                         //     )
                         //   ],
                         // ),
-                        SizedBox(
-                          height: 17.h,
+                        const SizedBox(
+                          height: 10,
                         ),
                         CustomText(
                           brandName,
                           color: AppColors.itemGrey,
-                          fontSize: 12.sp,
+                          fontSize: 10.sp,
                           fontWeight: FontWeight.normal,
                         ),
                         CustomText(
                           perfumeName,
-                          fontSize: 14.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.normal,
-                          maxLines: 2,
+                          maxLines: 1,
                         ),
                         Row(
                           children: [
                             CustomRateRead(
-                              size: 15.w,
+                              size: 10.sp,
                               rate: perfumeRate,
                             ),
                             SizedBox(
-                              width: 4.w,
+                              width: 2.w,
                             ),
                             CustomText(
                               rateCount,
@@ -131,13 +127,19 @@ class PerfumeProductItem extends StatelessWidget {
                         ),
                         Row(
                           children: [
-                            CustomText(priceBeforeDiscount,
-                                color: AppColors.priceBrownColor,
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.normal,
-                                underline: true),
-                            CustomText('sar_value'.tr,
-                                color: AppColors.priceBrownColor, fontSize: 16.sp, fontWeight: FontWeight.normal),
+                            CustomText(
+                              priceBeforeDiscount,
+                              color: AppColors.priceBrownColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.normal,
+                              underline: true,
+                            ),
+                            CustomText(
+                              'sar_value'.tr,
+                              color: AppColors.priceBrownColor,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.normal,
+                            ),
                           ],
                         ),
                         Row(
@@ -145,12 +147,12 @@ class PerfumeProductItem extends StatelessWidget {
                             CustomText(
                               priceAfterDiscount,
                               color: AppColors.greenText,
-                              fontSize: 16.sp,
+                              fontSize: 14.sp,
                             ),
                             CustomText(
                               'sar_value'.tr,
                               color: AppColors.greenText,
-                              fontSize: 16.sp,
+                              fontSize: 14.sp,
                             ),
                           ],
                         ),
@@ -162,20 +164,27 @@ class PerfumeProductItem extends StatelessWidget {
                               builder: (cart) {
                                 return GestureDetector(
                                   onTap: () {
-                                if(variations==null){
-                                  bool added = cart.addItem(
-                                    imgurl: imgUrl ?? '',
-                                    name: perfumeName ?? '',
-                                    price: double.parse(priceAfterDiscount ?? '0.0'),
-                                    quantitiy: 1,
-                                    pdtid: id ?? '',
-                                  );
-                                  if (added) {
-                                    CustomDialog.customDialog.showCartDialog();
-                                  }
-                                }else{
-                                  onTapBuy!();
-                                }
+                                    if (SPHelper.spHelper.getToken() == null) {
+                                      Get.offAll(() => const LoginScreen());
+                                    } else {
+                                      if (variations == null) {
+                                        bool added = cart.addItem(
+                                          imgurl: imgUrl ?? '',
+                                          name: perfumeName ?? '',
+                                          price: double.parse(
+                                            priceAfterDiscount ?? '0.0',
+                                          ),
+                                          quantitiy: 1,
+                                          pdtid: id ?? '',
+                                        );
+                                        if (added) {
+                                          CustomDialog.customDialog
+                                              .showCartDialog();
+                                        }
+                                      } else {
+                                        onTapBuy!();
+                                      }
+                                    }
                                   },
                                   child: SvgPicture.asset(
                                     'assets/svg/buy.svg',
@@ -192,16 +201,22 @@ class PerfumeProductItem extends StatelessWidget {
                 ),
                 GestureDetector(
                   onTap: () {
-                    if (favourite.items.containsKey(id)) {
-                      bool removed = favourite.removeItem(id!);
-                      if (removed) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                            content: Text(' تمت الحذف من المفضلة بنجاح'),
-                            duration: Duration(milliseconds: 300),
-                            backgroundColor: AppColors.primaryColor));
-                      }
+                    if (SPHelper.spHelper.getToken() == null) {
+                      Get.offAll(() => const LoginScreen());
                     } else {
-                      bool added = favourite.addItem(
+                      if (favourite.items.containsKey(id)) {
+                        bool removed = favourite.removeItem(id!);
+                        if (removed) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(' تمت الحذف من المفضلة بنجاح'),
+                              duration: Duration(milliseconds: 300),
+                              backgroundColor: AppColors.primaryColor,
+                            ),
+                          );
+                        }
+                      } else {
+                        bool added = favourite.addItem(
                           brandName: brandName,
                           imgUrl: imgUrl,
                           pdtid: id,
@@ -209,24 +224,28 @@ class PerfumeProductItem extends StatelessWidget {
                           perfumeRate: double.parse(rateCount ?? '0.0'),
                           priceAfterDiscount: priceAfterDiscount,
                           priceBeforeDiscount: priceBeforeDiscount,
-                          rateCount: rateCount);
-                      if (added) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                          content: Text(' تمت الإضافة إلى المفضلة بنجاح'),
-                          duration: Duration(milliseconds: 300),
-                          backgroundColor: AppColors.primaryColor,
-                        ));
+                          rateCount: rateCount,
+                        );
+                        if (added) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(' تمت الإضافة إلى المفضلة بنجاح'),
+                              duration: Duration(milliseconds: 300),
+                              backgroundColor: AppColors.primaryColor,
+                            ),
+                          );
+                        }
                       }
                     }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(10.0),
                     child: favourite.items.containsKey(id)
-                        ? Icon(
+                        ? const Icon(
                             Icons.favorite_outlined,
                             color: Colors.redAccent,
                           )
-                        : Icon(Icons.favorite_border),
+                        : const Icon(Icons.favorite_border),
                   ),
                 ),
               ],

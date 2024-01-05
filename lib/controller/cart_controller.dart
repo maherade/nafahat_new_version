@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart';
 
 import '../model/product_detail_response.dart';
 
@@ -11,26 +9,33 @@ class CartItem {
   double? quantity;
   double? price;
 
-  CartItem(
-      {this.id, this.name,this.imgurl, this.quantity, this.price});
+  CartItem({
+    this.id,
+    this.name,
+    this.imgurl,
+    this.quantity,
+    this.price,
+  });
 }
 
 class CartController extends GetxController {
-  Variations? variations ;
- setVariations(Variations? value){
-   variations = value ;
-   update();
- }
+  Variations? variations;
 
+  setVariations(Variations? value) {
+    variations = value;
+    update();
+  }
 
   double quantitiy = 1.0;
-  increaseQuentity(){
+
+  increaseQuentity() {
     quantitiy++;
     totalPrice();
     update();
   }
-  decreaseQuentity(){
-    if(quantitiy>1){
+
+  decreaseQuentity() {
+    if (quantitiy > 1) {
       quantitiy--;
       totalPrice();
       update();
@@ -47,33 +52,37 @@ class CartController extends GetxController {
     return _items.length;
   }
 
-  bool addItem(
-      {String? imgurl,
-        String? pdtid,
-        String? name,
-        double? quantitiy,
-        double? price}) {
+  bool addItem({
+    String? imgurl,
+    String? pdtid,
+    String? name,
+    double? quantitiy,
+    double? price,
+  }) {
     if (_items.containsKey(pdtid)) {
       _items.update(
-          pdtid!,
-              (existingCartItem) => CartItem(
-              id: existingCartItem.id,
-              name: existingCartItem.name,
-              imgurl: existingCartItem.imgurl,
-              quantity: existingCartItem.quantity! + 1,
-              price: existingCartItem.price));
+        pdtid!,
+        (existingCartItem) => CartItem(
+          id: existingCartItem.id,
+          name: existingCartItem.name,
+          imgurl: existingCartItem.imgurl,
+          quantity: existingCartItem.quantity! + 1,
+          price: existingCartItem.price,
+        ),
+      );
       totalPrice();
       update();
     } else {
       _items.putIfAbsent(
-          pdtid!,
-              () => CartItem(
-            imgurl: imgurl,
-            name: name,
-            id: pdtid,
-            quantity: quantitiy,
-            price: price,
-          ));
+        pdtid!,
+        () => CartItem(
+          imgurl: imgurl,
+          name: name,
+          id: pdtid,
+          quantity: quantitiy,
+          price: price,
+        ),
+      );
       totalPrice();
       update();
     }
@@ -95,13 +104,15 @@ class CartController extends GetxController {
     }
     if (_items[id]!.quantity! > 1) {
       _items.update(
-          id,
-              (existingCartItem) => CartItem(
-              imgurl: existingCartItem.imgurl,
-              id: existingCartItem.id,
-              name: existingCartItem.name,
-              quantity: existingCartItem.quantity! - 1,
-              price: existingCartItem.price));
+        id,
+        (existingCartItem) => CartItem(
+          imgurl: existingCartItem.imgurl,
+          id: existingCartItem.id,
+          name: existingCartItem.name,
+          quantity: existingCartItem.quantity! - 1,
+          price: existingCartItem.price,
+        ),
+      );
       totalPrice();
       update();
     }
@@ -126,6 +137,7 @@ class CartController extends GetxController {
 
   double total = 0;
   double totalAfterDiscount = 0;
+
   void totalPrice() {
     total = 0;
     totalAfterDiscount = 0;
@@ -134,12 +146,13 @@ class CartController extends GetxController {
       totalAfterDiscount += (value.price! * value.quantity!);
       update();
     });
-
   }
+
   void addToPrice(value) {
     totalAfterDiscount += value;
     update();
   }
+
   void subtractFromPrice(value) {
     totalAfterDiscount -= value;
     update();

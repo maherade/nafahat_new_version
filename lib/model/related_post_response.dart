@@ -1,7 +1,8 @@
 class ListRelatedPostsResponse {
-  List<RelatedPostsResponse>? listRelatedPostResponse ;
+  List<RelatedPostsResponse>? listRelatedPostResponse;
 
   ListRelatedPostsResponse({this.listRelatedPostResponse});
+
   ListRelatedPostsResponse.fromJson(json) {
     if (json != null) {
       listRelatedPostResponse = <RelatedPostsResponse>[];
@@ -9,10 +10,8 @@ class ListRelatedPostsResponse {
         listRelatedPostResponse!.add(RelatedPostsResponse.fromJson(v));
       });
     }
-
   }
 }
-
 
 class RelatedPostsResponse {
   int? id;
@@ -23,45 +22,46 @@ class RelatedPostsResponse {
   List<int>? categories;
   YoastHeadJson? yoastHeadJson;
 
-  RelatedPostsResponse(
-      {this.id,
-        this.date,
-        this.title,
-        this.content,
-        this.excerpt,
-        this.categories,
-        this.yoastHeadJson});
+  RelatedPostsResponse({
+    this.id,
+    this.date,
+    this.title,
+    this.content,
+    this.excerpt,
+    this.categories,
+    this.yoastHeadJson,
+  });
 
   RelatedPostsResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     date = json['date'];
-    title = json['title'] != null ? new Title.fromJson(json['title']) : null;
+    title = json['title'] != null ? Title.fromJson(json['title']) : null;
     content =
-    json['content'] != null ? new Content.fromJson(json['content']) : null;
+        json['content'] != null ? Content.fromJson(json['content']) : null;
     excerpt =
-    json['excerpt'] != null ? new Content.fromJson(json['excerpt']) : null;
+        json['excerpt'] != null ? Content.fromJson(json['excerpt']) : null;
     categories = json['categories'].cast<int>();
     yoastHeadJson = json['yoast_head_json'] != null
-        ? new YoastHeadJson.fromJson(json['yoast_head_json'])
+        ? YoastHeadJson.fromJson(json['yoast_head_json'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date'] = this.date;
-    if (this.title != null) {
-      data['title'] = this.title!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['date'] = date;
+    if (title != null) {
+      data['title'] = title!.toJson();
     }
-    if (this.content != null) {
-      data['content'] = this.content!.toJson();
+    if (content != null) {
+      data['content'] = content!.toJson();
     }
-    if (this.excerpt != null) {
-      data['excerpt'] = this.excerpt!.toJson();
+    if (excerpt != null) {
+      data['excerpt'] = excerpt!.toJson();
     }
-    data['categories'] = this.categories;
-    if (this.yoastHeadJson != null) {
-      data['yoast_head_json'] = this.yoastHeadJson!.toJson();
+    data['categories'] = categories;
+    if (yoastHeadJson != null) {
+      data['yoast_head_json'] = yoastHeadJson!.toJson();
     }
     return data;
   }
@@ -77,8 +77,8 @@ class Title {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['rendered'] = this.rendered;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rendered'] = rendered;
     return data;
   }
 }
@@ -95,9 +95,9 @@ class Content {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['rendered'] = this.rendered;
-    data['protected'] = this.protected;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['rendered'] = rendered;
+    data['protected'] = protected;
     return data;
   }
 }
@@ -111,15 +111,15 @@ class YoastHeadJson {
     if (json['og_image'] != null) {
       ogImage = <OgImage>[];
       json['og_image'].forEach((v) {
-        ogImage!.add(new OgImage.fromJson(v));
+        ogImage!.add(OgImage.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.ogImage != null) {
-      data['og_image'] = this.ogImage!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (ogImage != null) {
+      data['og_image'] = ogImage!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -141,23 +141,11 @@ class OgImage {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['width'] = this.width;
-    data['height'] = this.height;
-    data['url'] = this.url;
-    data['type'] = this.type;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['width'] = width;
+    data['height'] = height;
+    data['url'] = url;
+    data['type'] = type;
     return data;
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-

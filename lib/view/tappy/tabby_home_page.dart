@@ -4,7 +4,6 @@ import 'package:perfume_store_mobile_app/mock.dart';
 import 'package:perfume_store_mobile_app/services/tabby_flutter_inapp_sdk.dart';
 import 'package:perfume_store_mobile_app/view/tappy/chechout_page.dart';
 
-
 class TabbyHomePage extends StatefulWidget {
   const TabbyHomePage({Key? key}) : super(key: key);
 
@@ -46,14 +45,14 @@ class _TabbyHomePageState extends State<TabbyHomePage> {
         payment: mockPayload,
       ));
 
-      print('Session id:  ${s.sessionId}');
+      debugPrint('Session id:  ${s.sessionId}');
 
       setState(() {
         session = s;
       });
       _setStatus('created');
     } catch (e, s) {
-      printError(e, s);
+      debugPrintError(e, s);
       _setStatus('error');
     }
   }

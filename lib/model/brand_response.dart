@@ -1,19 +1,20 @@
 class ListBrandResponse {
-  List<BrandResponse>? listBrandResponse ;
+  List<BrandResponse>? listBrandResponse;
 
   ListBrandResponse({this.listBrandResponse});
+
   ListBrandResponse.fromJson(json) {
     if (json != null) {
       listBrandResponse = <BrandResponse>[];
       json.forEach((v) {
-        if(v['Logo']!=false&&v['Logo']!=null){
+        if (v['Logo'] != false && v['Logo'] != null) {
           listBrandResponse!.add(BrandResponse.fromJson(v));
         }
       });
     }
-
   }
 }
+
 class BrandResponse {
   Data? data;
   String? logo;
@@ -22,18 +23,18 @@ class BrandResponse {
   BrandResponse({this.data, this.logo, this.category});
 
   BrandResponse.fromJson(Map<String, dynamic> json) {
-    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
+    data = json['data'] != null ? Data.fromJson(json['data']) : null;
     logo = json['Logo'];
     category = json['Category'].cast<int>();
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     if (this.data != null) {
       data['data'] = this.data!.toJson();
     }
-    data['Logo'] = this.logo;
-    data['Category'] = this.category;
+    data['Logo'] = logo;
+    data['Category'] = category;
     return data;
   }
 }
@@ -54,13 +55,11 @@ class Data {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['term_id'] = this.termId;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['term_group'] = this.termGroup;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['term_id'] = termId;
+    data['name'] = name;
+    data['slug'] = slug;
+    data['term_group'] = termGroup;
     return data;
   }
 }
-
-

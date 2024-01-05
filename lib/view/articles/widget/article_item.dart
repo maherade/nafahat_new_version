@@ -1,19 +1,28 @@
 import '../../../services/app_imports.dart';
 
 class ArticleItem extends StatelessWidget {
-final String? imgUrl;
-final String? category;
-final String? date;
-final String? title;
-final String? description;
-final VoidCallback? onTapReadMore;
+  final String? imgUrl;
+  final String? category;
+  final String? date;
+  final String? title;
+  final String? description;
+  final VoidCallback? onTapReadMore;
 
-  const ArticleItem({super.key, this.imgUrl, this.category, this.date, this.title, this.description, this.onTapReadMore});
+  const ArticleItem({
+    super.key,
+    this.imgUrl,
+    this.category,
+    this.date,
+    this.title,
+    this.description,
+    this.onTapReadMore,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(horizontal: 21.w,vertical: 8.h),
+      margin: EdgeInsets.symmetric(horizontal: 21.w, vertical: 8.h),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
@@ -24,10 +33,11 @@ final VoidCallback? onTapReadMore;
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CachedNetworkImageShare(
-              urlImage:imgUrl,
-              fit: BoxFit.cover,
-              heigthNumber: 171.h,
-              widthNumber: double.infinity),
+            urlImage: imgUrl,
+            fit: BoxFit.cover,
+            heigthNumber: 171.h,
+            widthNumber: double.infinity,
+          ),
           SizedBox(
             height: 18.h,
           ),
@@ -82,8 +92,14 @@ final VoidCallback? onTapReadMore;
                           maxLines: 4,
                         ),
                       ),
-                      SizedBox(width: 2.w,),
-                      CustomText('مشاهدة المزيد',fontSize: 12.sp,color: AppColors.primaryColor,),
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      CustomText(
+                        'مشاهدة المزيد',
+                        fontSize: 12.sp,
+                        color: AppColors.primaryColor,
+                      ),
                     ],
                   ),
                   SizedBox(

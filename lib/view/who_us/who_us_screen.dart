@@ -9,7 +9,6 @@ class WhoUsScreen extends StatefulWidget {
   State<WhoUsScreen> createState() => _WhoUsScreenState();
 }
 
-
 class _WhoUsScreenState extends State<WhoUsScreen> {
   ContactUsController contactUsController = Get.find();
 
@@ -22,34 +21,54 @@ class _WhoUsScreenState extends State<WhoUsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: Column(
         children: [
-          SizedBox(height: 60.h,),
+          SizedBox(
+            height: 60.h,
+          ),
           Row(
             children: [
-              IconButton(onPressed: (){Get.back();}, icon: Icon(Icons.arrow_back)),
-              CustomText('who_us_value'.tr,fontSize: 15.sp,),
+              IconButton(
+                onPressed: () {
+                  Get.back();
+                },
+                icon: const Icon(Icons.arrow_back),
+              ),
+              CustomText(
+                'who_us_value'.tr,
+                fontSize: 15.sp,
+              ),
             ],
           ),
-          SizedBox(height: 10.h,),
+          SizedBox(
+            height: 10.h,
+          ),
           Expanded(
             child: Obx(
-                  () {
-                var commonQuestion =
-                    contactUsController.getCommonQuestionData?.value.commonQuestions;
-                return commonQuestion == null ?const Center(
-                    child: CircularProgressIndicator(
-                      color: AppColors.primaryColor,)):SingleChildScrollView(
+              () {
+                var commonQuestion = contactUsController
+                    .getCommonQuestionData?.value.commonQuestions;
+                return commonQuestion == null
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: AppColors.primaryColor,
+                        ),
+                      )
+                    : SingleChildScrollView(
                         child: Padding(
-                          padding:  EdgeInsets.all(20.w),
+                          padding: EdgeInsets.all(20.w),
                           child: Column(
-                  children: [
-                    // CustomText(commonQuestion[0].title,fontFamily: 'din',fontSize: 18.sp,),
-                    // SizedBox(height: 20.h,),
-                    CustomText(commonQuestion[0].content,fontFamily: 'din',fontSize: 15.sp,fontWeight: FontWeight.normal,),
-                  ],
-                ),
+                            children: [
+                              // CustomText(commonQuestion[0].title,fontFamily: 'din',fontSize: 18.sp,),
+                              // SizedBox(height: 20.h,),
+                              CustomText(
+                                commonQuestion[0].content,
+                                fontFamily: 'din',
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ],
+                          ),
                         ),
                       );
               },

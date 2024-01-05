@@ -1,13 +1,13 @@
 import 'package:flutter_svg/svg.dart';
 import 'package:perfume_store_mobile_app/apies/contact_us_apies.dart';
 import 'package:perfume_store_mobile_app/controller/contact_us_controller.dart';
-import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 
 import '../../../services/app_imports.dart';
-import '../../custom_widget/custom_text_form_field_with_top_title.dart';
 import '../widget/question_item.dart';
 
 class CommonQuestionScreen extends StatefulWidget {
+  const CommonQuestionScreen({super.key});
+
   @override
   State<CommonQuestionScreen> createState() => _CommonQuestionScreenState();
 }
@@ -32,22 +32,23 @@ class _CommonQuestionScreenState extends State<CommonQuestionScreen> {
         () {
           var commonQuestion =
               contactUsController.getCommonQuestionData?.value.commonQuestions;
-          return  Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: 50.h,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-                      child: const BackButton(),
-                    ),
-                    commonQuestion == null
-                        ? const Center(
-                        child: CircularProgressIndicator(
-                          color: AppColors.primaryColor,
-                        ))
-                        :  Expanded(
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
+                height: 50.h,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+                child: const BackButton(),
+              ),
+              commonQuestion == null
+                  ? const Center(
+                      child: CircularProgressIndicator(
+                        color: AppColors.primaryColor,
+                      ),
+                    )
+                  : Expanded(
                       child: SingleChildScrollView(
                         physics: const BouncingScrollPhysics(),
                         child: Column(
@@ -57,7 +58,9 @@ class _CommonQuestionScreenState extends State<CommonQuestionScreen> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.0.w),
                                 border: Border.all(
-                                    width: 1.0, color: AppColors.greyBorder),
+                                  width: 1.0,
+                                  color: AppColors.greyBorder,
+                                ),
                               ),
                               child: Column(
                                 children: [
@@ -88,7 +91,8 @@ class _CommonQuestionScreenState extends State<CommonQuestionScreen> {
                                   ),
                                   ListView.builder(
                                     shrinkWrap: true,
-                                    physics: const NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     itemCount: commonQuestion.length,
                                     itemBuilder: (context, index) {
                                       return QuestionItem(
@@ -104,12 +108,10 @@ class _CommonQuestionScreenState extends State<CommonQuestionScreen> {
                         ),
                       ),
                     )
-                  ],
-                );
+            ],
+          );
         },
       ),
     );
   }
 }
-
-

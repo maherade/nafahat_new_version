@@ -3,10 +3,11 @@ import 'package:flutter_html/flutter_html.dart';
 import '../../../services/app_imports.dart';
 
 class OverviewItem extends StatelessWidget {
-final String? title;
-final String? advantages;
+  final String? title;
+  final String? advantages;
 
-  const OverviewItem({super.key,this.title, this.advantages});
+  const OverviewItem({super.key, this.title, this.advantages});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,23 +17,21 @@ final String? advantages;
         children: [
           SizedBox(
             width: double.infinity,
-
             child: Html(
-             data: advantages,
+              data: advantages,
               style: {
                 "h2": Style(
                   fontSize: FontSize(20.0),
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'din'
+                  fontFamily: 'din',
                 ),
                 "p": Style(
                   fontSize: FontSize(15.0),
-                  padding: EdgeInsets.symmetric(vertical: 10.h),
-                  lineHeight: LineHeight(1.8),
+                  padding: HtmlPaddings.symmetric(vertical: 10.h),
+                  lineHeight: const LineHeight(1.8),
                   fontWeight: FontWeight.normal,
-                  fontFamily: 'din'
+                  fontFamily: 'din',
                 ),
-
               },
             ),
           ),
@@ -96,7 +95,6 @@ final String? advantages;
           //   ))
           //       .toList(),
           // ),
-
         ],
       ),
     );

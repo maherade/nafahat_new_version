@@ -5,120 +5,132 @@ import '../Skelton.dart';
 import '../custom_rate_write_bar.dart';
 
 class SliverLoadingProduct extends StatelessWidget {
-final int count ;
+  final int count;
 
-  const SliverLoadingProduct(this.count);
+  const SliverLoadingProduct(this.count, {super.key});
+
   @override
   Widget build(BuildContext context) {
-    return  SliverGrid(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.45.h,
-        crossAxisCount: 2,
-        crossAxisSpacing: 11.w,
-        mainAxisSpacing: 16.h,
-      ),
-     delegate: SliverChildBuilderDelegate(
-       childCount: count,
-       (context, index) => Container(
-         padding: EdgeInsets.all(12.w),
-         decoration: BoxDecoration(
-           borderRadius: BorderRadius.circular(8.r),
-           border: Border.all(color: AppColors.greyBorder, width: 2),
-         ),
-         child: Column(
-           crossAxisAlignment: CrossAxisAlignment.start,
-           children: [
-             Row(
-               mainAxisAlignment: MainAxisAlignment.center,
-               children: [
-                 Skelton(
-                   height: 62.h,
-                   width: 82.w,
-                   radious: 14.r,
-                 )
-               ],
-             ),
-             SizedBox(
-               height: 27.h,
-             ),
-             Skelton(
-               height: 10.h,
-               width: 45.w,
-               margin: 5,
-             ),
-             Skelton(
-               height: 10.h,
-               width: 140.w,
-               margin: 5,
-             ),
-             Skelton(
-               height: 10.h,
-               width: 130.w,
-               margin: 5,
-             ),
-             Skelton(
-               height: 10.h,
-               width: 120.w,
-               margin: 5,
-             ),
-             SizedBox(
-               height: 10.h,
-             ),
-             Row(
-               children: [
-                 Shimmer.fromColors(
-                     baseColor: Colors.grey[300]!,
-                     highlightColor: Colors.grey[100]!,
-                     child: CustomRateRead(
-                       size: 15.w,
-                       rate: 0.0,
-                     )),
-                 SizedBox(
-                   width: 4.w,
-                 ),
-                 Skelton(
-                   height: 15.h,
-                   width: 20.w,
-                 )
-               ],
-             ),
-             SizedBox(
-               height: 10.h,
-             ),
-             Row(
-               children: [
-                 Skelton(
-                   height: 10.h,
-                   width: 45.w,
-                   margin: 5,
-                 ),
-               ],
-             ),
-             Row(
-               children: [
-                 Skelton(
-                   height: 10.h,
-                   width: 45.w,
-                   margin: 5,
-                 ),
-               ],
-             ),
-             Spacer(),
-             Row(
-               mainAxisAlignment: MainAxisAlignment.end,
-               children: [
-                 Skelton(
-                   height: 35.h,
-                   width: 35.w,
-                 )
-               ],
-             )
-           ],
-         ),
-       ),
-     ),
+    Size dSize = MediaQuery.of(context).size;
 
+    return SliverGrid(
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        childAspectRatio: dSize.width > 400 && dSize.width <= 500
+            ? 0.6
+            : dSize.width > 500 && dSize.width <= 600
+                ? 0.7.h
+                : dSize.width > 600 && dSize.width <= 700
+                    ? 0.8.h
+                    : dSize.width > 700 && dSize.width <= 800
+                        ? 0.9.h
+                        : dSize.width > 800 && dSize.width <= 900
+                            ? 1
+                            : 1.1,
+        crossAxisCount: 2,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 15,
+      ),
+      delegate: SliverChildBuilderDelegate(
+        childCount: count,
+        (context, index) => Container(
+          padding: EdgeInsets.all(12.w),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: AppColors.greyBorder, width: 2),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Skelton(
+                    height: 62.h,
+                    width: 82.w,
+                    radious: 14.r,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 27.h,
+              ),
+              Skelton(
+                height: 10.h,
+                width: 45.w,
+                margin: 5,
+              ),
+              Skelton(
+                height: 10.h,
+                width: 140.w,
+                margin: 5,
+              ),
+              Skelton(
+                height: 10.h,
+                width: 130.w,
+                margin: 5,
+              ),
+              Skelton(
+                height: 10.h,
+                width: 120.w,
+                margin: 5,
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                children: [
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: CustomRateRead(
+                      size: 15.w,
+                      rate: 0.0,
+                    ),
+                  ),
+                  SizedBox(
+                    width: 4.w,
+                  ),
+                  Skelton(
+                    height: 15.h,
+                    width: 20.w,
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                children: [
+                  Skelton(
+                    height: 10.h,
+                    width: 45.w,
+                    margin: 5,
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Skelton(
+                    height: 10.h,
+                    width: 45.w,
+                    margin: 5,
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Skelton(
+                    height: 35.h,
+                    width: 35.w,
+                  )
+                ],
+              )
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
-

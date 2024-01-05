@@ -1,9 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io' show Platform;
-
+import 'dart:io';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
 import 'package:flutter_paytabs_bridge/IOSThemeConfiguration.dart';
@@ -13,17 +14,14 @@ import 'package:flutter_paytabs_bridge/PaymentSdkApms.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkConfigurationDetails.dart';
 import 'package:flutter_paytabs_bridge/PaymentSdkTokeniseType.dart';
 import 'package:flutter_paytabs_bridge/flutter_paytabs_bridge.dart';
-
-import 'dart:io';
-import 'package:flutter/services.dart';
-
 import 'package:location/location.dart';
 import 'package:perfume_store_mobile_app/services/Settingss.dart';
 import 'package:perfume_store_mobile_app/services/locale.dart';
 import 'package:perfume_store_mobile_app/services/locale_controller.dart';
 import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'apies/auth_apies.dart';
+import 'package:permission_handler/permission_handler.dart' as premession;
+
 import 'apies/product_apies.dart';
 import 'controller/app_controller.dart';
 import 'controller/auth_controller.dart';
@@ -40,39 +38,45 @@ import 'services/app_imports.dart';
 import 'services/firebase_notification.dart';
 import 'services/tabby_flutter_inapp_sdk.dart';
 import 'view/splash/screen/splash_screen.dart';
-import 'package:permission_handler/permission_handler.dart' as premession;
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await SPHelper.spHelper.initSharedPrefrences();
   await Settingss.settings.initDio();
   TabbySDK().setup(
-    withApiKey: 'pk_ad7698e9-0586-4af9-8db5-3d41ac039436', // Put here your Api key
-     environment: Environment.production, // Or use Environment.stage
+    withApiKey:
+        'pk_ad7698e9-0586-4af9-8db5-3d41ac039436', // Put here your Api key
+    environment: Environment.production, // Or use Environment.stage
   );
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-    statusBarColor: AppColors.primaryColor,
-  ));
+  SystemChrome.setSystemUIOverlayStyle(
+    const SystemUiOverlayStyle(
+      statusBarColor: AppColors.primaryColor,
+    ),
+  );
   if (Platform.isAndroid) {
     await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
 
     var swAvailable = await AndroidWebViewFeature.isFeatureSupported(
-        AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+      AndroidWebViewFeature.SERVICE_WORKER_BASIC_USAGE,
+    );
     var swInterceptAvailable = await AndroidWebViewFeature.isFeatureSupported(
-        AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+      AndroidWebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST,
+    );
 
     if (swAvailable && swInterceptAvailable) {
       AndroidServiceWorkerController serviceWorkerController =
-      AndroidServiceWorkerController.instance();
+          AndroidServiceWorkerController.instance();
 
-      await serviceWorkerController
-          .setServiceWorkerClient(AndroidServiceWorkerClient(
-        shouldInterceptRequest: (request) async {
-          print(request);
-          return null;
-        },
-      ));
+      await serviceWorkerController.setServiceWorkerClient(
+        AndroidServiceWorkerClient(
+          shouldInterceptRequest: (request) async {
+            debugPrint(request.toString());
+            return null;
+          },
+        ),
+      );
     }
   }
   runApp(
@@ -88,7 +92,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   void initState() {
     NotificationHelper.notificationHelper.initialNotification();
@@ -97,9 +100,15 @@ class _MyAppState extends State<MyApp> {
     requestMapPermission();
     super.initState();
   }
- requestMapPermission() async {
-   await [Permission.location,Permission.locationAlways,Permission.locationWhenInUse].request();
-}
+
+  requestMapPermission() async {
+    await [
+      Permission.location,
+      Permission.locationAlways,
+      Permission.locationWhenInUse
+    ].request();
+  }
+
   @override
   Widget build(BuildContext context) {
     MyLocaleController controller = Get.put(MyLocaleController());
@@ -115,8 +124,8 @@ class _MyAppState extends State<MyApp> {
           defaultTransition: Transition.fadeIn,
           transitionDuration: const Duration(milliseconds: 300),
           debugShowCheckedModeBanner: false,
-           // locale: Locale('ar'),
-           locale: controller.initialLang,
+          // locale: Locale('ar'),
+          locale: controller.initialLang,
           translations: MyLocale(),
           builder: (context, widget) {
             Get.put(AppController());
@@ -129,17 +138,15 @@ class _MyAppState extends State<MyApp> {
             Get.put(AuthController());
             Get.put(OrderController());
             Get.put(ContactUsController());
-            Get.put(FavouriteController());
+            Get.put(FavoriteController());
             return widget!;
           },
-          home: SplashScreen() ,
+          home: const SplashScreen(),
         );
       },
     );
   }
 }
-
-
 
 class Bannders extends StatefulWidget {
   const Bannders({Key? key}) : super(key: key);
@@ -156,11 +163,12 @@ class _BanndersState extends State<Bannders> {
     ProductApies.productApies.getAds();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Obx(
-            () {
+        () {
           var ads = productController.getAdsData?.value.listAdsResponse;
           return ListView.builder(
             itemCount: ads?.length,
@@ -168,24 +176,31 @@ class _BanndersState extends State<Bannders> {
               return Row(
                 children: [
                   CustomText(index.toString()),
-                  Image.network(ads?[index].image??'',width: 300,height: 70,fit: BoxFit.fill,)
+                  Image.network(
+                    ads?[index].image ?? '',
+                    width: 300,
+                    height: 70,
+                    fit: BoxFit.fill,
+                  )
                 ],
               );
-            },);
+            },
+          );
         },
       ),
     );
   }
 }
 
-
 class TestPay extends StatefulWidget {
+  const TestPay({super.key});
+
   @override
   _TestPayState createState() => _TestPayState();
 }
 
 class _TestPayState extends State<TestPay> {
-  String _instructions = 'Tap on "Pay" Button to try PayTabs plugin';
+  final String _instructions = 'Tap on "Pay" Button to try PayTabs plugin';
 
   @override
   void initState() {
@@ -193,29 +208,46 @@ class _TestPayState extends State<TestPay> {
   }
 
   PaymentSdkConfigurationDetails generateConfig() {
-    var billingDetails = BillingDetails("John Smith", "email@domain.com",
-        "+97311111111", "st. 12", "eg", "dubai", "dubai", "12345");
-    var shippingDetails = ShippingDetails("John Smith", "email@domain.com",
-        "+97311111111", "st. 12", "eg", "dubai", "dubai", "12345");
+    var billingDetails = BillingDetails(
+      "John Smith",
+      "email@domain.com",
+      "+97311111111",
+      "st. 12",
+      "eg",
+      "dubai",
+      "dubai",
+      "12345",
+    );
+    var shippingDetails = ShippingDetails(
+      "John Smith",
+      "email@domain.com",
+      "+97311111111",
+      "st. 12",
+      "eg",
+      "dubai",
+      "dubai",
+      "12345",
+    );
     List<PaymentSdkAPms> apms = [];
     apms.add(PaymentSdkAPms.STC_PAY);
     var configuration = PaymentSdkConfigurationDetails(
-        profileId: "63904",
-        serverKey: "STJNNNTDKB-JBKWMD9Z9R-LKLNZBJLG2",
-        clientKey: "CHKMMD-6MQ962-KVNDP9-NVRM92",
-        cartId: "12433",
-        cartDescription: "Flowers",
-        merchantName: "Flowers Store",
-        screentTitle: "Pay with Card",
-        amount: 20.0,
-        showBillingInfo: true,
-        forceShippingInfo: false,
-        currencyCode: "EGP",
-        merchantCountryCode: "EG",
-        billingDetails: billingDetails,
-        shippingDetails: shippingDetails,
-        alternativePaymentMethods: apms,
-        linkBillingNameWithCardHolderName: true);
+      profileId: "63904",
+      serverKey: "STJNNNTDKB-JBKWMD9Z9R-LKLNZBJLG2",
+      clientKey: "CHKMMD-6MQ962-KVNDP9-NVRM92",
+      cartId: "12433",
+      cartDescription: "Flowers",
+      merchantName: "Flowers Store",
+      screentTitle: "Pay with Card",
+      amount: 20.0,
+      showBillingInfo: true,
+      forceShippingInfo: false,
+      currencyCode: "EGP",
+      merchantCountryCode: "EG",
+      billingDetails: billingDetails,
+      shippingDetails: shippingDetails,
+      alternativePaymentMethods: apms,
+      linkBillingNameWithCardHolderName: true,
+    );
 
     var theme = IOSThemeConfigurations();
 
@@ -232,17 +264,17 @@ class _TestPayState extends State<TestPay> {
         if (event["status"] == "success") {
           // Handle transaction details here.
           var transactionDetails = event["data"];
-          print(transactionDetails);
+          debugPrint(transactionDetails);
           if (transactionDetails["isSuccess"]) {
-            print("successful transaction");
+            debugPrint("successful transaction");
             if (transactionDetails["isPending"]) {
-              print("transaction pending");
+              debugPrint("transaction pending");
             }
           } else {
-            print("failed transaction");
+            debugPrint("failed transaction");
           }
 
-          // print(transactionDetails["isSuccess"]);
+          // debugPrint(transactionDetails["isSuccess"]);
         } else if (event["status"] == "error") {
           // Handle error here.
         } else if (event["status"] == "event") {
@@ -259,17 +291,17 @@ class _TestPayState extends State<TestPay> {
         if (event["status"] == "success") {
           // Handle transaction details here.
           var transactionDetails = event["data"];
-          print(transactionDetails);
+          debugPrint(transactionDetails);
           if (transactionDetails["isSuccess"]) {
-            print("successful transaction");
+            debugPrint("successful transaction");
             if (transactionDetails["isPending"]) {
-              print("transaction pending");
+              debugPrint("transaction pending");
             }
           } else {
-            print("failed transaction");
+            debugPrint("failed transaction");
           }
 
-          // print(transactionDetails["isSuccess"]);
+          // debugPrint(transactionDetails["isSuccess"]);
         } else if (event["status"] == "error") {
           // Handle error here.
         } else if (event["status"] == "event") {
@@ -288,17 +320,17 @@ class _TestPayState extends State<TestPay> {
         if (event["status"] == "success") {
           // Handle transaction details here.
           var transactionDetails = event["data"];
-          print(transactionDetails);
+          debugPrint(transactionDetails);
           if (transactionDetails["isSuccess"]) {
-            print("successful transaction");
+            debugPrint("successful transaction");
             if (transactionDetails["isPending"]) {
-              print("transaction pending");
+              debugPrint("transaction pending");
             }
           } else {
-            print("failed transaction");
+            debugPrint("failed transaction");
           }
 
-          // print(transactionDetails["isSuccess"]);
+          // debugPrint(transactionDetails["isSuccess"]);
         } else if (event["status"] == "error") {
           // Handle error here.
         } else if (event["status"] == "event") {
@@ -310,46 +342,46 @@ class _TestPayState extends State<TestPay> {
 
   Future<void> payWithSavedCards() async {
     FlutterPaytabsBridge.startPaymentWithSavedCards(generateConfig(), false,
-            (event) {
-          setState(() {
-            if (event["status"] == "success") {
-              // Handle transaction details here.
-              var transactionDetails = event["data"];
-              print(transactionDetails);
-              if (transactionDetails["isSuccess"]) {
-                print("successful transaction");
-                if (transactionDetails["isPending"]) {
-                  print("transaction pending");
-                }
-              } else {
-                print("failed transaction");
-              }
-
-              // print(transactionDetails["isSuccess"]);
-            } else if (event["status"] == "error") {
-              // Handle error here.
-            } else if (event["status"] == "event") {
-              // Handle events here.
+        (event) {
+      setState(() {
+        if (event["status"] == "success") {
+          // Handle transaction details here.
+          var transactionDetails = event["data"];
+          debugPrint(transactionDetails);
+          if (transactionDetails["isSuccess"]) {
+            debugPrint("successful transaction");
+            if (transactionDetails["isPending"]) {
+              debugPrint("transaction pending");
             }
-          });
-        });
+          } else {
+            debugPrint("failed transaction");
+          }
+
+          // debugPrint(transactionDetails["isSuccess"]);
+        } else if (event["status"] == "error") {
+          // Handle error here.
+        } else if (event["status"] == "event") {
+          // Handle events here.
+        }
+      });
+    });
   }
 
   Future<void> apmsPayPressed() async {
-    FlutterPaytabsBridge.startAlternativePaymentMethod(await generateConfig(),
-            (event) {
-          setState(() {
-            if (event["status"] == "success") {
-              // Handle transaction details here.
-              var transactionDetails = event["data"];
-              print(transactionDetails);
-            } else if (event["status"] == "error") {
-              // Handle error here.
-            } else if (event["status"] == "event") {
-              // Handle events here.
-            }
-          });
-        });
+    FlutterPaytabsBridge.startAlternativePaymentMethod(generateConfig(),
+        (event) {
+      setState(() {
+        if (event["status"] == "success") {
+          // Handle transaction details here.
+          var transactionDetails = event["data"];
+          debugPrint(transactionDetails);
+        } else if (event["status"] == "error") {
+          // Handle error here.
+        } else if (event["status"] == "event") {
+          // Handle events here.
+        }
+      });
+    });
   }
 
   Future<void> queryPressed() async {
@@ -359,7 +391,7 @@ class _TestPayState extends State<TestPay> {
         if (event["status"] == "success") {
           // Handle transaction details here.
           var transactionDetails = event["data"];
-          print(transactionDetails);
+          debugPrint(transactionDetails);
         } else if (event["status"] == "error") {
           // Handle error here.
         } else if (event["status"] == "event") {
@@ -371,23 +403,24 @@ class _TestPayState extends State<TestPay> {
 
   Future<void> applePayPressed() async {
     var configuration = PaymentSdkConfigurationDetails(
-        profileId: "*Profile id*",
-        serverKey: "*server key*",
-        clientKey: "*client key*",
-        cartId: "12433",
-        cartDescription: "Flowers",
-        merchantName: "Flowers Store",
-        amount: 20.0,
-        currencyCode: "AED",
-        merchantCountryCode: "ae",
-        merchantApplePayIndentifier: "merchant.com.bunldeId",
-        simplifyApplePayValidation: true);
+      profileId: "*Profile id*",
+      serverKey: "*server key*",
+      clientKey: "*client key*",
+      cartId: "12433",
+      cartDescription: "Flowers",
+      merchantName: "Flowers Store",
+      amount: 20.0,
+      currencyCode: "AED",
+      merchantCountryCode: "ae",
+      merchantApplePayIndentifier: "merchant.com.async.nafahat",
+      simplifyApplePayValidation: true,
+    );
     FlutterPaytabsBridge.startApplePayPayment(configuration, (event) {
       setState(() {
         if (event["status"] == "success") {
           // Handle transaction details here.
           var transactionDetails = event["data"];
-          print(transactionDetails);
+          debugPrint(transactionDetails);
         } else if (event["status"] == "error") {
           // Handle error here.
         } else if (event["status"] == "event") {
@@ -403,10 +436,10 @@ class _TestPayState extends State<TestPay> {
         onPressed: () {
           applePayPressed();
         },
-        child: Text('Pay with Apple Pay'),
+        child: const Text('Pay with Apple Pay'),
       );
     }
-    return SizedBox(height: 0);
+    return const SizedBox(height: 0);
   }
 
   @override
@@ -417,67 +450,65 @@ class _TestPayState extends State<TestPay> {
           title: const Text('PayTabs Plugin Example App'),
         ),
         body: Center(
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text('$_instructions'),
-                  SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () {
-                      payPressed();
-                    },
-                    child: Text('Pay with Card'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      payWithTokenPressed();
-                    },
-                    child: Text('Pay with Token'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      payWith3ds();
-                    },
-                    child: Text('Pay with 3ds'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      payWithSavedCards();
-                    },
-                    child: Text('Pay with saved cards'),
-                  ),
-                  SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () {
-                      apmsPayPressed();
-                    },
-                    child: Text('Pay with Alternative payment methods'),
-                  ),
-                  SizedBox(height: 16),
-                  TextButton(
-                    onPressed: () {
-                      queryPressed();
-                    },
-                    child: Text('Query transaction'),
-                  ),
-                  SizedBox(height: 16),
-                  applePayButton()
-                ])),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Text(_instructions),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  payPressed();
+                },
+                child: const Text('Pay with Card'),
+              ),
+              TextButton(
+                onPressed: () {
+                  payWithTokenPressed();
+                },
+                child: const Text('Pay with Token'),
+              ),
+              TextButton(
+                onPressed: () {
+                  payWith3ds();
+                },
+                child: const Text('Pay with 3ds'),
+              ),
+              TextButton(
+                onPressed: () {
+                  payWithSavedCards();
+                },
+                child: const Text('Pay with saved cards'),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  apmsPayPressed();
+                },
+                child: const Text('Pay with Alternative payment methods'),
+              ),
+              const SizedBox(height: 16),
+              TextButton(
+                onPressed: () {
+                  queryPressed();
+                },
+                child: const Text('Query transaction'),
+              ),
+              const SizedBox(height: 16),
+              applePayButton()
+            ],
+          ),
+        ),
       ),
     );
   }
 
   PaymentSDKQueryConfiguration generateQueryConfig() {
-    return new PaymentSDKQueryConfiguration("ServerKey", "ClientKey",
-        "Country Iso 2", "Profile Id", "Transaction Reference");
+    return PaymentSDKQueryConfiguration(
+      "ServerKey",
+      "ClientKey",
+      "Country Iso 2",
+      "Profile Id",
+      "Transaction Reference",
+    );
   }
 }
-
-
-
-
-
-
-
-
-

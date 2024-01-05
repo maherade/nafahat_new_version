@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
 
 import '../../../services/app_imports.dart';
@@ -5,15 +7,13 @@ import '../../custom_widget/custom_text_form_field_with_top_title.dart';
 import '../widget/custom_auth_button.dart';
 
 class ResetPasswordScreen extends StatelessWidget {
-final String? email;
-final String? code;
+  final String? email;
+  final String? code;
 
+  ResetPasswordScreen({super.key, this.email, this.code});
 
-   ResetPasswordScreen({super.key, this.email, this.code});
-
-
-TextEditingController passwordController = TextEditingController();
-TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -23,10 +23,16 @@ TextEditingController confirmPasswordController = TextEditingController();
           children: [
             Stack(
               children: [
-                Image.asset('assets/images/auth.png',width: double.infinity,fit: BoxFit.cover,),
+                Image.asset(
+                  'assets/images/auth.png',
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
                 Column(
                   children: [
-                    SizedBox(height: 30.h,),
+                    SizedBox(
+                      height: 30.h,
+                    ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 5.0.w),
                       child: const BackButton(),
@@ -39,7 +45,7 @@ TextEditingController confirmPasswordController = TextEditingController();
               height: 25.h,
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 36.0.w),
+              padding: EdgeInsets.symmetric(horizontal: 36.0.w),
               child: Column(
                 children: [
                   CustomText(
@@ -51,12 +57,13 @@ TextEditingController confirmPasswordController = TextEditingController();
                   ),
                   Row(
                     children: [
-                    CustomText(
-                      'قم بإنشاء كلمة مرور جديدة',
-                      fontSize: 12.sp,
-                      color: AppColors.grey,
-                    ),
-                  ],)
+                      CustomText(
+                        'قم بإنشاء كلمة مرور جديدة',
+                        fontSize: 12.sp,
+                        color: AppColors.grey,
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -64,7 +71,7 @@ TextEditingController confirmPasswordController = TextEditingController();
               height: 12.h,
             ),
             Padding(
-              padding:  EdgeInsets.symmetric(horizontal: 36.0.w),
+              padding: EdgeInsets.symmetric(horizontal: 36.0.w),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -94,12 +101,20 @@ TextEditingController confirmPasswordController = TextEditingController();
                   ),
                   CustomAuthButton(
                     title: 'تأكيد',
-                    onTap: (){
-                      if(passwordController.text == confirmPasswordController.text){
-                        AuthApis.authApis.setPassword(email: email,code: code,password: passwordController.text);
-                      } else{
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(content: Text('كلمة السر غير متطابقة')));
+                    onTap: () {
+                      if (passwordController.text ==
+                          confirmPasswordController.text) {
+                        AuthApis.authApis.setPassword(
+                          email: email,
+                          code: code,
+                          password: passwordController.text,
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('كلمة السر غير متطابقة'),
+                          ),
+                        );
                       }
                     },
                   ),

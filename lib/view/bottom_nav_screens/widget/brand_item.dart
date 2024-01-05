@@ -4,11 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../custom_widget/cached_network_image.dart';
 
 class BrandItem extends StatelessWidget {
-final int? index ;
-final String? imgUrl ;
-final VoidCallback? onTap ;
+  final int? index;
 
-  const BrandItem({super.key, this.index, this.imgUrl,this.onTap});
+  final String? imgUrl;
+
+  final VoidCallback? onTap;
+
+  const BrandItem({super.key, this.index, this.imgUrl, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +20,11 @@ final VoidCallback? onTap ;
         children: [
           index == 0
               ? SizedBox(
-            width: 25.w,
-          )
+                  width: 25.w,
+                )
               : const SizedBox(),
           CachedNetworkImageShare(
-            urlImage:
-            imgUrl,
+            urlImage: imgUrl,
             fit: BoxFit.cover,
             heigthNumber: 50.h,
             widthNumber: 60.w,

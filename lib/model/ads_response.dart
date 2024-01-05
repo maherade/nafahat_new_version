@@ -35,8 +35,6 @@ class ListAdsResponse {
   }
 }
 
-
-
 class AdsResponse {
   List<Brand>? brand;
   String? url;
@@ -45,12 +43,12 @@ class AdsResponse {
   AdsResponse({this.brand, this.url, this.image});
 
   AdsResponse.fromJson(Map<String, dynamic> json) {
-    if (json['brand'] != null && (json['brand'] as List).isNotEmpty ) {
+    if (json['brand'] != null && (json['brand'] as List).isNotEmpty) {
       brand = <Brand>[];
       json['brand'].forEach((v) {
-        brand!.add(new Brand.fromJson(v));
+        brand!.add(Brand.fromJson(v));
       });
-    }else{
+    } else {
       brand = [Brand()];
     }
     url = json['url'];
@@ -58,12 +56,12 @@ class AdsResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.brand != null) {
-      data['brand'] = this.brand!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (brand != null) {
+      data['brand'] = brand!.map((v) => v.toJson()).toList();
     }
-    data['url'] = this.url;
-    data['image'] = this.image;
+    data['url'] = url;
+    data['image'] = image;
     return data;
   }
 }
@@ -82,19 +80,20 @@ class Brand {
   List<String>? brandImage;
   bool? brandBanner;
 
-  Brand(
-      {this.termId,
-        this.name,
-        this.slug,
-        this.termGroup,
-        this.termTaxonomyId,
-        this.taxonomy,
-        this.description,
-        this.parent,
-        this.count,
-        this.filter,
-        this.brandImage,
-        this.brandBanner});
+  Brand({
+    this.termId,
+    this.name,
+    this.slug,
+    this.termGroup,
+    this.termTaxonomyId,
+    this.taxonomy,
+    this.description,
+    this.parent,
+    this.count,
+    this.filter,
+    this.brandImage,
+    this.brandBanner,
+  });
 
   Brand.fromJson(Map<String, dynamic> json) {
     termId = json['term_id'];
@@ -107,25 +106,25 @@ class Brand {
     parent = json['parent'];
     count = json['count'];
     filter = json['filter'];
-    brandImage = json['brand_image'] is bool ? [] :json['brand_image'].cast<String>();
+    brandImage =
+        json['brand_image'] is bool ? [] : json['brand_image'].cast<String>();
     brandBanner = json['brand_banner'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['term_id'] = this.termId;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['term_group'] = this.termGroup;
-    data['term_taxonomy_id'] = this.termTaxonomyId;
-    data['taxonomy'] = this.taxonomy;
-    data['description'] = this.description;
-    data['parent'] = this.parent;
-    data['count'] = this.count;
-    data['filter'] = this.filter;
-    data['brand_image'] = this.brandImage;
-    data['brand_banner'] = this.brandBanner;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['term_id'] = termId;
+    data['name'] = name;
+    data['slug'] = slug;
+    data['term_group'] = termGroup;
+    data['term_taxonomy_id'] = termTaxonomyId;
+    data['taxonomy'] = taxonomy;
+    data['description'] = description;
+    data['parent'] = parent;
+    data['count'] = count;
+    data['filter'] = filter;
+    data['brand_image'] = brandImage;
+    data['brand_banner'] = brandBanner;
     return data;
   }
 }
-

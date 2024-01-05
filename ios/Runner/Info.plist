@@ -27,7 +27,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>Nafahat store requires to access your Camera to capture image</string>
+	<string>Nafahat store would access to your camera and photo library to allow you to choose and set your profile picture for a personalized experience.</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>Nafahat store uses your Location To choose the delivery location</string>
 	<key>NSLocationAlwaysUsageDescription</key>
@@ -35,7 +35,7 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Nafahat store uses your Location To choose the delivery location</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Nafahat store would access to Photo Library to select photo</string>
+	<string>Nafahat store would access to your camera and photo library to allow you to choose and set your profile picture for a personalized experience.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

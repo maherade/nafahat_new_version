@@ -1,9 +1,11 @@
 class PaymentResponse {
- String? htmlUrl;
+  String? htmlUrl;
+
   PaymentResponse({this.htmlUrl});
-PaymentResponse.fromJson(json) {
+
+  PaymentResponse.fromJson(json) {
     if (json != null) {
-     htmlUrl = json;
+      htmlUrl = json;
     }
   }
 }

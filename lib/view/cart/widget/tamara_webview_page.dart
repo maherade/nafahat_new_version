@@ -2,7 +2,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 import '../../../apies/order_apies.dart';
 import '../../../services/app_imports.dart';
-import '../../../services/sp_helper.dart';
 
 class TamaraWebViewPage extends StatefulWidget {
   final String? paymentUrl;
@@ -30,31 +29,32 @@ class TamaraWebViewPage extends StatefulWidget {
   final List<Map<String, dynamic>> items;
   final String? couponCode;
 
-  const TamaraWebViewPage(
-      {super.key,
-      this.paymentUrl,
-      this.orderId,
-      this.customer_id,
-      this.status,
-      required this.payment_method,
-      required this.payment_method_title,
-      required this.firstName,
-      required this.lastName,
-      required this.addressOne,
-      required this.addressTwo,
-      required this.city,
-      required this.country,
-      required this.state,
-      required this.postcode,
-      required this.email,
-      required this.phone,
-      required this.total,
-      required this.setPaid,
-      required this.listProduct,
-      required this.listShipment,
-      required this.listMetaData,
-      required this.items,
-      this.couponCode});
+  const TamaraWebViewPage({
+    super.key,
+    this.paymentUrl,
+    this.orderId,
+    this.customer_id,
+    this.status,
+    required this.payment_method,
+    required this.payment_method_title,
+    required this.firstName,
+    required this.lastName,
+    required this.addressOne,
+    required this.addressTwo,
+    required this.city,
+    required this.country,
+    required this.state,
+    required this.postcode,
+    required this.email,
+    required this.phone,
+    required this.total,
+    required this.setPaid,
+    required this.listProduct,
+    required this.listShipment,
+    required this.listMetaData,
+    required this.items,
+    this.couponCode,
+  });
 
   @override
   _TamaraWebViewPageState createState() => _TamaraWebViewPageState();
@@ -64,16 +64,17 @@ class _TamaraWebViewPageState extends State<TamaraWebViewPage> {
   InAppWebViewController? webViewController;
 
   InAppWebViewGroupOptions options = InAppWebViewGroupOptions(
-      crossPlatform: InAppWebViewOptions(
-        useShouldOverrideUrlLoading: true,
-        mediaPlaybackRequiresUserGesture: false,
-      ),
-      android: AndroidInAppWebViewOptions(
-        useHybridComposition: true,
-      ),
-      ios: IOSInAppWebViewOptions(
-        allowsInlineMediaPlayback: true,
-      ));
+    crossPlatform: InAppWebViewOptions(
+      useShouldOverrideUrlLoading: true,
+      mediaPlaybackRequiresUserGesture: false,
+    ),
+    android: AndroidInAppWebViewOptions(
+      useHybridComposition: true,
+    ),
+    ios: IOSInAppWebViewOptions(
+      allowsInlineMediaPlayback: true,
+    ),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +82,7 @@ class _TamaraWebViewPageState extends State<TamaraWebViewPage> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: AppColors.primaryColor,
-        title: CustomText(
+        title: const CustomText(
           'اطلب الآن وادفع خلال 30 یوم مع تمارا. بدون رسوم',
           fontSize: 12,
           color: Colors.white,
@@ -96,7 +97,10 @@ class _TamaraWebViewPageState extends State<TamaraWebViewPage> {
           webViewController = controller;
         },
         androidOnPermissionRequest: (controller, origin, resources) async {
-          return PermissionRequestResponse(resources: resources, action: PermissionRequestResponseAction.GRANT);
+          return PermissionRequestResponse(
+            resources: resources,
+            action: PermissionRequestResponseAction.GRANT,
+          );
         },
         shouldOverrideUrlLoading: (controller, action) async {
           return handleUrlLoading(controller, action);
@@ -115,14 +119,14 @@ class _TamaraWebViewPageState extends State<TamaraWebViewPage> {
       if (uri.toString().contains('paymentStatus')) {
         String? paymentStatus = uri.queryParameters['paymentStatus'];
         if (paymentStatus == 'approved') {
-          OrderApies.orderApies
-              .updateTamaraOrder(
+          OrderApies.orderApies.updateTamaraOrder(
             orderID: widget.orderId,
             customer_id: widget.customer_id,
             status: 'processing',
             items: widget.items,
             payment_method: 'tamara-gateway-pay-in-3',
-            payment_method_title: 'اطلب الآن وادفع خلال 30 یوم مع تمارا. بدون رسوم',
+            payment_method_title:
+                'اطلب الآن وادفع خلال 30 یوم مع تمارا. بدون رسوم',
             firstName: widget.firstName,
             lastName: widget.lastName,
             addressOne: widget.addressOne,
@@ -140,10 +144,10 @@ class _TamaraWebViewPageState extends State<TamaraWebViewPage> {
             listShipment: widget.listShipment,
             listMetaData: widget.listMetaData,
           );
-          print('Payment status is approved');
+          debugPrint('Payment status is approved');
           Get.back();
         } else {
-          print('Payment status is not approved');
+          debugPrint('Payment status is not approved');
           Get.back();
         }
       }

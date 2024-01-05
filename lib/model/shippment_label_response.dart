@@ -4,11 +4,12 @@ class ShipmentLabelResponse {
   String? trackingNumber;
   String? urlShippingLabel;
 
-  ShipmentLabelResponse(
-      {this.success,
-        this.shipmentId,
-        this.trackingNumber,
-        this.urlShippingLabel});
+  ShipmentLabelResponse({
+    this.success,
+    this.shipmentId,
+    this.trackingNumber,
+    this.urlShippingLabel,
+  });
 
   ShipmentLabelResponse.fromJson(Map<String, dynamic> json) {
     success = json['success'];

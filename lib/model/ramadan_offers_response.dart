@@ -1,3 +1,5 @@
+import '../services/app_imports.dart';
+
 class ListRamadanOffersProductResponse {
   List<Data>? data;
   Headers? headers;
@@ -9,15 +11,13 @@ class ListRamadanOffersProductResponse {
     if (json['data'] != null) {
       data = <Data>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Data.fromJson(v));
       });
     }
     headers =
-    json['headers'] != null ? new Headers.fromJson(json['headers']) : null;
+        json['headers'] != null ? Headers.fromJson(json['headers']) : null;
     status = json['status'];
   }
-
-
 }
 
 class Data {
@@ -36,20 +36,20 @@ class Data {
   List<Variations>? variations;
   List<VariationsAttributes>? attributes;
 
-
-  Data(
-      {this.title,
-        this.id,
-        this.price,
-        this.regularPrice,
-        this.salePrice,
-        this.description,
-        this.averageRating,
-        this.ratingCount,
-        this.images,
-        this.brands,
-        this.metaData,
-        this.relatedAds,});
+  Data({
+    this.title,
+    this.id,
+    this.price,
+    this.regularPrice,
+    this.salePrice,
+    this.description,
+    this.averageRating,
+    this.ratingCount,
+    this.images,
+    this.brands,
+    this.metaData,
+    this.relatedAds,
+  });
 
   Data.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -63,32 +63,32 @@ class Data {
     if (json['attributes'] != null) {
       attributes = <VariationsAttributes>[];
       json['attributes'].forEach((v) {
-        attributes!.add(new VariationsAttributes.fromJson(v));
+        attributes!.add(VariationsAttributes.fromJson(v));
       });
     }
     if (json['images'] != null) {
       images = <Images>[];
       json['images'].forEach((v) {
-        images!.add(new Images.fromJson(v));
+        images!.add(Images.fromJson(v));
       });
     }
     if (json['variations'] != null && json['variations'] is List) {
       variations = <Variations>[];
       json['variations'].forEach((v) {
-        variations!.add(new Variations.fromJson(v));
+        variations!.add(Variations.fromJson(v));
       });
     }
     if (json['brands'] != null) {
       brands = <Brands>[];
       json['brands'].forEach((v) {
-        brands!.add(new Brands.fromJson(v));
+        brands!.add(Brands.fromJson(v));
       });
     }
     if (json['meta_data'] != null) {
       json['meta_data'].forEach((v) {
-        if(v['key']=='_lpfw_product_custom_points'){
+        if (v['key'] == '_lpfw_product_custom_points') {
           metaData = v['value'].toString();
-          print('metaData'+v['value'].toString());
+          debugPrint('metaData${v['value']}');
         }
       });
     }
@@ -99,8 +99,6 @@ class Data {
       });
     }
   }
-
-
 }
 
 class VariationsAttributes {
@@ -117,7 +115,7 @@ class VariationsAttributes {
     this.position,
     this.visible,
     this.variation,
-    this.options
+    this.options,
   });
 
   VariationsAttributes.fromJson(Map<String, dynamic> json) {
@@ -128,7 +126,6 @@ class VariationsAttributes {
     variation = json['variation'];
     options = json['options'].cast<String>();
   }
-
 }
 
 class Variations {
@@ -157,45 +154,46 @@ class Variations {
   String? weight;
   String? weightHtml;
 
-  Variations(
-      {this.attributes,
-        this.availabilityHtml,
-        this.backordersAllowed,
-        this.dimensions,
-        this.dimensionsHtml,
-        this.displayPrice,
-        this.displayRegularPrice,
-        this.image,
-        this.imageId,
-        this.isDownloadable,
-        this.isInStock,
-        this.isPurchasable,
-        this.isSoldIndividually,
-        this.isVirtual,
-        this.maxQty,
-        this.minQty,
-        this.priceHtml,
-        this.sku,
-        this.variationDescription,
-        this.variationId,
-        this.variationIsActive,
-        this.variationIsVisible,
-        this.weight,
-        this.weightHtml});
+  Variations({
+    this.attributes,
+    this.availabilityHtml,
+    this.backordersAllowed,
+    this.dimensions,
+    this.dimensionsHtml,
+    this.displayPrice,
+    this.displayRegularPrice,
+    this.image,
+    this.imageId,
+    this.isDownloadable,
+    this.isInStock,
+    this.isPurchasable,
+    this.isSoldIndividually,
+    this.isVirtual,
+    this.maxQty,
+    this.minQty,
+    this.priceHtml,
+    this.sku,
+    this.variationDescription,
+    this.variationId,
+    this.variationIsActive,
+    this.variationIsVisible,
+    this.weight,
+    this.weightHtml,
+  });
 
   Variations.fromJson(Map<String, dynamic> json) {
     attributes = json['attributes'] != null
-        ? new Attributes.fromJson(json['attributes'])
+        ? Attributes.fromJson(json['attributes'])
         : null;
     availabilityHtml = json['availability_html'];
     backordersAllowed = json['backorders_allowed'];
     dimensions = json['dimensions'] != null
-        ? new Dimensions.fromJson(json['dimensions'])
+        ? Dimensions.fromJson(json['dimensions'])
         : null;
     dimensionsHtml = json['dimensions_html'];
     displayPrice = json['display_price'];
     displayRegularPrice = json['display_regular_price'];
-    image = json['image'] != null ? new Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? Image.fromJson(json['image']) : null;
     imageId = json['image_id'];
     isDownloadable = json['is_downloadable'];
     isInStock = json['is_in_stock'];
@@ -215,37 +213,37 @@ class Variations {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.attributes != null) {
-      data['attributes'] = this.attributes!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (attributes != null) {
+      data['attributes'] = attributes!.toJson();
     }
-    data['availability_html'] = this.availabilityHtml;
-    data['backorders_allowed'] = this.backordersAllowed;
-    if (this.dimensions != null) {
-      data['dimensions'] = this.dimensions!.toJson();
+    data['availability_html'] = availabilityHtml;
+    data['backorders_allowed'] = backordersAllowed;
+    if (dimensions != null) {
+      data['dimensions'] = dimensions!.toJson();
     }
-    data['dimensions_html'] = this.dimensionsHtml;
-    data['display_price'] = this.displayPrice;
-    data['display_regular_price'] = this.displayRegularPrice;
-    if (this.image != null) {
-      data['image'] = this.image!.toJson();
+    data['dimensions_html'] = dimensionsHtml;
+    data['display_price'] = displayPrice;
+    data['display_regular_price'] = displayRegularPrice;
+    if (image != null) {
+      data['image'] = image!.toJson();
     }
-    data['image_id'] = this.imageId;
-    data['is_downloadable'] = this.isDownloadable;
-    data['is_in_stock'] = this.isInStock;
-    data['is_purchasable'] = this.isPurchasable;
-    data['is_sold_individually'] = this.isSoldIndividually;
-    data['is_virtual'] = this.isVirtual;
-    data['max_qty'] = this.maxQty;
-    data['min_qty'] = this.minQty;
-    data['price_html'] = this.priceHtml;
-    data['sku'] = this.sku;
-    data['variation_description'] = this.variationDescription;
-    data['variation_id'] = this.variationId;
-    data['variation_is_active'] = this.variationIsActive;
-    data['variation_is_visible'] = this.variationIsVisible;
-    data['weight'] = this.weight;
-    data['weight_html'] = this.weightHtml;
+    data['image_id'] = imageId;
+    data['is_downloadable'] = isDownloadable;
+    data['is_in_stock'] = isInStock;
+    data['is_purchasable'] = isPurchasable;
+    data['is_sold_individually'] = isSoldIndividually;
+    data['is_virtual'] = isVirtual;
+    data['max_qty'] = maxQty;
+    data['min_qty'] = minQty;
+    data['price_html'] = priceHtml;
+    data['sku'] = sku;
+    data['variation_description'] = variationDescription;
+    data['variation_id'] = variationId;
+    data['variation_is_active'] = variationIsActive;
+    data['variation_is_visible'] = variationIsVisible;
+    data['weight'] = weight;
+    data['weight_html'] = weightHtml;
     return data;
   }
 }
@@ -257,13 +255,13 @@ class Attributes {
 
   Attributes.fromJson(Map<String, dynamic> json) {
     attributePaD8A7D984D8AdD8AcD985 =
-    json['attribute_pa_%d8%a7%d9%84%d8%ad%d8%ac%d9%85'];
+        json['attribute_pa_%d8%a7%d9%84%d8%ad%d8%ac%d9%85'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
+    final Map<String, dynamic> data = <String, dynamic>{};
     data['attribute_pa_%d8%a7%d9%84%d8%ad%d8%ac%d9%85'] =
-        this.attributePaD8A7D984D8AdD8AcD985;
+        attributePaD8A7D984D8AdD8AcD985;
     return data;
   }
 }
@@ -282,10 +280,10 @@ class Dimensions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['length'] = this.length;
-    data['width'] = this.width;
-    data['height'] = this.height;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['length'] = length;
+    data['width'] = width;
+    data['height'] = height;
     return data;
   }
 }
@@ -310,25 +308,26 @@ class Image {
   int? srcW;
   int? srcH;
 
-  Image(
-      {this.title,
-        this.caption,
-        this.url,
-        this.alt,
-        this.src,
-        this.srcset,
-        this.sizes,
-        this.fullSrc,
-        this.fullSrcW,
-        this.fullSrcH,
-        this.galleryThumbnailSrc,
-        this.galleryThumbnailSrcW,
-        this.galleryThumbnailSrcH,
-        this.thumbSrc,
-        this.thumbSrcW,
-        this.thumbSrcH,
-        this.srcW,
-        this.srcH});
+  Image({
+    this.title,
+    this.caption,
+    this.url,
+    this.alt,
+    this.src,
+    this.srcset,
+    this.sizes,
+    this.fullSrc,
+    this.fullSrcW,
+    this.fullSrcH,
+    this.galleryThumbnailSrc,
+    this.galleryThumbnailSrcW,
+    this.galleryThumbnailSrcH,
+    this.thumbSrc,
+    this.thumbSrcW,
+    this.thumbSrcH,
+    this.srcW,
+    this.srcH,
+  });
 
   Image.fromJson(Map<String, dynamic> json) {
     title = json['title'];
@@ -352,25 +351,25 @@ class Image {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['title'] = this.title;
-    data['caption'] = this.caption;
-    data['url'] = this.url;
-    data['alt'] = this.alt;
-    data['src'] = this.src;
-    data['srcset'] = this.srcset;
-    data['sizes'] = this.sizes;
-    data['full_src'] = this.fullSrc;
-    data['full_src_w'] = this.fullSrcW;
-    data['full_src_h'] = this.fullSrcH;
-    data['gallery_thumbnail_src'] = this.galleryThumbnailSrc;
-    data['gallery_thumbnail_src_w'] = this.galleryThumbnailSrcW;
-    data['gallery_thumbnail_src_h'] = this.galleryThumbnailSrcH;
-    data['thumb_src'] = this.thumbSrc;
-    data['thumb_src_w'] = this.thumbSrcW;
-    data['thumb_src_h'] = this.thumbSrcH;
-    data['src_w'] = this.srcW;
-    data['src_h'] = this.srcH;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['title'] = title;
+    data['caption'] = caption;
+    data['url'] = url;
+    data['alt'] = alt;
+    data['src'] = src;
+    data['srcset'] = srcset;
+    data['sizes'] = sizes;
+    data['full_src'] = fullSrc;
+    data['full_src_w'] = fullSrcW;
+    data['full_src_h'] = fullSrcH;
+    data['gallery_thumbnail_src'] = galleryThumbnailSrc;
+    data['gallery_thumbnail_src_w'] = galleryThumbnailSrcW;
+    data['gallery_thumbnail_src_h'] = galleryThumbnailSrcH;
+    data['thumb_src'] = thumbSrc;
+    data['thumb_src_w'] = thumbSrcW;
+    data['thumb_src_h'] = thumbSrcH;
+    data['src_w'] = srcW;
+    data['src_h'] = srcH;
     return data;
   }
 }
@@ -387,9 +386,9 @@ class Images {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['src'] = this.src;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['src'] = src;
     return data;
   }
 }
@@ -408,10 +407,10 @@ class Brands {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['slug'] = slug;
     return data;
   }
 }
@@ -428,9 +427,9 @@ class Headers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['X-WP-Total'] = this.xWPTotal;
-    data['X-WP-TotalPages'] = this.xWPTotalPages;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['X-WP-Total'] = xWPTotal;
+    data['X-WP-TotalPages'] = xWPTotalPages;
     return data;
   }
 }

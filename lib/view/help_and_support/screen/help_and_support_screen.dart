@@ -7,6 +7,8 @@ import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_text_form_field_with_top_title.dart';
 
 class HelpAndSupportScreen extends StatefulWidget {
+  const HelpAndSupportScreen({super.key});
+
   @override
   State<HelpAndSupportScreen> createState() => _HelpAndSupportScreenState();
 }
@@ -44,8 +46,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
                 margin: EdgeInsets.symmetric(horizontal: 36.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0.w),
-                  border: Border.all(
-                      width: 1.0, color: AppColors.greyBorder),
+                  border: Border.all(width: 1.0, color: AppColors.greyBorder),
                 ),
                 child: Column(
                   children: [
@@ -86,8 +87,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
                       controller: noteController,
                       maxLines: 10,
                       topTitle: 'notes_value'.tr,
-                      hintText:
-                      'enter_your_notes_value'.tr,
+                      hintText: 'enter_your_notes_value'.tr,
                     ),
                     SizedBox(
                       height: 32.h,
@@ -96,7 +96,7 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
                       onTap: () {
                         ContactUsApies.contactUsApies.contactUs(
                           email: emailController.text,
-                          notes:  noteController.text,
+                          notes: noteController.text,
                         );
                       },
                       height: 40.h,
@@ -115,5 +115,3 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
     );
   }
 }
-
-

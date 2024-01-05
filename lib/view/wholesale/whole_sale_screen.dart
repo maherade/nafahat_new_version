@@ -1,3 +1,6 @@
+// ignore_for_file: must_be_immutable
+
+import 'package:badges/badges.dart' as badges;
 import 'package:flutter_svg/svg.dart';
 import 'package:perfume_store_mobile_app/apies/product_apies.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
@@ -7,17 +10,17 @@ import '../../services/app_imports.dart';
 import '../cart/screen/cart_screen.dart';
 import '../custom_widget/custom_text_form_field_with_top_title.dart';
 import '../search/screen/search_screen.dart';
-import 'package:badges/badges.dart' as badges;
 
 class WholeSaleScreen extends StatelessWidget {
+  TextEditingController clientNameController = TextEditingController();
+  TextEditingController organizationNameController = TextEditingController();
+  TextEditingController organizationAddressController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
-TextEditingController clientNameController = TextEditingController();
-TextEditingController organizationNameController = TextEditingController();
-TextEditingController organizationAddressController = TextEditingController();
-TextEditingController emailController = TextEditingController();
-TextEditingController phoneController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
-final _formKey = GlobalKey<FormState>();
+  WholeSaleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +32,26 @@ final _formKey = GlobalKey<FormState>();
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 60.h,),
+              SizedBox(
+                height: 60.h,
+              ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 15.w),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     const BackButton(),
-                    Spacer(),
+                    const Spacer(),
                     GestureDetector(
-                      onTap: (){
-                        Get.to(()=> CartScreen());
+                      onTap: () {
+                        Get.to(() => const CartScreen());
                       },
                       child: GetBuilder<CartController>(
                         init: CartController(),
                         builder: (controller) {
                           return badges.Badge(
-                            showBadge: controller.items.isNotEmpty ? true :false,
+                            showBadge:
+                                controller.items.isNotEmpty ? true : false,
                             position: badges.BadgePosition.topEnd(),
                             badgeStyle: badges.BadgeStyle(
                               shape: badges.BadgeShape.circle,
@@ -68,10 +74,15 @@ final _formKey = GlobalKey<FormState>();
                         },
                       ),
                     ),
-                    SizedBox(width: 3.w,),
-                    IconButton(onPressed: () {
-                      Get.to(()=>SearchScreen());
-                    }, icon: Icon(Icons.search))
+                    SizedBox(
+                      width: 3.w,
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Get.to(() => const SearchScreen());
+                      },
+                      icon: const Icon(Icons.search),
+                    )
                   ],
                 ),
               ),
@@ -79,11 +90,13 @@ final _formKey = GlobalKey<FormState>();
                 child: SingleChildScrollView(
                   padding: EdgeInsets.zero,
                   child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal:36.w),
+                    padding: EdgeInsets.symmetric(horizontal: 36.w),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(height: 30.h,),
+                        SizedBox(
+                          height: 30.h,
+                        ),
                         CustomTextFormFieldWithTopTitle(
                           controller: clientNameController,
                           hintText: 'enter_client_name_value'.tr,
@@ -94,7 +107,6 @@ final _formKey = GlobalKey<FormState>();
                             }
                             return null;
                           },
-
                         ),
                         SizedBox(
                           height: 20.h,
@@ -119,7 +131,8 @@ final _formKey = GlobalKey<FormState>();
                           topTitle: 'organization_address_value'.tr,
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'organization_address_cannot_empty_value'.tr;
+                              return 'organization_address_cannot_empty_value'
+                                  .tr;
                             }
                             return null;
                           },
@@ -159,26 +172,37 @@ final _formKey = GlobalKey<FormState>();
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             CustomButton(
-                              onTap: (){
-                                if(_formKey.currentState!.validate()){
-                                  ProductApies.productApies.sendWholeSaleRequest(
-                                      clientName: clientNameController.text,
-                                      companyAddress: organizationAddressController.text,
-                                      companyName: organizationNameController.text,
-                                      email: emailController.text,
-                                      phone: phoneController.text
+                              onTap: () {
+                                if (_formKey.currentState!.validate()) {
+                                  ProductApies.productApies
+                                      .sendWholeSaleRequest(
+                                    clientName: clientNameController.text,
+                                    companyAddress:
+                                        organizationAddressController.text,
+                                    companyName:
+                                        organizationNameController.text,
+                                    email: emailController.text,
+                                    phone: phoneController.text,
                                   );
                                 }
-
                               },
                               height: 45.h,
                               width: 184.w,
                               radious: 8.r,
                               widget: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
                                 children: [
-                                  CustomText('send_request_value'.tr,fontWeight: FontWeight.normal,color: AppColors.whiteColor,fontSize: 16.sp,),
-                                  Icon(Icons.arrow_forward,color: AppColors.whiteColor,)
+                                  CustomText(
+                                    'send_request_value'.tr,
+                                    fontWeight: FontWeight.normal,
+                                    color: AppColors.whiteColor,
+                                    fontSize: 16.sp,
+                                  ),
+                                  const Icon(
+                                    Icons.arrow_forward,
+                                    color: AppColors.whiteColor,
+                                  )
                                 ],
                               ),
                             ),

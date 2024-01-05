@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 // import 'package:skeleton_text/skeleton_text.dart';
 
 class CachedNetworkImageShare extends StatelessWidget {
@@ -10,9 +9,15 @@ class CachedNetworkImageShare extends StatelessWidget {
   final double? borderRadious;
   final BoxFit? fit;
 
- const CachedNetworkImageShare(
-      { this.urlImage, this.heigthNumber, this.widthNumber, this.borderRadious=1,
-      required this.fit});
+  const CachedNetworkImageShare({
+    super.key,
+    this.urlImage,
+    this.heigthNumber,
+    this.widthNumber,
+    this.borderRadious = 1,
+    required this.fit,
+  });
+
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
@@ -25,7 +30,8 @@ class CachedNetworkImageShare extends StatelessWidget {
         height: heigthNumber,
         decoration: BoxDecoration(
           shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
-          borderRadius: borderRadious != 0 ? BorderRadius.circular(borderRadious!) : null,
+          borderRadius:
+              borderRadious != 0 ? BorderRadius.circular(borderRadious!) : null,
           image: DecorationImage(
             image: imageProvider,
             fit: fit ?? BoxFit.fill,
@@ -62,7 +68,7 @@ class CachedNetworkImageShare extends StatelessWidget {
             shape: borderRadious == 0 ? BoxShape.circle : BoxShape.rectangle,
             color: Colors.grey[200],
           ),
-        )
+        ),
       ),
     );
   }

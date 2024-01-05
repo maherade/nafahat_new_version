@@ -2,6 +2,7 @@ import '../../../services/app_imports.dart';
 import '../Skelton.dart';
 
 class LoadingContainerCategory extends StatelessWidget {
+  const LoadingContainerCategory({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -15,17 +16,18 @@ class LoadingContainerCategory extends StatelessWidget {
             children: [
               index == 0
                   ? SizedBox(
-                width: 21.w,
-              )
+                      width: 21.w,
+                    )
                   : const SizedBox(),
               Container(
                 alignment: Alignment.center,
                 height: 38.h,
                 width: 117.h,
                 decoration: BoxDecoration(
-                    color: AppColors.whiteColor,
-                    borderRadius: BorderRadius.circular(5.r),
-                    border: Border.all(color: AppColors.greyBorder)),
+                  color: AppColors.whiteColor,
+                  borderRadius: BorderRadius.circular(5.r),
+                  border: Border.all(color: AppColors.greyBorder),
+                ),
                 child: Skelton(
                   height: 10.h,
                   width: 35.w,
@@ -42,4 +44,3 @@ class LoadingContainerCategory extends StatelessWidget {
     );
   }
 }
-

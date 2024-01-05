@@ -2,13 +2,20 @@ import '../../../services/app_imports.dart';
 import '../../custom_widget/custom_rate_write_bar.dart';
 
 class RatingItem extends StatelessWidget {
-final String? imgUrl;
-final String? name;
-final String? date;
-final double? rate;
-final String? comment;
+  final String? imgUrl;
+  final String? name;
+  final String? date;
+  final double? rate;
+  final String? comment;
 
-  const RatingItem({super.key, this.imgUrl, this.name, this.date, this.rate, this.comment});
+  const RatingItem({
+    super.key,
+    this.imgUrl,
+    this.name,
+    this.date,
+    this.rate,
+    this.comment,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +31,15 @@ final String? comment;
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CachedNetworkImageShare(
-            urlImage:imgUrl,
+            urlImage: imgUrl,
             fit: BoxFit.contain,
             heigthNumber: 32.h,
             widthNumber: 32.w,
             borderRadious: 0,
           ),
-          SizedBox(width: 6.w,),
+          SizedBox(
+            width: 6.w,
+          ),
           Flexible(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -1,11 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'dart:async';
 import 'dart:developer';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:location/location.dart' as location;
 import 'package:perfume_store_mobile_app/controller/app_controller.dart';
+
 import '../../../colors.dart';
 import '../../../model/my_marker.dart';
 import '../../../model/red_box_response.dart';
@@ -20,24 +24,32 @@ class RedBoxLocationsInMapScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<RedBoxLocationsInMapScreen> createState() => _RedBoxLocationsInMapScreenState();
+  State<RedBoxLocationsInMapScreen> createState() =>
+      _RedBoxLocationsInMapScreenState();
 }
 
-class _RedBoxLocationsInMapScreenState extends State<RedBoxLocationsInMapScreen> {
-  Completer<GoogleMapController> _controller = Completer();
+class _RedBoxLocationsInMapScreenState
+    extends State<RedBoxLocationsInMapScreen> {
+  final Completer<GoogleMapController> _controller = Completer();
   Set<Marker> marker = <Marker>{};
   AppController appController = Get.find();
 
   Future<void> iniMarker() async {
     for (var element in widget.listPoints) {
-      marker.add(Marker(
+      marker.add(
+        Marker(
           markerId: MarkerId(element.id.toString()),
-          position: LatLng(element.location!.lat! ?? 0.0, element.location!.lng ?? 0.0),
+          position: LatLng(
+            element.location!.lat ?? 0.0,
+            element.location!.lng ?? 0.0,
+          ),
           onTap: () {
             debugPrint('pressed on Marker');
             debugPrint(element.location!.lat.toString());
             appController.updateMyMarker(MyMarker(point: element));
-          }));
+          },
+        ),
+      );
       setState(() {});
     }
   }
@@ -48,18 +60,25 @@ class _RedBoxLocationsInMapScreenState extends State<RedBoxLocationsInMapScreen>
     filteredMarkers.clear();
     for (var element in widget.listPoints) {
       if (element.pointName!.toLowerCase().contains(query.toLowerCase()) ||
-          element.address!.street!.toLowerCase().contains(query.toLowerCase()) ||
+          element.address!.street!
+              .toLowerCase()
+              .contains(query.toLowerCase()) ||
           element.hostNameAr!.toLowerCase().contains(query.toLowerCase())) {
-        print('${element.pointName}');
-        filteredMarkers.add(Marker(
-          markerId: MarkerId(element.id.toString()),
-          position: LatLng(element.location!.lat ?? 0.0, element.location!.lng ?? 0.0),
-          onTap: () {
-            debugPrint('pressed on Marker');
-            debugPrint(element.location!.lat.toString());
-            appController.updateMyMarker(MyMarker(point: element));
-          },
-        ));
+        debugPrint('${element.pointName}');
+        filteredMarkers.add(
+          Marker(
+            markerId: MarkerId(element.id.toString()),
+            position: LatLng(
+              element.location!.lat ?? 0.0,
+              element.location!.lng ?? 0.0,
+            ),
+            onTap: () {
+              debugPrint('pressed on Marker');
+              debugPrint(element.location!.lat.toString());
+              appController.updateMyMarker(MyMarker(point: element));
+            },
+          ),
+        );
       }
     }
     setState(() {
@@ -70,8 +89,8 @@ class _RedBoxLocationsInMapScreenState extends State<RedBoxLocationsInMapScreen>
   @override
   void initState() {
     iniMarker();
-    print(widget.listPoints.toString());
-    log('testtttttt' + appController.myMarker.toString());
+    debugPrint(widget.listPoints.toString());
+    log('testtttttt${appController.myMarker}');
     location.Location.instance.requestPermission();
     super.initState();
   }
@@ -98,17 +117,21 @@ class _RedBoxLocationsInMapScreenState extends State<RedBoxLocationsInMapScreen>
                   children: [
                     GoogleMap(
                       mapType: MapType.normal,
-                    // minMaxZoomPreference: MinMaxZoomPreference(1,1),
+                      // minMaxZoomPreference: MinMaxZoomPreference(1,1),
                       initialCameraPosition: CameraPosition(
-                        target: LatLng(snapshot.data?.latitude ?? 0.0, snapshot.data!.longitude!),
+                        target: LatLng(
+                          snapshot.data?.latitude ?? 0.0,
+                          snapshot.data!.longitude!,
+                        ),
                         zoom: 19,
                       ),
                       myLocationEnabled: true,
-                      padding: EdgeInsets.only(top: 100),
+                      padding: const EdgeInsets.only(top: 100),
                       onMapCreated: (GoogleMapController controller) {
                         _controller.complete(controller);
                       },
-                      markers: filteredMarkers.isNotEmpty ? filteredMarkers : marker,
+                      markers:
+                          filteredMarkers.isNotEmpty ? filteredMarkers : marker,
                       onTap: (latlng) {
                         setState(() {
                           appController.myMarker = null;
@@ -128,49 +151,64 @@ class _RedBoxLocationsInMapScreenState extends State<RedBoxLocationsInMapScreen>
                       children: [
                         Expanded(
                           child: Container(
-                            margin: EdgeInsets.only(right: 15),
+                            margin: const EdgeInsets.only(right: 15),
                             child: TextFormField(
                               onChanged: (query) {
                                 search(query);
                                 setState(() {});
                               },
                               decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'search_value'.tr,
-                                  filled: true,
-                                  fillColor: Colors.white,
-                                  hintStyle: TextStyle(fontSize: 13, fontWeight: FontWeight.normal, fontFamily: 'urw_din'),
-                                  // filled: true,
-                                  // fillColor: AppColors.whiteColor,
-                                  contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: AppColors.grey),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: AppColors.grey),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  ),
-                                  disabledBorder: OutlineInputBorder(
-                                    borderSide: const BorderSide(color: AppColors.grey),
-                                    borderRadius: BorderRadius.circular(8.0),
-                                  )),
+                                border: InputBorder.none,
+                                hintText: 'search_value'.tr,
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintStyle: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.normal,
+                                  fontFamily: 'urw_din',
+                                ),
+                                // filled: true,
+                                // fillColor: AppColors.whiteColor,
+                                contentPadding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 15,
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: AppColors.grey),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: AppColors.grey),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                                disabledBorder: OutlineInputBorder(
+                                  borderSide:
+                                      const BorderSide(color: AppColors.grey),
+                                  borderRadius: BorderRadius.circular(8.0),
+                                ),
+                              ),
                             ),
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 50),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20.0,
+                            vertical: 50,
+                          ),
                           child: GestureDetector(
                             onTap: () {
                               Navigator.of(context).pop();
                             },
-                            child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.white,
-                                child: Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.black,
-                                )),
+                            child: const CircleAvatar(
+                              radius: 25,
+                              backgroundColor: Colors.white,
+                              child: Icon(
+                                Icons.arrow_forward,
+                                color: Colors.black,
+                              ),
+                            ),
                           ),
                         ),
                       ],

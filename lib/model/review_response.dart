@@ -1,8 +1,10 @@
 class ListReviewResponse {
-  List<ReviewResponse>? listReviewResponse ;
-  String? totalPage ;
+  List<ReviewResponse>? listReviewResponse;
 
-  ListReviewResponse({this.listReviewResponse,this.totalPage});
+  String? totalPage;
+
+  ListReviewResponse({this.listReviewResponse, this.totalPage});
+
   ListReviewResponse.fromJson(json) {
     if (json != null) {
       listReviewResponse = <ReviewResponse>[];
@@ -10,9 +12,9 @@ class ListReviewResponse {
         listReviewResponse!.add(ReviewResponse.fromJson(v));
       });
     }
-
   }
 }
+
 class ReviewResponse {
   int? id;
   String? dateCreated;
@@ -26,18 +28,19 @@ class ReviewResponse {
   bool? verified;
   ReviewerAvatarUrls? reviewerAvatarUrls;
 
-  ReviewResponse(
-      {this.id,
-        this.dateCreated,
-        this.productId,
-        this.productName,
-        this.status,
-        this.reviewer,
-        this.reviewerEmail,
-        this.review,
-        this.rating,
-        this.verified,
-        this.reviewerAvatarUrls});
+  ReviewResponse({
+    this.id,
+    this.dateCreated,
+    this.productId,
+    this.productName,
+    this.status,
+    this.reviewer,
+    this.reviewerEmail,
+    this.review,
+    this.rating,
+    this.verified,
+    this.reviewerAvatarUrls,
+  });
 
   ReviewResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -51,24 +54,24 @@ class ReviewResponse {
     rating = json['rating'];
     verified = json['verified'];
     reviewerAvatarUrls = json['reviewer_avatar_urls'] != null
-        ? new ReviewerAvatarUrls.fromJson(json['reviewer_avatar_urls'])
+        ? ReviewerAvatarUrls.fromJson(json['reviewer_avatar_urls'])
         : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date_created'] = this.dateCreated;
-    data['product_id'] = this.productId;
-    data['product_name'] = this.productName;
-    data['status'] = this.status;
-    data['reviewer'] = this.reviewer;
-    data['reviewer_email'] = this.reviewerEmail;
-    data['review'] = this.review;
-    data['rating'] = this.rating;
-    data['verified'] = this.verified;
-    if (this.reviewerAvatarUrls != null) {
-      data['reviewer_avatar_urls'] = this.reviewerAvatarUrls!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['date_created'] = dateCreated;
+    data['product_id'] = productId;
+    data['product_name'] = productName;
+    data['status'] = status;
+    data['reviewer'] = reviewer;
+    data['reviewer_email'] = reviewerEmail;
+    data['review'] = review;
+    data['rating'] = rating;
+    data['verified'] = verified;
+    if (reviewerAvatarUrls != null) {
+      data['reviewer_avatar_urls'] = reviewerAvatarUrls!.toJson();
     }
     return data;
   }
@@ -88,10 +91,10 @@ class ReviewerAvatarUrls {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['24'] = this.s24;
-    data['48'] = this.s48;
-    data['96'] = this.s96;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['24'] = s24;
+    data['48'] = s48;
+    data['96'] = s96;
     return data;
   }
 }

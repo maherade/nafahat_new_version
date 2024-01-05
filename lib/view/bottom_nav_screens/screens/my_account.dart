@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:perfume_store_mobile_app/apies/auth_apies.dart';
 import 'package:perfume_store_mobile_app/view/profile/screen/update_profile_screen.dart';
 import 'package:perfume_store_mobile_app/view/splash/screen/splash_screen.dart';
 
@@ -22,6 +21,8 @@ import '../../who_us/who_us_screen.dart';
 import '../../wholesale/whole_sale_screen.dart';
 
 class MyAccount extends StatefulWidget {
+  const MyAccount({super.key});
+
   @override
   State<MyAccount> createState() => _MyAccountState();
 }
@@ -55,14 +56,16 @@ class _MyAccountState extends State<MyAccount> {
                       child: Row(
                         children: [
                           Container(
-                              height: 40.h,
-                              width: 40.w,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              decoration: const BoxDecoration(shape: BoxShape.circle),
-                              child: Image.asset(
-                                'assets/images/logo.png',
-                                fit: BoxFit.contain,
-                              ),),
+                            height: 40.h,
+                            width: 40.w,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            decoration:
+                                const BoxDecoration(shape: BoxShape.circle),
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                           SizedBox(
                             width: 15.w,
                           ),
@@ -75,7 +78,7 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                               CustomText(
                                 auth?[0].userMainEmail ?? '',
-                                color: Color(0xff886c72),
+                                color: const Color(0xff886c72),
                                 fontSize: 14.sp,
                               )
                             ],
@@ -111,7 +114,7 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => UpdateProfileScreen());
+                        Get.to(() => const UpdateProfileScreen());
                       },
                       leading: Image.asset(
                         'assets/images/profile.png',
@@ -122,14 +125,14 @@ class _MyAccountState extends State<MyAccount> {
                         "personal_information_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => FavouriteScreen());
+                        Get.to(() => const FavoriteScreen());
                       },
                       leading: Image.asset(
                         'assets/images/favourite.png',
@@ -140,14 +143,14 @@ class _MyAccountState extends State<MyAccount> {
                         "favourite_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => MyPointScreen());
+                        Get.to(() => const MyPointScreen());
                       },
                       leading: Image.asset(
                         'assets/images/my_point.png',
@@ -158,14 +161,14 @@ class _MyAccountState extends State<MyAccount> {
                         "my_points_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => MyOrderScreen());
+                        Get.to(() => const MyOrderScreen());
                       },
                       leading: Image.asset(
                         'assets/images/my_order.png',
@@ -176,14 +179,14 @@ class _MyAccountState extends State<MyAccount> {
                         "my_order_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => GiftCard());
+                        Get.to(() => const GiftCard());
                       },
                       leading: Image.asset(
                         'assets/images/gift.png',
@@ -194,7 +197,7 @@ class _MyAccountState extends State<MyAccount> {
                         "gift_card_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
@@ -216,14 +219,14 @@ class _MyAccountState extends State<MyAccount> {
                         "whole_sale_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => WhoUsScreen());
+                        Get.to(() => const WhoUsScreen());
                       },
                       leading: Image.asset(
                         'assets/images/who_us.png',
@@ -234,14 +237,14 @@ class _MyAccountState extends State<MyAccount> {
                         "who_us_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => PrivacyPolicyScreen());
+                        Get.to(() => const PrivacyPolicyScreen());
                       },
                       leading: Image.asset(
                         'assets/images/privacy.png',
@@ -252,14 +255,14 @@ class _MyAccountState extends State<MyAccount> {
                         "privacy_policy_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => TermsAndCondition());
+                        Get.to(() => const TermsAndCondition());
                       },
                       leading: Image.asset(
                         'assets/images/terms.png',
@@ -270,14 +273,14 @@ class _MyAccountState extends State<MyAccount> {
                         "terms_and_condition_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => CommonQuestionScreen());
+                        Get.to(() => const CommonQuestionScreen());
                       },
                       leading: Image.asset(
                         'assets/images/question.png',
@@ -288,14 +291,14 @@ class _MyAccountState extends State<MyAccount> {
                         "common_question_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => HelpAndSupportScreen());
+                        Get.to(() => const HelpAndSupportScreen());
                       },
                       leading: Image.asset(
                         'assets/images/contact_us.png',
@@ -306,7 +309,7 @@ class _MyAccountState extends State<MyAccount> {
                         "contact_us_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
@@ -314,7 +317,8 @@ class _MyAccountState extends State<MyAccount> {
                     ListTile(
                       onTap: () {
                         SPHelper.spHelper.removeToken();
-                        Get.offAll(() => LoginScreen());
+                        SPHelper.spHelper.removeUserId();
+                        Get.offAll(() => const LoginScreen());
                       },
                       leading: Image.asset(
                         'assets/images/logout.png',
@@ -325,7 +329,7 @@ class _MyAccountState extends State<MyAccount> {
                         "logout_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
@@ -344,7 +348,7 @@ class _MyAccountState extends State<MyAccount> {
                         fontSize: 13.sp,
                         color: Colors.red,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                   ],
                 )
@@ -358,14 +362,16 @@ class _MyAccountState extends State<MyAccount> {
                       child: Row(
                         children: [
                           Container(
-                              height: 40.h,
-                              width: 40.w,
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              decoration: const BoxDecoration(shape: BoxShape.circle),
-                              child: Image.asset(
-                                'assets/images/logo.png',
-                                fit: BoxFit.contain,
-                              )),
+                            height: 40.h,
+                            width: 40.w,
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            decoration:
+                                const BoxDecoration(shape: BoxShape.circle),
+                            child: Image.asset(
+                              'assets/images/logo.png',
+                              fit: BoxFit.contain,
+                            ),
+                          ),
                           SizedBox(
                             width: 15.w,
                           ),
@@ -378,7 +384,7 @@ class _MyAccountState extends State<MyAccount> {
                               ),
                               CustomText(
                                 'sign_in_to_use_all_feature_value'.tr,
-                                color: Color(0xff886c72),
+                                color: const Color(0xff886c72),
                                 fontSize: 12.sp,
                               )
                             ],
@@ -414,7 +420,11 @@ class _MyAccountState extends State<MyAccount> {
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => FavouriteScreen());
+                        if (SPHelper.spHelper.getToken() == null) {
+                          Get.offAll(() => const LoginScreen());
+                        } else {
+                          Get.to(() => const FavoriteScreen());
+                        }
                       },
                       leading: Image.asset(
                         'assets/images/favourite.png',
@@ -425,7 +435,7 @@ class _MyAccountState extends State<MyAccount> {
                         "favourite_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
@@ -447,14 +457,14 @@ class _MyAccountState extends State<MyAccount> {
                         "whole_sale_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => WhoUsScreen());
+                        Get.to(() => const WhoUsScreen());
                       },
                       leading: Image.asset(
                         'assets/images/who_us.png',
@@ -465,14 +475,14 @@ class _MyAccountState extends State<MyAccount> {
                         "who_us_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => PrivacyPolicyScreen());
+                        Get.to(() => const PrivacyPolicyScreen());
                       },
                       leading: Image.asset(
                         'assets/images/privacy.png',
@@ -483,14 +493,14 @@ class _MyAccountState extends State<MyAccount> {
                         "privacy_policy_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => TermsAndCondition());
+                        Get.to(() => const TermsAndCondition());
                       },
                       leading: Image.asset(
                         'assets/images/terms.png',
@@ -501,14 +511,14 @@ class _MyAccountState extends State<MyAccount> {
                         "terms_and_condition_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => CommonQuestionScreen());
+                        Get.to(() => const CommonQuestionScreen());
                       },
                       leading: Image.asset(
                         'assets/images/question.png',
@@ -519,14 +529,14 @@ class _MyAccountState extends State<MyAccount> {
                         "common_question_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
                     ),
                     ListTile(
                       onTap: () {
-                        Get.to(() => HelpAndSupportScreen());
+                        Get.to(() => const HelpAndSupportScreen());
                       },
                       leading: Image.asset(
                         'assets/images/contact_us.png',
@@ -537,7 +547,7 @@ class _MyAccountState extends State<MyAccount> {
                         "contact_us_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
@@ -548,7 +558,7 @@ class _MyAccountState extends State<MyAccount> {
                     ListTile(
                       onTap: () {
                         SPHelper.spHelper.removeToken();
-                        Get.offAll(() => LoginScreen());
+                        Get.offAll(() => const LoginScreen());
                       },
                       leading: Image.asset(
                         'assets/images/logout.png',
@@ -559,7 +569,7 @@ class _MyAccountState extends State<MyAccount> {
                         "login_value".tr,
                         fontSize: 13.sp,
                       ),
-                      trailing: Icon(Icons.arrow_back_ios_new),
+                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
                     SizedBox(
                       height: 10.h,
@@ -576,7 +586,7 @@ class _MyAccountState extends State<MyAccount> {
 
   Widget selectLang({List<dynamic>? language}) {
     return language == null
-        ? CupertinoActivityIndicator()
+        ? const CupertinoActivityIndicator()
         : Container(
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -626,9 +636,10 @@ class _MyAccountState extends State<MyAccount> {
               onChanged: (value) {
                 setState(() {
                   selectedLang = value;
-                  myLocaleController.changeLang(value == 'العربية' ? 'ar' : 'en');
+                  myLocaleController
+                      .changeLang(value == 'العربية' ? 'ar' : 'en');
                 });
-                Get.offAll(()=>SplashScreen());
+                Get.offAll(() => const SplashScreen());
               },
             ),
           );

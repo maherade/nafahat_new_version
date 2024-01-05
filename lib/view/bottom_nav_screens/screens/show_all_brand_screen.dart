@@ -1,13 +1,15 @@
-
 import 'package:perfume_store_mobile_app/apies/brand_apies.dart';
 import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/Skelton.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field.dart';
 import 'package:perfume_store_mobile_app/view/shop_by_brand/screen/shop_by_brand_screen.dart';
+
 import '../../../services/app_imports.dart';
 
 class ShowAllBrandScreen extends StatefulWidget {
+  const ShowAllBrandScreen({super.key});
+
   @override
   State<ShowAllBrandScreen> createState() => _ShopByBrandScreenState();
 }
@@ -19,8 +21,7 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
 
   @override
   void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-    });
+    WidgetsBinding.instance.addPostFrameCallback((_) {});
     super.initState();
   }
 
@@ -41,8 +42,8 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
           color: AppColors.primaryColor,
           strokeWidth: 3,
           triggerMode: RefreshIndicatorTriggerMode.onEdge,
-          onRefresh: ()async{
-             BrandApies.brandApies.getBrandData();
+          onRefresh: () async {
+            BrandApies.brandApies.getBrandData();
           },
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -71,14 +72,20 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                           controller: searchController,
                           hintText: 'search_by_brand_value'.tr,
                         ),
-
                       ),
-                      SizedBox(width: 10.w,),
+                      SizedBox(
+                        width: 10.w,
+                      ),
                       CustomButton(
-                        onTap: (){
-                          BrandApies.brandApies.getBrandData(search: searchController.text);
+                        onTap: () {
+                          BrandApies.brandApies
+                              .getBrandData(search: searchController.text);
                         },
-                        height: 52.h,width: 65.w,radious:5,title: 'search_value'.tr,)
+                        height: 52.h,
+                        width: 65.w,
+                        radious: 5,
+                        title: 'search_value'.tr,
+                      )
                     ],
                   ),
                 ),
@@ -91,13 +98,16 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                       ? ListView.separated(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
                               onTap: () {
-                                Get.to(() => ShopByBrandScreen(
-                                      brandId: int.parse(brand[index].data!.termId!),
-                                    ));
+                                Get.to(
+                                  () => ShopByBrandScreen(
+                                    brandId:
+                                        int.parse(brand[index].data!.termId!),
+                                  ),
+                                );
                               },
                               title: CustomText(
                                 brand[index].data?.name,
@@ -111,9 +121,12 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                               ),
                             );
                           },
-                          itemCount: brand.length, separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(height: 10.h,);
-                  },
+                          itemCount: brand.length,
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 10.h,
+                            );
+                          },
                         )
                       : ListView.builder(
                           padding: EdgeInsets.zero,
@@ -127,7 +140,7 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                                     height: 50.h,
                                     width: 60.w,
                                   ),
-                                  Spacer(),
+                                  const Spacer(),
                                   Skelton(
                                     height: 10.h,
                                     width: 100.w,

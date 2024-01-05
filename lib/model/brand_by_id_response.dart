@@ -1,4 +1,3 @@
-
 class BrandByIdResponse {
   int? termId;
   String? name;
@@ -13,19 +12,20 @@ class BrandByIdResponse {
   List<dynamic>? brandImage;
   bool? brandBanner;
 
-  BrandByIdResponse(
-      {this.termId,
-        this.name,
-        this.slug,
-        this.termGroup,
-        this.termTaxonomyId,
-        this.taxonomy,
-        this.description,
-        this.parent,
-        this.count,
-        this.filter,
-        this.brandImage,
-        this.brandBanner});
+  BrandByIdResponse({
+    this.termId,
+    this.name,
+    this.slug,
+    this.termGroup,
+    this.termTaxonomyId,
+    this.taxonomy,
+    this.description,
+    this.parent,
+    this.count,
+    this.filter,
+    this.brandImage,
+    this.brandBanner,
+  });
 
   BrandByIdResponse.fromJson(Map<String, dynamic> json) {
     termId = json['term_id'];
@@ -43,19 +43,19 @@ class BrandByIdResponse {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['term_id'] = this.termId;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['term_group'] = this.termGroup;
-    data['term_taxonomy_id'] = this.termTaxonomyId;
-    data['taxonomy'] = this.taxonomy;
-    data['description'] = this.description;
-    data['parent'] = this.parent;
-    data['count'] = this.count;
-    data['filter'] = this.filter;
-    data['brand_image'] = this.brandImage;
-    data['brand_banner'] = this.brandBanner;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['term_id'] = termId;
+    data['name'] = name;
+    data['slug'] = slug;
+    data['term_group'] = termGroup;
+    data['term_taxonomy_id'] = termTaxonomyId;
+    data['taxonomy'] = taxonomy;
+    data['description'] = description;
+    data['parent'] = parent;
+    data['count'] = count;
+    data['filter'] = filter;
+    data['brand_image'] = brandImage;
+    data['brand_banner'] = brandBanner;
     return data;
   }
 }

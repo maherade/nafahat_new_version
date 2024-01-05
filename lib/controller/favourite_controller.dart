@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
-import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class FavouriteItem {
@@ -14,7 +13,17 @@ class FavouriteItem {
   final String? priceBeforeDiscount;
   final String? priceAfterDiscount;
 
-  FavouriteItem(this.id,this.imgUrl, this.brandName, this.perfumeName, this.perfumeRate, this.rateCount, this.priceBeforeDiscount, this.priceAfterDiscount);
+  FavouriteItem(
+    this.id,
+    this.imgUrl,
+    this.brandName,
+    this.perfumeName,
+    this.perfumeRate,
+    this.rateCount,
+    this.priceBeforeDiscount,
+    this.priceAfterDiscount,
+  );
+
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -27,10 +36,9 @@ class FavouriteItem {
       'priceAfterDiscount': priceAfterDiscount,
     };
   }
-
 }
 
-class FavouriteController extends GetxController {
+class FavoriteController extends GetxController {
   Map<String, FavouriteItem> _items = {};
 
   Map<String, FavouriteItem> get items {
@@ -41,43 +49,45 @@ class FavouriteController extends GetxController {
     return _items.length;
   }
 
-  bool addItem(
-      {String? pdtid,
-      String? imgUrl,
-        String? brandName,
-        String? perfumeName,
-        double? perfumeRate,
-        String? rateCount,
-        String? priceBeforeDiscount,
-        String? priceAfterDiscount,
-      }) {
+  bool addItem({
+    String? pdtid,
+    String? imgUrl,
+    String? brandName,
+    String? perfumeName,
+    double? perfumeRate,
+    String? rateCount,
+    String? priceBeforeDiscount,
+    String? priceAfterDiscount,
+  }) {
     if (_items.containsKey(pdtid)) {
       _items.update(
-          pdtid!,
-              (existingFavouriteItem) => FavouriteItem(
-                pdtid = existingFavouriteItem.id,
-                imgUrl = existingFavouriteItem.imgUrl,
-                brandName = existingFavouriteItem.brandName,
-                perfumeName = existingFavouriteItem.perfumeName,
-                perfumeRate = existingFavouriteItem.perfumeRate,
-                rateCount = existingFavouriteItem.rateCount,
-                priceBeforeDiscount = existingFavouriteItem.priceBeforeDiscount,
-                priceAfterDiscount = existingFavouriteItem.priceAfterDiscount,
-              ));
+        pdtid!,
+        (existingFavouriteItem) => FavouriteItem(
+          pdtid = existingFavouriteItem.id,
+          imgUrl = existingFavouriteItem.imgUrl,
+          brandName = existingFavouriteItem.brandName,
+          perfumeName = existingFavouriteItem.perfumeName,
+          perfumeRate = existingFavouriteItem.perfumeRate,
+          rateCount = existingFavouriteItem.rateCount,
+          priceBeforeDiscount = existingFavouriteItem.priceBeforeDiscount,
+          priceAfterDiscount = existingFavouriteItem.priceAfterDiscount,
+        ),
+      );
       update();
     } else {
       _items.putIfAbsent(
-          pdtid!,
-              () => FavouriteItem(
-                pdtid = pdtid,
-                imgUrl = imgUrl,
-                brandName = brandName,
-                perfumeName = perfumeName,
-                perfumeRate = perfumeRate,
-                rateCount = rateCount,
-                priceBeforeDiscount = priceBeforeDiscount,
-                priceAfterDiscount = priceAfterDiscount,
-          ));
+        pdtid!,
+        () => FavouriteItem(
+          pdtid = pdtid,
+          imgUrl = imgUrl,
+          brandName = brandName,
+          perfumeName = perfumeName,
+          perfumeRate = perfumeRate,
+          rateCount = rateCount,
+          priceBeforeDiscount = priceBeforeDiscount,
+          priceAfterDiscount = priceAfterDiscount,
+        ),
+      );
     }
     _saveItemsToPrefs();
     update();
@@ -91,26 +101,32 @@ class FavouriteController extends GetxController {
     return true;
   }
 
-
-
   void clear() {
     _items = {};
     _saveItemsToPrefs();
     update();
   }
 
-
   Future<void> loadItemsFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     final itemsJson = prefs.getString('favouriteItems') ?? '{}';
     final itemsMap = json.decode(itemsJson) as Map<String, dynamic>;
     _items = itemsMap.map(
-          (key, value) => MapEntry(
+      (key, value) => MapEntry(
         key,
-        FavouriteItem(value['id'], value['imgUrl'],value['brandName'],value['perfumeName'],value['perfumeRate'],value['rateCount'],value['priceBeforeDiscount'],value['priceAfterDiscount']),
+        FavouriteItem(
+          value['id'],
+          value['imgUrl'],
+          value['brandName'],
+          value['perfumeName'],
+          value['perfumeRate'],
+          value['rateCount'],
+          value['priceBeforeDiscount'],
+          value['priceAfterDiscount'],
+        ),
       ),
     );
-    // _items.forEach((key, value) {print(key);});
+    // _items.forEach((key, value) {log(key);});
     update();
   }
 
@@ -123,5 +139,4 @@ class FavouriteController extends GetxController {
     prefs.setString('favouriteItems', json.encode(itemsJson));
     loadItemsFromPrefs();
   }
-
 }

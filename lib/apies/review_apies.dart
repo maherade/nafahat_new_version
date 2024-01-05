@@ -1,17 +1,14 @@
-
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart' as myGet;
 
 import '../const_urls.dart';
 import '../controller/review_controller.dart';
-
 import '../model/review_response.dart';
 import '../services/Settingss.dart';
 import '../services/helper.dart';
 import '../services/progress_dialog_utils.dart';
 import '../services/sp_helper.dart';
-
-
 
 class ReviewApies {
   ReviewApies._();
@@ -19,29 +16,34 @@ class ReviewApies {
   static ReviewApies reviewApies = ReviewApies._();
   ReviewController reviewController = myGet.Get.find();
 
-
   getReviewData(String productId) async {
     reviewController.getReviewData!.value = ListReviewResponse();
     try {
       Response response = await Settingss.settings.dio!.get(
-          reviewURL,
+        reviewURL,
         queryParameters: {
           'endpoint': 'reviews',
           'product': productId,
-          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-        }
+          'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        },
       );
       if (response.statusCode == 200) {
-        reviewController.getReviewData!.value = ListReviewResponse.fromJson(response.data);
-        print("getReviewData Successful ");
+        reviewController.getReviewData!.value =
+            ListReviewResponse.fromJson(response.data);
+        debugPrint("getReviewData Successful ");
       } else {}
     } catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
-
-  postComment({String? productId,String? userName,String? userEmail,String? reviewContent,int? rate}) async {
+  postComment({
+    String? productId,
+    String? userName,
+    String? userEmail,
+    String? reviewContent,
+    int? rate,
+  }) async {
     try {
       ProgressDialogUtils.show();
       FormData data = FormData.fromMap({
@@ -53,20 +55,19 @@ class ReviewApies {
         'rating': rate,
       });
       Response response = await Settingss.settings.dio!.post(
-          reviewURL,
+        reviewURL,
         data: data,
         queryParameters: {
-            "endpoint":"reviews",
-            "create":"true",
-          'lang' : SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
-
-        }
+          "endpoint": "reviews",
+          "create": "true",
+          'lang': SPHelper.spHelper.getDefaultLanguage() == 'en' ? 'en' : 'ar'
+        },
       );
       if (response.statusCode! >= 200) {
         getReviewData(productId!);
         ProgressDialogUtils.hide();
         Helper.getSheetSucsses('rate_add_successful_value'.tr);
-        print("postComment Successful ");
+        debugPrint("postComment Successful ");
       } else {
         ProgressDialogUtils.hide();
         Helper.getSheetError('check_entered_data_value'.tr);
@@ -74,9 +75,7 @@ class ReviewApies {
     } catch (e) {
       ProgressDialogUtils.hide();
       Helper.getSheetError('check_entered_data_value'.tr);
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
-
-
 }

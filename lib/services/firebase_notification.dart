@@ -1,33 +1,43 @@
 import 'dart:async';
 import 'dart:developer';
 import 'dart:io';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+
 import 'app_imports.dart';
 
 class NotificationHelper {
   NotificationHelper._();
+
   static NotificationHelper notificationHelper = NotificationHelper._();
 
   String token = '';
   String navigationActionId = 'id_3';
 
   final FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
-  final StreamController<String?> selectNotificationStream = StreamController<String?>.broadcast();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+  final StreamController<String?> selectNotificationStream =
+      StreamController<String?>.broadcast();
 
-  static void notificationTapBackground(NotificationResponse notificationResponse) {
-    print('notification(${notificationResponse.id}) action tapped: '
+  static void notificationTapBackground(
+    NotificationResponse notificationResponse,
+  ) {
+    debugPrint('notification(${notificationResponse.id}) action tapped: '
         '${notificationResponse.actionId} with'
         ' payload: ${notificationResponse.payload}');
     if (notificationResponse.input?.isNotEmpty ?? false) {
-      print('notification action tapped with input: ${notificationResponse.input}');
+      debugPrint(
+        'notification action tapped with input: ${notificationResponse.input}',
+      );
     }
   }
 
   Future<void> initialNotification() async {
     getToken();
-    var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
+    var initializationSettingsAndroid =
+        const AndroidInitializationSettings('@mipmap/ic_launcher');
     var initializationSettingsIOS = const DarwinInitializationSettings();
     var initializationSettings = InitializationSettings(
       android: initializationSettingsAndroid,
@@ -35,7 +45,8 @@ class NotificationHelper {
     );
     flutterLocalNotificationsPlugin.initialize(
       initializationSettings,
-      onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) {
+      onDidReceiveNotificationResponse:
+          (NotificationResponse notificationResponse) {
         switch (notificationResponse.notificationResponseType) {
           case NotificationResponseType.selectedNotification:
             selectNotificationStream.add(notificationResponse.payload);
@@ -47,7 +58,8 @@ class NotificationHelper {
             break;
         }
       },
-      onDidReceiveBackgroundNotificationResponse: notificationTapBackground, // Use the static function here
+      onDidReceiveBackgroundNotificationResponse:
+          notificationTapBackground, // Use the static function here
     );
 
     await firebaseMessaging.requestPermission(
@@ -60,33 +72,36 @@ class NotificationHelper {
       sound: true,
     );
 
-    await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    await FirebaseMessaging.instance
+        .setForegroundNotificationPresentationOptions(
       alert: true,
       badge: true,
       sound: true,
     );
 
-    Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-      print("Handling a background message");
+    Future<void> firebaseMessagingBackgroundHandler(
+      RemoteMessage message,
+    ) async {
+      debugPrint("Handling a background message");
     }
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       if (message.notification != null) {
-        print('done FirebaseMessaging onMessageOpenedApp ');
+        debugPrint('done FirebaseMessaging onMessageOpenedApp ');
       }
     });
 
     FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      print('Got a message whilst in the foreground!');
+      debugPrint('Got a message whilst in the foreground!');
 
       RemoteNotification notification = message.notification!;
-      print(notification.title);
-      print(notification.body);
+      debugPrint(notification.title);
+      debugPrint(notification.body);
 
-      if (notification != null) {
-        print('done');
-        Platform.isIOS ? print('done IOS') : showNotification(notification.title, notification.body);
-      }
+      debugPrint('done');
+      Platform.isIOS
+          ? debugPrint('done IOS')
+          : showNotification(notification.title, notification.body);
     });
   }
 

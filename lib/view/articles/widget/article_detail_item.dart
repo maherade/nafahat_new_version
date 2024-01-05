@@ -8,7 +8,16 @@ class ArticleDetailItem extends StatelessWidget {
   final String? description;
   final VoidCallback? onTapReadMore;
 
-  const ArticleDetailItem({super.key, this.imgUrl, this.category, this.date, this.title, this.description, this.onTapReadMore});
+  const ArticleDetailItem({
+    super.key,
+    this.imgUrl,
+    this.category,
+    this.date,
+    this.title,
+    this.description,
+    this.onTapReadMore,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,10 +32,11 @@ class ArticleDetailItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CachedNetworkImageShare(
-              urlImage: imgUrl,
-              fit: BoxFit.cover,
-              heigthNumber: 250.h,
-              widthNumber: double.infinity),
+            urlImage: imgUrl,
+            fit: BoxFit.cover,
+            heigthNumber: 250.h,
+            widthNumber: double.infinity,
+          ),
           SizedBox(
             height: 18.h,
           ),

@@ -4,6 +4,8 @@ import '../../../controller/app_controller.dart';
 import '../../../services/app_imports.dart';
 
 class CustomNavBottom extends StatefulWidget {
+  const CustomNavBottom({super.key});
+
   @override
   State<CustomNavBottom> createState() => _CustomNavBottomState();
 }
@@ -97,7 +99,6 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                     fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
                     color: AppColors.blackColor,
-
                   )
                 ],
               ),

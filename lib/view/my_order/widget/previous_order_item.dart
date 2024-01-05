@@ -24,25 +24,29 @@ class PreviousOrderItem extends StatelessWidget {
 
   final VoidCallback? onTapReOrder;
 
-  const PreviousOrderItem(
-      {super.key,
-        this.orderId,
-        this.orderStatus,
-        this.productName,
-        this.productPrice,
-        this.deliveryLocation,
-        this.deliveryDate,
-        this.deliveryTime,
-        this.paymentMethod,
-        this.imgUrls,
-        this.onTapReOrder});
+  const PreviousOrderItem({
+    super.key,
+    this.orderId,
+    this.orderStatus,
+    this.productName,
+    this.productPrice,
+    this.deliveryLocation,
+    this.deliveryDate,
+    this.deliveryTime,
+    this.paymentMethod,
+    this.imgUrls,
+    this.onTapReOrder,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(14.w),
-      margin: EdgeInsets.symmetric(horizontal: 18.w,vertical: 8.h),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r), border: Border.all(color: Color(0xffdcd9da))),
+      margin: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.r),
+        border: Border.all(color: const Color(0xffdcd9da)),
+      ),
       child: Column(
         children: [
           Row(
@@ -51,7 +55,7 @@ class PreviousOrderItem extends StatelessWidget {
               CustomText(
                 orderId,
                 fontSize: 13.sp,
-                color: Color(0xff6d8589),
+                color: const Color(0xff6d8589),
               ),
               Row(
                 children: [
@@ -59,7 +63,12 @@ class PreviousOrderItem extends StatelessWidget {
                     margin: EdgeInsets.only(top: 5.h),
                     height: 7.h,
                     width: 7.w,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color:orderStatus == "completed" ?Color(0xff2ca882) :Color(0xffd8322c)),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: orderStatus == "completed"
+                          ? const Color(0xff2ca882)
+                          : const Color(0xffd8322c),
+                    ),
                   ),
                   SizedBox(
                     width: 5.w,
@@ -68,10 +77,12 @@ class PreviousOrderItem extends StatelessWidget {
                     orderStatus == "completed"
                         ? "مكتمل"
                         : orderStatus == "cancelled"
-                        ? "ملغي"
-                        : "",
+                            ? "ملغي"
+                            : "",
                     fontSize: 13.sp,
-                    color:orderStatus == "completed" ?Color(0xff2ca882) :Color(0xffd8322c),
+                    color: orderStatus == "completed"
+                        ? const Color(0xff2ca882)
+                        : const Color(0xffd8322c),
                   ),
                 ],
               ),
@@ -87,7 +98,7 @@ class PreviousOrderItem extends StatelessWidget {
               CustomText(
                 'اسم المنتج',
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               Expanded(
                 child: CustomText(
@@ -107,7 +118,7 @@ class PreviousOrderItem extends StatelessWidget {
               CustomText(
                 'السعر الكلي',
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 productPrice,
@@ -124,7 +135,7 @@ class PreviousOrderItem extends StatelessWidget {
               CustomText(
                 'مكان التوصيل',
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 deliveryLocation,
@@ -141,10 +152,13 @@ class PreviousOrderItem extends StatelessWidget {
               CustomText(
                 'تاريخ التوصيل',
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
-              deliveryDate==null? deliveryDate :DateFormat('yyyy-MM-dd').format(DateTime.parse(deliveryDate!)),
+                deliveryDate == null
+                    ? deliveryDate
+                    : DateFormat('yyyy-MM-dd')
+                        .format(DateTime.parse(deliveryDate!)),
                 fontSize: 13.sp,
               ),
             ],
@@ -158,10 +172,13 @@ class PreviousOrderItem extends StatelessWidget {
               CustomText(
                 'وقت التوصيل',
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
-                deliveryTime==null? deliveryTime :DateFormat('hh:mm:ss a').format(DateTime.parse(deliveryTime!)),
+                deliveryTime == null
+                    ? deliveryTime
+                    : DateFormat('hh:mm:ss a')
+                        .format(DateTime.parse(deliveryTime!)),
                 fontSize: 13.sp,
               ),
             ],
@@ -175,7 +192,7 @@ class PreviousOrderItem extends StatelessWidget {
               CustomText(
                 'طريقة الدفع',
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 paymentMethod,
@@ -216,7 +233,7 @@ class PreviousOrderItem extends StatelessWidget {
           ),
           Divider(
             height: 30.h,
-            color: Color(0xffd8d4d5),
+            color: const Color(0xffd8d4d5),
             thickness: 2,
           ),
           Row(
@@ -225,7 +242,8 @@ class PreviousOrderItem extends StatelessWidget {
               GestureDetector(
                 onTap: onTapReOrder,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
                   decoration: BoxDecoration(
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.circular(5.r),

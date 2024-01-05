@@ -1,3 +1,4 @@
+// ignore_for_file: must_be_immutable
 
 import '../../../services/app_imports.dart';
 
@@ -11,43 +12,47 @@ class StepperRealEstates extends StatelessWidget {
 
   //todo:two list: icons and text ;
   StepperRealEstates(
-    this.index,
-  );
+    this.index, {
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
-          titles.length,
-          (i) => Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomText(
-                titles[i],
-                fontSize: 12.sp,
-                fontWeight: FontWeight.normal,
-              ),
-              SizedBox(
-                height: 6.h,
-              ),
-              Row(
-                children: [
-                  Container(
-                    alignment: Alignment.center,
-                    width: 30.w,
-                    height: 30.h,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: index >= i
-                          ? AppColors.primaryColor
-                          : Colors.grey,
-                    ),
-                    child: CustomText((i+1).toString(),fontSize: 7.sp,color: AppColors.whiteColor,fontWeight: FontWeight.normal,),
+        titles.length,
+        (i) => Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomText(
+              titles[i],
+              fontSize: 12.sp,
+              fontWeight: FontWeight.normal,
+            ),
+            SizedBox(
+              height: 6.h,
+            ),
+            Row(
+              children: [
+                Container(
+                  alignment: Alignment.center,
+                  width: 30.w,
+                  height: 30.h,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: index >= i ? AppColors.primaryColor : Colors.grey,
                   ),
-                  i == 2
-                      ? SizedBox()
-                      : Container(
+                  child: CustomText(
+                    (i + 1).toString(),
+                    fontSize: 7.sp,
+                    color: AppColors.whiteColor,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+                i == 2
+                    ? const SizedBox()
+                    : Container(
                         width: 100.5.w,
                         height: 3.h,
                         decoration: BoxDecoration(
@@ -57,11 +62,11 @@ class StepperRealEstates extends StatelessWidget {
                               : AppColors.itemGrey,
                         ),
                       ),
-                ],
-              ),
-
-            ],
-          )),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

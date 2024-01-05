@@ -1,17 +1,16 @@
-
-
 import 'app_imports.dart';
 
 class Helper {
   static setToast(String msg) {
     return Fluttertoast.showToast(
-        msg: msg,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: AppColors.primaryColor,
-        textColor: AppColors.whiteColor,
-        fontSize: 16.0);
+      msg: msg,
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: AppColors.primaryColor,
+      textColor: AppColors.whiteColor,
+      fontSize: 16.0,
+    );
   }
 
   static getSheetError(String title) {
@@ -29,8 +28,7 @@ class Helper {
               color: Colors.red,
             ),
           ),
-
-          Icon(
+          const Icon(
             Icons.info,
             color: Colors.red,
           ),
@@ -57,7 +55,7 @@ class Helper {
           SizedBox(
             width: ScreenUtil().setWidth(10),
           ),
-          Icon(
+          const Icon(
             Icons.check,
             color: Colors.green,
           ),
@@ -70,16 +68,17 @@ class Helper {
 
   static loading() {
     return Center(
-        child: Column(
-      children: [
-        SizedBox(
-          height: 10.h,
-        ),
-        CircularProgressIndicator(
-          color: AppColors.primaryColor,
-        ),
-      ],
-    ));
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10.h,
+          ),
+          const CircularProgressIndicator(
+            color: AppColors.primaryColor,
+          ),
+        ],
+      ),
+    );
   }
 
   static var appRaduis = BorderRadius.circular(8.r);

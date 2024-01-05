@@ -1,12 +1,12 @@
-import 'package:intl/intl.dart' as intl;
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_button.dart';
-import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field.dart';
 import 'package:perfume_store_mobile_app/view/custom_widget/custom_text_form_field_with_top_title.dart';
 
 import '../../../services/app_imports.dart';
 
 class SentGiftItem extends StatefulWidget {
+  const SentGiftItem({super.key});
+
   @override
   State<SentGiftItem> createState() => _SentGiftItemState();
 }
@@ -34,8 +34,12 @@ class _SentGiftItemState extends State<SentGiftItem> {
                     fit: BoxFit.fill,
                   ),
                   Padding(
-                    padding:  EdgeInsets.symmetric(vertical: 20.h,horizontal: 15.w),
-                    child: CustomText('SAR_value'.tr+'$selectedAmount',fontSize: 15.sp,),
+                    padding:
+                        EdgeInsets.symmetric(vertical: 20.h, horizontal: 15.w),
+                    child: CustomText(
+                      '${'SAR_value'.tr}$selectedAmount',
+                      fontSize: 15.sp,
+                    ),
                   )
                 ],
               ),
@@ -67,9 +71,16 @@ class _SentGiftItemState extends State<SentGiftItem> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(5.w),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r), border: Border.all(color:selectedAmount == '25'?AppColors.primaryColor :AppColors.greyBorder, width: 2)),
+                          borderRadius: BorderRadius.circular(5.r),
+                          border: Border.all(
+                            color: selectedAmount == '25'
+                                ? AppColors.primaryColor
+                                : AppColors.greyBorder,
+                            width: 2,
+                          ),
+                        ),
                         child: CustomText(
-                          '25'+'sar_value'.tr,
+                          '25${'sar_value'.tr}',
                           fontSize: 12.sp,
                         ),
                       ),
@@ -90,9 +101,16 @@ class _SentGiftItemState extends State<SentGiftItem> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(5.w),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r), border: Border.all(color:selectedAmount == '50'?AppColors.primaryColor :AppColors.greyBorder, width: 2)),
+                          borderRadius: BorderRadius.circular(5.r),
+                          border: Border.all(
+                            color: selectedAmount == '50'
+                                ? AppColors.primaryColor
+                                : AppColors.greyBorder,
+                            width: 2,
+                          ),
+                        ),
                         child: CustomText(
-                          '50'+'sar_value'.tr,
+                          '50${'sar_value'.tr}',
                           fontSize: 12.sp,
                         ),
                       ),
@@ -113,9 +131,16 @@ class _SentGiftItemState extends State<SentGiftItem> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(5.w),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r), border: Border.all(color:selectedAmount == '100'?AppColors.primaryColor :AppColors.greyBorder, width: 2)),
+                          borderRadius: BorderRadius.circular(5.r),
+                          border: Border.all(
+                            color: selectedAmount == '100'
+                                ? AppColors.primaryColor
+                                : AppColors.greyBorder,
+                            width: 2,
+                          ),
+                        ),
                         child: CustomText(
-                          '100'+'sar_value'.tr,
+                          '100${'sar_value'.tr}',
                           fontSize: 12.sp,
                         ),
                       ),
@@ -136,9 +161,16 @@ class _SentGiftItemState extends State<SentGiftItem> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(5.w),
                         decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(5.r), border: Border.all(color:selectedAmount == '150'?AppColors.primaryColor :AppColors.greyBorder, width: 2)),
+                          borderRadius: BorderRadius.circular(5.r),
+                          border: Border.all(
+                            color: selectedAmount == '150'
+                                ? AppColors.primaryColor
+                                : AppColors.greyBorder,
+                            width: 2,
+                          ),
+                        ),
                         child: CustomText(
-                          '150'+'sar_value'.tr,
+                          '150${'sar_value'.tr}',
                           fontSize: 12.sp,
                         ),
                       ),
@@ -149,7 +181,6 @@ class _SentGiftItemState extends State<SentGiftItem> {
               SizedBox(
                 height: 30.h,
               ),
-
               CustomTextFormFieldWithTopTitle(
                 controller: otherValueController,
                 topTitle: 'enter_another_value'.tr,
@@ -167,16 +198,15 @@ class _SentGiftItemState extends State<SentGiftItem> {
               CustomText(
                 'enter_phone_for_reciever_value'.tr,
                 fontSize: 14.sp,
-                color: Color(0xff6b6b6b),
+                color: const Color(0xff6b6b6b),
               ),
               SizedBox(
                 height: 10.h,
               ),
-
               Directionality(
                 textDirection: TextDirection.ltr,
                 child: IntlPhoneField(
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.black),
                     ),
@@ -189,9 +219,9 @@ class _SentGiftItemState extends State<SentGiftItem> {
                   ),
                   initialCountryCode: 'SA',
                   onChanged: (phone) {
-                    print(phone.completeNumber);
-                    print(phone.countryCode);
-                    print(phone.countryISOCode);
+                    debugPrint(phone.completeNumber);
+                    debugPrint(phone.countryCode);
+                    debugPrint(phone.countryISOCode);
                   },
                   invalidNumberMessage: 'enter_active_phone_value'.tr,
                 ),

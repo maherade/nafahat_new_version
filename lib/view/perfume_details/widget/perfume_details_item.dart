@@ -39,24 +39,25 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
   int _current = 0;
   PageController _controller = PageController();
 
-  setPrice(){
-    WidgetsBinding.instance.addPostFrameCallback((_){
-      cartController.setVariations( widget.variations![0]);
+  setPrice() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      cartController.setVariations(widget.variations![0]);
     });
   }
-@override
-  void initState() {
-  widget.variations!=null ? setPrice() : null;
 
-  super.initState();
+  @override
+  void initState() {
+    widget.variations != null ? setPrice() : null;
+
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return   GetBuilder<CartController>(
+    return GetBuilder<CartController>(
       init: CartController(),
       builder: (controller) {
-        return  Column(
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
@@ -64,57 +65,64 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
               width: double.infinity,
               child: Stack(
                 children: [
-                  widget.variations!=null? PageView.builder(
-                    controller: _controller,
-
-                    onPageChanged: (index) {
-                      setState(() => _current = index);
-                      controller.setVariations(widget.variations![index]);
-                      print(controller.variations?.variationId.toString());
-                      // controller.setPriceBeforeDiscountVariations( widget.variations?[index].displayRegularPrice.toString());
-                      // controller.setPriceAfterDiscountVariations( widget.variations?[index].displayPrice.toString());
-                    },
-                    itemCount: widget.variations?.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(color: AppColors.whiteColor),
-                        height: 233.h,
-                        width: double.infinity,
-                        child: CachedNetworkImageShare(
-                          urlImage: widget.variations?[index].image?.url??'',
-                          fit: BoxFit.contain,
-                          heigthNumber: 233.h,
-                          widthNumber: double.infinity,
+                  widget.variations != null
+                      ? PageView.builder(
+                          controller: _controller,
+                          onPageChanged: (index) {
+                            setState(() => _current = index);
+                            controller.setVariations(widget.variations![index]);
+                            debugPrint(
+                                controller.variations?.variationId.toString());
+                            // controller.setPriceBeforeDiscountVariations( widget.variations?[index].displayRegularPrice.toString());
+                            // controller.setPriceAfterDiscountVariations( widget.variations?[index].displayPrice.toString());
+                          },
+                          itemCount: widget.variations?.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                  color: AppColors.whiteColor),
+                              height: 233.h,
+                              width: double.infinity,
+                              child: CachedNetworkImageShare(
+                                urlImage:
+                                    widget.variations?[index].image?.url ?? '',
+                                fit: BoxFit.contain,
+                                heigthNumber: 233.h,
+                                widthNumber: double.infinity,
+                              ),
+                            );
+                          },
+                        )
+                      : PageView.builder(
+                          controller: _controller,
+                          onPageChanged: (index) {
+                            setState(() => _current = index);
+                          },
+                          itemCount: widget.imgUrl?.length,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              alignment: Alignment.center,
+                              decoration: const BoxDecoration(
+                                  color: AppColors.whiteColor),
+                              height: 233.h,
+                              width: double.infinity,
+                              child: CachedNetworkImageShare(
+                                urlImage: widget.imgUrl?[index].src,
+                                fit: BoxFit.contain,
+                                heigthNumber: 233.h,
+                                widthNumber: double.infinity,
+                              ),
+                            );
+                          },
                         ),
-                      );
-                    },
-                  ):PageView.builder(
-                    controller: _controller,
-                    onPageChanged: (index) {
-                      setState(() => _current = index);
-                    },
-                    itemCount: widget.imgUrl?.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        alignment: Alignment.center,
-                        decoration: const BoxDecoration(color: AppColors.whiteColor),
-                        height: 233.h,
-                        width: double.infinity,
-                        child: CachedNetworkImageShare(
-                          urlImage: widget.imgUrl?[index].src,
-                          fit: BoxFit.contain,
-                          heigthNumber: 233.h,
-                          widthNumber: double.infinity,
-                        ),
-                      );
-                    },
-                  ),
                   Align(
                     alignment: AlignmentDirectional.centerEnd,
                     child: GestureDetector(
                       onTap: () {
-                        _controller.nextPage(duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+                        _controller.nextPage(
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.easeIn);
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 15.w),
@@ -135,7 +143,9 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                     alignment: AlignmentDirectional.centerStart,
                     child: GestureDetector(
                       onTap: () {
-                        _controller.previousPage(duration: Duration(milliseconds: 400), curve: Curves.easeIn);
+                        _controller.previousPage(
+                            duration: Duration(milliseconds: 400),
+                            curve: Curves.easeIn);
                       },
                       child: Container(
                         margin: EdgeInsets.symmetric(horizontal: 15.w),
@@ -160,80 +170,99 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
             SizedBox(
               height: 15.h,
             ),
-            widget.variations!=null? SizedBox(
-              height: 100.h,
-              child: ListView.builder(
-                itemCount: widget.variations?.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          controller.setVariations(widget.variations![index]);
-                          _controller.jumpToPage(index);
-                          setState(() {});
-                        },
-                        child: Column(
+            widget.variations != null
+                ? SizedBox(
+                    height: 100.h,
+                    child: ListView.builder(
+                      itemCount: widget.variations?.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Row(
                           children: [
-                            Container(
-                              clipBehavior: Clip.antiAliasWithSaveLayer,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(5.r),
-                                  border: Border.all(color: _current == index ? AppColors.primaryColor : Colors.transparent)),
-                              child: CachedNetworkImageShare(
-                                urlImage: widget.variations?[index].image?.url??'',
-                                fit: BoxFit.contain,
-                                heigthNumber: 50.h,
-                                widthNumber: 50.w,
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                controller
+                                    .setVariations(widget.variations![index]);
+                                _controller.jumpToPage(index);
+                                setState(() {});
+                              },
+                              child: Column(
+                                children: [
+                                  Container(
+                                    clipBehavior: Clip.antiAliasWithSaveLayer,
+                                    decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(5.r),
+                                        border: Border.all(
+                                            color: _current == index
+                                                ? AppColors.primaryColor
+                                                : Colors.transparent)),
+                                    child: CachedNetworkImageShare(
+                                      urlImage: widget
+                                              .variations?[index].image?.url ??
+                                          '',
+                                      fit: BoxFit.contain,
+                                      heigthNumber: 50.h,
+                                      widthNumber: 50.w,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15.h,
+                                  ),
+                                  CustomText(
+                                    widget.variationsAttributes?[0]
+                                            .options?[index] ??
+                                        '',
+                                    fontSize: 11,
+                                  ),
+                                ],
                               ),
                             ),
-                            SizedBox(height: 15.h,),
-                            CustomText(widget.variationsAttributes?[0].options?[index]??'',fontSize: 11,),
                           ],
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ):SizedBox(
-              height: 50.h,
-              child: ListView.builder(
-                itemCount: widget.imgUrl?.length,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  return Row(
-                    children: [
-                      SizedBox(
-                        width: 10.w,
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          _controller.jumpToPage(index);
-                          setState(() {});
-                        },
-                        child: Container(
-                          clipBehavior: Clip.antiAliasWithSaveLayer,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5.r),
-                              border: Border.all(color: _current == index ? AppColors.primaryColor : Colors.transparent)),
-                          child: CachedNetworkImageShare(
-                            urlImage: widget.imgUrl?[index].src,
-                            fit: BoxFit.contain,
-                            heigthNumber: 50.h,
-                            widthNumber: 50.w,
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
+                        );
+                      },
+                    ),
+                  )
+                : SizedBox(
+                    height: 50.h,
+                    child: ListView.builder(
+                      itemCount: widget.imgUrl?.length,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          children: [
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                _controller.jumpToPage(index);
+                                setState(() {});
+                              },
+                              child: Container(
+                                clipBehavior: Clip.antiAliasWithSaveLayer,
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5.r),
+                                    border: Border.all(
+                                        color: _current == index
+                                            ? AppColors.primaryColor
+                                            : Colors.transparent)),
+                                child: CachedNetworkImageShare(
+                                  urlImage: widget.imgUrl?[index].src,
+                                  fit: BoxFit.contain,
+                                  heigthNumber: 50.h,
+                                  widthNumber: 50.w,
+                                ),
+                              ),
+                            ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
             SizedBox(
               height: 12.h,
             ),
@@ -281,61 +310,78 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                   SizedBox(
                     height: 5.h,
                   ),
-                  widget.variations!=null? Row(
-                    children: [
-                      Row(
-                        children: [
-                          CustomText(controller.variations?.displayRegularPrice.toString(),
-                              color: AppColors.priceBrownColor, fontSize: 16.sp, fontWeight: FontWeight.normal, underline: true),
-                          CustomText('sar_value'.tr, color: AppColors.priceBrownColor, fontSize: 16.sp, fontWeight: FontWeight.normal),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 83.w,
-                      ),
-                      Row(
-                        children: [
-                          CustomText(
-                            controller.variations?.displayPrice.toString(),
-                            color: AppColors.greenText,
-                            fontSize: 16.sp,
-                          ),
-                          CustomText(
-                            'sar_value'.tr,
-                            color: AppColors.greenText,
-                            fontSize: 16.sp,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ): Row(
-                    children: [
-                      Row(
-                        children: [
-                          CustomText(widget.priceBeforeDiscount,
-                              color: AppColors.priceBrownColor, fontSize: 16.sp, fontWeight: FontWeight.normal, underline: true),
-                          CustomText('sar_value'.tr, color: AppColors.priceBrownColor, fontSize: 16.sp, fontWeight: FontWeight.normal),
-                        ],
-                      ),
-                      SizedBox(
-                        width: 83.w,
-                      ),
-                      Row(
-                        children: [
-                          CustomText(
-                            widget.priceAfterDiscount,
-                            color: AppColors.greenText,
-                            fontSize: 16.sp,
-                          ),
-                          CustomText(
-                            'sar_value'.tr,
-                            color: AppColors.greenText,
-                            fontSize: 16.sp,
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  widget.variations != null
+                      ? Row(
+                          children: [
+                            Row(
+                              children: [
+                                CustomText(
+                                    controller.variations?.displayRegularPrice
+                                        .toString(),
+                                    color: AppColors.priceBrownColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.normal,
+                                    underline: true),
+                                CustomText('sar_value'.tr,
+                                    color: AppColors.priceBrownColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.normal),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 83.w,
+                            ),
+                            Row(
+                              children: [
+                                CustomText(
+                                  controller.variations?.displayPrice
+                                      .toString(),
+                                  color: AppColors.greenText,
+                                  fontSize: 16.sp,
+                                ),
+                                CustomText(
+                                  'sar_value'.tr,
+                                  color: AppColors.greenText,
+                                  fontSize: 16.sp,
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      : Row(
+                          children: [
+                            Row(
+                              children: [
+                                CustomText(widget.priceBeforeDiscount,
+                                    color: AppColors.priceBrownColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.normal,
+                                    underline: true),
+                                CustomText('sar_value'.tr,
+                                    color: AppColors.priceBrownColor,
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.normal),
+                              ],
+                            ),
+                            SizedBox(
+                              width: 83.w,
+                            ),
+                            Row(
+                              children: [
+                                CustomText(
+                                  widget.priceAfterDiscount,
+                                  color: AppColors.greenText,
+                                  fontSize: 16.sp,
+                                ),
+                                CustomText(
+                                  'sar_value'.tr,
+                                  color: AppColors.greenText,
+                                  fontSize: 16.sp,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                   SizedBox(
                     height: 23.h,
                   ),
@@ -350,8 +396,11 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                         width: 21.w,
                       ),
                       Container(
-                        padding: EdgeInsets.symmetric(horizontal: 20.w,vertical: 7.sp),
-                        decoration: BoxDecoration(color: AppColors.itemGrey, borderRadius: BorderRadius.circular(8.r)),
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 20.w, vertical: 7.sp),
+                        decoration: BoxDecoration(
+                            color: AppColors.itemGrey,
+                            borderRadius: BorderRadius.circular(8.r)),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
@@ -363,9 +412,17 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                                   Icons.add,
                                   color: Color(0xff2C3E50),
                                 )),
-                            SizedBox(width: 10.w,),
-                            CustomText(controller.quantitiy.toStringAsFixed(0),fontSize: 16.sp,color: Color(0xff2C3E50),),
-                            SizedBox(width: 10.w,),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            CustomText(
+                              controller.quantitiy.toStringAsFixed(0),
+                              fontSize: 16.sp,
+                              color: Color(0xff2C3E50),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
                             IconButton(
                                 onPressed: () {
                                   controller.decreaseQuentity();
@@ -379,14 +436,12 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                       ),
                     ],
                   )
-
                 ],
               ),
             ),
           ],
         );
-      },);
-
-
+      },
+    );
   }
 }

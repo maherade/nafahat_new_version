@@ -16,8 +16,8 @@ class LoadingBrand extends StatelessWidget {
             children: [
               index == 0
                   ? SizedBox(
-                width: 21.w,
-              )
+                      width: 21.w,
+                    )
                   : const SizedBox(),
               SizedBox(
                 height: 90.h,
@@ -42,4 +42,3 @@ class LoadingBrand extends StatelessWidget {
     );
   }
 }
-

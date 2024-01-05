@@ -1,10 +1,11 @@
 import '../../../services/app_imports.dart';
 
 class QuestionItem extends StatelessWidget {
-final String? question;
-final String? answer;
+  final String? question;
+  final String? answer;
 
   const QuestionItem({super.key, this.question, this.answer});
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -37,16 +38,18 @@ final String? answer;
         ),
         children: [
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 15.0.w),
+            padding: EdgeInsets.symmetric(horizontal: 15.0.w),
             child: Column(
               children: [
                 CustomText(
                   answer,
                   fontSize: 10.sp,
                   fontWeight: FontWeight.normal,
-                  color:const Color(0xff707070),
+                  color: const Color(0xff707070),
                 ),
-                SizedBox(height: 15.h,)
+                SizedBox(
+                  height: 15.h,
+                )
               ],
             ),
           ),

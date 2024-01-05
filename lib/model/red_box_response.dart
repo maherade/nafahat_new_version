@@ -9,16 +9,16 @@ class RedBoxResponse {
     if (json['points'] != null) {
       points = <Points>[];
       json['points'].forEach((v) {
-        points!.add(new Points.fromJson(v));
+        points!.add(Points.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['success'] = this.success;
-    if (this.points != null) {
-      data['points'] = this.points!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['success'] = success;
+    if (points != null) {
+      data['points'] = points!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -52,33 +52,34 @@ class Points {
   int? estimateTime;
   String? estimateTimeLabel;
 
-  Points(
-      {this.id,
-        this.pointName,
-        this.hostNameEn,
-        this.hostNameAr,
-        this.locationType,
-        this.description,
-        this.icon,
-        this.location,
-        this.thumbs,
-        this.indoor,
-        this.industry,
-        this.lockers,
-        this.stores,
-        this.address,
-        this.openHour,
-        this.openHourData,
-        this.dataOpenHours,
-        this.status,
-        this.isPublic,
-        this.alertMessage,
-        this.city,
-        this.isFull,
-        this.distance,
-        this.typePoint,
-        this.estimateTime,
-        this.estimateTimeLabel});
+  Points({
+    this.id,
+    this.pointName,
+    this.hostNameEn,
+    this.hostNameAr,
+    this.locationType,
+    this.description,
+    this.icon,
+    this.location,
+    this.thumbs,
+    this.indoor,
+    this.industry,
+    this.lockers,
+    this.stores,
+    this.address,
+    this.openHour,
+    this.openHourData,
+    this.dataOpenHours,
+    this.status,
+    this.isPublic,
+    this.alertMessage,
+    this.city,
+    this.isFull,
+    this.distance,
+    this.typePoint,
+    this.estimateTime,
+    this.estimateTimeLabel,
+  });
 
   Points.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -88,43 +89,41 @@ class Points {
     locationType = json['location_type'];
     description = json['description'];
     icon = json['icon'];
-    location = json['location'] != null
-        ? new Location.fromJson(json['location'])
-        : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
     thumbs = json['thumbs'].cast<String>();
     indoor = json['indoor'];
     industry = json['industry'];
     if (json['lockers'] != null) {
       lockers = <Lockers>[];
       json['lockers'].forEach((v) {
-        lockers!.add(new Lockers.fromJson(v));
+        lockers!.add(Lockers.fromJson(v));
       });
     }
     if (json['stores'] != null) {
       stores = <Stores>[];
       json['stores'].forEach((v) {
-        stores!.add(new Stores.fromJson(v));
+        stores!.add(Stores.fromJson(v));
       });
     }
     address =
-    json['address'] != null ? new Address.fromJson(json['address']) : null;
+        json['address'] != null ? Address.fromJson(json['address']) : null;
     openHour = json['open_hour'];
     openHourData = json['open_hour_data'] != null
-        ? new OpenHourData.fromJson(json['open_hour_data'])
+        ? OpenHourData.fromJson(json['open_hour_data'])
         : null;
     if (json['data_open_hours'] != null) {
       dataOpenHours = <DataOpenHours>[];
       json['data_open_hours'].forEach((v) {
-        dataOpenHours!.add(new DataOpenHours.fromJson(v));
+        dataOpenHours!.add(DataOpenHours.fromJson(v));
       });
     }
     status = json['status'];
     isPublic = json['is_public'];
     alertMessage = json['alert_message'] != null
-        ? new AlertMessage.fromJson(json['alert_message'])
+        ? AlertMessage.fromJson(json['alert_message'])
         : null;
-    city =
-    json['city'] != null ? new AlertMessage.fromJson(json['city']) : null;
+    city = json['city'] != null ? AlertMessage.fromJson(json['city']) : null;
     isFull = json['is_full'];
     distance = json['distance'];
     typePoint = json['type_point'];
@@ -133,50 +132,49 @@ class Points {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['point_name'] = this.pointName;
-    data['host_name_en'] = this.hostNameEn;
-    data['host_name_ar'] = this.hostNameAr;
-    data['location_type'] = this.locationType;
-    data['description'] = this.description;
-    data['icon'] = this.icon;
-    if (this.location != null) {
-      data['location'] = this.location!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['point_name'] = pointName;
+    data['host_name_en'] = hostNameEn;
+    data['host_name_ar'] = hostNameAr;
+    data['location_type'] = locationType;
+    data['description'] = description;
+    data['icon'] = icon;
+    if (location != null) {
+      data['location'] = location!.toJson();
     }
-    data['thumbs'] = this.thumbs;
-    data['indoor'] = this.indoor;
-    data['industry'] = this.industry;
-    if (this.lockers != null) {
-      data['lockers'] = this.lockers!.map((v) => v.toJson()).toList();
+    data['thumbs'] = thumbs;
+    data['indoor'] = indoor;
+    data['industry'] = industry;
+    if (lockers != null) {
+      data['lockers'] = lockers!.map((v) => v.toJson()).toList();
     }
-    if (this.stores != null) {
-      data['stores'] = this.stores!.map((v) => v.toJson()).toList();
+    if (stores != null) {
+      data['stores'] = stores!.map((v) => v.toJson()).toList();
     }
-    if (this.address != null) {
-      data['address'] = this.address!.toJson();
+    if (address != null) {
+      data['address'] = address!.toJson();
     }
-    data['open_hour'] = this.openHour;
-    if (this.openHourData != null) {
-      data['open_hour_data'] = this.openHourData!.toJson();
+    data['open_hour'] = openHour;
+    if (openHourData != null) {
+      data['open_hour_data'] = openHourData!.toJson();
     }
-    if (this.dataOpenHours != null) {
-      data['data_open_hours'] =
-          this.dataOpenHours!.map((v) => v.toJson()).toList();
+    if (dataOpenHours != null) {
+      data['data_open_hours'] = dataOpenHours!.map((v) => v.toJson()).toList();
     }
-    data['status'] = this.status;
-    data['is_public'] = this.isPublic;
-    if (this.alertMessage != null) {
-      data['alert_message'] = this.alertMessage!.toJson();
+    data['status'] = status;
+    data['is_public'] = isPublic;
+    if (alertMessage != null) {
+      data['alert_message'] = alertMessage!.toJson();
     }
-    if (this.city != null) {
-      data['city'] = this.city!.toJson();
+    if (city != null) {
+      data['city'] = city!.toJson();
     }
-    data['is_full'] = this.isFull;
-    data['distance'] = this.distance;
-    data['type_point'] = this.typePoint;
-    data['estimate_time'] = this.estimateTime;
-    data['estimate_time_label'] = this.estimateTimeLabel;
+    data['is_full'] = isFull;
+    data['distance'] = distance;
+    data['type_point'] = typePoint;
+    data['estimate_time'] = estimateTime;
+    data['estimate_time_label'] = estimateTimeLabel;
     return data;
   }
 }
@@ -193,9 +191,9 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['lat'] = this.lat;
-    data['lng'] = this.lng;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['lat'] = lat;
+    data['lng'] = lng;
     return data;
   }
 }
@@ -216,11 +214,11 @@ class Lockers {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['status'] = this.status;
-    data['is_full'] = this.isFull;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['status'] = status;
+    data['is_full'] = isFull;
     return data;
   }
 }
@@ -232,8 +230,13 @@ class Stores {
   bool? acceptPayment;
   String? counterType;
 
-  Stores(
-      {this.id, this.name, this.status, this.acceptPayment, this.counterType});
+  Stores({
+    this.id,
+    this.name,
+    this.status,
+    this.acceptPayment,
+    this.counterType,
+  });
 
   Stores.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -244,12 +247,12 @@ class Stores {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['status'] = this.status;
-    data['accept_payment'] = this.acceptPayment;
-    data['counter_type'] = this.counterType;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['status'] = status;
+    data['accept_payment'] = acceptPayment;
+    data['counter_type'] = counterType;
     return data;
   }
 }
@@ -270,11 +273,11 @@ class Address {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['city'] = this.city;
-    data['district'] = this.district;
-    data['street'] = this.street;
-    data['postCode'] = this.postCode;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['city'] = city;
+    data['district'] = district;
+    data['street'] = street;
+    data['postCode'] = postCode;
     return data;
   }
 }
@@ -293,10 +296,10 @@ class OpenHourData {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['status'] = this.status;
-    data['close_at'] = this.closeAt;
-    data['open_at'] = this.openAt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['status'] = status;
+    data['close_at'] = closeAt;
+    data['open_at'] = openAt;
     return data;
   }
 }
@@ -307,9 +310,7 @@ class DataOpenHours {
   List<String>? times;
   bool? isOpenFull;
 
-
-  DataOpenHours(
-      {this.name, this.value, this.times, this.isOpenFull});
+  DataOpenHours({this.name, this.value, this.times, this.isOpenFull});
 
   DataOpenHours.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -320,12 +321,12 @@ class DataOpenHours {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['value'] = this.value;
-    data['times'] = this.times;
-    data['isOpenFull'] = this.isOpenFull;
-    data['is_open_full'] = this.isOpenFull;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['name'] = name;
+    data['value'] = value;
+    data['times'] = times;
+    data['isOpenFull'] = isOpenFull;
+    data['is_open_full'] = isOpenFull;
     return data;
   }
 }
@@ -342,9 +343,9 @@ class AlertMessage {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['en'] = this.en;
-    data['ar'] = this.ar;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['en'] = en;
+    data['ar'] = ar;
     return data;
   }
 }

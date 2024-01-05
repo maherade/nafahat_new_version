@@ -13,5 +13,4 @@ class AppColors {
   static const itemGrey = Color(0xffD4D1D2);
   static const starYellowColor = Color(0xffFFB81E);
   static const priceBrownColor = Color(0xff886C72);
-
 }

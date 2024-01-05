@@ -19,7 +19,9 @@ class LoadingFilterCategory extends StatelessWidget {
               radious: 1,
               margin: 7,
             ),
-            SizedBox(width: 10.w,),
+            SizedBox(
+              width: 10.w,
+            ),
             Skelton(
               height: 10.h,
               width: 100.w,

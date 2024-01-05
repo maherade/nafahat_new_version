@@ -8,12 +8,21 @@ class ArticleHomeItem extends StatelessWidget {
   final String? description;
   final VoidCallback? onTapReadMore;
 
-  const ArticleHomeItem({super.key, this.imgUrl, this.category, this.date, this.title, this.description, this.onTapReadMore});
+  const ArticleHomeItem({
+    super.key,
+    this.imgUrl,
+    this.category,
+    this.date,
+    this.title,
+    this.description,
+    this.onTapReadMore,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 200.w,
-      margin: EdgeInsets.symmetric(horizontal: 21.w,vertical: 8.h),
+      margin: EdgeInsets.symmetric(horizontal: 21.w, vertical: 8.h),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
@@ -23,10 +32,11 @@ class ArticleHomeItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CachedNetworkImageShare(
-              urlImage:imgUrl,
-              fit: BoxFit.cover,
-              heigthNumber: 100.h,
-              widthNumber: double.infinity),
+            urlImage: imgUrl,
+            fit: BoxFit.cover,
+            heigthNumber: 100.h,
+            widthNumber: double.infinity,
+          ),
           SizedBox(
             height: 18.h,
           ),
@@ -47,7 +57,7 @@ class ArticleHomeItem extends StatelessWidget {
                         fontSize: 12.sp,
                         color: AppColors.primaryColor,
                       ),
-                     Spacer(),
+                      const Spacer(),
                       CustomText(
                         date,
                         fontSize: 12.sp,
@@ -80,10 +90,21 @@ class ArticleHomeItem extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      SizedBox(width: 2.w,),
-                      CustomText('قراءة المزيد',fontSize: 12.sp,color: AppColors.primaryColor,),
-                      SizedBox(width: 5.w,),
-                      Icon(Icons.arrow_forward,color: AppColors.primaryColor,)
+                      SizedBox(
+                        width: 2.w,
+                      ),
+                      CustomText(
+                        'قراءة المزيد',
+                        fontSize: 12.sp,
+                        color: AppColors.primaryColor,
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      const Icon(
+                        Icons.arrow_forward,
+                        color: AppColors.primaryColor,
+                      )
                     ],
                   ),
                   SizedBox(

@@ -18,7 +18,8 @@ class MyLocale implements Translations {
           "logout_value": "تسجيل الخروج",
           "delete_account_value": "حذف الحساب",
           "guest_value": "ضيف",
-          "sign_in_to_use_all_feature_value": "قم بتسجيل الدخول لتتمتع بجميع مزايا التطبيق",
+          "sign_in_to_use_all_feature_value":
+              "قم بتسجيل الدخول لتتمتع بجميع مزايا التطبيق",
           "login_value": "تسجيل الدخول",
           "order_by_popularity_value": "ترتيب حسب الشهرة",
           "order_by_rating_value": "ترتيب حسب معدل التقييم",
@@ -40,7 +41,8 @@ class MyLocale implements Translations {
           "view_all_value": "عرض الكل",
 //
           "top_sale_in_value": "الأفضل مبيعا في ",
-          "no_item_found_with_you_choice_value": "لا توجد منتجات تتوافق مع اختيارك.",
+          "no_item_found_with_you_choice_value":
+              "لا توجد منتجات تتوافق مع اختيارك.",
           "famous_care_product_value": "أشهر منتجات قسم العناية",
           "top_offers_value": "أفضل العروض",
           "product_under_20_value": "منتجات تحت 20 ريال",
@@ -57,7 +59,8 @@ class MyLocale implements Translations {
           "total_price_value": "المجموع الكلي",
           "you_have_value": "انت تمتلك ",
           "item_in_cart_value": " منتجات بالسلة",
-          "please_add_item_in_cart_value": "يرجى إدخال منتجات إلى السلة للمتابعة",
+          "please_add_item_in_cart_value":
+              "يرجى إدخال منتجات إلى السلة للمتابعة",
           "confirm_value": "تأكيد",
           "continue_buy_process_value": "استمرار عملية الشراء",
           "delivery_location_value": "عنوان التسليم",
@@ -91,11 +94,14 @@ class MyLocale implements Translations {
           "point_value": " نقطة ",
           "worth_value": "بقيمة ",
 //
-          "you_can_use_point_value": " يمكنك استخدام النقاط وخصم سعر النقاط من قيمة طلبك الإجمالي",
+          "you_can_use_point_value":
+              " يمكنك استخدام النقاط وخصم سعر النقاط من قيمة طلبك الإجمالي",
           "enter_points_value": "قم بإدخال النقاط",
           "you_dont_have_enough_point_value": "ليس لديك نقاط كافية",
           "order_value": "طلب",
-          "here_some_question_value": "هنا بعض الأسئلة التي قام المستخدمون بالاستفسار عنها",
+          "Pay with": "الدفع بواسطة",
+          "here_some_question_value":
+              "هنا بعض الأسئلة التي قام المستخدمون بالاستفسار عنها",
           "no_favourite_value": "لا توجد مفضلة",
           "you_dont_have_favorite_yet_value": "ليس لديك منتجات مفضلة بعد",
           "back_to_store_value": "العودة إلى المتجر",
@@ -127,8 +133,10 @@ class MyLocale implements Translations {
           "please_enter_another_value": "قم بإدخال قيمة أخرى",
           "enter_phone_for_reciever_value": "أدخل رقم الجوال المستلم",
           "enter_active_phone_value": "أدخل رقم هاتف فعال",
-          "enter_phone_(optional)_value": "'أدخل البريد الإلكتروني المستلم (اختياري)'",
-          "another_value_is_the_recipients_email_value": "قيمة أخرى البريد الإلكتروني المستلم",
+          "enter_phone_(optional)_value":
+              "'أدخل البريد الإلكتروني المستلم (اختياري)'",
+          "another_value_is_the_recipients_email_value":
+              "قيمة أخرى البريد الإلكتروني المستلم",
           "complete_order_value": "إتمام الطلب",
           "if_have_problem_value": "اذا واجهتك أي مشكلة , قم بالاتصال بنا",
           "emaill_value": "الايميل",
@@ -196,25 +204,31 @@ class MyLocale implements Translations {
           "product_less_than_value": "منتجات أقل من 20 ريال",
           "enter_client_name_value": "قم بإدخال اسم العميل",
           "client_name_value": "اسم العميل",
-          "client_name_cannot_empty_value": "حقل اسم العميل لا يمكن أن يكون فارغ",
+          "client_name_cannot_empty_value":
+              "حقل اسم العميل لا يمكن أن يكون فارغ",
           "enter_organization_name_value": "قم بإدخال اسم المؤسسة",
           "organization_name_value": "اسم المؤسسة",
-          "organization_name_cannot_empty_value": "حقل اسم المؤسسة لا يمكن أن يكون فارغ",
+          "organization_name_cannot_empty_value":
+              "حقل اسم المؤسسة لا يمكن أن يكون فارغ",
           "enter_organization_address_value": "قم بإدخال عنوان المؤسسة",
           "organization_address_value": "عنوان المؤسسة",
-          "organization_address_cannot_empty_value": "حقل عنوان المؤسسة لا يمكن أن يكون فارغ",
+          "organization_address_cannot_empty_value":
+              "حقل عنوان المؤسسة لا يمكن أن يكون فارغ",
           "enter_email_address_value": "قم بإدخال البريد الالكتروني",
           "email_address_value": "البريد الالكتروني",
-          "email_address_cannot_empty_value": "حقل البريد الالكتروني لا يمكن أن يكون فارغ",
+          "email_address_cannot_empty_value":
+              "حقل البريد الالكتروني لا يمكن أن يكون فارغ",
           "enter_phone_number_value": "قم بإدخال رقم الجوال",
           "phone_number_value": "رقم الجوال",
-          "phone_number_cannot_empty_value": "حقل رقم الجوال لا يمكن أن يكون فارغ",
+          "phone_number_cannot_empty_value":
+              "حقل رقم الجوال لا يمكن أن يكون فارغ",
           "send_request_value": "ارسال الطلب",
           "add_successful_to_cart_value": "تمت إضافة المنتج إلى السلة",
           "continue_buy_value": "متابعة الشراء",
           "go_to_cart_value": "الذهاب للسلة",
           "are_you_sure_delete_account_value": "هل أنت متأكد من حذف الحساب؟",
-          "deleted_dialog_value": "سيتم حذف حسابك خلال ٣٠ يوم إذا لم تقم بتسجيل الدخول مرة أخرى",
+          "deleted_dialog_value":
+              "سيتم حذف حسابك خلال ٣٠ يوم إذا لم تقم بتسجيل الدخول مرة أخرى",
           "cancel_value": "إلغاء",
           "your_order_complete_value": "تم إتمام طلبك بنجاح",
           "go_home_value": "الذهاب للرئيسية",
@@ -244,20 +258,20 @@ class MyLocale implements Translations {
           "know_more_value": "تعرف أكثر",
           "return_policy_value": "سياسة الإرجاع",
           "cannot_return_value": "إرحاع أو استبدال المنتجات غير ممكن",
-          "from_the_market_value":"الطلبات في منطقة الرياض يمكنك استلامها من المعرض",
+          "from_the_market_value":
+              "الطلبات في منطقة الرياض يمكنك استلامها من المعرض",
 
-          "care_in_ramadan_value":"عنايتك في الصيف",
-          "top_lenses_product_value":"أفضل منتجات قسم العدسات",
-          "top_ramadan_offer_product_value":"عروض الصيف",
-          "top_makeup_product_value":"أفضل منتجات قسم المكياج",
-          "top_devices_product_value":"أفضل منتجات قسم الأجهزة",
-          "top_azafer_product_value":"أفضل منتجات قسم الأظافر",
-          "top_perfume_product_value":"أفضل منتجات قسم العطور",
-          "send_message_value":"هل أنت متأكد من الطلب ؟ سيتم إرسال رسالة نصية تحتوي على كود التحقق إلى رقم الهاتف :",
+          "care_in_ramadan_value": "عنايتك في الصيف",
+          "top_lenses_product_value": "أفضل منتجات قسم العدسات",
+          "top_ramadan_offer_product_value": "عروض الصيف",
+          "top_makeup_product_value": "أفضل منتجات قسم المكياج",
+          "top_devices_product_value": "أفضل منتجات قسم الأجهزة",
+          "top_azafer_product_value": "أفضل منتجات قسم الأظافر",
+          "top_perfume_product_value": "أفضل منتجات قسم العطور",
+          "send_message_value":
+              "هل أنت متأكد من الطلب ؟ سيتم إرسال رسالة نصية تحتوي على كود التحقق إلى رقم الهاتف :",
 
-          "cod_value":"رسوم إضافية"
-
-
+          "cod_value": "رسوم إضافية"
         },
         "en": {
           "personal_information_value": "Personal Information",
@@ -295,7 +309,8 @@ class MyLocale implements Translations {
           "view_all_value": "View All",
           //
           "top_sale_in_value": "Bestselling in",
-          "no_item_found_with_you_choice_value": "No items found that match your selection.",
+          "no_item_found_with_you_choice_value":
+              "No items found that match your selection.",
           "famous_care_product_value": "Famous care products",
           "top_offers_value": "Top offers",
           "product_under_20_value": "Products under 20 SAR",
@@ -308,11 +323,13 @@ class MyLocale implements Translations {
           "price_value": "Price",
           "quantity_value": "Quantity",
           "total_value": "Total",
-          "you_not_added_item_in_cart_value": "You have not added any items to your cart.",
+          "you_not_added_item_in_cart_value":
+              "You have not added any items to your cart.",
           "total_price_value": "Total Price",
           "you_have_value": "You have",
           "item_in_cart_value": " items in your cart",
-          "please_add_item_in_cart_value": "Please add items to your cart to continue",
+          "please_add_item_in_cart_value":
+              "Please add items to your cart to continue",
           "confirm_value": "Confirm",
           "continue_buy_process_value": "Continue buying process",
           "delivery_location_value": "Delivery location",
@@ -347,13 +364,16 @@ class MyLocale implements Translations {
           "point_value": " points ",
           "worth_value": " worth ",
           //
-          "you_can_use_point_value": "You can use points and deduct the point value from your total order value",
+          "you_can_use_point_value":
+              "You can use points and deduct the point value from your total order value",
           "enter_points_value": "Enter points value",
           "you_dont_have_enough_point_value": "You don't have enough points",
           "order_value": "Order",
-          "here_some_question_value": "Here are some questions that users have asked",
+          "here_some_question_value":
+              "Here are some questions that users have asked",
           "no_favourite_value": "No favorites",
-          "you_dont_have_favorite_yet_value": "You don't have any favorite products yet",
+          "you_dont_have_favorite_yet_value":
+              "You don't have any favorite products yet",
           "back_to_store_value": "Back to store",
           "shop_from_category_value": "Shop from category",
           "no_product_found_value": "No products found",
@@ -384,7 +404,8 @@ class MyLocale implements Translations {
           "enter_phone_for_reciever_value": "Enter recipient's phone number",
           "enter_active_phone_value": "Enter active phone number",
           "enter_phone_(optional)_value": "Enter recipient's email (optional)",
-          "another_value_is_the_recipients_email_value": "Another value is the recipient's email",
+          "another_value_is_the_recipients_email_value":
+              "Another value is the recipient's email",
           "complete_order_value": "Complete order",
           "if_have_problem_value": "If you have any problems, contact us",
           "emaill_value": "Email",
@@ -454,28 +475,36 @@ class MyLocale implements Translations {
           "client_name_cannot_empty_value": "Client name field cannot be empty",
           "enter_organization_name_value": "Enter organization name",
           "organization_name_value": "Organization name",
-          "organization_name_cannot_empty_value": "Organization name field cannot be empty",
+          "organization_name_cannot_empty_value":
+              "Organization name field cannot be empty",
           "enter_organization_address_value": "Enter organization address",
           "organization_address_value": "Organization address",
-          "organization_address_cannot_empty_value": "Organization address field cannot be empty",
+          "organization_address_cannot_empty_value":
+              "Organization address field cannot be empty",
           "enter_email_address_value": "Enter email address",
           "email_address_value": "Email address",
-          "email_address_cannot_empty_value": "Email address field cannot be empty",
+          "email_address_cannot_empty_value":
+              "Email address field cannot be empty",
           "enter_phone_number_value": "Enter phone number",
           "phone_number_value": "Phone number",
-          "phone_number_cannot_empty_value": "Phone number field cannot be empty",
+          "phone_number_cannot_empty_value":
+              "Phone number field cannot be empty",
           //
           "send_request_value": "Send Request",
           "add_successful_to_cart_value": "Product added to cart successfully",
           "continue_buy_value": "Continue Shopping",
           "go_to_cart_value": "Go to Cart",
-          "are_you_sure_delete_account_value": "Are you sure you want to delete your account?",
-          "deleted_dialog_value": "Your account will be deleted in 30 days if you do not log in again",
+          "are_you_sure_delete_account_value":
+              "Are you sure you want to delete your account?",
+          "deleted_dialog_value":
+              "Your account will be deleted in 30 days if you do not log in again",
           "cancel_value": "Cancel",
-          "your_order_complete_value": "Your order has been completed successfully",
+          "your_order_complete_value":
+              "Your order has been completed successfully",
           "go_home_value": "Go to Home",
           "go_order_screen_value": "Go to Order Screen",
-          "are_you_sure_cancel_order_value": "Are you sure you want to cancel the order?",
+          "are_you_sure_cancel_order_value":
+              "Are you sure you want to cancel the order?",
           "back_value": "Back",
           "cancel_order_value": "Cancel Order",
           "repeat_order_value": "Are you sure you want to repeat the order?",
@@ -492,15 +521,18 @@ class MyLocale implements Translations {
           "complete_buy_process_value": "Complete Purchase",
           "add_to_cart_value": "Add to cart",
           "you_will_have_value": "You will get",
-          "when_buy_this_product_value": " point(s) when purchasing this product",
+          "when_buy_this_product_value":
+              " point(s) when purchasing this product",
           "free_shipping_value": "Free shipping",
           "free_and_fast_shipping_value": "Fast and free shipping for orders",
           "date_delivery_expected_value": "Expected delivery date on",
           "pay_on_delivery_value": "Cash on delivery service",
           "know_more_value": "Learn more",
           "return_policy_value": "Return policy",
-          "cannot_return_value": "Returning or exchanging products is not possible",
-          "from_the_market_value":"Orders in the Riyadh region can be collected from the Market",
+          "cannot_return_value":
+              "Returning or exchanging products is not possible",
+          "from_the_market_value":
+              "Orders in the Riyadh region can be collected from the Market",
 
           "care_in_ramadan_value": "Your Care During Summer",
           "top_lenses_product_value": "Top Products in Lenses Category",
@@ -509,7 +541,7 @@ class MyLocale implements Translations {
           "top_devices_product_value": "Top Products in Devices Category",
           "top_azafer_product_value": "Top Products in Nails Category",
           "top_perfume_product_value": "Top Products in Perfume Category",
-          "cod_value":"charge value"
+          "cod_value": "charge value"
         },
       };
 }

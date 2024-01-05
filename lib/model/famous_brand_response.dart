@@ -1,5 +1,6 @@
 class ListFamousBrandResponse {
-  List<FamousBrandResponse>? listFamousBrandResponse ;
+  List<FamousBrandResponse>? listFamousBrandResponse;
+
   ListFamousBrandResponse({this.listFamousBrandResponse});
 
   ListFamousBrandResponse.fromJson(json) {
@@ -55,19 +56,20 @@ class Brand {
   List<String>? brandImage;
   bool? brandBanner;
 
-  Brand(
-      {this.termId,
-        this.name,
-        this.slug,
-        this.termGroup,
-        this.termTaxonomyId,
-        this.taxonomy,
-        this.description,
-        this.parent,
-        this.count,
-        this.filter,
-        this.brandImage,
-        this.brandBanner});
+  Brand({
+    this.termId,
+    this.name,
+    this.slug,
+    this.termGroup,
+    this.termTaxonomyId,
+    this.taxonomy,
+    this.description,
+    this.parent,
+    this.count,
+    this.filter,
+    this.brandImage,
+    this.brandBanner,
+  });
 
   Brand.fromJson(Map<String, dynamic> json) {
     termId = json['term_id'];

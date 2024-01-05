@@ -5,20 +5,33 @@ import '../Skelton.dart';
 import '../custom_rate_write_bar.dart';
 
 class LoadingProduct extends StatelessWidget {
-final int count ;
+  final int count;
 
-  const LoadingProduct(this.count);
+  const LoadingProduct(this.count, {super.key});
+
   @override
   Widget build(BuildContext context) {
-    return  GridView.builder(
+    Size dSize = MediaQuery.of(context).size;
+
+    return GridView.builder(
       itemCount: count,
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        childAspectRatio: 0.45.h,
+        childAspectRatio: dSize.width > 400 && dSize.width <= 500
+            ? 0.6
+            : dSize.width > 500 && dSize.width <= 600
+                ? 0.7.h
+                : dSize.width > 600 && dSize.width <= 700
+                    ? 0.8.h
+                    : dSize.width > 700 && dSize.width <= 800
+                        ? 0.9.h
+                        : dSize.width > 800 && dSize.width <= 900
+                            ? 1
+                            : 1.1,
         crossAxisCount: 2,
-        crossAxisSpacing: 11.w,
-        mainAxisSpacing: 16.h,
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 15,
       ),
       itemBuilder: (_, index) {
         return Container(
@@ -69,12 +82,13 @@ final int count ;
               Row(
                 children: [
                   Shimmer.fromColors(
-                      baseColor: Colors.grey[300]!,
-                      highlightColor: Colors.grey[100]!,
-                      child: CustomRateRead(
-                        size: 15.w,
-                        rate: 0.0,
-                      )),
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: CustomRateRead(
+                      size: 15.w,
+                      rate: 0.0,
+                    ),
+                  ),
                   SizedBox(
                     width: 4.w,
                   ),
@@ -105,7 +119,7 @@ final int count ;
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -122,4 +136,3 @@ final int count ;
     );
   }
 }
-

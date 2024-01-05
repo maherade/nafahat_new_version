@@ -22,7 +22,9 @@ class _AnimatorState extends State<Animator>
   void initState() {
     super.initState();
     animationController = AnimationController(
-        duration: const Duration(milliseconds: 290), vsync: this);
+      duration: const Duration(milliseconds: 290),
+      vsync: this,
+    );
     animation =
         CurvedAnimation(parent: animationController, curve: Curves.easeInOut);
     timer = Timer(widget.time!, animationController.forward);
@@ -74,8 +76,8 @@ class WidgetAnimator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Animator(
-      child: child,
       time: wait(),
+      child: child,
     );
   }
 }

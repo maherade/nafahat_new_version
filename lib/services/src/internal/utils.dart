@@ -2,9 +2,11 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:perfume_store_mobile_app/services/src/internal/fixtures.dart';
 import 'package:perfume_store_mobile_app/services/tabby_flutter_inapp_sdk.dart';
 
-void printError(Object error, StackTrace stackTrace) {
-  print('Exception: $error');
-  print('StackTrace: $stackTrace');
+import '../../app_imports.dart';
+
+void debugPrintError(Object error, StackTrace stackTrace) {
+  debugPrint('Exception: $error');
+  debugPrint('StackTrace: $stackTrace');
 }
 
 IOSNavigationResponseAction iosNavigationResponseHandler({
@@ -38,7 +40,7 @@ void javaScriptHandler(
     );
     onResult(resultCode);
   } catch (e, s) {
-    printError(e, s);
+    debugPrintError(e, s);
   }
 }
 

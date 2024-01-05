@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../../colors.dart';
-
 
 class CustomSearchBar extends StatelessWidget {
   final TextEditingController? controller;
@@ -13,16 +11,24 @@ class CustomSearchBar extends StatelessWidget {
   final Color? fillColor;
   final VoidCallback? onTapSearch;
 
-  const CustomSearchBar({super.key, this.controller, this.hintText, this.prefixIcon, this.suffixIcon, this.fillColor, this.onTapSearch});
+  const CustomSearchBar({
+    super.key,
+    this.controller,
+    this.hintText,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.fillColor,
+    this.onTapSearch,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.symmetric(horizontal: 20.0.w),
+      padding: EdgeInsets.symmetric(horizontal: 20.0.w),
       child: Container(
         clipBehavior: Clip.antiAliasWithSaveLayer,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(6.r)
+          borderRadius: BorderRadius.circular(6.r),
         ),
         child: Row(
           children: [
@@ -32,43 +38,42 @@ class CustomSearchBar extends StatelessWidget {
                 controller: controller,
                 autofocus: false,
                 style: const TextStyle(fontSize: 15.0, color: Colors.black),
-
                 decoration: InputDecoration(
-                    prefixIcon: prefixIcon??null,
-                    suffixIcon: suffixIcon,
-                    border: InputBorder.none,
-                    hintText: hintText,
-                    hintStyle: TextStyle(
-                        fontSize: 12.sp,
-                        color: AppColors.grey,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'din'
+                  prefixIcon: prefixIcon,
+                  suffixIcon: suffixIcon,
+                  border: InputBorder.none,
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    fontSize: 12.sp,
+                    color: AppColors.grey,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'din',
+                  ),
+                  filled: true,
+                  fillColor: fillColor ?? AppColors.whiteColor,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 10.w, vertical: 15.h),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.withOpacity(0.5)),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(6.0.r),
+                      bottomRight: Radius.circular(6.0.r),
                     ),
-                    filled: true,
-                    fillColor: fillColor??AppColors.whiteColor,
-                    contentPadding:  EdgeInsets.symmetric(horizontal: 10.w,vertical: 15.h),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:  BorderSide(color: Colors.grey.withOpacity(0.5)),
-                      borderRadius: BorderRadius.only(
-                        topRight:Radius.circular(6.0.r),
-                        bottomRight:Radius.circular(6.0.r),
-
-                      ),                  ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide:  BorderSide(color: Colors.transparent),
-                      borderRadius: BorderRadius.only(
-                        topRight:Radius.circular(6.0.r),
-                        bottomRight:Radius.circular(6.0.r),
-
-                      ),                  ),
-                    disabledBorder: OutlineInputBorder(
-                      borderSide:  BorderSide(color: Colors.grey.withOpacity(0.5)),
-                      borderRadius: BorderRadius.only(
-                          topRight:Radius.circular(6.0.r),
-                          bottomRight:Radius.circular(6.0.r),
-
-                      ),
-                    )
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: const BorderSide(color: Colors.transparent),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(6.0.r),
+                      bottomRight: Radius.circular(6.0.r),
+                    ),
+                  ),
+                  disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey.withOpacity(0.5)),
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(6.0.r),
+                      bottomRight: Radius.circular(6.0.r),
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -78,13 +83,17 @@ class CustomSearchBar extends StatelessWidget {
                 onTap: onTapSearch,
                 child: Container(
                   height: 48.h,
-                  decoration:const BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: AppColors.primaryColor,
                     borderRadius: BorderRadius.only(
-                      topLeft:Radius.circular(8.0),
-                      bottomLeft:Radius.circular(8.0),
-                  ),),
-                  child: Icon(Icons.search,color: Colors.white,),
+                      topLeft: Radius.circular(8.0),
+                      bottomLeft: Radius.circular(8.0),
+                    ),
+                  ),
+                  child: const Icon(
+                    Icons.search,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             )

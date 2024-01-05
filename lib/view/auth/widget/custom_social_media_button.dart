@@ -3,9 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import '../../../services/app_imports.dart';
 
 class CustomFacebookButton extends StatelessWidget {
-final VoidCallback? onTap;
+  final VoidCallback? onTap;
 
   const CustomFacebookButton({super.key, this.onTap});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -13,7 +14,7 @@ final VoidCallback? onTap;
       child: Container(
         height: 40.h,
         decoration: BoxDecoration(
-          color:const  Color(0xff395693),
+          color: const Color(0xff395693),
           borderRadius: BorderRadius.circular(4.r),
         ),
         child: Row(
@@ -23,14 +24,22 @@ final VoidCallback? onTap;
               'assets/svg/f.svg',
               fit: BoxFit.contain,
             ),
-            SizedBox(width: 12.w,),
-            CustomText('فيس بوك',fontSize: 10.sp,color: AppColors.whiteColor,fontWeight: FontWeight.normal,)
+            SizedBox(
+              width: 12.w,
+            ),
+            CustomText(
+              'فيس بوك',
+              fontSize: 10.sp,
+              color: AppColors.whiteColor,
+              fontWeight: FontWeight.normal,
+            )
           ],
         ),
       ),
     );
   }
 }
+
 class CustomGoogleButton extends StatelessWidget {
   final VoidCallback? onTap;
 
@@ -53,8 +62,14 @@ class CustomGoogleButton extends StatelessWidget {
               'assets/svg/g.svg',
               fit: BoxFit.contain,
             ),
-            SizedBox(width: 12.w,),
-            CustomText('جوجل',fontSize: 12.sp,fontWeight: FontWeight.normal,)
+            SizedBox(
+              width: 12.w,
+            ),
+            CustomText(
+              'جوجل',
+              fontSize: 12.sp,
+              fontWeight: FontWeight.normal,
+            )
           ],
         ),
       ),

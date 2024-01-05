@@ -1,13 +1,19 @@
-
 import '../../../services/app_imports.dart';
 
 class CategoryItem extends StatelessWidget {
-final int? index ;
-final String? imgUrl ;
-final String? title ;
-final VoidCallback? onTap ;
+  final int? index;
+  final String? imgUrl;
+  final String? title;
+  final VoidCallback? onTap;
 
-  const CategoryItem({super.key, this.index, this.imgUrl, this.title, this.onTap});
+  const CategoryItem({
+    super.key,
+    this.index,
+    this.imgUrl,
+    this.title,
+    this.onTap,
+  });
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -15,17 +21,17 @@ final VoidCallback? onTap ;
       child: Row(
         children: [
           index == 0
-              ? SizedBox(
-            width: 21.w,
-          )
+              ? const SizedBox(
+                  width: 10,
+                )
               : const SizedBox(),
           SizedBox(
-            height: 130.h,
-            width: 78.w,
+            height: 140,
+            width: 80,
             child: Column(
               children: [
                 Container(
-                  height: 60.h,
+                  height: 55,
                   width: 52.w,
                   padding: EdgeInsets.all(5.w),
                   decoration: const BoxDecoration(
@@ -33,22 +39,21 @@ final VoidCallback? onTap ;
                     shape: BoxShape.circle,
                   ),
                   child: CachedNetworkImageShare(
-                    urlImage:
-                    imgUrl,
+                    urlImage: imgUrl,
                     fit: BoxFit.contain,
                     heigthNumber: double.infinity,
                     widthNumber: double.infinity,
                     borderRadious: 0,
                   ),
                 ),
-                SizedBox(
-                  height: 11.h,
+                const SizedBox(
+                  height: 11,
                 ),
                 SizedBox(
                   width: 100,
                   child: CustomText(
                     title,
-                    fontSize: 12.sp,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
                     textAlign: TextAlign.center,
                   ),
@@ -57,7 +62,7 @@ final VoidCallback? onTap ;
             ),
           ),
           SizedBox(
-            width: 9.w,
+            width: 8.w,
           ),
         ],
       ),

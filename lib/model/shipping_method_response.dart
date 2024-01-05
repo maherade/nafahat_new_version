@@ -1,8 +1,13 @@
 class ListShippingMethodsResponse {
-  List<ShippingMethodsResponse>? listShippingMethodsResponse ;
-  String? totalPage ;
+  List<ShippingMethodsResponse>? listShippingMethodsResponse;
 
-  ListShippingMethodsResponse({this.listShippingMethodsResponse,this.totalPage});
+  String? totalPage;
+
+  ListShippingMethodsResponse({
+    this.listShippingMethodsResponse,
+    this.totalPage,
+  });
+
   ListShippingMethodsResponse.fromJson(json) {
     if (json != null) {
       listShippingMethodsResponse = <ShippingMethodsResponse>[];
@@ -10,9 +15,9 @@ class ListShippingMethodsResponse {
         listShippingMethodsResponse!.add(ShippingMethodsResponse.fromJson(v));
       });
     }
-
   }
 }
+
 class ShippingMethodsResponse {
   String? id;
   String? title;
@@ -25,16 +30,16 @@ class ShippingMethodsResponse {
     id = json['id'];
     title = json['title'];
     description = json['description'];
-    lLinks = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
+    lLinks = json['_links'] != null ? Links.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    if (this.lLinks != null) {
-      data['_links'] = this.lLinks!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['title'] = title;
+    data['description'] = description;
+    if (lLinks != null) {
+      data['_links'] = lLinks!.toJson();
     }
     return data;
   }
@@ -49,15 +54,15 @@ class Links {
     if (json['self'] != null) {
       self = <Self>[];
       json['self'].forEach((v) {
-        self!.add(new Self.fromJson(v));
+        self!.add(Self.fromJson(v));
       });
     }
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.self != null) {
-      data['self'] = this.self!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (self != null) {
+      data['self'] = self!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -73,8 +78,8 @@ class Self {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['href'] = href;
     return data;
   }
 }

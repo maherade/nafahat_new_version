@@ -1,4 +1,3 @@
-
 import 'package:perfume_store_mobile_app/services/tabby_flutter_inapp_sdk.dart';
 
 final mockPayload = Payment(
@@ -20,17 +19,20 @@ final mockPayload = Payment(
     address: 'string',
     zip: 'string',
   ),
-  order: Order(referenceId: 'id123', items: [
-    OrderItem(
-      title: 'Jersey',
-      description: 'Jersey',
-      quantity: 1,
-      unitPrice: '10.00',
-      referenceId: 'uuid',
-      productUrl: 'http://example.com',
-      category: 'clothes',
-    )
-  ]),
+  order: Order(
+    referenceId: 'id123',
+    items: [
+      OrderItem(
+        title: 'Jersey',
+        description: 'Jersey',
+        quantity: 1,
+        unitPrice: '10.00',
+        referenceId: 'uuid',
+        productUrl: 'http://example.com',
+        category: 'clothes',
+      )
+    ],
+  ),
   orderHistory: [
     OrderHistoryItem(
       purchasedAt: '2019-08-24T14:15:22Z',

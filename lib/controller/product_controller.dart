@@ -1,5 +1,3 @@
-
-
 import 'package:get/get.dart';
 import 'package:perfume_store_mobile_app/model/related_product_model.dart';
 
@@ -28,34 +26,55 @@ import '../model/top_nails_product_response.dart';
 import '../model/top_perfume_product_response.dart';
 import '../model/whole_sale_response.dart';
 
-
-
-class ProductController extends GetxController{
-  Rx<ListFamousProductResponse>? getFamousProductData = ListFamousProductResponse().obs;
+class ProductController extends GetxController {
+  Rx<ListFamousProductResponse>? getFamousProductData =
+      ListFamousProductResponse().obs;
   Rx<ListProductResponse>? getProductData = ListProductResponse().obs;
-  Rx<ListProductByCategoryResponse>? getProductByCategoryData = ListProductByCategoryResponse().obs;
-  Rx<ListProductByBrandResponse>? getProductByBrandData = ListProductByBrandResponse().obs;
-  Rx<ListFilteredProductResponse>? getFilteredProductData = ListFilteredProductResponse().obs;
-  Rx<ListGiftPackageProductResponse>? getGiftPackageProductData = ListGiftPackageProductResponse().obs;
-  Rx<ListWholeSaleResponse>? getListWholeSaleResponseData = ListWholeSaleResponse().obs;
-  Rx<ListOffersProductResponse>? getListOffersProductResponseData = ListOffersProductResponse().obs;
-  Rx<ListLessThanPriceProductResponse>? getListLessThanPriceProductResponseData = ListLessThanPriceProductResponse().obs;
-  Rx<ListSubCategoryProductResponse>? getListSubCategoryProductData = ListSubCategoryProductResponse().obs;
-  Rx<ProductDetailResponse>? getProductDetailResponseData = ProductDetailResponse().obs;
-  Rx<ListLastViewedProductResponse>? getLastViewedProduct = ListLastViewedProductResponse().obs;
+  Rx<ListProductByCategoryResponse>? getProductByCategoryData =
+      ListProductByCategoryResponse().obs;
+  Rx<ListProductByBrandResponse>? getProductByBrandData =
+      ListProductByBrandResponse().obs;
+  Rx<ListFilteredProductResponse>? getFilteredProductData =
+      ListFilteredProductResponse().obs;
+  Rx<ListGiftPackageProductResponse>? getGiftPackageProductData =
+      ListGiftPackageProductResponse().obs;
+  Rx<ListWholeSaleResponse>? getListWholeSaleResponseData =
+      ListWholeSaleResponse().obs;
+  Rx<ListOffersProductResponse>? getListOffersProductResponseData =
+      ListOffersProductResponse().obs;
+  Rx<ListLessThanPriceProductResponse>?
+      getListLessThanPriceProductResponseData =
+      ListLessThanPriceProductResponse().obs;
+  Rx<ListSubCategoryProductResponse>? getListSubCategoryProductData =
+      ListSubCategoryProductResponse().obs;
+  Rx<ProductDetailResponse>? getProductDetailResponseData =
+      ProductDetailResponse().obs;
+  Rx<ListLastViewedProductResponse>? getLastViewedProduct =
+      ListLastViewedProductResponse().obs;
   Rx<ListAdsResponse>? getAdsData = ListAdsResponse().obs;
-  Rx<ListCareProductResponse>? getCareProductDataData = ListCareProductResponse().obs;
-  Rx<ListRecentlyAddedProductResponse>? getRecentlyAddedProductDataData = ListRecentlyAddedProductResponse().obs;
-  Rx<ListSearchProductResponse>? getSearchProductDataData = ListSearchProductResponse().obs;
-  Rx<ListFamousBrandResponse>? getFamousBrandAdsData = ListFamousBrandResponse().obs;
-  Rx<ListRelatedProductModel>? getRelatedProductData = ListRelatedProductModel().obs;
+  Rx<ListCareProductResponse>? getCareProductDataData =
+      ListCareProductResponse().obs;
+  Rx<ListRecentlyAddedProductResponse>? getRecentlyAddedProductDataData =
+      ListRecentlyAddedProductResponse().obs;
+  Rx<ListSearchProductResponse>? getSearchProductDataData =
+      ListSearchProductResponse().obs;
+  Rx<ListFamousBrandResponse>? getFamousBrandAdsData =
+      ListFamousBrandResponse().obs;
+  Rx<ListRelatedProductModel>? getRelatedProductData =
+      ListRelatedProductModel().obs;
 
-  Rx<ListRamadanProductResponse>? getRamadanProductData = ListRamadanProductResponse().obs;
-  Rx<ListLensesProductResponse>? getLensesProductData = ListLensesProductResponse().obs;
-  Rx<ListRamadanOffersProductResponse>? getRamadanOffersProductData = ListRamadanOffersProductResponse().obs;
-  Rx<ListTopMakeupProductResponse>? getTopMakeupProductData = ListTopMakeupProductResponse().obs;
-  Rx<ListTopDevicesProductResponse>? getTopDevicesProductData = ListTopDevicesProductResponse().obs;
-  Rx<ListTopNailsProductResponse>? getTopNailsProductData = ListTopNailsProductResponse().obs;
-  Rx<ListTopPerfumeProductResponse>? getTopPerfumeProductData = ListTopPerfumeProductResponse().obs;
-
+  Rx<ListRamadanProductResponse>? getRamadanProductData =
+      ListRamadanProductResponse().obs;
+  Rx<ListLensesProductResponse>? getLensesProductData =
+      ListLensesProductResponse().obs;
+  Rx<ListRamadanOffersProductResponse>? getRamadanOffersProductData =
+      ListRamadanOffersProductResponse().obs;
+  Rx<ListTopMakeupProductResponse>? getTopMakeupProductData =
+      ListTopMakeupProductResponse().obs;
+  Rx<ListTopDevicesProductResponse>? getTopDevicesProductData =
+      ListTopDevicesProductResponse().obs;
+  Rx<ListTopNailsProductResponse>? getTopNailsProductData =
+      ListTopNailsProductResponse().obs;
+  Rx<ListTopPerfumeProductResponse>? getTopPerfumeProductData =
+      ListTopPerfumeProductResponse().obs;
 }

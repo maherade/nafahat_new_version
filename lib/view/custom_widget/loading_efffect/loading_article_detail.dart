@@ -7,7 +7,7 @@ class LoadingArticleDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      physics: BouncingScrollPhysics(),
+      physics: const BouncingScrollPhysics(),
       child: Container(
         width: double.infinity,
         clipBehavior: Clip.antiAliasWithSaveLayer,
@@ -63,13 +63,16 @@ class LoadingArticleDetails extends StatelessWidget {
                   ),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: List.generate(20, (index) => Skelton(
-                      height: 10.h,
-                      width: double.infinity,
-                      radious: 8.r,
-                      margin: 5.w,
-                    ))),
-
+                    children: List.generate(
+                      20,
+                      (index) => Skelton(
+                        height: 10.h,
+                        width: double.infinity,
+                        radious: 8.r,
+                        margin: 5.w,
+                      ),
+                    ),
+                  ),
                   SizedBox(
                     height: 14.h,
                   ),

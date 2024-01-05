@@ -1,7 +1,3 @@
-
-
-import 'dart:async';
-
 import 'package:perfume_store_mobile_app/controller/app_controller.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
@@ -23,8 +19,6 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
   String code = '';
 
   @override
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,10 +31,16 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
               children: [
                 Stack(
                   children: [
-                    Image.asset('assets/images/auth.png',width: double.infinity,fit: BoxFit.cover,),
+                    Image.asset(
+                      'assets/images/auth.png',
+                      width: double.infinity,
+                      fit: BoxFit.cover,
+                    ),
                     Column(
                       children: [
-                        SizedBox(height: 30.h,),
+                        SizedBox(
+                          height: 30.h,
+                        ),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 5.0.w),
                           child: const BackButton(),
@@ -49,9 +49,11 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     ),
                   ],
                 ),
-                SizedBox(height: 25.h,),
+                SizedBox(
+                  height: 25.h,
+                ),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 36.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 36.0.w),
                   child: Column(
                     children: [
                       CustomText(
@@ -70,7 +72,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Expanded(
-                            flex:2,
+                            flex: 2,
                             child: CustomTextFormFieldWithTopTitle(
                               controller: emailController,
                               topTitle: '',
@@ -81,7 +83,9 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(width: 10.w,),
+                          SizedBox(
+                            width: 10.w,
+                          ),
                           Visibility(
                             visible: controller.visibleButton,
                             child: CustomButton(
@@ -89,13 +93,19 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                               width: 70.w,
                               titleSize: 10.sp,
                               title: 'أرسل رمز التحقق',
-                              onTap: (){
-                                if(emailController.text != '' ){
-                                  AuthApis.authApis.resetPassword(email: emailController.text);
-                                }
-                                else{
-                                  ScaffoldMessenger.of(context)
-                                      .showSnackBar(const SnackBar(content: Text('يرجى ادخال البريد الإلكتروني')));
+                              onTap: () {
+                                if (emailController.text != '') {
+                                  AuthApis.authApis.resetPassword(
+                                    email: emailController.text,
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'يرجى ادخال البريد الإلكتروني',
+                                      ),
+                                    ),
+                                  );
                                 }
                               },
                             ),
@@ -105,7 +115,9 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 25.h,),
+                SizedBox(
+                  height: 25.h,
+                ),
                 Container(
                   margin: EdgeInsets.symmetric(horizontal: 20.w),
                   child: PinCodeTextField(
@@ -115,16 +127,17 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     animationType: AnimationType.fade,
                     blinkWhenObscuring: true,
                     pinTheme: PinTheme(
-                        shape: PinCodeFieldShape.box,
-                        activeFillColor: Colors.white,
-                        inactiveColor:const Color(0xffE1D3D6),
-                        fieldOuterPadding: const EdgeInsets.symmetric(horizontal: 5),
-                        borderRadius: BorderRadius.circular(4.w)
+                      shape: PinCodeFieldShape.box,
+                      activeFillColor: Colors.white,
+                      inactiveColor: const Color(0xffE1D3D6),
+                      fieldOuterPadding:
+                          const EdgeInsets.symmetric(horizontal: 5),
+                      borderRadius: BorderRadius.circular(4.w),
                     ),
                     animationDuration: const Duration(milliseconds: 300),
                     mainAxisAlignment: MainAxisAlignment.center,
-                    onChanged: (value){
-                      print(value);
+                    onChanged: (value) {
+                      debugPrint(value);
                     },
                     validator: (v) {
                       if (v!.length < 4) {
@@ -140,27 +153,46 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     appContext: context,
                   ),
                 ),
-                SizedBox(height: 22.h,),
-                CustomText('${controller.myDuration.inMinutes.remainder(60)}:${controller.myDuration.inSeconds.remainder(60)}',fontWeight: FontWeight.normal,fontSize: 14.sp,),
-                SizedBox(height: 25.h,),
+                SizedBox(
+                  height: 22.h,
+                ),
+                CustomText(
+                  '${controller.myDuration.inMinutes.remainder(60)}:${controller.myDuration.inSeconds.remainder(60)}',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 14.sp,
+                ),
+                SizedBox(
+                  height: 25.h,
+                ),
                 Padding(
-                  padding:  EdgeInsets.symmetric(horizontal: 36.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 36.0.w),
                   child: CustomAuthButton(
                     title: 'تأكيد',
-                    onTap: (){
-                      AuthApis.authApis.validateCode(email: emailController.text.trim(),code: code);
+                    onTap: () {
+                      AuthApis.authApis.validateCode(
+                        email: emailController.text.trim(),
+                        code: code,
+                      );
                     },
                   ),
                 ),
-                SizedBox(height: 17.h,),
+                SizedBox(
+                  height: 17.h,
+                ),
                 Visibility(
                   visible: controller.visibleButton,
                   child: TextButton(
-                      onPressed: () {
-                        AuthApis.authApis.resetPassword(email: emailController.text);
-                        controller.startTimer();
-                      },
-                      child: CustomText('ارسال الرمز مرة أخرى',fontWeight: FontWeight.normal,fontSize: 14.sp,)),
+                    onPressed: () {
+                      AuthApis.authApis
+                          .resetPassword(email: emailController.text);
+                      controller.startTimer();
+                    },
+                    child: CustomText(
+                      'ارسال الرمز مرة أخرى',
+                      fontWeight: FontWeight.normal,
+                      fontSize: 14.sp,
+                    ),
+                  ),
                 )
               ],
             ),

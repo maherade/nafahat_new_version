@@ -19,15 +19,18 @@ class CartWidget extends StatelessWidget {
               margin: EdgeInsets.symmetric(horizontal: 20.w),
               padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 22.h),
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.r),
-                  border: Border.all(color: AppColors.greyBorder)),
+                borderRadius: BorderRadius.circular(8.r),
+                border: Border.all(color: AppColors.greyBorder),
+              ),
               child: Column(
                 children: [
                   Container(
                     width: double.infinity,
                     padding: EdgeInsets.all(12.w),
                     decoration: BoxDecoration(
-                        color: const Color(0xffF2F1F1), borderRadius: BorderRadius.circular(8.r)),
+                      color: const Color(0xffF2F1F1),
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -39,9 +42,7 @@ class CartWidget extends StatelessWidget {
                           height: 15.h,
                         ),
                         CustomText(
-                          'you_have_value'.tr +
-                              '${cartController.items.length}' +
-                              'item_in_cart_value'.tr,
+                          '${'you_have_value'.tr}${cartController.items.length}${'item_in_cart_value'.tr}',
                           fontSize: 14.sp,
                           color: AppColors.hintGrey,
                         ),
@@ -100,10 +101,8 @@ class CartWidget extends StatelessWidget {
               ),
             );
           },
-
         );
       },
-
     );
   }
 }

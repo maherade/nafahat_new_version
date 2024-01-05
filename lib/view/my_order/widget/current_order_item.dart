@@ -23,25 +23,29 @@ class CurrentOrderItem extends StatelessWidget {
 
   final VoidCallback? onTapCancelOrder;
 
-  const CurrentOrderItem(
-      {super.key,
-      this.orderId,
-      this.orderStatus,
-      this.productName,
-      this.productPrice,
-      this.deliveryLocation,
-      this.deliveryDate,
-      this.deliveryTime,
-      this.paymentMethod,
-      this.imgUrls,
-      this.onTapCancelOrder});
+  const CurrentOrderItem({
+    super.key,
+    this.orderId,
+    this.orderStatus,
+    this.productName,
+    this.productPrice,
+    this.deliveryLocation,
+    this.deliveryDate,
+    this.deliveryTime,
+    this.paymentMethod,
+    this.imgUrls,
+    this.onTapCancelOrder,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(14.w),
       margin: EdgeInsets.symmetric(horizontal: 18.w, vertical: 8.h),
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.r), border: Border.all(color: Color(0xffdcd9da))),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(5.r),
+        border: Border.all(color: const Color(0xffdcd9da)),
+      ),
       child: Column(
         children: [
           Row(
@@ -50,7 +54,7 @@ class CurrentOrderItem extends StatelessWidget {
               CustomText(
                 orderId,
                 fontSize: 13.sp,
-                color: Color(0xff6d8589),
+                color: const Color(0xff6d8589),
               ),
               Row(
                 children: [
@@ -61,13 +65,13 @@ class CurrentOrderItem extends StatelessWidget {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: orderStatus == "on-hold"
-                          ? Color(0xffe8c22a)
+                          ? const Color(0xffe8c22a)
                           : orderStatus == "processing"
                               ? Colors.deepOrangeAccent
                               : orderStatus == "pending"
-                                  ? Color(0xffcc5132)
+                                  ? const Color(0xffcc5132)
                                   : orderStatus == "refunded"
-                                      ? Color(0xffd8322c)
+                                      ? const Color(0xffd8322c)
                                       : Colors.black,
                     ),
                   ),
@@ -86,13 +90,13 @@ class CurrentOrderItem extends StatelessWidget {
                                     : "",
                     fontSize: 13.sp,
                     color: orderStatus == "on-hold"
-                        ? Color(0xffe8c22a)
+                        ? const Color(0xffe8c22a)
                         : orderStatus == "processing"
                             ? Colors.deepOrangeAccent
                             : orderStatus == "pending"
-                                ? Color(0xffcc5132)
+                                ? const Color(0xffcc5132)
                                 : orderStatus == "refunded"
-                                    ? Color(0xffd8322c)
+                                    ? const Color(0xffd8322c)
                                     : Colors.black,
                   ),
                 ],
@@ -109,7 +113,7 @@ class CurrentOrderItem extends StatelessWidget {
               CustomText(
                 'product_name_value'.tr,
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               Expanded(
                 child: CustomText(
@@ -129,7 +133,7 @@ class CurrentOrderItem extends StatelessWidget {
               CustomText(
                 'total_pricee_value'.tr,
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 productPrice,
@@ -146,7 +150,7 @@ class CurrentOrderItem extends StatelessWidget {
               CustomText(
                 'delev_loca_value'.tr,
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 deliveryLocation,
@@ -163,7 +167,7 @@ class CurrentOrderItem extends StatelessWidget {
               CustomText(
                 'delev_date_value'.tr,
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 deliveryDate,
@@ -180,7 +184,7 @@ class CurrentOrderItem extends StatelessWidget {
               CustomText(
                 'delev_time_value'.tr,
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 deliveryTime,
@@ -197,7 +201,7 @@ class CurrentOrderItem extends StatelessWidget {
               CustomText(
                 'payment_method_value'.tr,
                 fontSize: 13.sp,
-                color: Color(0xff828282),
+                color: const Color(0xff828282),
               ),
               CustomText(
                 paymentMethod,
@@ -238,7 +242,7 @@ class CurrentOrderItem extends StatelessWidget {
           ),
           Divider(
             height: 30.h,
-            color: Color(0xffd8d4d5),
+            color: const Color(0xffd8d4d5),
             thickness: 2,
           ),
           Row(
@@ -247,9 +251,10 @@ class CurrentOrderItem extends StatelessWidget {
               GestureDetector(
                 onTap: onTapCancelOrder,
                 child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
                   decoration: BoxDecoration(
-                    color: Color(0xffd8312c),
+                    color: const Color(0xffd8312c),
                     borderRadius: BorderRadius.circular(5.r),
                   ),
                   child: CustomText(

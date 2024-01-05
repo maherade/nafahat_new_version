@@ -1,22 +1,23 @@
-import 'dart:convert';
+import 'dart:developer';
 
 class ListCategoryResponse {
-  List<CategoryResponse>? listCategoryResponse ;
+  List<CategoryResponse>? listCategoryResponse;
 
   ListCategoryResponse({this.listCategoryResponse});
+
   ListCategoryResponse.fromJson(json) {
     if (json != null) {
       listCategoryResponse = <CategoryResponse>[];
       json.forEach((v) {
-        if(v['id']!= 183 && v['image'] is !List){
-          print(true);
+        if (v['id'] != 183 && v['image'] is! List) {
+          log(true.toString());
           listCategoryResponse!.add(CategoryResponse.fromJson(v));
         }
       });
     }
-
   }
 }
+
 class CategoryResponse {
   int? id;
   String? name;
@@ -28,16 +29,17 @@ class CategoryResponse {
   int? menuOrder;
   int? count;
 
-  CategoryResponse(
-      {this.id,
-        this.name,
-        this.slug,
-        this.parent,
-        this.description,
-        this.display,
-        this.image,
-        this.menuOrder,
-        this.count});
+  CategoryResponse({
+    this.id,
+    this.name,
+    this.slug,
+    this.parent,
+    this.description,
+    this.display,
+    this.image,
+    this.menuOrder,
+    this.count,
+  });
 
   CategoryResponse.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -46,24 +48,24 @@ class CategoryResponse {
     parent = json['parent'];
     description = json['description'];
     display = json['display'];
-    image = json['image'] != null ?  Image.fromJson(json['image']) : null;
+    image = json['image'] != null ? Image.fromJson(json['image']) : null;
     menuOrder = json['menu_order'];
     count = json['count'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data =  Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
-    data['slug'] = this.slug;
-    data['parent'] = this.parent;
-    data['description'] = this.description;
-    data['display'] = this.display;
-    if (this.image != null) {
-      data['image'] = this.image!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['slug'] = slug;
+    data['parent'] = parent;
+    data['description'] = description;
+    data['display'] = display;
+    if (image != null) {
+      data['image'] = image!.toJson();
     }
-    data['menu_order'] = this.menuOrder;
-    data['count'] = this.count;
+    data['menu_order'] = menuOrder;
+    data['count'] = count;
     return data;
   }
 }
@@ -78,15 +80,16 @@ class Image {
   String? title;
   String? alt;
 
-  Image(
-      {this.id,
-        this.dateCreated,
-        this.dateCreatedGmt,
-        this.dateModified,
-        this.dateModifiedGmt,
-        this.src,
-        this.title,
-        this.alt});
+  Image({
+    this.id,
+    this.dateCreated,
+    this.dateCreatedGmt,
+    this.dateModified,
+    this.dateModifiedGmt,
+    this.src,
+    this.title,
+    this.alt,
+  });
 
   Image.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -100,16 +103,15 @@ class Image {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date_created'] = this.dateCreated;
-    data['date_created_gmt'] = this.dateCreatedGmt;
-    data['date_modified'] = this.dateModified;
-    data['date_modified_gmt'] = this.dateModifiedGmt;
-    data['src'] = this.src;
-    data['title'] = this.title;
-    data['alt'] = this.alt;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['date_created'] = dateCreated;
+    data['date_created_gmt'] = dateCreatedGmt;
+    data['date_modified'] = dateModified;
+    data['date_modified_gmt'] = dateModifiedGmt;
+    data['src'] = src;
+    data['title'] = title;
+    data['alt'] = alt;
     return data;
   }
 }
-

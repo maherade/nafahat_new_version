@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:perfume_store_mobile_app/services/tabby_flutter_inapp_sdk.dart';
 
+import '../../app_imports.dart';
+
 abstract class TabbyWithRemoteDataSource {
   /// Initialise Tabby API.
   void setup({
@@ -61,7 +63,7 @@ class TabbySDK implements TabbyWithRemoteDataSource {
       body: jsonEncode(payload.toJson()),
     );
 
-    print('session create status: ${response.statusCode}');
+    debugPrint('session create status: ${response.statusCode}');
     if (response.statusCode == 200) {
       final checkoutSession =
           CheckoutSession.fromJson(jsonDecode(response.body));
@@ -75,12 +77,14 @@ class TabbySDK implements TabbyWithRemoteDataSource {
         creditCardInstallments: creditCardInstallmentsPlan != null
             ? TabbyProduct(
                 type: TabbyPurchaseType.creditCardInstallments,
-                webUrl: creditCardInstallmentsPlan.webUrl)
+                webUrl: creditCardInstallmentsPlan.webUrl,
+              )
             : null,
         installments: installmentsPlan != null
             ? TabbyProduct(
                 type: TabbyPurchaseType.installments,
-                webUrl: installmentsPlan.webUrl)
+                webUrl: installmentsPlan.webUrl,
+              )
             : null,
         monthlyBilling: null,
       );
@@ -92,7 +96,7 @@ class TabbySDK implements TabbyWithRemoteDataSource {
       );
       return tabbyCheckoutSession;
     } else {
-      print(response.body);
+      debugPrint(response.body);
       throw ServerException();
     }
   }

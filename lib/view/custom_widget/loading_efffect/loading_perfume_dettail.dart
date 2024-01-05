@@ -5,6 +5,7 @@ import '../../../services/app_imports.dart';
 import '../custom_rate_write_bar.dart';
 
 class LoadingPerfumeDetail extends StatelessWidget {
+  const LoadingPerfumeDetail({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +36,7 @@ class LoadingPerfumeDetail extends StatelessWidget {
                   height: 15.h,
                 ),
                 Skelton(
-                  width:double.infinity,
+                  width: double.infinity,
                   height: 260.h,
                   radious: 1.r,
                 ),
@@ -102,7 +103,8 @@ class LoadingPerfumeDetail extends StatelessWidget {
                                 width: 15.w,
                                 height: 13.h,
                                 radious: 5.r,
-                              ),                    ],
+                              ),
+                            ],
                           ),
                           SizedBox(
                             width: 83.w,
@@ -124,7 +126,6 @@ class LoadingPerfumeDetail extends StatelessWidget {
                               ),
                             ],
                           ),
-
                         ],
                       ),
                       SizedBox(
@@ -140,14 +141,16 @@ class LoadingPerfumeDetail extends StatelessWidget {
                                 scrollDirection: Axis.horizontal,
                                 itemCount: 5,
                                 itemBuilder: (context, index) {
-                                  return  Row(
+                                  return Row(
                                     children: [
                                       Skelton(
                                         width: 24.w,
                                         height: 24.h,
                                         radious: 0.r,
                                       ),
-                                      SizedBox(width: 1.w,)
+                                      SizedBox(
+                                        width: 1.w,
+                                      )
                                     ],
                                   );
                                 },
@@ -160,19 +163,20 @@ class LoadingPerfumeDetail extends StatelessWidget {
                         height: 20.h,
                       ),
                       Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: List.generate(20, (index) => Skelton(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: List.generate(
+                          20,
+                          (index) => Skelton(
                             height: 10.h,
                             width: MediaQuery.of(context).size.width - 100,
                             radious: 8.r,
                             margin: 5.w,
-                          ))),
-
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
-
-
               ],
             ),
           ),
