@@ -188,6 +188,7 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                               itemBuilder: (BuildContext context, int index) {
                                 return Container(
                                     height: 140.h ,
+
                                     width: 80.w,
                                     decoration:
                                     BoxDecoration(
