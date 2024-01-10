@@ -14,9 +14,11 @@ class HelpAndSupportScreen extends StatefulWidget {
 }
 
 class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
-  TextEditingController emailController = TextEditingController();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
-  TextEditingController noteController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController messageController = TextEditingController();
 
   ContactUsController contactUsController = Get.find();
 
@@ -29,82 +31,315 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: CustomText(
+          "contact_us".tr,
+        ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Image.asset('assets/images/logo.png',
+              height:  43.h,
+              width: 43.w,
+            ),
+          ),
+        ],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 50.h,
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-            child: const BackButton(),
-          ),
           Expanded(
             child: SingleChildScrollView(
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 18.w),
-                margin: EdgeInsets.symmetric(horizontal: 36.w),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0.w),
-                  border: Border.all(width: 1.0, color: AppColors.greyBorder),
-                ),
+              child: Padding(
+                padding: const EdgeInsets.all(24.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(
-                      height: 32.h,
-                    ),
-                    SvgPicture.asset(
-                      'assets/svg/support.svg',
-                      fit: BoxFit.contain,
-                    ),
-                    SizedBox(
-                      height: 35.h,
-                    ),
                     CustomText(
-                      'contact_us_value'.tr,
+                      'الاسم الكامل',
                       fontSize: 16.sp,
-                    ),
-                    SizedBox(
-                      height: 11.h,
-                    ),
-                    CustomText(
-                      'if_have_problem_value'.tr,
-                      fontSize: 14.sp,
                       fontWeight: FontWeight.normal,
                     ),
                     SizedBox(
-                      height: 34.h,
+                      height: 12.h,
                     ),
-                    CustomTextFormFieldWithTopTitle(
-                      controller: emailController,
-                      topTitle: 'emaill_value'.tr,
-                      hintText: 'enter_your_email_value'.tr,
+                    TextFormField(
+                      controller: nameController,
+                      keyboardType: TextInputType.text,
+                      textInputAction:
+                      TextInputAction.next,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: AppColors.grey
+                            .withOpacity(.1),
+                        hintText: 'ادخل اسمك الكامل',
+                        prefixIcon: Padding(
+                          padding:
+                          const EdgeInsets.symmetric(
+                              horizontal: 10.0),
+                          child: Image.asset(
+                            "assets/images/profile.png",
+                            color: AppColors.blackColor
+                                .withOpacity(.8),
+                            width: 20.w,
+                            height: 20.h,
+                          ),
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 15.sp,
+                          color: AppColors.grey,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'urw_din',
+                        ),
+                        prefixIconConstraints:
+                        BoxConstraints(
+                            minWidth: 0,
+                            minHeight: 0),
+                        prefixStyle:
+                        TextStyle(color: Colors.grey),
+                        contentPadding:
+                        EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 15.h),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                      ),
                     ),
                     SizedBox(
-                      height: 17.h,
+                      height: 24.h,
                     ),
-                    CustomTextFormFieldWithTopTitle(
-                      controller: noteController,
-                      maxLines: 10,
-                      topTitle: 'notes_value'.tr,
-                      hintText: 'enter_your_notes_value'.tr,
+                    CustomText(
+                      'رقم الهاتف',
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.normal,
                     ),
                     SizedBox(
-                      height: 32.h,
+                      height: 12.h,
                     ),
+                    TextFormField(
+                      controller: phoneController,
+                      keyboardType: TextInputType.number,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor:
+                        AppColors.grey.withOpacity(.1),
+                        hintText: 'ادخل رقم هاتفك',
+                        prefixIcon: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10.0),
+                          child: Image.asset(
+                            "assets/images/call.png",
+                            color: AppColors.blackColor
+                                .withOpacity(.8),
+                            width: 20.w,
+                            height: 20.h,
+                          ),
+                        ),
+                        hintStyle: TextStyle(
+                          fontSize: 15.sp,
+                          color: AppColors.grey,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'urw_din',
+                        ),
+                        prefixIconConstraints: BoxConstraints(
+                            minWidth: 0, minHeight: 0),
+                        prefixStyle:
+                        TextStyle(color: Colors.grey),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 10.w, vertical: 15.h),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 39.h,
+                    ),
+                    CustomText(
+                      'عنوان الرسالة',
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    SizedBox(
+                      height: 12.h,
+                    ),
+                    TextFormField(
+                      controller: titleController,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor:
+                        AppColors.grey.withOpacity(.1),
+                        hintText: 'ادخل عنوان الرسالة هنا',
+                        hintStyle: TextStyle(
+                          fontSize: 15.sp,
+                          color: AppColors.grey,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'urw_din',
+                        ),
+                        prefixIconConstraints: const BoxConstraints(
+                          minWidth: 0, minHeight: 0,),
+                        prefixStyle:
+                        const TextStyle(color: Colors.grey),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 15.h),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 24.h,
+                    ),
+                    CustomText(
+                      'نص الرسالة',
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.normal,
+                    ),
+                    SizedBox(
+                      height: 12.h,
+                    ),
+                    TextFormField(
+                      controller: messageController,
+                      keyboardType: TextInputType.text,
+                      textInputAction: TextInputAction.next,
+                      maxLength: 4000,
+                      maxLines: 12,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor:
+                        AppColors.grey.withOpacity(.1),
+                        hintText: 'ادخل نص الرسالة هنا',
+                        hintStyle: TextStyle(
+                          fontSize: 15.sp,
+                          color: AppColors.grey,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: 'urw_din',
+                        ),
+                        prefixIconConstraints: const BoxConstraints(
+                            minWidth: 0, minHeight: 0),
+                        prefixStyle:
+                        const TextStyle(color: Colors.grey),
+                        contentPadding: EdgeInsets.symmetric(
+                            horizontal: 16.w, vertical: 15.h),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                              color: AppColors.blackColor
+                                  .withOpacity(.2)),
+                          borderRadius:
+                          BorderRadius.circular(25.0),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 19.h,
+                    ),
+
                     CustomButton(
                       onTap: () {
                         ContactUsApies.contactUsApies.contactUs(
-                          email: emailController.text,
-                          notes: noteController.text,
+                          email: phoneController.text,
+                          notes: messageController.text,
                         );
                       },
-                      height: 40.h,
+                      height: 50.h,
                       title: 'send_value'.tr,
+                      radious: 25.r,
                     ),
-                    SizedBox(
-                      height: 43.h,
-                    ),
+
+
+
+
+                    // CustomText(
+                    //   'contact_us_value'.tr,
+                    //   fontSize: 16.sp,
+                    // ),
+                    // SizedBox(
+                    //   height: 11.h,
+                    // ),
+
+                    // CustomText(
+                    //   'if_have_problem_value'.tr,
+                    //   fontSize: 14.sp,
+                    //   fontWeight: FontWeight.normal,
+                    // ),
+                    // SizedBox(
+                    //   height: 34.h,
+                    // ),
+                    // CustomTextFormFieldWithTopTitle(
+                    //   controller: emailController,
+                    //   topTitle: 'emaill_value'.tr,
+                    //   hintText: 'enter_your_email_value'.tr,
+                    // ),
+                    // SizedBox(
+                    //   height: 17.h,
+                    // ),
+                    // CustomTextFormFieldWithTopTitle(
+                    //   controller: noteController,
+                    //   maxLines: 10,
+                    //   topTitle: 'notes_value'.tr,
+                    //   hintText: 'enter_your_notes_value'.tr,
+                    // ),
+                    // SizedBox(
+                    //   height: 32.h,
+                    // ),
+                    // CustomButton(
+                    //   onTap: () {
+                    //     ContactUsApies.contactUsApies.contactUs(
+                    //       email: emailController.text,
+                    //       notes: noteController.text,
+                    //     );
+                    //   },
+                    //   height: 40.h,
+                    //   title: 'send_value'.tr,
+                    // ),
+                    // SizedBox(
+                    //   height: 43.h,
+                    // ),
                   ],
                 ),
               ),
