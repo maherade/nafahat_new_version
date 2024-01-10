@@ -21,7 +21,7 @@ class ArticleHomeItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 200.w,
+      width: 270.w,
       margin: EdgeInsets.symmetric(horizontal: 21.w, vertical: 8.h),
       clipBehavior: Clip.antiAliasWithSaveLayer,
       decoration: BoxDecoration(
@@ -49,22 +49,11 @@ class ArticleHomeItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        category,
-                        fontSize: 12.sp,
-                        color: AppColors.primaryColor,
-                      ),
-                      const Spacer(),
-                      CustomText(
-                        date,
-                        fontSize: 12.sp,
-                        color: AppColors.hintGrey,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ],
+                  CustomText(
+                    date,
+                    fontSize: 12.sp,
+                    color: AppColors.hintGrey,
+                    fontWeight: FontWeight.normal,
                   ),
                   SizedBox(
                     height: 14.h,

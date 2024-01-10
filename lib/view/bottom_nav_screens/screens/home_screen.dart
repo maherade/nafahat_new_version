@@ -187,7 +187,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 hintText: 'اكتب كلمه البحث...',
                                 filled: true,
                                 suffixIcon: Image.asset(
-                                  'assets/images/Search.png',
+                                  'assets/images/search.png',
                                   height: MediaQuery.of(context).size.height*0.005,
                                   width: MediaQuery.of(context).size.height*0.005,
                                 ),

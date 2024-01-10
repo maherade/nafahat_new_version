@@ -50,31 +50,19 @@ class ArticleItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CustomText(
-                        category,
-                        fontSize: 12.sp,
-                        color: AppColors.primaryColor,
-                      ),
-                      SizedBox(
-                        width: 50.w,
-                      ),
-                      CustomText(
-                        date,
-                        fontSize: 12.sp,
-                        color: AppColors.hintGrey,
-                        fontWeight: FontWeight.normal,
-                      ),
-                    ],
+                  CustomText(
+                    date,
+                    fontSize: 12.sp,
+                    color: AppColors.hintGrey,
+                    fontWeight: FontWeight.normal,
                   ),
                   SizedBox(
                     height: 14.h,
                   ),
                   CustomText(
                     title,
-                    fontSize: 14.sp,
+                    fontSize: 15.sp,
+                    fontWeight: FontWeight.w500 ,
                   ),
                   SizedBox(
                     height: 10.h,

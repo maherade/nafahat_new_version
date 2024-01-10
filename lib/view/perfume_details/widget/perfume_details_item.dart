@@ -137,16 +137,68 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                                   HeaderRow(
                                     imagePath:
                                     'assets/images/cart_img.png',
-                                    onTap: () {},
+                                    onTap: () {
+                                      if (SPHelper.spHelper.getToken() ==
+                                          null) {
+                                        Get.offAll(
+                                              () => const LoginScreen(),
+                                        );
+                                      } else {
+                                        bool added = cart.addItem(
+                                          imgurl: cart.variations != null
+                                              ? cart
+                                              .variations?.image?.url
+                                              : product?[0]
+                                              .images?[0]
+                                              .src ??
+                                              '',
+                                          name: cart.variations != null
+                                              ? "${product?[0].title} ${cart.variations?.attributes?.attributePaD8A7D984D8AdD8AcD985}"
+                                              : product?[0].title ?? '',
+                                          price: cart.variations != null
+                                              ? cart.variations
+                                              ?.displayPrice
+                                              : double.parse(
+                                            product?[0].salePrice ==
+                                                '' ||
+                                                product?[0]
+                                                    .salePrice ==
+                                                    null
+                                                ? '0.0'
+                                                : product![0]
+                                                .salePrice!,
+                                          ),
+                                          quantitiy: controller.quantitiy,
+                                          pdtid: cart.variations != null
+                                              ? cart
+                                              .variations?.variationId
+                                              .toString()
+                                              : product?[0].id.toString(),
+                                        );
+                                        if (added) {
+                                          CustomDialog.customDialog
+                                              .showCartDialog();
+                                          // ScaffoldMessenger.of(context)
+                                          //     .showSnackBar(const SnackBar(content: Text('تمت الإضافة إلى السلة بنجاح')));
+                                        }
+                                      }
+                                    },
                                   ),
                                   const SizedBox(
                                     width: 5,
                                   ),
                                   HeaderRow(
-                                    imagePath: 'assets/images/search.png',
-                                    onTap: () {},
+                                    imagePath: "assets/images/search.png",
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                          const SearchScreen(),
+                                        ),);
+                                    },
                                   ),
-                                ]),
+                                ],),
                               ),
                               Expanded(
                                 child: CachedNetworkImageShare(

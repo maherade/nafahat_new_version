@@ -828,7 +828,7 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                     dSize.width <=
                                         900
                                     ? 1
-                                    : 1.1,
+                                    : 1/1.9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 15,

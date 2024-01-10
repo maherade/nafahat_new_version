@@ -28,110 +28,111 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: 50.h,
-          ),
+      appBar: AppBar(
+        backgroundColor: AppColors.whiteColor,
+        elevation: 0.0,
+        title: CustomText("article_value".tr,
+          fontSize: 18.sp,
+          fontWeight:  FontWeight.bold,
+        ),
+        centerTitle: true,
+        actions: [
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-            child: const BackButton(),
-          ),
-          SizedBox(
-            height: 13.h,
-          ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 21.w),
-          //   child: CustomText(
-          //     'الرئيسية/المقالات/تفاصيل المقال',
-          //     color: const Color(0xff707070),
-          //     fontSize: 12.sp,
-          //     fontWeight: FontWeight.normal,
-          //   ),
-          // ),
-          SizedBox(
-            height: 19.h,
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Obx(
-                    () {
-                      var post = postsController.getPostDetailData!.value;
-                      return post.title == null
-                          ? const LoadingArticleDetails()
-                          : ArticleDetailItem(
-                              imgUrl: post.eEmbedded?.wpFeaturedmedia?[0]
-                                      .sourceUrl ??
-                                  '',
-                              category: 'قسم المكياج',
-                              date: DateFormat('dd-MM-yyyy').format(
-                                DateFormat('yyyy-MM-dd').parse(post.date!),
-                              ),
-                              title: post.title?.rendered ?? '',
-                              description: parse(post.content?.rendered)
-                                  .documentElement!
-                                  .text,
-                              onTapReadMore: () {},
-                            );
-                    },
-                  ),
-                  Obx(
-                    () {
-                      var post = postsController.getRelatedPostDetailData!.value
-                          .listRelatedPostResponse;
-                      return post == null
-                          ? const LoadingArticleDetails()
-                          : ListView.builder(
-                              itemCount: post.length,
-                              physics: const NeverScrollableScrollPhysics(),
-                              shrinkWrap: true,
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    PostsApies.postsApies.getPostDetailById(
-                                      post[index].id.toString(),
-                                    );
-                                  },
-                                  child: Container(
-                                    padding:
-                                        EdgeInsets.symmetric(horizontal: 20.w),
-                                    margin:
-                                        EdgeInsets.symmetric(vertical: 10.h),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CachedNetworkImageShare(
-                                          urlImage: post[index]
-                                                  .yoastHeadJson
-                                                  ?.ogImage?[0]
-                                                  .url ??
-                                              '',
-                                          fit: BoxFit.cover,
-                                          heigthNumber: 250.h,
-                                          borderRadious: 20,
-                                          widthNumber: double.infinity,
-                                        ),
-                                        CustomText(
-                                          post[index].title?.rendered ?? '',
-                                          fontSize: 13.sp,
-                                        )
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            );
-                    },
-                  ),
-                ],
-              ),
+            padding: EdgeInsets.symmetric(horizontal: 17.w),
+            child: Image.asset(
+              "assets/images/logo.png",
+              height: 43.h,
+              width: 43.w,
             ),
-          )
+          ),
         ],
+      ),
+
+      body: Padding(
+        padding:   EdgeInsets.symmetric( horizontal: 17.0.w, vertical: 30.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Obx(
+                      () {
+                        var post = postsController.getPostDetailData!.value;
+                        return post.title == null
+                            ? const LoadingArticleDetails()
+                            : ArticleDetailItem(
+                                imgUrl: post.eEmbedded?.wpFeaturedmedia?[0]
+                                        .sourceUrl ??
+                                    '',
+                                category: 'قسم المكياج',
+                                date: DateFormat('dd-MM-yyyy').format(
+                                  DateFormat('yyyy-MM-dd').parse(post.date!),
+                                ),
+                                title: post.title?.rendered ?? '',
+                                description: parse(post.content?.rendered)
+                                    .documentElement!
+                                    .text,
+                                onTapReadMore: () {},
+                              );
+                      },
+                    ),
+                    // Obx(
+                    //   () {
+                    //     var post = postsController.getRelatedPostDetailData!.value
+                    //         .listRelatedPostResponse;
+                    //     return post == null
+                    //         ? const LoadingArticleDetails()
+                    //         : ListView.builder(
+                    //             itemCount: post.length,
+                    //             physics: const NeverScrollableScrollPhysics(),
+                    //             shrinkWrap: true,
+                    //             itemBuilder: (context, index) {
+                    //               return GestureDetector(
+                    //                 onTap: () {
+                    //                   PostsApies.postsApies.getPostDetailById(
+                    //                     post[index].id.toString(),
+                    //                   );
+                    //                 },
+                    //                 child: Container(
+                    //                   padding:
+                    //                       EdgeInsets.symmetric(horizontal: 20.w),
+                    //                   margin:
+                    //                       EdgeInsets.symmetric(vertical: 10.h),
+                    //                   child: Column(
+                    //                     crossAxisAlignment:
+                    //                         CrossAxisAlignment.start,
+                    //                     children: [
+                    //                       CachedNetworkImageShare(
+                    //                         urlImage: post[index]
+                    //                                 .yoastHeadJson
+                    //                                 ?.ogImage?[0]
+                    //                                 .url ??
+                    //                             '',
+                    //                         fit: BoxFit.cover,
+                    //                         heigthNumber: 250.h,
+                    //                         borderRadious: 20,
+                    //                         widthNumber: double.infinity,
+                    //                       ),
+                    //                       CustomText(
+                    //                         post[index].title?.rendered ?? '',
+                    //                         fontSize: 13.sp,
+                    //                       )
+                    //                     ],
+                    //                   ),
+                    //                 ),
+                    //               );
+                    //             },
+                    //           );
+                    //   },
+                    // ),
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

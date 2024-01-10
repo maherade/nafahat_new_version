@@ -5,6 +5,7 @@ import '../../../apies/posts_apies.dart';
 import '../../../controller/posts_controller.dart';
 import '../../../services/app_imports.dart';
 import '../../custom_widget/loading_efffect/loading_article.dart';
+import '../../search/screen/search_screen.dart';
 import '../widget/article_item.dart';
 import 'article_detail_screen.dart';
 
@@ -29,28 +30,67 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: CustomText("article_value".tr,
+        fontSize: 18.sp,
+        fontWeight:  FontWeight.bold,
+        ),
+        centerTitle: true,
+        actions: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 17.w),
+            child: Image.asset(
+              "assets/images/logo.png",
+              height: 43.h,
+              width: 43.w,
+            ),
+          ),
+        ],
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 50.h,
-          ),
+
           Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-            child: const BackButton(),
+            padding:   EdgeInsets.symmetric(horizontal: 17.0.w),
+            child: GestureDetector(
+              onTap: (){
+                Get.to(() => const SearchScreen());
+              },
+              child: Container(
+                height: MediaQuery.of(context).size.height*0.06,
+                child: TextFormField(
+
+                  decoration: InputDecoration(
+                    hintText: 'اكتب كلمه البحث...',
+                    filled: true,
+                    suffixIcon: Image.asset(
+                      'assets/images/search.png',
+                      height: MediaQuery.of(context).size.height*0.005,
+                      width: MediaQuery.of(context).size.height*0.005,
+                    ),
+                    fillColor: const Color(0XFFF7F8FA),
+                    hintStyle: TextStyle(
+                      fontSize: MediaQuery.of(context).size.height*0.018,
+                      color: Colors.black54,
+                      fontFamily: 'din',
+                    ),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: MediaQuery.of(context).size.height*0.018,
+                  ),
+
+                ),
+              ),
+            ),
           ),
-          SizedBox(
-            height: 13.h,
-          ),
-          // Padding(
-          //   padding: EdgeInsets.symmetric(horizontal: 21.w),
-          //   child: CustomText(
-          //     'الرئيسية/المقالات',
-          //     color: const Color(0xff707070),
-          //     fontSize: 12.sp,
-          //     fontWeight: FontWeight.normal,
-          //   ),
-          // ),
+
           SizedBox(
             height: 19.h,
           ),
@@ -61,7 +101,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                   var post =
                       postsController.getPostsData!.value.listPostsResponse;
                   return post == null
-                      ? LoadingArticle()
+                      ? const LoadingArticle()
                       : Column(
                           children: [
                             ListView.builder(
@@ -76,8 +116,8 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                                           ?.wpFeaturedmedia?[0]
                                           .sourceUrl ??
                                       '',
-                                  category: 'قسم المكياج',
-                                  date: DateFormat('dd-MM-yyyy').format(
+                                  // category: 'قسم المكياج',
+                                  date: DateFormat('yyyy MMM dd').format(
                                     DateFormat('yyyy-MM-dd')
                                         .parse(post[index].date!),
                                   ),
@@ -126,7 +166,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                                           .sourceUrl ??
                                       '',
                                   category: 'قسم المكياج',
-                                  date: DateFormat('dd-MM-yyyy').format(
+                                  date: DateFormat('yyyy MMM dd').format(
                                     DateFormat('yyyy-MM-dd')
                                         .parse(post[index].date!),
                                   ),

@@ -6,6 +6,7 @@ import 'package:html/parser.dart';
 import 'package:intl/intl.dart';
 import 'package:perfume_store_mobile_app/controller/brand_controller.dart';
 import 'package:perfume_store_mobile_app/controller/category_controller.dart';
+import 'package:perfume_store_mobile_app/view/bottom_nav_screens/screens/show_all_brand_screen.dart';
 import 'package:perfume_store_mobile_app/view/bottom_nav_screens/widget/ad_item.dart';
 import 'package:perfume_store_mobile_app/view/bottom_nav_screens/widget/category_item.dart';
 import 'package:perfume_store_mobile_app/view/cart/screen/cart_screen.dart';
@@ -206,9 +207,7 @@ class _HomeScreenItemState extends State<HomeScreenItem> {
                       fontWeight: FontWeight.bold,
                     ),
                     InkWell(
-                      onTap: () {
-
-                      },
+                      onTap: () { Navigator.push(context, MaterialPageRoute(builder: (context) => ShowAllBrandScreen(),));},
                       child: Container(
                         padding: EdgeInsets.symmetric(
                           vertical: 10.h,
@@ -2778,8 +2777,7 @@ class _HomeScreenItemState extends State<HomeScreenItem> {
                                 ?.wpFeaturedmedia?[0]
                                 .sourceUrl ??
                                 '',
-                            category: 'makeup_category_value'.tr,
-                            date: DateFormat('dd-MM-yyyy').format(
+                            date: DateFormat('yyyy MMM dd').format(
                               DateFormat('yyyy-MM-dd')
                                   .parse(post[index].date!),
                             ),
@@ -2800,9 +2798,7 @@ class _HomeScreenItemState extends State<HomeScreenItem> {
                         },
                         separatorBuilder:
                             (BuildContext context, int index) {
-                          return SizedBox(
-                            width: 10.w,
-                          );
+                          return const SizedBox();
                         },
                       ),
                     )
