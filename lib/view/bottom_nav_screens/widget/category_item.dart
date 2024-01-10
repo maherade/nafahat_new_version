@@ -26,13 +26,13 @@ class CategoryItem extends StatelessWidget {
                 )
               : const SizedBox(),
           SizedBox(
-            height: 140,
+            height: 200,
             width: 80,
             child: Column(
               children: [
                 Container(
-                  height: 55,
-                  width: 52.w,
+                  height: 80,
+                  width: 75.w,
                   padding: EdgeInsets.all(5.w),
                   decoration: const BoxDecoration(
                     color: AppColors.greyContainer,
@@ -47,13 +47,13 @@ class CategoryItem extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 11,
+                  height: 5,
                 ),
                 SizedBox(
                   width: 100,
                   child: CustomText(
                     title,
-                    fontSize: 10.sp,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.normal,
                     textAlign: TextAlign.center,
                   ),
@@ -62,7 +62,7 @@ class CategoryItem extends StatelessWidget {
             ),
           ),
           SizedBox(
-            width: 8.w,
+            height: 8.w,
           ),
         ],
       ),

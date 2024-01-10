@@ -76,6 +76,43 @@ class PerfumeProductItem extends StatelessWidget {
                             ),
                           ],
                         ),
+
+                        const SizedBox(height: 10,),
+                        Row(
+                          children: [
+                            CustomText(
+                              'العطور',
+                              color: AppColors.grey,
+                              fontSize: 14.sp,
+                            ),
+                            const Spacer(),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 5
+                              ),
+                              decoration: BoxDecoration(
+                                color: AppColors.greyBorder,
+                                borderRadius: BorderRadius.circular(10)
+                              ),
+                              child: Row(
+                                children: [
+                                  const Image(
+                                    image: AssetImage('assets/images/fire.png'),
+                                  ),
+                                  const SizedBox(width: 5,),
+                                  CustomText(
+                                    'الاكثر مبيعا',
+                                    fontSize: 11.sp,
+                                    color: AppColors.grey,
+                                  )
+                                ],
+                              ),
+                            ),
+                            const SizedBox(height: 10,),
+
+                          ],
+                        ),
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.center,
                         //   children: [
@@ -99,7 +136,7 @@ class PerfumeProductItem extends StatelessWidget {
                         CustomText(
                           brandName,
                           color: AppColors.itemGrey,
-                          fontSize: 10.sp,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.normal,
                         ),
                         CustomText(
@@ -156,97 +193,127 @@ class PerfumeProductItem extends StatelessWidget {
                             ),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            GetBuilder<CartController>(
-                              init: CartController(),
-                              builder: (cart) {
-                                return GestureDetector(
-                                  onTap: () {
-                                    if (SPHelper.spHelper.getToken() == null) {
-                                      Get.offAll(() => const LoginScreen());
-                                    } else {
-                                      if (variations == null) {
-                                        bool added = cart.addItem(
-                                          imgurl: imgUrl ?? '',
-                                          name: perfumeName ?? '',
-                                          price: double.parse(
-                                            priceAfterDiscount ?? '0.0',
-                                          ),
-                                          quantitiy: 1,
-                                          pdtid: id ?? '',
-                                        );
-                                        if (added) {
-                                          CustomDialog.customDialog
-                                              .showCartDialog();
-                                        }
-                                      } else {
-                                        onTapBuy!();
-                                      }
-                                    }
-                                  },
-                                  child: SvgPicture.asset(
-                                    'assets/svg/buy.svg',
-                                    fit: BoxFit.contain,
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                        )
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.end,
+                        //   children: [
+                        //     GetBuilder<CartController>(
+                        //       init: CartController(),
+                        //       builder: (cart) {
+                        //         return GestureDetector(
+                        //           onTap: () {
+                        //             if (SPHelper.spHelper.getToken() == null) {
+                        //               Get.offAll(() => const LoginScreen());
+                        //             } else {
+                        //               if (variations == null) {
+                        //                 bool added = cart.addItem(
+                        //                   imgurl: imgUrl ?? '',
+                        //                   name: perfumeName ?? '',
+                        //                   price: double.parse(
+                        //                     priceAfterDiscount ?? '0.0',
+                        //                   ),
+                        //                   quantitiy: 1,
+                        //                   pdtid: id ?? '',
+                        //                 );
+                        //                 if (added) {
+                        //                   CustomDialog.customDialog
+                        //                       .showCartDialog();
+                        //                 }
+                        //               } else {
+                        //                 onTapBuy!();
+                        //               }
+                        //             }
+                        //           },
+                        //           child: SvgPicture.asset(
+                        //             'assets/svg/buy.svg',
+                        //             fit: BoxFit.contain,
+                        //           ),
+                        //         );
+                        //       },
+                        //     )
+                        //   ],
+                        // )
                       ],
                     ),
                   ),
                 ),
-                GestureDetector(
-                  onTap: () {
-                    if (SPHelper.spHelper.getToken() == null) {
-                      Get.offAll(() => const LoginScreen());
-                    } else {
-                      if (favourite.items.containsKey(id)) {
-                        bool removed = favourite.removeItem(id!);
-                        if (removed) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(' تمت الحذف من المفضلة بنجاح'),
-                              duration: Duration(milliseconds: 300),
-                              backgroundColor: AppColors.primaryColor,
-                            ),
-                          );
-                        }
-                      } else {
-                        bool added = favourite.addItem(
-                          brandName: brandName,
-                          imgUrl: imgUrl,
-                          pdtid: id,
-                          perfumeName: perfumeName,
-                          perfumeRate: double.parse(rateCount ?? '0.0'),
-                          priceAfterDiscount: priceAfterDiscount,
-                          priceBeforeDiscount: priceBeforeDiscount,
-                          rateCount: rateCount,
-                        );
-                        if (added) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(' تمت الإضافة إلى المفضلة بنجاح'),
-                              duration: Duration(milliseconds: 300),
-                              backgroundColor: AppColors.primaryColor,
-                            ),
-                          );
-                        }
-                      }
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: favourite.items.containsKey(id)
-                        ? const Icon(
-                            Icons.favorite_outlined,
-                            color: Colors.redAccent,
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10,
+                          vertical: 5
+                      ),
+                      decoration: BoxDecoration(
+                          color: AppColors.greyContainer,
+                          borderRadius: BorderRadius.circular(15),
+                          border: Border.all(
+                            color: AppColors.primaryColor,
                           )
-                        : const Icon(Icons.favorite_border),
-                  ),
+                      ),
+                      child: Row(
+                        children: [
+                          CustomText(
+                            'خصم 50 %',
+                            fontSize: 11.sp,
+                            color: AppColors.primaryColor,
+                          )
+                        ],
+                      ),
+                    ),
+
+                    SizedBox(width: 35.h,),
+
+                    GestureDetector(
+                      onTap: () {
+                        if (SPHelper.spHelper.getToken() == null) {
+                          Get.offAll(() => const LoginScreen());
+                        } else {
+                          if (favourite.items.containsKey(id)) {
+                            bool removed = favourite.removeItem(id!);
+                            if (removed) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(' تمت الحذف من المفضلة بنجاح'),
+                                  duration: Duration(milliseconds: 300),
+                                  backgroundColor: AppColors.primaryColor,
+                                ),
+                              );
+                            }
+                          } else {
+                            bool added = favourite.addItem(
+                              brandName: brandName,
+                              imgUrl: imgUrl,
+                              pdtid: id,
+                              perfumeName: perfumeName,
+                              perfumeRate: double.parse(rateCount ?? '0.0'),
+                              priceAfterDiscount: priceAfterDiscount,
+                              priceBeforeDiscount: priceBeforeDiscount,
+                              rateCount: rateCount,
+                            );
+                            if (added) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text(' تمت الإضافة إلى المفضلة بنجاح'),
+                                  duration: Duration(milliseconds: 300),
+                                  backgroundColor: AppColors.primaryColor,
+                                ),
+                              );
+                            }
+                          }
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(10.0),
+                        child: favourite.items.containsKey(id)
+                            ? const Icon(
+                                Icons.favorite_outlined,
+                                color: Colors.redAccent,
+                              )
+                            : const Icon(Icons.favorite_border,color: AppColors.grey,),
+                      ),
+                    ),
+
+                  ],
                 ),
               ],
             );

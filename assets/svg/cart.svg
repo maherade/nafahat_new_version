@@ -1,7 +1,8 @@
-<svg id="Group_2180" data-name="Group 2180" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-  <path id="Path_889" data-name="Path 889" d="M0,0H24V24H0Z" fill="none"/>
-  <circle id="Ellipse_219" data-name="Ellipse 219" cx="2" cy="2" r="2" transform="translate(4 17)" fill="none" stroke="#121212" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-  <circle id="Ellipse_220" data-name="Ellipse 220" cx="2" cy="2" r="2" transform="translate(15 17)" fill="none" stroke="#121212" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-  <path id="Path_890" data-name="Path 890" d="M17,17H6V3H4" fill="none" stroke="#121212" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-  <path id="Path_891" data-name="Path 891" d="M6,5,20,6l-1,7H6" fill="none" stroke="#121212" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="20.133" height="19.658" viewBox="0 0 20.133 19.658">
+  <g id="Buy" transform="translate(-1.883 -2.383)">
+    <path id="Path_934" data-name="Path 934" d="M2.75,3.25l2.08.36.963,11.473a1.8,1.8,0,0,0,1.8,1.653H18.5a1.8,1.8,0,0,0,1.785-1.546l.949-6.558A1.341,1.341,0,0,0,20.1,7.113C20.037,7.1,5.164,7.1,5.164,7.1" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_935" data-name="Path 935" d="M14.125,10.795H16.9" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_936" data-name="Path 936" d="M7.154,20.2a.544.544,0,1,1-.544.544A.544.544,0,0,1,7.154,20.2Z" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" fill-rule="evenodd"/>
+    <path id="Path_937" data-name="Path 937" d="M18.435,20.2a.544.544,0,1,1-.544.544A.545.545,0,0,1,18.435,20.2Z" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" fill-rule="evenodd"/>
+  </g>
 </svg>

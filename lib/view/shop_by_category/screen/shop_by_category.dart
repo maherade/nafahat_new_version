@@ -190,23 +190,6 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
               physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.only(top: 40.h, right: 5.w, left: 5.w),
-                  sliver: SliverToBoxAdapter(
-                    child: Row(
-                      children: [
-                        const BackButton(),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            Get.to(() => const SearchScreen());
-                          },
-                          icon: const Icon(Icons.search),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverPadding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 15.h),
                   sliver: SliverToBoxAdapter(
@@ -215,24 +198,23 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Expanded(
-                              flex: 3,
-                              child: widget.fullCategoryName
-                                  ? CustomText(
-                                      widget.categoryName,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.sp,
-                                    )
-                                  : CustomText(
-                                      widget.categoryName ==
-                                              'top_offers_value'.tr
-                                          ? widget.categoryName
-                                          : '${"shop_from_category_value".tr}${widget.categoryName}',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.sp,
-                                    ),
-                            ),
-                            const Spacer(),
+                            // Expanded(
+                            //   flex: 3,
+                            //   child: widget.fullCategoryName
+                            //       ? CustomText(
+                            //           widget.categoryName,
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 12.sp,
+                            //         )
+                            //       : CustomText(
+                            //           widget.categoryName ==
+                            //                   'top_offers_value'.tr
+                            //               ? widget.categoryName
+                            //               : '${"shop_from_category_value".tr}${widget.categoryName}',
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 12.sp,
+                            //         ),
+                            // ),
                             SizedBox(
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
@@ -240,7 +222,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                                     color: const Color(0xffF5E7EA),
                                     width: 1,
                                   ),
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Padding(
                                   padding:
@@ -253,7 +235,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                                       color: Colors.white,
                                       fontSize: 10.sp,
                                     ),
-                                    iconEnabledColor: Colors.black,
+                                    iconEnabledColor: AppColors.grey,
                                     items: <String>[
                                       'order_by_popularity_value'.tr,
                                       'order_by_rating_value'.tr,
@@ -266,6 +248,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                                         value: value,
                                         child: CustomText(
                                           value,
+                                          color: AppColors.grey,
                                           fontSize: 10.sp,
                                         ),
                                       );
@@ -291,13 +274,24 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                             SizedBox(
                               width: 12.w,
                             ),
+                            Spacer(),
                             GestureDetector(
                               onTap: () {
                                 Get.to(() => const FilterScreen());
                               },
-                              child: SvgPicture.asset(
-                                'assets/svg/filter.svg',
-                                fit: BoxFit.contain,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.primaryColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                height: 40.h,
+                                width: 40.w,
+                                child: SvgPicture.asset(
+                                  'assets/svg/filter.svg',
+                                  height: 30.h,
+                                  width: 30.h,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
@@ -340,7 +334,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                                                 : dSize.width > 800 &&
                                                         dSize.width <= 900
                                                     ? 1
-                                                    : 1.1,
+                                                    : 1/1.9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 10,
@@ -479,7 +473,7 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
                                             : dSize.width > 800 &&
                                                     dSize.width <= 900
                                                 ? 1
-                                                : 1.1,
+                                                : 1/1.9,
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 15,

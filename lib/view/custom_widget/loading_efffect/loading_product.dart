@@ -19,16 +19,7 @@ class LoadingProduct extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         childAspectRatio: dSize.width > 400 && dSize.width <= 500
-            ? 0.6
-            : dSize.width > 500 && dSize.width <= 600
-                ? 0.7.h
-                : dSize.width > 600 && dSize.width <= 700
-                    ? 0.8.h
-                    : dSize.width > 700 && dSize.width <= 800
-                        ? 0.9.h
-                        : dSize.width > 800 && dSize.width <= 900
-                            ? 1
-                            : 1.1,
+            ? 1/1.5 : 1/2,
         crossAxisCount: 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 15,

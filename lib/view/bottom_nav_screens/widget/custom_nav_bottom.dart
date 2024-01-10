@@ -41,13 +41,13 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                 children: [
                   SvgPicture.asset(
                     'assets/svg/home.svg',
-                    color: AppColors.greenText,
+                    color: AppColors.primaryColor,
                     fit: BoxFit.contain,
                   ),
                   CustomText(
                     'bottom_nav_home_value'.tr,
                     fontSize: 10.sp,
-                    color: AppColors.greenText,
+                    color: AppColors.primaryColor,
                   )
                 ],
               ),
@@ -55,12 +55,13 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
                 children: [
                   SvgPicture.asset(
                     'assets/svg/home.svg',
-                    color: AppColors.blackColor,
+                    color: AppColors.grey,
                     fit: BoxFit.contain,
                   ),
                   CustomText(
                     'bottom_nav_home_value'.tr,
                     fontSize: 10.sp,
+                    color: AppColors.grey,
                     fontWeight: FontWeight.normal,
                   )
                 ],
@@ -71,34 +72,34 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
             BottomNavigationBarItem(
               activeIcon: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/category.png',
-                    color: AppColors.green,
+                  SvgPicture.asset(
+                    'assets/svg/cart.svg',
+                    color: AppColors.primaryColor,
                     fit: BoxFit.contain,
                     height: 24.h,
                     width: 24.w,
                   ),
                   CustomText(
-                    'bottom_nav_category_value'.tr,
+                    'cart'.tr,
                     fontSize: 10.sp,
-                    color: AppColors.green,
+                    color: AppColors.primaryColor,
                   )
                 ],
               ),
               icon: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/category.png',
-                    color: AppColors.blackColor,
+                  SvgPicture.asset(
+                    'assets/svg/cart.svg',
+                    color: AppColors.grey,
                     fit: BoxFit.contain,
                     height: 24.h,
                     width: 24.w,
                   ),
                   CustomText(
-                    'bottom_nav_category_value'.tr,
+                    'cart'.tr,
                     fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
-                    color: AppColors.blackColor,
+                    color: AppColors.grey,
                   )
                 ],
               ),
@@ -108,32 +109,33 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
             BottomNavigationBarItem(
               activeIcon: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/brand.png',
-                    color: AppColors.blackColor,
+                  SvgPicture.asset(
+                    'assets/svg/love.svg',
+                    color: AppColors.primaryColor,
                     fit: BoxFit.contain,
                     height: 25.h,
                     width: 25.w,
                   ),
                   CustomText(
-                    'bottom_nav_brand_value'.tr,
+                    'favourite_value'.tr,
                     fontSize: 10.sp,
-                    color: AppColors.greenText,
+                    color: AppColors.primaryColor,
                   )
                 ],
               ),
               icon: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/brand.png',
-                    color: AppColors.blackColor,
+                  SvgPicture.asset(
+                    'assets/svg/love.svg',
+                    color: AppColors.grey,
                     fit: BoxFit.contain,
                     height: 25.h,
                     width: 25.w,
                   ),
                   CustomText(
-                    'bottom_nav_brand_value'.tr,
+                    'favourite_value'.tr,
                     fontSize: 10.sp,
+                    color: AppColors.grey,
                     fontWeight: FontWeight.normal,
                   )
                 ],
@@ -145,28 +147,30 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
               activeIcon: Column(
                 children: [
                   SvgPicture.asset(
-                    'assets/svg/gift.svg',
-                    color: AppColors.greenText,
+                    'assets/svg/Search.svg',
+                    color: AppColors.primaryColor,
                     fit: BoxFit.contain,
                   ),
                   CustomText(
-                    'bottom_nav_gift_package_value'.tr,
+                    'search'.tr,
                     fontSize: 10.sp,
-                    color: AppColors.greenText,
+                    color: AppColors.primaryColor,
                   )
                 ],
               ),
               icon: Column(
                 children: [
                   SvgPicture.asset(
-                    'assets/svg/gift.svg',
-                    color: AppColors.blackColor,
+                    'assets/svg/Search.svg',
+                    color: AppColors.grey,
                     fit: BoxFit.contain,
                   ),
                   CustomText(
-                    'bottom_nav_gift_package_value'.tr,
+                    'search'.tr,
                     fontSize: 10.sp,
                     fontWeight: FontWeight.normal,
+                    color: AppColors.grey,
+
                   )
                 ],
               ),
@@ -177,28 +181,29 @@ class _CustomNavBottomState extends State<CustomNavBottom> {
             BottomNavigationBarItem(
               activeIcon: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/profilee.png',
-                    color: AppColors.greenText,
+                  SvgPicture.asset(
+                    'assets/svg/profile.svg',
+                    color: AppColors.primaryColor,
                     fit: BoxFit.contain,
                   ),
                   CustomText(
                     'bottom_nav_account_value'.tr,
                     fontSize: 10.sp,
-                    color: AppColors.greenText,
+                    color: AppColors.primaryColor,
                   )
                 ],
               ),
               icon: Column(
                 children: [
-                  Image.asset(
-                    'assets/images/profilee.png',
-                    color: AppColors.blackColor,
+                  SvgPicture.asset(
+                    'assets/svg/profile.svg',
+                    color: AppColors.grey,
                     fit: BoxFit.contain,
                   ),
                   CustomText(
                     'bottom_nav_account_value'.tr,
                     fontSize: 10.sp,
+                    color: AppColors.grey,
                     fontWeight: FontWeight.normal,
                   )
                 ],

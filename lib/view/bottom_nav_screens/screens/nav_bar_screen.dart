@@ -1,5 +1,9 @@
 import 'dart:convert';
 
+import 'package:perfume_store_mobile_app/view/cart/screen/cart_screen.dart';
+import 'package:perfume_store_mobile_app/view/favourite/screen/favourite_screen.dart';
+import 'package:perfume_store_mobile_app/view/search/screen/search_screen.dart';
+
 import '../../../apies/auth_apies.dart';
 import '../../../apies/product_apies.dart';
 import '../../../controller/app_controller.dart';
@@ -66,9 +70,9 @@ class _NavBarScreenState extends State<NavBarScreen> {
 class PageNav {
   static List<Widget> widgetOptions = <Widget>[
     const HomeScreen(),
-    const CategoryScreen(),
-    ShowAllBrandScreen(),
-    const GiftScreen(),
+    const CartScreen(),
+    FavoriteScreen(),
+    const SearchScreen(),
     const MyAccount(),
   ];
 }

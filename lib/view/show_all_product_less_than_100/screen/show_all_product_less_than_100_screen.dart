@@ -177,42 +177,22 @@ class _ShowAllProductLessThan100ScreenState
               controller: _scrollController,
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-                  sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 50.h,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 5.0.w),
-                          child: const BackButton(),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                   sliver: SliverToBoxAdapter(
                     child: Column(
                       children: [
+                        SizedBox(height: 15,),
+
                         Row(
                           children: [
-                            CustomText(
-                              'product_less_than_value'.tr,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.sp,
-                            ),
-                            const Spacer(),
+
                             DecoratedBox(
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: const Color(0xffF5E7EA),
                                   width: 1,
                                 ),
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(20),
                               ),
                               child: Padding(
                                 padding:
@@ -225,7 +205,7 @@ class _ShowAllProductLessThan100ScreenState
                                     color: Colors.white,
                                     fontSize: 10.sp,
                                   ),
-                                  iconEnabledColor: Colors.black,
+                                  iconEnabledColor: Colors.grey,
                                   items: <String>[
                                     'order_by_popularity_value'.tr,
                                     'order_by_rating_value'.tr,
@@ -245,6 +225,7 @@ class _ShowAllProductLessThan100ScreenState
                                   hint: CustomText(
                                     "order_default_value".tr,
                                     fontSize: 12.sp,
+                                    color: AppColors.grey,
                                     fontWeight: FontWeight.normal,
                                   ),
                                   onChanged: (String? value) {
@@ -262,13 +243,24 @@ class _ShowAllProductLessThan100ScreenState
                             SizedBox(
                               width: 12.w,
                             ),
+                            Spacer(),
                             GestureDetector(
                               onTap: () {
                                 Get.to(() => const FilterScreen());
                               },
-                              child: SvgPicture.asset(
-                                'assets/svg/filter.svg',
-                                fit: BoxFit.contain,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.primaryColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                height: 40.h,
+                                width: 40.w,
+                                child: SvgPicture.asset(
+                                  'assets/svg/filter.svg',
+                                  height: 30.h,
+                                  width: 30.h,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
@@ -315,7 +307,7 @@ class _ShowAllProductLessThan100ScreenState
                                                 : dSize.width > 800 &&
                                                         dSize.width <= 900
                                                     ? 1
-                                                    : 1.1,
+                                                    : 1/1.9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 15,
@@ -456,7 +448,7 @@ class _ShowAllProductLessThan100ScreenState
                                             : dSize.width > 800 &&
                                                     dSize.width <= 900
                                                 ? 1
-                                                : 1.1,
+                                                : 1/1.9,
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 15,

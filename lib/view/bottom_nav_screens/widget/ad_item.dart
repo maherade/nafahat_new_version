@@ -11,11 +11,17 @@ class AdItem extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 20.w),
       child: SizedBox(
         height: 200.h,
-        child: CachedNetworkImageShare(
-          urlImage: imgUrl ?? '',
-          widthNumber: double.infinity,
-          fit: BoxFit.fill,
-          heigthNumber: double.infinity,
+        child: Container(
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: CachedNetworkImageShare(
+            urlImage: imgUrl ?? '',
+            widthNumber: double.infinity,
+            fit: BoxFit.fill,
+            heigthNumber: double.infinity,
+          ),
         ),
       ),
     );
