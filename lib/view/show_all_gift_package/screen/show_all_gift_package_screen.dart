@@ -169,108 +169,223 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
               controller: _scrollController,
               physics: const BouncingScrollPhysics(),
               slivers: [
+
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  padding: EdgeInsets.only(
+                    left: 20.h,
+                    right: 20.h,
+                    top: 50.h,
+                    bottom: 20.h,
+                  ),
                   sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        SizedBox(
-                          height: 50.h,
+
+                        BackButton(),
+
+
+                        Spacer(),
+
+                        CustomText('discover_gift_package_value'.tr.tr,
+                          fontSize: 17.sp,
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.normal,
                         ),
-                        const BackButton(),
+
+                        Spacer(),
+
+                        Container(
+                          height: 45.h,
+                          width: 45.w,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          decoration: const BoxDecoration(shape: BoxShape.circle),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
+
+
+                // SliverPadding(
+                //   padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                //   sliver: SliverToBoxAdapter(
+                //     child: Column(
+                //       children: [
+                //         Row(
+                //           children: [
+                //             CustomText(
+                //               'discover_gift_package_value'.tr,
+                //               fontWeight: FontWeight.bold,
+                //               fontSize: 14.sp,
+                //             ),
+                //             const Spacer(),
+                //             DecoratedBox(
+                //               decoration: BoxDecoration(
+                //                 border: Border.all(
+                //                   color: const Color(0xffF5E7EA),
+                //                   width: 1,
+                //                 ),
+                //                 borderRadius: BorderRadius.circular(5),
+                //               ),
+                //               child: Padding(
+                //                 padding:
+                //                     EdgeInsets.symmetric(horizontal: 7.0.w),
+                //                 child: DropdownButton<String>(
+                //                   underline: const SizedBox(),
+                //                   focusColor: Colors.white,
+                //                   value: selectedDropDown,
+                //                   style: TextStyle(
+                //                     color: Colors.white,
+                //                     fontSize: 10.sp,
+                //                   ),
+                //                   iconEnabledColor: Colors.black,
+                //                   items: <String>[
+                //                     'order_by_popularity_value'.tr,
+                //                     'order_by_rating_value'.tr,
+                //                     'order_by_recent_value'.tr,
+                //                     'order_by_min_to_height_price_value'.tr,
+                //                     'order_by_height_to_min_price_value'.tr,
+                //                   ].map<DropdownMenuItem<String>>(
+                //                       (String value) {
+                //                     return DropdownMenuItem<String>(
+                //                       value: value,
+                //                       child: CustomText(
+                //                         value,
+                //                         fontSize: 10.sp,
+                //                       ),
+                //                     );
+                //                   }).toList(),
+                //                   hint: CustomText(
+                //                     "order_default_value".tr,
+                //                     fontSize: 12.sp,
+                //                     fontWeight: FontWeight.normal,
+                //                   ),
+                //                   onChanged: (String? value) {
+                //                     ProductApies.productApies.listGiftProduct =
+                //                         null;
+                //                     dropDown(value!);
+                //                     setState(() {
+                //                       selectedDropDown = value;
+                //                     });
+                //                   },
+                //                 ),
+                //               ),
+                //             ),
+                //             SizedBox(
+                //               width: 12.w,
+                //             ),
+                //             GestureDetector(
+                //               onTap: () {
+                //                 Get.to(() => const FilterScreen());
+                //               },
+                //               child: SvgPicture.asset(
+                //                 'assets/svg/filter.svg',
+                //                 fit: BoxFit.contain,
+                //               ),
+                //             ),
+                //           ],
+                //         ),
+                //         SizedBox(
+                //           height: 20.h,
+                //         )
+                //       ],
+                //     ),
+                //   ),
+                // ),
+
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
                   sliver: SliverToBoxAdapter(
-                    child: Column(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        Row(
-                          children: [
-                            CustomText(
-                              'discover_gift_package_value'.tr,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.sp,
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: const Color(0xffF5E7EA),
+                              width: 1,
                             ),
-                            const Spacer(),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: const Color(0xffF5E7EA),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(5),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Padding(
+                            padding:
+                                EdgeInsets.symmetric(horizontal: 7.0.w),
+                            child: DropdownButton<String>(
+                              underline: const SizedBox(),
+                              focusColor: Colors.white,
+                              value: selectedDropDown,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10.sp,
                               ),
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 7.0.w),
-                                child: DropdownButton<String>(
-                                  underline: const SizedBox(),
-                                  focusColor: Colors.white,
-                                  value: selectedDropDown,
-                                  style: TextStyle(
-                                    color: Colors.white,
+                              iconEnabledColor: Colors.grey,
+                              items: <String>[
+                                'order_by_popularity_value'.tr,
+                                'order_by_rating_value'.tr,
+                                'order_by_recent_value'.tr,
+                                'order_by_min_to_height_price_value'.tr,
+                                'order_by_height_to_min_price_value'.tr,
+                              ].map<DropdownMenuItem<String>>(
+                                  (String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: CustomText(
+                                    value,
                                     fontSize: 10.sp,
+                                    color: AppColors.grey,
                                   ),
-                                  iconEnabledColor: Colors.black,
-                                  items: <String>[
-                                    'order_by_popularity_value'.tr,
-                                    'order_by_rating_value'.tr,
-                                    'order_by_recent_value'.tr,
-                                    'order_by_min_to_height_price_value'.tr,
-                                    'order_by_height_to_min_price_value'.tr,
-                                  ].map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: CustomText(
-                                        value,
-                                        fontSize: 10.sp,
-                                      ),
-                                    );
-                                  }).toList(),
-                                  hint: CustomText(
-                                    "order_default_value".tr,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.normal,
-                                  ),
-                                  onChanged: (String? value) {
-                                    ProductApies.productApies.listGiftProduct =
-                                        null;
-                                    dropDown(value!);
-                                    setState(() {
-                                      selectedDropDown = value;
-                                    });
-                                  },
-                                ),
+                                );
+                              }).toList(),
+                              hint: CustomText(
+                                "order_default_value".tr,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.normal,
                               ),
-                            ),
-                            SizedBox(
-                              width: 12.w,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => const FilterScreen());
+                              onChanged: (String? value) {
+                                ProductApies.productApies.listGiftProduct =
+                                    null;
+                                dropDown(value!);
+                                setState(() {
+                                  selectedDropDown = value;
+                                });
                               },
-                              child: SvgPicture.asset(
-                                'assets/svg/filter.svg',
-                                fit: BoxFit.contain,
-                              ),
                             ),
-                          ],
+                          ),
                         ),
-                        SizedBox(
-                          height: 20.h,
-                        )
+
+                        Spacer(),
+
+                        GestureDetector(
+                          onTap: () {
+                            Get.to(() => const FilterScreen());
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.primaryColor,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            height: 40.h,
+                            width: 40.w,
+                            child: SvgPicture.asset(
+                              'assets/svg/filter.svg',
+                              height: 30.h,
+                              width: 30.h,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+
                       ],
                     ),
                   ),
                 ),
+
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 20.0.w,vertical: 20.h),
                   sliver: ProductApies.productApies.listGiftProduct == null
                       ? const SliverLoadingProduct(8)
                       : ProductApies.productApies.listGiftProduct!.isEmpty
@@ -302,7 +417,7 @@ class _ShowAllGiftPackageScreenState extends State<ShowAllGiftPackageScreen> {
                                                 : dSize.width > 800 &&
                                                         dSize.width <= 900
                                                     ? 1
-                                                    : 1.1,
+                                                    : 1/1.9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 15,

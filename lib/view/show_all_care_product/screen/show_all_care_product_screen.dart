@@ -170,19 +170,44 @@ class _ShowAllCareProductScreenState extends State<ShowAllCareProductScreen> {
               physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 5.w),
+                  padding: EdgeInsets.only(
+                    left: 20.h,
+                    right: 20.h,
+                    top: 50.h,
+                    bottom: 20.h,
+                  ),
                   sliver: SliverToBoxAdapter(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Row(
                       children: [
-                        SizedBox(
-                          height: 50.h,
+
+                        BackButton(),
+
+
+                        Spacer(),
+
+                        CustomText('famous_care_product_value'.tr,
+                          fontSize: 17.sp,
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.normal,
                         ),
-                        const BackButton(),
+
+                        Spacer(),
+
+                        Container(
+                          height: 45.h,
+                          width: 45.w,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          decoration: const BoxDecoration(shape: BoxShape.circle),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                 ),
+
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   sliver: SliverToBoxAdapter(
@@ -191,19 +216,13 @@ class _ShowAllCareProductScreenState extends State<ShowAllCareProductScreen> {
                       children: [
                         Row(
                           children: [
-                            CustomText(
-                              'famous_care_product_value'.tr,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14.sp,
-                            ),
-                            const Spacer(),
                             DecoratedBox(
                               decoration: BoxDecoration(
                                 border: Border.all(
                                   color: const Color(0xffF5E7EA),
                                   width: 1,
                                 ),
-                                borderRadius: BorderRadius.circular(5),
+                                borderRadius: BorderRadius.circular(20),
                               ),
                               child: Padding(
                                 padding:
@@ -216,7 +235,7 @@ class _ShowAllCareProductScreenState extends State<ShowAllCareProductScreen> {
                                     color: Colors.white,
                                     fontSize: 10.sp,
                                   ),
-                                  iconEnabledColor: Colors.black,
+                                  iconEnabledColor: Colors.grey,
                                   items: <String>[
                                     'order_by_popularity_value'.tr,
                                     'order_by_rating_value'.tr,
@@ -236,6 +255,7 @@ class _ShowAllCareProductScreenState extends State<ShowAllCareProductScreen> {
                                   hint: CustomText(
                                     "order_default_value".tr,
                                     fontSize: 12.sp,
+                                    color: AppColors.grey,
                                     fontWeight: FontWeight.normal,
                                   ),
                                   onChanged: (String? value) {
@@ -249,16 +269,25 @@ class _ShowAllCareProductScreenState extends State<ShowAllCareProductScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 12.w,
-                            ),
+                            const Spacer(),
+
                             GestureDetector(
                               onTap: () {
                                 Get.to(() => const FilterScreen());
                               },
-                              child: SvgPicture.asset(
-                                'assets/svg/filter.svg',
-                                fit: BoxFit.contain,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.primaryColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                height: 40.h,
+                                width: 40.w,
+                                child: SvgPicture.asset(
+                                  'assets/svg/filter.svg',
+                                  height: 30.h,
+                                  width: 30.h,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
@@ -303,7 +332,7 @@ class _ShowAllCareProductScreenState extends State<ShowAllCareProductScreen> {
                                                 : dSize.width > 800 &&
                                                         dSize.width <= 900
                                                     ? 1
-                                                    : 1.1,
+                                                    : 1/1.9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 15,

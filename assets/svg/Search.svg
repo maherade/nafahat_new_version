@@ -1,6 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="18.22" height="18.621" viewBox="0 0 18.22 18.621">
-  <g id="Search" transform="translate(-2.028 -2.028)" opacity="0.4">
-    <circle id="Ellipse_226" data-name="Ellipse 226" cx="7.861" cy="7.861" r="7.861" transform="translate(2.778 2.778)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
-    <path id="Path_924" data-name="Path 924" d="M18.018,18.485,21.1,21.559" transform="translate(-1.912 -1.971)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="19.153" height="19.576" viewBox="0 0 19.153 19.576">
+  <g id="Search" transform="translate(-2.028 -2.028)">
+    <circle id="Ellipse_227" data-name="Ellipse 227" cx="8.307" cy="8.307" r="8.307" transform="translate(2.778 2.778)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
+    <path id="Path_930" data-name="Path 930" d="M18.018,18.485l3.257,3.248" transform="translate(-1.155 -1.191)" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"/>
   </g>
 </svg>

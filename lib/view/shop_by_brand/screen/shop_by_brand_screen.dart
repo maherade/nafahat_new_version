@@ -187,75 +187,90 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
               physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverPadding(
-                  padding: EdgeInsets.only(top: 40.h, right: 5.w, left: 5.w),
+                  padding: EdgeInsets.only(
+                    left: 20.h,
+                    right: 20.h,
+                    top: 50.h,
+                    bottom: 20.h,
+                  ),
                   sliver: SliverToBoxAdapter(
                     child: Row(
                       children: [
-                        const BackButton(),
-                        const Spacer(),
-                        IconButton(
-                          onPressed: () {
-                            Get.to(() => const SearchScreen());
-                          },
-                          icon: const Icon(Icons.search),
+
+                        BackButton(),
+
+
+                        Spacer(),
+
+                        CustomText( 'shop_by_brand_value'.tr,
+                          fontSize: 17.sp,
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.normal,
+                        ),
+
+                        Spacer(),
+
+                        Container(
+                          height: 45.h,
+                          width: 45.w,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          decoration: const BoxDecoration(shape: BoxShape.circle),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ),
+
                 SliverPadding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0.w),
                   sliver: SliverToBoxAdapter(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+
                         SizedBox(
-                          height: 15.h,
+                          height: 5.h,
                         ),
-                        CustomText(
-                          'shop_by_brand_value'.tr,
-                          fontSize: 15.sp,
-                        ),
-                        SizedBox(
-                          height: 15.h,
-                        ),
-                        brand.termId != null
-                            ? GestureDetector(
-                                onTap: () {
-                                  Get.off(() => const ShowAllBrandScreen());
-                                },
-                                child: CachedNetworkImageShare(
-                                  urlImage: brand.brandImage?[0] ?? '',
-                                  fit: BoxFit.cover,
-                                  heigthNumber: 50.h,
-                                  widthNumber: 60.w,
-                                ),
-                              )
-                            : Skelton(
-                                height: 50.h,
-                                width: 60.w,
-                              ),
-                        SizedBox(
-                          height: 10.h,
-                        ),
+
                         Row(
                           children: [
-                            brand.name != null
-                                ? SizedBox(
-                                    width: 140.w,
-                                    child: CustomText(
-                                      '${'shop_from_brand_value'.tr}${brand.name}',
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 12.sp,
-                                      textAlign: TextAlign.start,
-                                    ),
-                                  )
+                            // brand.name != null
+                            //     ? SizedBox(
+                            //         width: 140.w,
+                            //         child: CustomText(
+                            //           '${'shop_from_brand_value'.tr}${brand.name}',
+                            //           fontWeight: FontWeight.bold,
+                            //           fontSize: 12.sp,
+                            //           textAlign: TextAlign.start,
+                            //         ),
+                            //       )
+                            //     : Skelton(
+                            //         height: 10.h,
+                            //         width: 100.w,
+                            //         radious: 5.r,
+                            //       ),
+                            brand.termId != null
+                                ? GestureDetector(
+                              onTap: () {
+                                Get.off(() => const ShowAllBrandScreen());
+                              },
+                              child: CachedNetworkImageShare(
+                                urlImage: brand.brandImage?[0] ?? '',
+                                fit: BoxFit.cover,
+                                heigthNumber: 50.h,
+                                widthNumber: 60.w,
+                              ),
+                            )
                                 : Skelton(
-                                    height: 10.h,
-                                    width: 100.w,
-                                    radious: 5.r,
-                                  ),
-                            const Spacer(),
+                              height: 50.h,
+                              width: 60.w,
+                            ),
+                            SizedBox(width: 20.h,),
+
                             SizedBox(
                               child: DecoratedBox(
                                 decoration: BoxDecoration(
@@ -263,7 +278,7 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
                                     color: const Color(0xffF5E7EA),
                                     width: 1,
                                   ),
-                                  borderRadius: BorderRadius.circular(5),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Padding(
                                   padding:
@@ -276,7 +291,7 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
                                       color: Colors.white,
                                       fontSize: 10.sp,
                                     ),
-                                    iconEnabledColor: Colors.black,
+                                    iconEnabledColor: Colors.grey,
                                     items: <String>[
                                       'order_by_popularity_value'.tr,
                                       'order_by_rating_value'.tr,
@@ -296,6 +311,7 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
                                     hint: CustomText(
                                       "order_default_value".tr,
                                       fontSize: 12.sp,
+                                      color: AppColors.grey,
                                       fontWeight: FontWeight.normal,
                                     ),
                                     onChanged: (String? value) {
@@ -310,16 +326,26 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 12.w,
-                            ),
+
+                            const Spacer(),
+
                             GestureDetector(
                               onTap: () {
                                 Get.to(() => const FilterScreen());
                               },
-                              child: SvgPicture.asset(
-                                'assets/svg/filter.svg',
-                                fit: BoxFit.contain,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: AppColors.primaryColor,
+                                  borderRadius: BorderRadius.circular(20),
+                                ),
+                                height: 40.h,
+                                width: 40.w,
+                                child: SvgPicture.asset(
+                                  'assets/svg/filter.svg',
+                                  height: 30.h,
+                                  width: 30.h,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
@@ -364,7 +390,7 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
                                                 : dSize.width > 800 &&
                                                         dSize.width <= 900
                                                     ? 1
-                                                    : 1.1,
+                                                    : 1/1.9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 15,
@@ -518,7 +544,7 @@ class _ShopByBrandScreenState extends State<ShopByBrandScreen> {
                                                 : dSize.width > 800 &&
                                                         dSize.width <= 900
                                                     ? 1
-                                                    : 1.1,
+                                                    : 1/1.9,
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 10,
                                 mainAxisSpacing: 15,

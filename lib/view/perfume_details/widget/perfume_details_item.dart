@@ -326,7 +326,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                                     width: 5,
                                   ),
                                   HeaderRow(
-                                    imagePath: 'assets/images/search.png',
+                                    imagePath: 'assets/images/Search.png',
                                     onTap: () {
                                       Navigator.push(
                                         context,

@@ -26,29 +26,37 @@ class FavoriteScreen extends StatelessWidget {
                 height: 60.h,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 5.0.w),
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: Row(
                   children: [
-                    IconButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      icon: const Icon(Icons.arrow_back),
+
+                    const Image(
+                      image: AssetImage(
+                        'assets/images/Notification.png',
+                      ),
                     ),
-                    CustomText(
-                      'favourite_value'.tr,
-                      fontSize: 15.sp,
+
+
+                    Spacer(),
+
+                    CustomText('favourite_value'.tr,
+                        fontSize: 17.sp,
+                        color: AppColors.blackColor,
+                        fontWeight: FontWeight.normal,
                     ),
-                    const Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Get.to(() => const SearchScreen());
-                      },
-                      child: const Icon(Icons.search),
+
+                    Spacer(),
+
+                    Container(
+                      height: 45.h,
+                      width: 45.w,
+                      clipBehavior: Clip.antiAliasWithSaveLayer,
+                      decoration: const BoxDecoration(shape: BoxShape.circle),
+                      child: Image.asset(
+                        'assets/images/logo.png',
+                        fit: BoxFit.contain,
+                      ),
                     ),
-                    SizedBox(
-                      width: 20.w,
-                    )
                   ],
                 ),
               ),

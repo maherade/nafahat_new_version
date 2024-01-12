@@ -190,6 +190,45 @@ class _ShopByCategoryScreenState extends State<ShopByCategoryScreen> {
               physics: const BouncingScrollPhysics(),
               slivers: [
                 SliverPadding(
+                  padding: EdgeInsets.only(
+                    left: 20.h,
+                    right: 20.h,
+                    top: 50.h,
+                    bottom: 20.h,
+                  ),
+                  sliver: SliverToBoxAdapter(
+                    child: Row(
+                      children: [
+
+                        BackButton(),
+
+
+                        Spacer(),
+
+                        CustomText(widget.categoryName,
+                          fontSize: 17.sp,
+                          color: AppColors.blackColor,
+                          fontWeight: FontWeight.normal,
+                        ),
+
+                        Spacer(),
+
+                        Container(
+                          height: 45.h,
+                          width: 45.w,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          decoration: const BoxDecoration(shape: BoxShape.circle),
+                          child: Image.asset(
+                            'assets/images/logo.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+
+                SliverPadding(
                   padding:
                       EdgeInsets.symmetric(horizontal: 20.0.w, vertical: 15.h),
                   sliver: SliverToBoxAdapter(

@@ -12,6 +12,8 @@ import 'package:perfume_store_mobile_app/view/bottom_nav_screens/widget/ad_item.
 import 'package:perfume_store_mobile_app/view/bottom_nav_screens/widget/category_item.dart';
 import 'package:perfume_store_mobile_app/view/cart/screen/cart_screen.dart';
 import 'package:perfume_store_mobile_app/view/search/screen/search_screen.dart';
+import 'package:perfume_store_mobile_app/view/shop_by_category/screen/shop_by_category_edit.dart';
+import 'package:perfume_store_mobile_app/view/show_all_product_less_than_100/screen/show_all_product_less_than_100_edit_screen.dart';
 
 import '../../../apies/brand_apies.dart';
 import '../../../apies/category_apies.dart';
@@ -182,14 +184,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: Container(
                             height: MediaQuery.of(context).size.height*0.06,
                             child: TextFormField(
+                              enabled: false,
+                               onTap: (){
+                                 Get.to(() => const SearchScreen());
 
+                               },
                               decoration: InputDecoration(
                                 hintText: 'اكتب كلمه البحث...',
                                 filled: true,
-                                suffixIcon: Image.asset(
-                                  'assets/images/search.png',
-                                  height: MediaQuery.of(context).size.height*0.005,
-                                  width: MediaQuery.of(context).size.height*0.005,
+                                suffixIcon: const Icon(
+                                  Icons.search
                                 ),
                                 fillColor: const Color(0XFFF7F8FA),
                                 hintStyle: TextStyle(
@@ -325,12 +329,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           body:  TabBarView(
                             children: [
                               const HomeScreenItem(),
-                              ShopByCategoryScreen(
+                              ShopByCategoryEditScreen(
                                 categoryId: 2482,
                                 categoryName: 'top_offers_value'.tr,
                               ),
-                              const ShowAllProductLessThan100Screen(),
-                              ShopByCategoryScreen(
+                              const ShowAllProductLessThan100EditScreen(),
+                              ShopByCategoryEditScreen(
                                 categoryName:
                                 "top_makeup_product_value".tr,
                                 categoryId: 2444,
