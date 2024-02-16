@@ -47,31 +47,24 @@ class PerfumeProductItem extends StatelessWidget {
                 GestureDetector(
                   onTap: onTapBuy,
                   child: Container(
-                    padding: const EdgeInsets.all(12),
                     width: 162.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
                       border: Border.all(color: AppColors.greyBorder, width: 2),
                     ),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.center,
-                        //   children: [
-                        //     Image.network(imgUrl??'',height: 120.h,width: 82.w,fit: BoxFit.contain,)
-                        //   ],
-                        // ),
                         Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Expanded(
                               child: CachedNetworkImageShare(
                                 urlImage: imgUrl,
                                 fit: BoxFit.contain,
-                                heigthNumber: 120,
-                                widthNumber: double.infinity,
-                                borderRadious: 14.r,
+                                heigthNumber: 100.h,
+                                widthNumber: 130.w,
+                                borderRadious: 10.r,
                               ),
                             ),
                           ],
@@ -79,13 +72,13 @@ class PerfumeProductItem extends StatelessWidget {
 
                         const SizedBox(height: 10,),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
                               'العطور',
-                              color: AppColors.grey,
+                              color: AppColors.grey.withOpacity(.5),
                               fontSize: 14.sp,
                             ),
-                            const Spacer(),
                             Container(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 10,
@@ -130,8 +123,8 @@ class PerfumeProductItem extends StatelessWidget {
                         //     )
                         //   ],
                         // ),
-                        const SizedBox(
-                          height: 10,
+                          SizedBox(
+                          height: 10.h,
                         ),
                         CustomText(
                           brandName,
@@ -139,16 +132,21 @@ class PerfumeProductItem extends StatelessWidget {
                           fontSize: 12.sp,
                           fontWeight: FontWeight.normal,
                         ),
+
                         CustomText(
                           perfumeName,
                           fontSize: 12.sp,
                           fontWeight: FontWeight.normal,
                           maxLines: 1,
                         ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        // Rate
                         Row(
                           children: [
                             CustomRateRead(
-                              size: 10.sp,
+                              size: 20.sp,
                               rate: perfumeRate,
                             ),
                             SizedBox(
@@ -162,80 +160,53 @@ class PerfumeProductItem extends StatelessWidget {
                             ),
                           ],
                         ),
+                        SizedBox(
+                          height: 15.h,
+                        ),
+                        // Price
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            CustomText(
-                              priceBeforeDiscount,
-                              color: AppColors.priceBrownColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.normal,
-                              underline: true,
+
+                            Row(
+                              children: [
+                                CustomText(
+                                  priceAfterDiscount,
+                                  color: AppColors.greenText,
+                                  fontSize: 14.sp,
+                                ),
+                                CustomText(
+                                  'sar_value'.tr,
+                                  color: AppColors.greenText,
+                                  fontSize: 14.sp,
+                                ),
+                              ],
                             ),
-                            CustomText(
-                              'sar_value'.tr,
-                              color: AppColors.priceBrownColor,
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.normal,
+                            Row(
+                              children: [
+                                CustomText(
+                                  priceBeforeDiscount,
+                                  color: AppColors.grey,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.normal,
+                                  underline: true,
+                                ),
+                                CustomText(
+                                  'sar_value'.tr,
+                                  color: AppColors.grey,
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ],
                             ),
+
                           ],
                         ),
-                        Row(
-                          children: [
-                            CustomText(
-                              priceAfterDiscount,
-                              color: AppColors.greenText,
-                              fontSize: 14.sp,
-                            ),
-                            CustomText(
-                              'sar_value'.tr,
-                              color: AppColors.greenText,
-                              fontSize: 14.sp,
-                            ),
-                          ],
-                        ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.end,
-                        //   children: [
-                        //     GetBuilder<CartController>(
-                        //       init: CartController(),
-                        //       builder: (cart) {
-                        //         return GestureDetector(
-                        //           onTap: () {
-                        //             if (SPHelper.spHelper.getToken() == null) {
-                        //               Get.offAll(() => const LoginScreen());
-                        //             } else {
-                        //               if (variations == null) {
-                        //                 bool added = cart.addItem(
-                        //                   imgurl: imgUrl ?? '',
-                        //                   name: perfumeName ?? '',
-                        //                   price: double.parse(
-                        //                     priceAfterDiscount ?? '0.0',
-                        //                   ),
-                        //                   quantitiy: 1,
-                        //                   pdtid: id ?? '',
-                        //                 );
-                        //                 if (added) {
-                        //                   CustomDialog.customDialog
-                        //                       .showCartDialog();
-                        //                 }
-                        //               } else {
-                        //                 onTapBuy!();
-                        //               }
-                        //             }
-                        //           },
-                        //           child: SvgPicture.asset(
-                        //             'assets/svg/buy.svg',
-                        //             fit: BoxFit.contain,
-                        //           ),
-                        //         );
-                        //       },
-                        //     )
-                        //   ],
-                        // )
                       ],
                     ),
                   ),
                 ),
+                // discount
                 Row(
                   children: [
                     Container(
@@ -318,7 +289,7 @@ class PerfumeProductItem extends StatelessWidget {
               ],
             );
           },
-        )
+        ),
       ],
     );
   }

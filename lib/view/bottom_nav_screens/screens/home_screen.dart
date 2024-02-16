@@ -281,69 +281,67 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   height: 10850.h,
                   width: 500.w,
-                  child: Expanded(
-                    child: DefaultTabController(
-                        length: 4,
-                        child: Scaffold(
-                          appBar: AppBar(
-                            elevation: 0.0,
-                            backgroundColor: Colors.white,
-                            toolbarHeight: 0,
-                            bottom:  TabBar(
-                              indicatorColor: AppColors.primaryColor,
-                              tabs: [
-                                Tab(
+                  child: DefaultTabController(
+                      length: 4,
+                      child: Scaffold(
+                        appBar: AppBar(
+                          elevation: 0.0,
+                          backgroundColor: Colors.white,
+                          toolbarHeight: 0,
+                          bottom:  TabBar(
+                            indicatorColor: AppColors.primaryColor,
+                            tabs: [
+                              Tab(
+                                child: CustomText(
+                                  'الرئيسيه',
+                                   color: const Color(0XFFC8C8C8),
+                                   fontSize: 13.sp,
+                                )
+                              ),
+                              Tab(
                                   child: CustomText(
-                                    'الرئيسيه',
-                                     color: const Color(0XFFC8C8C8),
-                                     fontSize: 13.sp,
+                                    'العروض',
+                                    color: const Color(0XFFC8C8C8),
+                                    fontSize: 13.sp,
                                   )
-                                ),
-                                Tab(
-                                    child: CustomText(
-                                      'العروض',
-                                      color: const Color(0XFFC8C8C8),
-                                      fontSize: 13.sp,
-                                    )
-                                ),
-                                Tab(
-                                    child: CustomText(
-                                      maxLines: 1,
-                                      'منتجات اقل من 10 ريال',
-                                      color: const Color(0XFFC8C8C8),
-                                      fontSize: 13.sp,
-                                    )
-                                ),
-                                Tab(
-                                    child: CustomText(
-                                      'المكياج',
-                                      color: const Color(0XFFC8C8C8),
-                                      fontSize: 13.sp,
-                                    )
-                                ),
+                              ),
+                              Tab(
+                                  child: CustomText(
+                                    maxLines: 1,
+                                    'منتجات اقل من 10 ريال',
+                                    color: const Color(0XFFC8C8C8),
+                                    fontSize: 13.sp,
+                                  )
+                              ),
+                              Tab(
+                                  child: CustomText(
+                                    'المكياج',
+                                    color: const Color(0XFFC8C8C8),
+                                    fontSize: 13.sp,
+                                  )
+                              ),
 
 
-                              ],
-                            ),
-                          ),
-                          body:  TabBarView(
-                            children: [
-                              const HomeScreenItem(),
-                              ShopByCategoryEditScreen(
-                                categoryId: 2482,
-                                categoryName: 'top_offers_value'.tr,
-                              ),
-                              const ShowAllProductLessThan100EditScreen(),
-                              ShopByCategoryEditScreen(
-                                categoryName:
-                                "top_makeup_product_value".tr,
-                                categoryId: 2444,
-                                fullCategoryName: true,
-                              ),
                             ],
                           ),
-                        )
-                    ),
+                        ),
+                        body:  TabBarView(
+                          children: [
+                            const HomeScreenItem(),
+                            ShopByCategoryEditScreen(
+                              categoryId: 2482,
+                              categoryName: 'top_offers_value'.tr,
+                            ),
+                            const ShowAllProductLessThan100EditScreen(),
+                            ShopByCategoryEditScreen(
+                              categoryName:
+                              "top_makeup_product_value".tr,
+                              categoryId: 2444,
+                              fullCategoryName: true,
+                            ),
+                          ],
+                        ),
+                      )
                   ),
                 )
               ],

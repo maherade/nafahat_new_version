@@ -69,6 +69,10 @@ android {
     }
     buildTypes {
         release {
+            debuggable false
+            shrinkResources false
+            minifyEnabled false
+            crunchPngs false // or true
             signingConfig signingConfigs.release
         }
     }
@@ -81,4 +85,6 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:31.2.3')
+    implementation 'com.google.android.material:material:<version>'
 }

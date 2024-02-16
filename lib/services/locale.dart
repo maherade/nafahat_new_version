@@ -28,7 +28,7 @@ class MyLocale implements Translations {
           "order_by_height_to_min_price_value": "ترتيب حسب الأعلى سعرا للأدنى",
           "order_default_value": "الترتيب الإفتراضي",
           "gift_package_value": "بكجات نفحات",
-          "discover_gift_package_value": "استكشاف بكجات نفحات",
+          "discover_gift_package_value": " بكجات الهداية",
           "no_item_found_value": "لا توجد عناصر",
           "last_seen_value": "أخر المشاهدات",
           "shop_by_brand_value": "تسوق حسب الماركات التجارية",
@@ -36,7 +36,7 @@ class MyLocale implements Translations {
           "search_by_product_value": "ابحث عن منتج..",
           "select_from_category_value": "اختر من الأقسام",
           "famous_brand_value": "أشهر الماركات",
-          "shop_by_category_value": "تسوق حسب الأقسام",
+          "shop_by_category_value": "الأقسام",
           "top_sale_value": "الأفضل مبيعا",
           "view_all_value": "عرض الكل",
 //
@@ -49,6 +49,7 @@ class MyLocale implements Translations {
           "product_under_20_value": "منتجات تحت 20 ريال",
           "recently_arrive_value": "وصل حديثا",
           "article_value": "المقالات",
+          "conf_points": "نقاط الثقة",
           "makeup_category_value": "قسم المكياج",
           "cart_value": "سلة التسوق",
           "previous_value": "السابق",
@@ -302,7 +303,7 @@ class MyLocale implements Translations {
           "order_by_height_to_min_price_value": "Sort by Price: High to Low",
           "order_default_value": "Default Sort",
           "gift_package_value": "Nafahat Packages",
-          "discover_gift_package_value": "Discover Nafahat Packages",
+          "discover_gift_package_value": "Discover Packages",
           "no_item_found_value": "No Items Found",
           "last_seen_value": "Last Seen",
           "shop_by_brand_value": "Shop by Brand",
@@ -314,6 +315,7 @@ class MyLocale implements Translations {
           "top_sale_value": "Top Sales",
           "brand": "Brands",
           "view_all_value": "View All",
+          "conf_points": "Confidence Points",
           //
           "top_sale_in_value": "Bestselling in",
           "no_item_found_with_you_choice_value":

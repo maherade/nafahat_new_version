@@ -217,81 +217,85 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                   ),
                 ),
                 SliverPadding(
-                  padding: EdgeInsets.symmetric(horizontal: 20.0.w),
+                  padding: EdgeInsets.symmetric(horizontal: 10.0.w),
                   sliver: SliverToBoxAdapter(
                     child: Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             CustomText(
                               '${'shop_from_category_value'.tr}${widget.categoryName}',
                               fontWeight: FontWeight.bold,
                               fontSize: 12.sp,
                             ),
-                            const Spacer(),
-                            DecoratedBox(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: const Color(0xffF5E7EA),
-                                  width: 1,
-                                ),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: Padding(
-                                padding:
-                                    EdgeInsets.symmetric(horizontal: 7.0.w),
-                                child: DropdownButton<String>(
-                                  underline: const SizedBox(),
-                                  focusColor: Colors.white,
-                                  value: selectedDropDown,
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.sp,
+                            Row(
+                              children: [
+                                DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: const Color(0xffF5E7EA),
+                                      width: 1,
+                                    ),
+                                    borderRadius: BorderRadius.circular(5),
                                   ),
-                                  iconEnabledColor: Colors.black,
-                                  items: <String>[
-                                    'order_by_popularity_value'.tr,
-                                    'order_by_rating_value'.tr,
-                                    'order_by_recent_value'.tr,
-                                    'order_by_min_to_height_price_value'.tr,
-                                    'order_by_height_to_min_price_value'.tr,
-                                  ].map<DropdownMenuItem<String>>(
-                                      (String value) {
-                                    return DropdownMenuItem<String>(
-                                      value: value,
-                                      child: CustomText(
-                                        value,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 7.0.w),
+                                    child: DropdownButton<String>(
+                                      underline: const SizedBox(),
+                                      focusColor: Colors.white,
+                                      value: selectedDropDown,
+                                      style: TextStyle(
+                                        color: Colors.white,
                                         fontSize: 10.sp,
                                       ),
-                                    );
-                                  }).toList(),
-                                  hint: CustomText(
-                                    "order_default_value".tr,
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.normal,
+                                      iconEnabledColor: Colors.black,
+                                      items: <String>[
+                                        'order_by_popularity_value'.tr,
+                                        'order_by_rating_value'.tr,
+                                        'order_by_recent_value'.tr,
+                                        'order_by_min_to_height_price_value'.tr,
+                                        'order_by_height_to_min_price_value'.tr,
+                                      ].map<DropdownMenuItem<String>>(
+                                          (String value) {
+                                        return DropdownMenuItem<String>(
+                                          value: value,
+                                          child: CustomText(
+                                            value,
+                                            fontSize: 10.sp,
+                                          ),
+                                        );
+                                      }).toList(),
+                                      hint: CustomText(
+                                        "order_default_value".tr,
+                                        fontSize: 12.sp,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                      onChanged: (String? value) {
+                                        ProductApies.productApies
+                                            .listProductByFilter = null;
+                                        dropDown(value!);
+                                        setState(() {
+                                          selectedDropDown = value;
+                                        });
+                                      },
+                                    ),
                                   ),
-                                  onChanged: (String? value) {
-                                    ProductApies.productApies
-                                        .listProductByFilter = null;
-                                    dropDown(value!);
-                                    setState(() {
-                                      selectedDropDown = value;
-                                    });
-                                  },
                                 ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 12.w,
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                Get.to(() => const FilterScreen());
-                              },
-                              child: SvgPicture.asset(
-                                'assets/svg/filter.svg',
-                                fit: BoxFit.contain,
-                              ),
+                                SizedBox(
+                                  width: 12.w,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    Get.to(() => const FilterScreen());
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/svg/filter.svg',
+                                    fit: BoxFit.contain,
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
@@ -456,83 +460,74 @@ class _FilterResultScreenState extends State<FilterResultScreen> {
                       : SliverGrid(
                           gridDelegate:
                               SliverGridDelegateWithFixedCrossAxisCount(
-                            childAspectRatio: dSize.width > 400 &&
-                                    dSize.width <= 500
-                                ? 0.6
-                                : dSize.width > 500 && dSize.width <= 600
-                                    ? 0.7.h
-                                    : dSize.width > 600 && dSize.width <= 700
-                                        ? 0.8.h
-                                        : dSize.width > 700 &&
-                                                dSize.width <= 800
-                                            ? 0.9.h
-                                            : dSize.width > 800 &&
-                                                    dSize.width <= 900
-                                                ? 1
-                                                : 1.1,
+                            childAspectRatio: .7.h,
                             crossAxisCount: 2,
                             crossAxisSpacing: 10,
                             mainAxisSpacing: 15,
                           ),
                           delegate: SliverChildBuilderDelegate(
                             (_, index) {
-                              return PerfumeProductItem(
-                                variations: lastViewedProduct[index].variations,
-                                id: lastViewedProduct[index]
-                                    .images?[0]
-                                    .id
-                                    .toString(),
-                                imgUrl:
-                                    lastViewedProduct[index].images?[0].src ??
-                                        '',
-                                brandName: lastViewedProduct[index]
-                                        .brands!
-                                        .isNotEmpty
-                                    ? lastViewedProduct[index].brands != null
-                                        ? lastViewedProduct[index]
-                                            .brands![0]
-                                            .name
-                                        : ''
-                                    : '',
-                                perfumeName:
-                                    lastViewedProduct[index].title ?? '',
-                                perfumeRate: double.parse(
-                                  lastViewedProduct[index].averageRating ??
-                                      '0.0',
+                              return SizedBox(
+                                height: dSize.height > 500 ? 300.h : 200.h,
+                                child: PerfumeProductItem(
+                                  variations:
+                                      lastViewedProduct[index].variations,
+                                  id: lastViewedProduct[index]
+                                      .images?[0]
+                                      .id
+                                      .toString(),
+                                  imgUrl:
+                                      lastViewedProduct[index].images?[0].src ??
+                                          '',
+                                  brandName: lastViewedProduct[index]
+                                          .brands!
+                                          .isNotEmpty
+                                      ? lastViewedProduct[index].brands != null
+                                          ? lastViewedProduct[index]
+                                              .brands![0]
+                                              .name
+                                          : ''
+                                      : '',
+                                  perfumeName:
+                                      lastViewedProduct[index].title ?? '',
+                                  perfumeRate: double.parse(
+                                    lastViewedProduct[index].averageRating ??
+                                        '0.0',
+                                  ),
+                                  rateCount: lastViewedProduct[index]
+                                      .ratingCount
+                                      .toString(),
+                                  priceBeforeDiscount: (lastViewedProduct[index]
+                                                  .regularPrice ==
+                                              null) ||
+                                          (lastViewedProduct[
+                                                      index]
+                                                  .regularPrice ==
+                                              '0.00')
+                                      ? (lastViewedProduct[index].price)
+                                          .toString()
+                                      : lastViewedProduct[index].regularPrice,
+                                  priceAfterDiscount: (lastViewedProduct[index]
+                                                  .salePrice ==
+                                              null) ||
+                                          (lastViewedProduct[index].salePrice ==
+                                              '0.00')
+                                      ? (lastViewedProduct[index].price)
+                                          .toString()
+                                      : lastViewedProduct[index].salePrice,
+                                  onTapBuy: () {
+                                    debugPrint(
+                                      lastViewedProduct[index].id.toString(),
+                                    );
+                                    Get.to(
+                                      () => PerfumeDetailsScreen(
+                                        productId: lastViewedProduct[index]
+                                            .id
+                                            .toString(),
+                                      ),
+                                    );
+                                  },
                                 ),
-                                rateCount: lastViewedProduct[index]
-                                    .ratingCount
-                                    .toString(),
-                                priceBeforeDiscount:
-                                    (lastViewedProduct[index].regularPrice ==
-                                                null) ||
-                                            (lastViewedProduct[
-                                                        index]
-                                                    .regularPrice ==
-                                                '0.00')
-                                        ? (lastViewedProduct[index].price)
-                                            .toString()
-                                        : lastViewedProduct[index].regularPrice,
-                                priceAfterDiscount: (lastViewedProduct[index]
-                                                .salePrice ==
-                                            null) ||
-                                        (lastViewedProduct[index].salePrice ==
-                                            '0.00')
-                                    ? (lastViewedProduct[index].price)
-                                        .toString()
-                                    : lastViewedProduct[index].salePrice,
-                                onTapBuy: () {
-                                  debugPrint(
-                                    lastViewedProduct[index].id.toString(),
-                                  );
-                                  Get.to(
-                                    () => PerfumeDetailsScreen(
-                                      productId: lastViewedProduct[index]
-                                          .id
-                                          .toString(),
-                                    ),
-                                  );
-                                },
                               );
                             },
                             childCount: lastViewedProduct.length,
