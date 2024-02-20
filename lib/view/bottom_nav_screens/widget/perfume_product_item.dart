@@ -49,8 +49,9 @@ class PerfumeProductItem extends StatelessWidget {
                   child: Container(
                     width: 162.w,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8.r),
-                      border: Border.all(color: AppColors.greyBorder, width: 2),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15.r),
+                      border: Border.all(color: Color(0XFFF2F2F2), width: 2),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -62,49 +63,55 @@ class PerfumeProductItem extends StatelessWidget {
                               child: CachedNetworkImageShare(
                                 urlImage: imgUrl,
                                 fit: BoxFit.contain,
-                                heigthNumber: 100.h,
-                                widthNumber: 130.w,
-                                borderRadious: 10.r,
+                                heigthNumber: 160.h,
+                                widthNumber: 150.w,
+                                borderRadious: 14.r,
                               ),
                             ),
                           ],
                         ),
 
                         const SizedBox(height: 10,),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            CustomText(
-                              'العطور',
-                              color: AppColors.grey.withOpacity(.5),
-                              fontSize: 14.sp,
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 5
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              CustomText(
+                                'العطور',
+                                color: AppColors.grey.withOpacity(.5),
+                                fontSize: 12.sp,
                               ),
-                              decoration: BoxDecoration(
-                                color: AppColors.greyBorder,
-                                borderRadius: BorderRadius.circular(10)
+                              Spacer(),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 10,
+                                  vertical: 5
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.greyBorder,
+                                  borderRadius: BorderRadius.circular(10)
+                                ),
+                                child: Row(
+                                  children: [
+                                    const Image(
+                                      image: AssetImage('assets/images/fire.png'),
+                                    ),
+                                    const SizedBox(width: 5,),
+                                    CustomText(
+                                      'الاكثر مبيعا',
+                                      fontSize: 10.sp,
+                                      color: AppColors.grey,
+                                    )
+                                  ],
+                                ),
                               ),
-                              child: Row(
-                                children: [
-                                  const Image(
-                                    image: AssetImage('assets/images/fire.png'),
-                                  ),
-                                  const SizedBox(width: 5,),
-                                  CustomText(
-                                    'الاكثر مبيعا',
-                                    fontSize: 11.sp,
-                                    color: AppColors.grey,
-                                  )
-                                ],
-                              ),
-                            ),
-                            const SizedBox(height: 10,),
+                              const SizedBox(height: 10,),
 
-                          ],
+                            ],
+                          ),
                         ),
                         // Row(
                         //   mainAxisAlignment: MainAxisAlignment.center,
@@ -126,39 +133,44 @@ class PerfumeProductItem extends StatelessWidget {
                           SizedBox(
                           height: 10.h,
                         ),
-                        CustomText(
-                          brandName,
-                          color: AppColors.itemGrey,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.normal,
-                        ),
 
-                        CustomText(
-                          perfumeName,
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.normal,
-                          maxLines: 1,
+
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 8.w,
+                            vertical: 5.w,
+                          ),
+                          child: CustomText(
+                            perfumeName,
+                            fontSize: 12.sp,
+                            fontWeight: FontWeight.bold,
+                            maxLines: 2,
+                          ),
                         ),
                         SizedBox(
                           height: 5.h,
                         ),
                         // Rate
-                        Row(
-                          children: [
-                            CustomRateRead(
-                              size: 20.sp,
-                              rate: perfumeRate,
-                            ),
-                            SizedBox(
-                              width: 2.w,
-                            ),
-                            CustomText(
-                              rateCount,
-                              color: AppColors.itemGrey,
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.normal,
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                          ),
+                          child: Row(
+                            children: [
+                              CustomRateRead(
+                                size: 20.sp,
+                                rate: 3,
+                              ),
+                              SizedBox(
+                                width: 2.w,
+                              ),
+                              CustomText(
+                                (255555).toString(),
+                                color: AppColors.itemGrey,
+                                fontSize: 12.sp,
+                                fontWeight: FontWeight.normal,
+                              ),
+                            ],
+                          ),
                         ),
                         SizedBox(
                           height: 15.h,
@@ -168,36 +180,47 @@ class PerfumeProductItem extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
 
-                            Row(
-                              children: [
-                                CustomText(
-                                  priceAfterDiscount,
-                                  color: AppColors.greenText,
-                                  fontSize: 14.sp,
-                                ),
-                                CustomText(
-                                  'sar_value'.tr,
-                                  color: AppColors.greenText,
-                                  fontSize: 14.sp,
-                                ),
-                              ],
+                            Padding(
+                              padding: EdgeInsets.only(
+                                right: 10.w,
+                              ),
+                              child: Row(
+                                children: [
+                                  CustomText(
+                                    priceAfterDiscount,
+                                    color: AppColors.greenText,
+                                    fontSize: 14.sp,
+
+                                  ),
+                                  CustomText(
+                                    'sar_value'.tr,
+                                    color: AppColors.greenText,
+                                    fontSize: 14.sp,
+                                  ),
+                                ],
+                              ),
                             ),
-                            Row(
-                              children: [
-                                CustomText(
-                                  priceBeforeDiscount,
-                                  color: AppColors.grey,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.normal,
-                                  underline: true,
-                                ),
-                                CustomText(
-                                  'sar_value'.tr,
-                                  color: AppColors.grey,
-                                  fontSize: 10.sp,
-                                  fontWeight: FontWeight.normal,
-                                ),
-                              ],
+                            Padding(
+                              padding: EdgeInsets.only(
+                                left: 10.w,
+                              ),
+                              child: Row(
+                                children: [
+                                  CustomText(
+                                    priceBeforeDiscount,
+                                    color: AppColors.grey,
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                    underline: true,
+                                  ),
+                                  CustomText(
+                                    'sar_value'.tr,
+                                    color: AppColors.grey,
+                                    fontSize: 10.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ],
+                              ),
                             ),
 
                           ],
@@ -215,7 +238,7 @@ class PerfumeProductItem extends StatelessWidget {
                           vertical: 5
                       ),
                       decoration: BoxDecoration(
-                          color: AppColors.greyContainer,
+                          color: AppColors.whiteColor,
                           borderRadius: BorderRadius.circular(15),
                           border: Border.all(
                             color: AppColors.primaryColor,

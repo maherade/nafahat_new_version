@@ -192,11 +192,11 @@ class _ShowAllProductLessThan100EditScreenState
                                   color: const Color(0xffF5E7EA),
                                   width: 1,
                                 ),
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(50),
                               ),
                               child: Padding(
                                 padding:
-                                EdgeInsets.symmetric(horizontal: 7.0.w),
+                                EdgeInsets.symmetric(horizontal: 20.0.w),
                                 child: DropdownButton<String>(
                                   underline: const SizedBox(),
                                   focusColor: Colors.white,
@@ -218,7 +218,8 @@ class _ShowAllProductLessThan100EditScreenState
                                           value: value,
                                           child: CustomText(
                                             value,
-                                            fontSize: 10.sp,
+                                            fontSize: 12.sp,
+                                            color: AppColors.grey,
                                           ),
                                         );
                                       }).toList(),
@@ -240,9 +241,7 @@ class _ShowAllProductLessThan100EditScreenState
                                 ),
                               ),
                             ),
-                            SizedBox(
-                              width: 12.w,
-                            ),
+
                             Spacer(),
                             GestureDetector(
                               onTap: () {

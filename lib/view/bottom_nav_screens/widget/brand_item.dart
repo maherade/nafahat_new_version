@@ -27,7 +27,7 @@ class BrandItem extends StatelessWidget {
             urlImage: imgUrl,
             fit: BoxFit.cover,
             heigthNumber: 50.h,
-            widthNumber: 60.w,
+            widthNumber: 70.w,
           ),
           SizedBox(
             width: 16.w,

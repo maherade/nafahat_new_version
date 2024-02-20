@@ -28,12 +28,13 @@ class _ArticleDetailScreenState extends State<ArticleDetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
         backgroundColor: AppColors.whiteColor,
         elevation: 0.0,
         title: CustomText("article_value".tr,
           fontSize: 18.sp,
-          fontWeight:  FontWeight.bold,
+          fontWeight: FontWeight.w500,
         ),
         centerTitle: true,
         actions: [

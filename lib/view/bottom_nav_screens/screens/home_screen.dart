@@ -60,11 +60,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   int _current = 0;
   int currentIndex = 0;
+  Color testColor=AppColors.primaryColor;
 
   bool popUpIsSelectedTextColor = false;
 
   String categoryName = 'الأجهزة';
   int categoryId = 27;
+
+  List<Color> appbarColor=[AppColors.primaryColor,const Color(0XFFC8C8C8),const Color(0XFFC8C8C8),const Color(0XFFC8C8C8)];
 
   @override
   void initState() {
@@ -161,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               children: [
                 SizedBox(
-                  height: 50.h,
+                  height: 60.h,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
@@ -182,7 +185,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             Get.to(() => const SearchScreen());
                           },
                           child: Container(
-                            height: MediaQuery.of(context).size.height*0.06,
+                            height: MediaQuery.of(context).size.height*0.07,
                             child: TextFormField(
                               enabled: false,
                                onTap: (){
@@ -192,14 +195,13 @@ class _HomeScreenState extends State<HomeScreen> {
                               decoration: InputDecoration(
                                 hintText: 'اكتب كلمه البحث...',
                                 filled: true,
-                                suffixIcon: const Icon(
-                                  Icons.search
+                                suffixIcon: const Image(
+                                    image: AssetImage('assets/images/Search.png')
                                 ),
                                 fillColor: const Color(0XFFF7F8FA),
                                 hintStyle: TextStyle(
                                   fontSize: MediaQuery.of(context).size.height*0.018,
-                                  color: Colors.black54,
-                                  fontFamily: 'din',
+                                  color: const Color(0XFF8A8A8B),
                                 ),
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(50),
@@ -279,7 +281,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Container(
-                  height: 10850.h,
+                  height: 5500.h,
                   width: 500.w,
                   child: DefaultTabController(
                       length: 4,
@@ -294,31 +296,34 @@ class _HomeScreenState extends State<HomeScreen> {
                               Tab(
                                 child: CustomText(
                                   'الرئيسيه',
-                                   color: const Color(0XFFC8C8C8),
-                                   fontSize: 13.sp,
+                                   color: appbarColor[0],
+                                   fontSize: 14.sp,
+                                  fontWeight:  FontWeight.normal,
                                 )
                               ),
                               Tab(
                                   child: CustomText(
                                     'العروض',
-                                    color: const Color(0XFFC8C8C8),
-                                    fontSize: 13.sp,
+                                    color: appbarColor[1],
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.normal,
                                   )
                               ),
                               Tab(
                                   child: CustomText(
                                     maxLines: 1,
                                     'منتجات اقل من 10 ريال',
-                                    color: const Color(0XFFC8C8C8),
-                                    fontSize: 13.sp,
+                                    color: appbarColor[2],
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.normal,
                                   )
                               ),
                               Tab(
                                   child: CustomText(
                                     'المكياج',
-                                    color: const Color(0XFFC8C8C8),
-                                    fontSize: 13.sp,
-                                  )
+                                    color: appbarColor[3],
+                                    fontSize: 14.sp,
+                                    fontWeight: FontWeight.normal,                                  )
                               ),
 
 

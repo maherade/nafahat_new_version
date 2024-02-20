@@ -222,18 +222,18 @@ class _ShopByCategoryEditScreenState extends State<ShopByCategoryEditScreen> {
                                     color: const Color(0xffF5E7EA),
                                     width: 1,
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
                                 child: Padding(
                                   padding:
-                                  EdgeInsets.symmetric(horizontal: 7.0.w),
+                                  EdgeInsets.symmetric(horizontal: 10.0.w),
                                   child: DropdownButton<String>(
                                     underline: const SizedBox(),
                                     focusColor: Colors.white,
                                     value: selectedDropDown,
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 10.sp,
+                                      fontSize: 15.sp,
                                     ),
                                     iconEnabledColor: AppColors.grey,
                                     items: <String>[
@@ -249,7 +249,7 @@ class _ShopByCategoryEditScreenState extends State<ShopByCategoryEditScreen> {
                                             child: CustomText(
                                               value,
                                               color: AppColors.grey,
-                                              fontSize: 10.sp,
+                                              fontSize: 12.sp,
                                             ),
                                           );
                                         }).toList(),
@@ -258,6 +258,7 @@ class _ShopByCategoryEditScreenState extends State<ShopByCategoryEditScreen> {
                                       fontSize: 12.sp,
                                       fontWeight: FontWeight.normal,
                                     ),
+                                    dropdownColor: AppColors.whiteColor,
                                     onChanged: (String? value) {
                                       ProductApies.productApies
                                           .listProductByCategory = null;

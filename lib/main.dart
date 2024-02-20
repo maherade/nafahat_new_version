@@ -118,6 +118,7 @@ class _MyAppState extends State<MyApp> {
       builder: (context, child) {
         return GetMaterialApp(
           theme: ThemeData(
+            fontFamily: 'alfont_com_AlFont_com_URW-DIN-Arabic',
             primaryColor: AppColors.primaryColor,
           ),
           title: 'متجر نفحات',

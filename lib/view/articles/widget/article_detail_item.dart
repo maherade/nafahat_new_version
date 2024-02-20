@@ -25,7 +25,7 @@ class ArticleDetailItem extends StatelessWidget {
       children: [
         CustomText(
           title,
-          fontSize: 18.sp,
+          fontSize: 16.sp,
           fontWeight: FontWeight.normal,
         ),
         SizedBox(

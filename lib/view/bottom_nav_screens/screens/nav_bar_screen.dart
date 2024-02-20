@@ -1,9 +1,7 @@
 import 'dart:convert';
-
 import 'package:perfume_store_mobile_app/view/cart/screen/cart_screen.dart';
 import 'package:perfume_store_mobile_app/view/favourite/screen/favourite_screen.dart';
 import 'package:perfume_store_mobile_app/view/search/screen/search_screen.dart';
-
 import '../../../apies/auth_apies.dart';
 import '../../../apies/product_apies.dart';
 import '../../../controller/app_controller.dart';

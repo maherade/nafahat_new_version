@@ -19,6 +19,8 @@ class ArticlesScreen extends StatefulWidget {
 class _ArticlesScreenState extends State<ArticlesScreen> {
   PostsController postsController = Get.find();
 
+  TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -30,10 +32,13 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: AppColors.whiteColor,
         title: CustomText("article_value".tr,
-        fontSize: 18.sp,
-        fontWeight:  FontWeight.bold,
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w500,
         ),
         centerTitle: true,
         actions: [
@@ -52,28 +57,29 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
         children: [
 
           Padding(
-            padding:   EdgeInsets.symmetric(horizontal: 17.0.w),
+            padding: const EdgeInsets.all(8.0),
             child: GestureDetector(
               onTap: (){
                 Get.to(() => const SearchScreen());
               },
               child: Container(
-                height: MediaQuery.of(context).size.height*0.06,
+                height: MediaQuery.of(context).size.height*0.07,
                 child: TextFormField(
+                  enabled: false,
+                  onTap: (){
+                    Get.to(() => const SearchScreen());
 
+                  },
                   decoration: InputDecoration(
                     hintText: 'اكتب كلمه البحث...',
                     filled: true,
-                    suffixIcon: Image.asset(
-                      'assets/images/search.png',
-                      height: MediaQuery.of(context).size.height*0.005,
-                      width: MediaQuery.of(context).size.height*0.005,
+                    suffixIcon: const Image(
+                        image: AssetImage('assets/images/Search.png')
                     ),
                     fillColor: const Color(0XFFF7F8FA),
                     hintStyle: TextStyle(
                       fontSize: MediaQuery.of(context).size.height*0.018,
-                      color: Colors.black54,
-                      fontFamily: 'din',
+                      color: const Color(0XFF8A8A8B),
                     ),
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(50),
@@ -85,6 +91,7 @@ class _ArticlesScreenState extends State<ArticlesScreen> {
                     color: Colors.black,
                     fontSize: MediaQuery.of(context).size.height*0.018,
                   ),
+                  controller: searchController,
 
                 ),
               ),

@@ -112,6 +112,34 @@ class _MyAccountState extends State<MyAccount> {
                     SizedBox(
                       height: 10.h,
                     ),
+
+                    Container(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              ListTile(
+                                onTap: () {
+                                  Get.to(() => const UpdateProfileScreen());
+                                },
+                                leading: Image.asset(
+                                  'assets/images/profile.png',
+                                  width: 50.w,
+                                  height: 50.h,
+                                ),
+                                title: CustomText(
+                                  "personal_information_value".tr,
+                                  fontSize: 13.sp,
+                                ),
+                                trailing: const Icon(Icons.arrow_back_ios_new),
+                              ),
+                            ]
+                          )
+                        ]
+                      ),
+                    ),
+
+
                     ListTile(
                       onTap: () {
                         Get.to(() => const UpdateProfileScreen());
@@ -418,165 +446,629 @@ class _MyAccountState extends State<MyAccount> {
                     SizedBox(
                       height: 10.h,
                     ),
-                    ListTile(
-                      onTap: () {
-                        if (SPHelper.spHelper.getToken() == null) {
-                          Get.offAll(() => const LoginScreen());
-                        } else {
-                          Get.to(() => const FavoriteScreen());
-                        }
-                      },
-                      leading: Image.asset(
-                        'assets/images/favourite.png',
-                        width: 50.w,
-                        height: 50.h,
+
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 2.0.w),
+                      height: 300.h,
+                      decoration: const BoxDecoration(
+                        color: Color(0XFFFCF5F7)
                       ),
-                      title: CustomText(
-                        "favourite_value".tr,
-                        fontSize: 13.sp,
+                      child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+                                  Get.to(() => const UpdateProfileScreen());
+
+                                },
+                                child: Row(
+                                  children: [
+                                    const Image(
+                                      color: AppColors.primaryColor,
+                                      image: AssetImage(
+                                        'assets/images/profile.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "personal_information_value".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+                                  Get.to(() => const UpdateProfileScreen());
+
+                                },
+                                child: Row(
+                                  children: [
+                                     Image(
+                                      color: AppColors.primaryColor,
+                                      height: 17.w,
+                                      image: AssetImage(
+                                        'assets/images/Notification.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "notification".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+                                  Get.to(() => const UpdateProfileScreen());
+
+                                },
+                                child: Row(
+                                  children: [
+
+                                    Image(
+                                      height: 17.w,
+                                      color: AppColors.primaryColor,
+                                      image: AssetImage(
+                                        'assets/images/Lock.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "personal_information_value".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+                                  Get.to(() => const UpdateProfileScreen());
+
+                                },
+                                child: Row(
+                                  children: [
+                                     Image(
+                                      height: 17.w,
+                                      color: AppColors.primaryColor,                                      image: AssetImage(
+                                        'assets/images/Location.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "address_values".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+                                  Get.to(() => const UpdateProfileScreen());
+
+                                },
+                                child: Row(
+                                  children: [
+                                    const Image(
+                                      color: AppColors.primaryColor,
+                                      image: AssetImage(
+                                        'assets/images/buy.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "cart".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ]
                       ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
+
+                    /////////////////////////////////////////////////////////////////////////
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => WholeSaleScreen());
-                      },
-                      leading: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15.w),
-                        child: SvgPicture.asset(
-                          'assets/svg/wholesale.svg',
-                          width: 20.w,
-                          height: 20.h,
-                          color: AppColors.primaryColor,
-                        ),
+
+
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 2.0.w),
+                      height: 300.h,
+                      decoration: const BoxDecoration(
+                          color: Color(0XFFFCF5F7)
                       ),
-                      title: CustomText(
-                        "whole_sale_value".tr,
-                        fontSize: 13.sp,
+                      child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+                                     Image(
+                                      color: AppColors.primaryColor,
+                                      height: 17.w,
+                                      image: AssetImage(
+                                        'assets/images/g_1.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "group_1".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+                                    Image(
+                                      color: AppColors.primaryColor,
+                                      height: 17.w,
+                                      image: AssetImage(
+                                        'assets/images/g_2.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "group_2".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+
+                                    Image(
+                                      height: 17.w,
+                                      color: AppColors.primaryColor,
+                                      image: AssetImage(
+                                        'assets/images/g_3.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "group_3".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+                                    Image(
+                                      height: 17.w,
+                                      color: AppColors.primaryColor,
+                                      image: AssetImage(
+                                      'assets/images/g_4.png',
+                                    ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "group_4".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+                                    //  Image(
+                                    //   color: AppColors.primaryColor,
+                                    //   height: 17.w,
+                                    //
+                                    //   image: AssetImage(
+                                    //     'assets/images/g_5.png',
+                                    //   ),
+                                    // ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "group_5".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ]
                       ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
+
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => const WhoUsScreen());
-                      },
-                      leading: Image.asset(
-                        'assets/images/who_us.png',
-                        width: 50.w,
-                        height: 50.h,
+
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 2.0.w),
+                      decoration: const BoxDecoration(
+                          color: Color(0XFFFCF5F7)
                       ),
-                      title: CustomText(
-                        "who_us_value".tr,
-                        fontSize: 13.sp,
+                      child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+                                     Image(
+                                       height:  17.w,
+                                      color: AppColors.primaryColor,
+                                      image: AssetImage(
+                                        'assets/images/info_value.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "info_value".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+                                    Image(
+                                      color: AppColors.primaryColor,
+                                      height: 17.w,
+                                      image: AssetImage(
+                                        'assets/images/details.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "details".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+
+                                },
+                                child: Row(
+                                  children: [
+
+                                    Image(
+                                      height: 17.w,
+                                      color: AppColors.primaryColor,
+                                      image: AssetImage(
+                                        'assets/images/replase.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "replase_return_value".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ]
                       ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
+
                     SizedBox(
-                      height: 10.h,
+                      height: 30.h,
                     ),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => const PrivacyPolicyScreen());
-                      },
-                      leading: Image.asset(
-                        'assets/images/privacy.png',
-                        width: 50.w,
-                        height: 50.h,
+
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 2.0.w),
+                      decoration: const BoxDecoration(
+                          color: Color(0XFFFCF5F7)
                       ),
-                      title: CustomText(
-                        "privacy_policy_value".tr,
-                        fontSize: 13.sp,
+                      child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: GestureDetector(
+                                onTap: (){
+                                      SPHelper.spHelper.removeToken();
+                                      Get.offAll(() => const LoginScreen());
+                                },
+                                child: Row(
+                                  children: [
+                                     Image(
+                                      color: AppColors.primaryColor,
+                                      height: 17.w,
+                                      image: AssetImage(
+                                        'assets/images/Logout.png',
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w,),
+                                    CustomText(
+                                      "logout_value".tr,
+                                      fontSize: 13.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+
+                                    const Spacer(),
+                                    const Icon(Icons.arrow_back_ios_new,color: AppColors.blackColor,size: 15,),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                          ]
                       ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
                     ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => const TermsAndCondition());
-                      },
-                      leading: Image.asset(
-                        'assets/images/terms.png',
-                        width: 50.w,
-                        height: 50.h,
-                      ),
-                      title: CustomText(
-                        "terms_and_condition_value".tr,
-                        fontSize: 13.sp,
-                      ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => const CommonQuestionScreen());
-                      },
-                      leading: Image.asset(
-                        'assets/images/question.png',
-                        width: 50.w,
-                        height: 50.h,
-                      ),
-                      title: CustomText(
-                        "common_question_value".tr,
-                        fontSize: 13.sp,
-                      ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        Get.to(() => const HelpAndSupportScreen());
-                      },
-                      leading: Image.asset(
-                        'assets/images/contact_us.png',
-                        width: 50.w,
-                        height: 50.h,
-                      ),
-                      title: CustomText(
-                        "contact_us_value".tr,
-                        fontSize: 13.sp,
-                      ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    ListTile(
-                      onTap: () {
-                        SPHelper.spHelper.removeToken();
-                        Get.offAll(() => const LoginScreen());
-                      },
-                      leading: Image.asset(
-                        'assets/images/logout.png',
-                        width: 50.w,
-                        height: 50.h,
-                      ),
-                      title: CustomText(
-                        "login_value".tr,
-                        fontSize: 13.sp,
-                      ),
-                      trailing: const Icon(Icons.arrow_back_ios_new),
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
-                    SizedBox(
-                      height: 10.h,
-                    ),
+
+
+
+                    // ListTile(
+                    //   onTap: () {
+                    //     if (SPHelper.spHelper.getToken() == null) {
+                    //       Get.offAll(() => const LoginScreen());
+                    //     } else {
+                    //       Get.to(() => const FavoriteScreen());
+                    //     }
+                    //   },
+                    //   leading: Image.asset(
+                    //     'assets/images/favourite.png',
+                    //     width: 50.w,
+                    //     height: 50.h,
+                    //   ),
+                    //   title: CustomText(
+                    //     "favourite_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // ListTile(
+                    //   onTap: () {
+                    //     Get.to(() => WholeSaleScreen());
+                    //   },
+                    //   leading: Padding(
+                    //     padding: EdgeInsets.symmetric(horizontal: 15.w),
+                    //     child: SvgPicture.asset(
+                    //       'assets/svg/wholesale.svg',
+                    //       width: 10.w,
+                    //       height: 10.h,
+                    //       color: AppColors.primaryColor,
+                    //     ),
+                    //   ),
+                    //   title: CustomText(
+                    //     "whole_sale_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // ListTile(
+                    //   onTap: () {
+                    //     Get.to(() => const WhoUsScreen());
+                    //   },
+                    //   leading: Image.asset(
+                    //     'assets/images/who_us.png',
+                    //     width: 50.w,
+                    //     height: 50.h,
+                    //   ),
+                    //   title: CustomText(
+                    //     "who_us_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // ListTile(
+                    //   onTap: () {
+                    //     Get.to(() => const PrivacyPolicyScreen());
+                    //   },
+                    //   leading: Image.asset(
+                    //     'assets/images/privacy.png',
+                    //     width: 50.w,
+                    //     height: 50.h,
+                    //   ),
+                    //   title: CustomText(
+                    //     "privacy_policy_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // ListTile(
+                    //   onTap: () {
+                    //     Get.to(() => const TermsAndCondition());
+                    //   },
+                    //   leading: Image.asset(
+                    //     'assets/images/terms.png',
+                    //     width: 50.w,
+                    //     height: 50.h,
+                    //   ),
+                    //   title: CustomText(
+                    //     "terms_and_condition_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // ListTile(
+                    //   onTap: () {
+                    //     Get.to(() => const CommonQuestionScreen());
+                    //   },
+                    //   leading: Image.asset(
+                    //     'assets/images/question.png',
+                    //     width: 50.w,
+                    //     height: 50.h,
+                    //   ),
+                    //   title: CustomText(
+                    //     "common_question_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // ListTile(
+                    //   onTap: () {
+                    //     Get.to(() => const HelpAndSupportScreen());
+                    //   },
+                    //   leading: Image.asset(
+                    //     'assets/images/contact_us.png',
+                    //     width: 50.w,
+                    //     height: 50.h,
+                    //   ),
+                    //   title: CustomText(
+                    //     "contact_us_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // ListTile(
+                    //   onTap: () {
+                    //     SPHelper.spHelper.removeToken();
+                    //     Get.offAll(() => const LoginScreen());
+                    //   },
+                    //   leading: Image.asset(
+                    //     'assets/images/logout.png',
+                    //     width: 50.w,
+                    //     height: 50.h,
+                    //   ),
+                    //   title: CustomText(
+                    //     "login_value".tr,
+                    //     fontSize: 13.sp,
+                    //   ),
+                    //   trailing: const Icon(Icons.arrow_back_ios_new),
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
+                    // SizedBox(
+                    //   height: 10.h,
+                    // ),
                   ],
                 );
         },

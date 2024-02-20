@@ -83,11 +83,11 @@ class ArticleItem extends StatelessWidget {
                       SizedBox(
                         width: 2.w,
                       ),
-                      CustomText(
-                        'مشاهدة المزيد',
-                        fontSize: 12.sp,
-                        color: AppColors.primaryColor,
-                      ),
+                      // CustomText(
+                      //   'مشاهدة المزيد',
+                      //   fontSize: 12.sp,
+                      //   color: AppColors.primaryColor,
+                      // ),
                     ],
                   ),
                   SizedBox(

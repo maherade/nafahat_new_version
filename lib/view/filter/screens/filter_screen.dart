@@ -23,6 +23,7 @@ class _FilterScreenState extends State<FilterScreen> {
   BrandController brandController = Get.find();
   RangeValues values = const RangeValues(0, 1000);
   int currentIndex = 0;
+  int categoryIndex = 0;
   int categoryId = 27;
   String categoryName = 'الأجهزة';
 
@@ -32,6 +33,39 @@ class _FilterScreenState extends State<FilterScreen> {
   int? selectedCategoryId;
   String? selectedCategoryName;
 
+  List<int> sectionId=[
+    2446,
+    2467,
+    2447,
+    2448,
+  ];
+
+  List<int> cateId=[
+    2447,
+    2445,
+    2467,
+    2450,
+  ];
+
+  List<String> cateName=[
+    'قسم الاجهزه',
+    'قسم العطور',
+    'قسم الهدايا',
+    'قسم الزيوت',
+  ];
+
+  List<String> orders=[
+    'من الارخص الى الغلى',
+    'الأكثر تقييما',
+    'الأكثر مبيعا',
+  ];
+
+  List<String> sectionName=[
+    'الزيوت',
+    'الهدايا',
+    'الاجهزه',
+    'الاظافر',
+  ];
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -86,15 +120,20 @@ class _FilterScreenState extends State<FilterScreen> {
                         child: CustomText(
                           'filter'.tr,
                           color: AppColors.blackColor,
-                          fontSize: 18.sp,
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.normal,
                         ),
+                      ),
+
+                      SizedBox(
+                        height: 18.h,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(
                             'shop_by_category_value'.tr,
-                            fontSize: 18.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.normal,
                           ),
                           SizedBox(
@@ -103,13 +142,11 @@ class _FilterScreenState extends State<FilterScreen> {
                           category == null
                               ? const LoadingFilterCategory()
                               : SizedBox(
-                            height: 60.h,
+                            height: 50.h,
                             child: ListView.builder(
                               scrollDirection: Axis.horizontal,
                               shrinkWrap: true,
-                              itemCount: category.length < 6
-                                  ? category.length
-                                  : 6,
+                              itemCount: sectionId.length,
                               itemBuilder: (context, index) {
                                 return Row(
                                   children: [
@@ -136,16 +173,14 @@ class _FilterScreenState extends State<FilterScreen> {
                                          });
                                         ProductApies.productApies
                                             .getFamousProductData(
-                                          category: category[index]
-                                              .id
-                                              .toString(),
+                                          category: sectionId[index].toString(),
                                           onSale: true,
                                         );
                                       },
                                       child: Container(
                                         alignment: Alignment.center,
                                         height: 60.h,
-                                        width: 130.h,
+                                        width: 100.h,
                                         padding: EdgeInsets.all(5.w),
                                         decoration: BoxDecoration(
                                           color: currentIndex == index
@@ -158,9 +193,9 @@ class _FilterScreenState extends State<FilterScreen> {
                                           ),
                                         ),
                                         child: CustomText(
-                                          category[index].name,
+                                          sectionName[index],
                                           fontSize: 14.sp,
-                                          fontWeight: FontWeight.bold,
+                                          fontWeight: FontWeight.normal,
                                           textAlign: TextAlign.center,
                                           color: currentIndex == index
                                               ? AppColors.whiteColor
@@ -178,18 +213,130 @@ class _FilterScreenState extends State<FilterScreen> {
                           ),
                         ],
                       ),
+
                       SizedBox(
-                        height: 40.h,
+                        height: 25.h,
                       ),
+
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomText(
+                            'brands_value'.tr,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.normal,
+                          ),
+
+                          // CustomTextFormField(
+                          //   hintText: 'search_by_brand_value'.tr,
+                          //   onChange: (value) {
+                          //     BrandApies.brandApies
+                          //         .getBrandData(search: value);
+                          //   },
+                          // ),
+                          brand == null
+                              ? const Center(
+                            child: CupertinoActivityIndicator(),
+                          )
+                              : brand.isEmpty
+                              ? CustomText(
+                            'لا تتوفر نتائج',
+                            fontSize: 13.sp,
+                          )
+                              : SizedBox(
+                            height: 230.h,
+                            width: double.infinity,
+                            child: GridView.count(
+                              childAspectRatio: 1 / .5,
+                              crossAxisSpacing: 10,
+                              mainAxisSpacing: 10,
+                              crossAxisCount: 3,
+                              children: List.generate(
+                                brand.length,
+                                    (index) => Row(
+                                  children: [
+                                    // Checkbox(
+                                    //   value: selectedBrandId ==
+                                    //       int.parse(
+                                    //         brand[index].data!.termId,
+                                    //       ),
+                                    //   onChanged: (bool? value) {
+                                    //     debugPrint(
+                                    //       {
+                                    //         int.parse(
+                                    //           brand[index]
+                                    //               .data!
+                                    //               .termId!,
+                                    //         )
+                                    //       }.toString(),
+                                    //     );
+                                    //     debugPrint(
+                                    //       brand[index].data?.name,
+                                    //     );
+                                    //     setState(() {
+                                    //       selectedBrandId = int.parse(
+                                    //         brand[index]
+                                    //             .data!
+                                    //             .termId!,
+                                    //       );
+                                    //       selectedBrandName =
+                                    //           brand[index].data?.name;
+                                    //     });
+                                    //   },
+                                    //   activeColor:
+                                    //   AppColors.primaryColor,
+                                    // ),
+                                    Expanded(
+                                      child: Container(
+                                        height: 50.h,
+                                        padding:
+                                        const EdgeInsets.all(
+                                            10),
+                                        alignment:
+                                        Alignment.center,
+                                        decoration:
+                                        BoxDecoration(
+                                          color: AppColors
+                                              .primaryColor,
+                                          borderRadius:
+                                          BorderRadius
+                                              .circular(
+                                              50),
+                                        ),
+                                        child: CustomText(
+                                          brand[index]
+                                              .data
+                                              ?.name,
+                                          fontSize: 13.sp,
+                                          textAlign: TextAlign
+                                              .center,
+                                          color: AppColors
+                                              .whiteColor,
+                                          maxLines: 1,
+                                          fontWeight:
+                                          FontWeight
+                                              .normal,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+
                       SizedBox(
-                        height: 18.h,
+                        height: 25.h,
                       ),
+
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(
                             'price_value'.tr,
-                            fontSize: 18.sp,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.normal,
                           ),
                           RangeSlider(
@@ -235,6 +382,7 @@ class _FilterScreenState extends State<FilterScreen> {
                           )
                         ],
                       ),
+
                       SizedBox(
                         height: 18.h,
                       ),
@@ -242,110 +390,90 @@ class _FilterScreenState extends State<FilterScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           CustomText(
-                            'brands_value'.tr,
-                            fontSize: 18.sp,
+                            'order'.tr,
+                            fontSize: 14.sp,
                             fontWeight: FontWeight.normal,
                           ),
-
-                          // CustomTextFormField(
-                          //   hintText: 'search_by_brand_value'.tr,
-                          //   onChange: (value) {
-                          //     BrandApies.brandApies
-                          //         .getBrandData(search: value);
-                          //   },
-                          // ),
-                          brand == null
-                              ? const Center(
-                            child: CupertinoActivityIndicator(),
-                          )
-                              : brand.isEmpty
-                              ? CustomText(
-                            'لا تتوفر نتائج',
-                            fontSize: 13.sp,
-                          )
+                          SizedBox(
+                            height: 18.h,
+                          ),
+                          category == null
+                              ? const LoadingFilterCategory()
                               : SizedBox(
-                              height: 500,
-                              width: double.infinity,
-                              child: GridView.count(
-                                childAspectRatio: 1 / .5,
-                                crossAxisSpacing: 10,
-                                mainAxisSpacing: 10,
-                                crossAxisCount: 3,
-                                children: List.generate(
-                                    brand.length,
-                                        (index) => Row(
-                                      children: [
-                                        // Checkbox(
-                                        //   value: selectedBrandId ==
-                                        //       int.parse(
-                                        //         brand[index].data!.termId,
-                                        //       ),
-                                        //   onChanged: (bool? value) {
-                                        //     debugPrint(
-                                        //       {
-                                        //         int.parse(
-                                        //           brand[index]
-                                        //               .data!
-                                        //               .termId!,
-                                        //         )
-                                        //       }.toString(),
-                                        //     );
-                                        //     debugPrint(
-                                        //       brand[index].data?.name,
-                                        //     );
-                                        //     setState(() {
-                                        //       selectedBrandId = int.parse(
-                                        //         brand[index]
-                                        //             .data!
-                                        //             .termId!,
-                                        //       );
-                                        //       selectedBrandName =
-                                        //           brand[index].data?.name;
-                                        //     });
-                                        //   },
-                                        //   activeColor:
-                                        //   AppColors.primaryColor,
-                                        // ),
-                                        Expanded(
-                                          child: Container(
-                                            height: 50.h,
-                                            padding:
-                                            const EdgeInsets.all(
-                                                10),
-                                            alignment:
-                                            Alignment.center,
-                                            decoration:
-                                            BoxDecoration(
-                                              color: AppColors
-                                                  .primaryColor,
-                                              borderRadius:
-                                              BorderRadius
-                                                  .circular(
-                                                  50),
-                                            ),
-                                            child: CustomText(
-                                              brand[index]
-                                                  .data
-                                                  ?.name,
-                                              fontSize: 13.sp,
-                                              textAlign: TextAlign
-                                                  .center,
-                                              color: AppColors
-                                                  .whiteColor,
-                                              maxLines: 1,
-                                              fontWeight:
-                                              FontWeight
-                                                  .normal,
-                                            ),
+                            height: 50.h,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              shrinkWrap: true,
+                              itemCount: orders.length,
+                              itemBuilder: (context, index) {
+                                return Row(
+                                  children: [
+                                    index == 0
+                                        ? SizedBox(
+                                      width: 21.w,
+                                    )
+                                        : const SizedBox(),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(
+                                              () => categoryIndex = index,
+                                        );
+                                        // setState(
+                                        //       () => selectedCategoryName =
+                                        //   category[index].name!,
+                                        // );
+                                        // setState(
+                                        //       () => selectedBrandId =
+                                        //   category[index].id!,
+                                        // );
+                                        // setState(() {
+                                        //   selectedCategoryId = category[index].id;
+                                        // });
+                                        // ProductApies.productApies
+                                        //     .getFamousProductData(
+                                        //   category: sectionId[index].toString(),
+                                        //   onSale: true,
+                                        // );
+                                      },
+                                      child: Container(
+                                        alignment: Alignment.center,
+                                        height: 60.h,
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 20.w,
+                                          vertical: 5.w
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: categoryIndex == index
+                                              ? AppColors.primaryColor
+                                              : AppColors.whiteColor,
+                                          borderRadius:
+                                          BorderRadius.circular(30.r),
+                                          border: Border.all(
+                                            color: AppColors.greyBorder,
                                           ),
                                         ),
-                                      ],
+                                        child: CustomText(
+                                          orders[index],
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.normal,
+                                          textAlign: TextAlign.center,
+                                          color: categoryIndex == index
+                                              ? AppColors.whiteColor
+                                              : AppColors.greenText,
+                                        ),
+                                      ),
                                     ),
-                                ),
-                              ),
+                                    SizedBox(
+                                      width: 12.w,
+                                    )
+                                  ],
+                                );
+                              },
+                            ),
                           ),
                         ],
                       ),
+
                       SizedBox(
                         height: 40.h,
                       ),

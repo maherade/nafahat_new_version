@@ -509,7 +509,16 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
               ),
             ),
             SizedBox(
-              height: 15.h,
+              height: 10.h,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: CustomText(
+                'موديلات المنتج',fontSize: 12.sp,color: AppColors.blackColor,
+              ),
+            ),
+            SizedBox(
+              height: 10.h,
             ),
             widget.variations != null
                 ? SizedBox(
@@ -536,7 +545,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                               clipBehavior: Clip.antiAliasWithSaveLayer,
                               decoration: BoxDecoration(
                                   borderRadius:
-                                  BorderRadius.circular(5.r),
+                                  BorderRadius.circular(10.r),
                                   border: Border.all(
                                       color: _current == index
                                           ? AppColors.primaryColor
@@ -545,7 +554,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                                 urlImage: widget
                                     .variations?[index].image?.url ??
                                     '',
-                                fit: BoxFit.contain,
+                                fit: BoxFit.cover,
                                 heigthNumber: 50.h,
                                 widthNumber: 50.w,
                               ),
@@ -608,7 +617,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
               ),
             ),
             SizedBox(
-              height: 12.h,
+              height: 20.h,
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 18.w),
@@ -619,8 +628,8 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                     onTap: widget.onTapBrand,
                     child: CustomText(
                       widget.perfumeName,
-                      fontSize: 24.sp,
-                      fontWeight: FontWeight.normal,
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                   // SizedBox(
@@ -631,7 +640,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                   //   fontSize: 14.sp,
                   // ),
                   SizedBox(
-                    height: 15.h,
+                    height: 20.h,
                   ),
                   // Row(
                   //   children: [
@@ -665,12 +674,33 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.normal,
                               underline: true),
-                          CustomText('sar_value'.tr,
+                          CustomText('ريال',
                               color: AppColors.priceBrownColor,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.normal),
                         ],
                       ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5
+                        ),
+                        decoration: BoxDecoration(
+                            color: AppColors.greyBorder,
+                            borderRadius: BorderRadius.circular(10)
+                        ),
+                        child: Row(
+                          children: [
+
+                            CustomText(
+                              'تخفيض 15 %',
+                              fontSize: 10.sp,
+                              color: AppColors.primaryColor,
+                            )
+                          ],
+                        ),
+                      ),
+
                       SizedBox(
                         width: 83.w,
                       ),
@@ -683,7 +713,7 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                             fontSize: 16.sp,
                           ),
                           CustomText(
-                            'sar_value'.tr,
+                            'ريال',
                             color: AppColors.greenText,
                             fontSize: 16.sp,
                           ),
@@ -700,16 +730,46 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                             color: AppColors.greenText,
                             fontSize: 20.sp,
                           ),
+                          SizedBox(width: 5.w ,),
+
                           CustomText(
-                            'sar_value'.tr,
+                            'ريال',
                             color: AppColors.greenText,
                             fontSize: 16.sp,
                           ),
                         ],
                       ),
                       SizedBox(
-                        width: 83.w,
+                        width:15.w,
                       ),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5
+                        ),
+                        decoration: BoxDecoration(
+                            color: AppColors.whiteColor,
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: AppColors.primaryColor,
+                            )
+                        ),
+                        child: Row(
+                          children: [
+
+                            CustomText(
+                              'تخفيض 15 %',
+                              fontSize: 10.sp,
+                              color: AppColors.primaryColor,
+                            )
+                          ],
+                        ),
+                      ),
+
+                      SizedBox(
+                        width: 23.h,
+                      ),
+
                       Row(
                         children: [
                           CustomText(widget.priceBeforeDiscount,
@@ -717,7 +777,8 @@ class _PerfumeDetailsItemState extends State<PerfumeDetailsItem> {
                               fontSize: 16.sp,
                               fontWeight: FontWeight.normal,
                               underline: true),
-                          CustomText('sar_value'.tr,
+                          SizedBox(width: 5.w ,),
+                          CustomText('ريال',
                               color: AppColors.priceBrownColor,
                               fontSize: 16.sp,
                               fontWeight: FontWeight.normal),

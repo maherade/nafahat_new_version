@@ -36,11 +36,14 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
+        elevation: 0.0,
+          backgroundColor: AppColors.whiteColor,
           title: CustomText(
         'brands_value'.tr,
         fontSize: 18.sp,
-        fontWeight: FontWeight.bold,
+        fontWeight: FontWeight.w500,
       ),
         centerTitle: true,
         actions: [
@@ -81,22 +84,23 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                           Get.to(() => const SearchScreen());
                         },
                         child: Container(
-                          height: MediaQuery.of(context).size.height*0.06,
+                          height: MediaQuery.of(context).size.height*0.07,
                           child: TextFormField(
+                            enabled: false,
+                            onTap: (){
+                              Get.to(() => const SearchScreen());
 
+                            },
                             decoration: InputDecoration(
                               hintText: 'اكتب كلمه البحث...',
                               filled: true,
-                              suffixIcon: Image.asset(
-                                'assets/images/search.png',
-                                height: MediaQuery.of(context).size.height*0.005,
-                                width: MediaQuery.of(context).size.height*0.005,
+                              suffixIcon: const Image(
+                                  image: AssetImage('assets/images/Search.png')
                               ),
                               fillColor: const Color(0XFFF7F8FA),
                               hintStyle: TextStyle(
                                 fontSize: MediaQuery.of(context).size.height*0.018,
-                                color: Colors.black54,
-                                fontFamily: 'din',
+                                color: const Color(0XFF8A8A8B),
                               ),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(50),
@@ -108,6 +112,7 @@ class _ShopByBrandScreenState extends State<ShowAllBrandScreen> {
                               color: Colors.black,
                               fontSize: MediaQuery.of(context).size.height*0.018,
                             ),
+                            controller: searchController,
 
                           ),
                         ),

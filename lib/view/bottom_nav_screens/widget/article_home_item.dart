@@ -27,6 +27,9 @@ class ArticleHomeItem extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.whiteColor,
         borderRadius: BorderRadius.circular(16.0.r),
+        border: Border.all(
+          color: AppColors.greyBorder,
+        )
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,35 +73,35 @@ class ArticleHomeItem extends StatelessWidget {
                     fontSize: 12.sp,
                     color: AppColors.hintGrey,
                     fontWeight: FontWeight.normal,
-                    maxLines: 2,
+                    maxLines: 3,
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        width: 2.w,
-                      ),
-                      CustomText(
-                        'قراءة المزيد',
-                        fontSize: 12.sp,
-                        color: AppColors.primaryColor,
-                      ),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      const Icon(
-                        Icons.arrow_forward,
-                        color: AppColors.primaryColor,
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 14.h,
-                  ),
+                  // Row(
+                  //   mainAxisSize: MainAxisSize.min,
+                  //   crossAxisAlignment: CrossAxisAlignment.center,
+                  //   children: [
+                  //     SizedBox(
+                  //       width: 2.w,
+                  //     ),
+                  //     CustomText(
+                  //       'قراءة المزيد',
+                  //       fontSize: 12.sp,
+                  //       color: AppColors.primaryColor,
+                  //     ),
+                  //     SizedBox(
+                  //       width: 5.w,
+                  //     ),
+                  //     const Icon(
+                  //       Icons.arrow_forward,
+                  //       color: AppColors.primaryColor,
+                  //     )
+                  //   ],
+                  // ),
+                  // SizedBox(
+                  //   height: 14.h,
+                  // ),
                 ],
               ),
             ),

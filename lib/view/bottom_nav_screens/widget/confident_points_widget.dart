@@ -11,7 +11,7 @@ class ConfidentPoints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 85.h,
+      height: 110.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -29,7 +29,7 @@ class ConfidentPoints extends StatelessWidget {
               width: 60.w,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primaryColor.withOpacity(.25),
+                color: Color(0XFFFAEBEE),
               ),
               child:Image(
                 image: AssetImage(image,),
@@ -44,13 +44,17 @@ class ConfidentPoints extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(title, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 15.sp),),
-                  Text(description,style: const TextStyle(
-                  overflow:  TextOverflow.visible,
+                Text(title, style: TextStyle(fontWeight: FontWeight.bold,fontSize: 14.sp),),
+
+                SizedBox(
+                  height: 5.h,
+                ),
+
+                Text(description,style:  TextStyle(
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.normal,
                 ),),
-                  Text(restDescription,style: const TextStyle(
-                  overflow:  TextOverflow.visible,
-                ),)
+
               ],
             ),
           ),

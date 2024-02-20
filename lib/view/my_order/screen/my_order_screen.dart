@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer' as log;
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_paytabs_bridge/BaseBillingShippingInfo.dart';
@@ -16,7 +15,6 @@ import 'package:perfume_store_mobile_app/controller/order_controller.dart';
 import 'package:perfume_store_mobile_app/services/sp_helper.dart';
 import 'package:perfume_store_mobile_app/services/tabby_flutter_inapp_sdk.dart'
     as tabby;
-
 import '../../../services/app_imports.dart';
 import '../../../services/src/models/models.dart';
 import '../../cart/widget/tamara_webview_page.dart';

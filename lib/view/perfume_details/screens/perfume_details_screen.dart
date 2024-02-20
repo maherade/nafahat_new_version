@@ -119,16 +119,12 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
               : Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                height: 50.h,
-              ),
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 5.0.w),
                 child: const BackButton(),
               ),
-              SizedBox(
-                height: 17.h,
-              ),
+
               Expanded(
                 child: SingleChildScrollView(
                   physics: const BouncingScrollPhysics(),
@@ -254,11 +250,11 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                               ),
                                               CustomText(
                                                 'add_to_cart_value'.tr,
-                                                fontSize: 16.sp,
+                                                fontSize: 12.sp,
                                                 color:
                                                 AppColors.whiteColor,
                                                 fontWeight:
-                                                FontWeight.normal,
+                                                FontWeight.bold,
                                               )
                                             ],
                                           ),
@@ -270,7 +266,7 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                       Expanded(
                                         child: Container(
                                           height: 50.h,
-                                          width: 50.w,
+                                          width: 20.w,
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.circular(20.r,),
                                             border: Border.all(color: AppColors.grey,),
@@ -306,6 +302,26 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                             ],
                                           ),
                                         ),
+                                      ),
+                                      SizedBox(width: 10.w,),
+                                      Row(
+                                        children: [
+                                          CustomText(
+                                           '300 ',
+                                            color: AppColors.greenText,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          SizedBox(width: 5.w ,),
+
+                                          CustomText(
+                                            'ريال',
+                                            color: AppColors.greenText,
+                                            fontSize: 16.sp,
+                                            fontWeight: FontWeight.normal,
+
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
@@ -636,150 +652,329 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                       )
                           : Column(
                         children: [
-                          Row(
-                            children: [
-                              Expanded(
-                                flex: 4,
-                                child: CustomTextFormField(
-                                  hintText: 'add_comment_value'.tr,
-                                  controller: addCommentController,
-                                  prefixIcon: Padding(
-                                    padding:
-                                    const EdgeInsets.all(15),
-                                    child: CachedNetworkImageShare(
-                                      urlImage:
-                                      'https://img.freepik.com/premium-photo/3d-character-male-cartoon-with-eye-glasses-yellow-orange-polo-shirt-good-profile-picture_477250-8.jpg?w=740',
-                                      fit: BoxFit.contain,
-                                      heigthNumber: 32.h,
-                                      widthNumber: 32.w,
-                                      borderRadious: 0,
+
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.whiteColor,
+                             borderRadius: BorderRadius.circular(
+                               8.0,
+                             ),
+                              border: Border.all(
+                                width: 1.0,
+                                color: AppColors.greyBorder,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 10.w,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+
+                                       backgroundImage: AssetImage('assets/images/tasneem.png'),
+                                       radius: 30,
+                                       backgroundColor: AppColors.whiteColor,
+
                                     ),
-                                  ),
+                                    SizedBox(width: 5.w,),
+
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          'تسنيم امال',
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        SizedBox(height: 5.w,),
+                                        CustomRateRead(
+                                          size: 20.sp,
+                                          rate: 3,
+                                        ),
+
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    CustomText(
+                                      'قبل 3 ايام',
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ],
                                 ),
+                                SizedBox(height: 10.w,),
+                                CustomText(
+                                  'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ]
+                            ),
+                          ),
+
+                          SizedBox(
+                            height: 10.h,
+                          ),
+
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.whiteColor,
+                             borderRadius: BorderRadius.circular(
+                               8.0,
+                             ),
+                              border: Border.all(
+                                width: 1.0,
+                                color: AppColors.greyBorder,
                               ),
-                              SizedBox(
-                                width: 10.w,
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 10.w,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                            ),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    CircleAvatar(
+
+                                       backgroundImage: AssetImage('assets/images/bat_1.png'),
+                                       radius: 30,
+                                       backgroundColor: AppColors.whiteColor,
+
+                                    ),
+                                    SizedBox(width: 5.w,),
+
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        CustomText(
+                                          'تسنيم امال',
+                                          fontSize: 14.sp,
+                                          fontWeight: FontWeight.normal,
+                                        ),
+                                        SizedBox(height: 5.w,),
+                                        CustomRateRead(
+                                          size: 20.sp,
+                                          rate: 3,
+                                        ),
+
+                                      ],
+                                    ),
+                                    Spacer(),
+                                    CustomText(
+                                      'قبل 3 ايام',
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 10.w,),
+                                CustomText(
+                                  'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى',
+                                  fontSize: 12.sp,
+                                  fontWeight: FontWeight.normal,
+                                ),
+                              ]
+                            ),
+                          ),
+
+                          SizedBox(
+                            height: 10.h,
+                          ),
+
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.whiteColor,
+                              borderRadius: BorderRadius.circular(
+                                8.0,
                               ),
-                              Expanded(
-                                flex: 1,
-                                child: CustomButton(
-                                  height: 50.h,
-                                  onTap: () {
-                                    AwesomeDialog(
-                                      context: context,
-                                      animType: AnimType.leftSlide,
-                                      headerAnimationLoop: false,
-                                      dialogType:
-                                      DialogType.question,
-                                      showCloseIcon: true,
-                                      btnOkOnPress: () {
-                                        // debugPrint(widget.productId);
-                                        // debugPrint(auth?.userEmail);
-                                        // debugPrint(auth?.userDisplayName);
-                                        // debugPrint(selectedRate.toInt());
-                                        // debugPrint(addCommentController.text);
-                                        ReviewApies.reviewApies
-                                            .postComment(
-                                          productId:
-                                          widget.productId,
-                                          userEmail: auth?[0]
-                                              .userMainEmail ??
-                                              'guest@gmail.com',
-                                          userName: auth?[0]
-                                              .userBillingFullname ??
-                                              'guest',
-                                          rate:
-                                          selectedRate.toInt(),
-                                          reviewContent:
-                                          addCommentController
-                                              .text,
-                                        );
-                                      },
-                                      btnOkIcon: Icons.rate_review,
-                                      btnOkText:
-                                      'add_rate_value'.tr,
-                                      btnOkColor: Colors.deepOrange,
-                                      body: Column(
+                              border: Border.all(
+                                width: 1.0,
+                                color: AppColors.greyBorder,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 10.w,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                            ),
+                            child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+
+                                        backgroundImage: AssetImage('assets/images/bat_2.png'),
+                                        radius: 30,
+                                        backgroundColor: AppColors.whiteColor,
+
+                                      ),
+                                      SizedBox(width: 5.w,),
+
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           CustomText(
-                                            'how_match_rate_value'
-                                                .tr,
+                                            'تسنيم امال',
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
                                           ),
-                                          CustomRateWrite(
-                                            size: 30.w,
-                                            onRatingChanged:
-                                                (rate) {
-                                              debugPrint(
-                                                rate.toString(),
-                                              );
-                                              setState(
-                                                    () => selectedRate =
-                                                    rate,
-                                              );
-                                            },
+                                          SizedBox(height: 5.w,),
+                                          CustomRateRead(
+                                            size: 20.sp,
+                                            rate: 3,
                                           ),
+
                                         ],
                                       ),
-                                    ).show();
-                                  },
-                                  title: 'add_comment_value'.tr,
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                            ],
+                                      Spacer(),
+                                      CustomText(
+                                        'قبل 3 ايام',
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.w,),
+                                  CustomText(
+                                    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى',
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ]
+                            ),
                           ),
+
+                          SizedBox(
+                            height: 10.h,
+                          ),
+
+                          Container(
+                            decoration: BoxDecoration(
+                              color: AppColors.whiteColor,
+                              borderRadius: BorderRadius.circular(
+                                8.0,
+                              ),
+                              border: Border.all(
+                                width: 1.0,
+                                color: AppColors.greyBorder,
+                              ),
+                            ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20.w,
+                              vertical: 10.w,
+                            ),
+                            margin: EdgeInsets.symmetric(
+                              horizontal: 15.w,
+                            ),
+                            child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      CircleAvatar(
+
+                                        backgroundImage: AssetImage('assets/images/bat_3.png'),
+                                        radius: 30,
+                                        backgroundColor: AppColors.whiteColor,
+
+                                      ),
+                                      SizedBox(width: 5.w,),
+
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          CustomText(
+                                            'تسنيم امال',
+                                            fontSize: 14.sp,
+                                            fontWeight: FontWeight.normal,
+                                          ),
+                                          SizedBox(height: 5.w,),
+                                          CustomRateRead(
+                                            size: 20.sp,
+                                            rate: 3,
+                                          ),
+
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      CustomText(
+                                        'قبل 3 ايام',
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.normal,
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 10.w,),
+                                  CustomText(
+                                    'هذا النص هو مثال لنص يمكن أن يستبدل في نفس المساحة، لقد تم توليد هذا النص من مولد النص العربى',
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                                ]
+                            ),
+                          ),
+
                           SizedBox(
                             height: 16.h,
                           ),
-                          review == null
-                              ? const SizedBox()
-                              : review.isEmpty
-                              ? CustomText(
-                            'no_comment_value'.tr,
-                            fontSize: 15.sp,
-                          )
-                              : ListView.builder(
-                            itemCount: review.length,
-                            padding: EdgeInsets.zero,
-                            physics:
-                            const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemBuilder:
-                                (context, index) {
-                              return RatingItem(
-                                imgUrl: review[index]
-                                    .reviewerAvatarUrls
-                                    ?.s24 ??
-                                    '',
-                                name: review[index]
-                                    .reviewer ??
-                                    '',
-                                date: DateFormat(
-                                  'dd-MM-yyyy',
-                                ).format(
-                                  DateFormat(
-                                    'yyyy-MM-dd',
-                                  ).parse(
-                                    review[index]
-                                        .dateCreated!,
-                                  ),
-                                ),
-                                rate: review[index]
-                                    .rating
-                                    ?.toDouble() ??
-                                    0.0,
-                                comment: parse(
-                                  review[index]
-                                      .review,
-                                )
-                                    .documentElement
-                                    ?.text ??
-                                    '',
-                              );
-                            },
-                          ),
+                          // review == null
+                          //     ? const SizedBox()
+                          //     : review.isEmpty
+                          //     ? CustomText(
+                          //   'no_comment_value'.tr,
+                          //   fontSize: 15.sp,
+                          // )
+                          //     : ListView.builder(
+                          //   itemCount: review.length,
+                          //   padding: EdgeInsets.zero,
+                          //   physics:
+                          //   const NeverScrollableScrollPhysics(),
+                          //   shrinkWrap: true,
+                          //   itemBuilder:
+                          //       (context, index) {
+                          //     return RatingItem(
+                          //       imgUrl: review[index]
+                          //           .reviewerAvatarUrls
+                          //           ?.s24 ??
+                          //           '',
+                          //       name: review[index]
+                          //           .reviewer ??
+                          //           '',
+                          //       date: DateFormat(
+                          //         'dd-MM-yyyy',
+                          //       ).format(
+                          //         DateFormat(
+                          //           'yyyy-MM-dd',
+                          //         ).parse(
+                          //           review[index]
+                          //               .dateCreated!,
+                          //         ),
+                          //       ),
+                          //       rate: review[index]
+                          //           .rating
+                          //           ?.toDouble() ??
+                          //           0.0,
+                          //       comment: parse(
+                          //         review[index]
+                          //             .review,
+                          //       )
+                          //           .documentElement
+                          //           ?.text ??
+                          //           '',
+                          //     );
+                          //   },
+                          // ),
                         ],
                       ),
                       SizedBox(
@@ -796,6 +991,25 @@ class _PerfumeDetailsScreenState extends State<PerfumeDetailsScreen> {
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.normal,
                                 ),
+                                Spacer(),
+                                InkWell(
+                                  onTap: () {
+
+                                  },
+                                  child: Container(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10.h,
+                                      horizontal: 13.w,
+                                    ),
+                                    child: CustomText(
+                                      'view_all_value'.tr,
+                                      fontSize: 12.sp,
+                                      color: AppColors.primaryColor,
+                                      fontWeight: FontWeight.normal,
+                                    ),
+                                  ),
+                                ),
+
                               ],
                             ),
                             relatedProduct == null

@@ -136,9 +136,9 @@ flutter:
   # list giving the asset and other descriptors for the font. For
   # example:
   fonts:
-    - family: din
+    - family: alfont_com_AlFont_com_URW-DIN-Arabic
       fonts:
-        - asset: assets/fonts/din.ttf
+        - asset: assets/fonts/alfont_com_AlFont_com_URW-DIN-Arabic.ttf
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf

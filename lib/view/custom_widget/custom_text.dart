@@ -34,7 +34,7 @@ class CustomText extends StatelessWidget {
         fontWeight: fontWeight ?? FontWeight.bold,
         fontSize: fontSize ?? 18.sp,
         color: color ?? Colors.black,
-        fontFamily: fontFamily ?? 'din',
+        fontFamily: fontFamily ?? 'alfont_com_AlFont_com_URW-DIN-Arabic',
         decoration:
             underline ? TextDecoration.lineThrough : TextDecoration.none,
       ),

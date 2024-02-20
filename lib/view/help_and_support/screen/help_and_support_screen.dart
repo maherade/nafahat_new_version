@@ -31,9 +31,14 @@ class _HelpAndSupportScreenState extends State<HelpAndSupportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.whiteColor,
       appBar: AppBar(
+        elevation: 0.0,
+        backgroundColor: AppColors.whiteColor,
         title: CustomText(
           "contact_us".tr,
+          fontSize: 18.sp,
+          fontWeight: FontWeight.w500,
         ),
         centerTitle: true,
         actions: [

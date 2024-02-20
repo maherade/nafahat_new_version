@@ -21,16 +21,14 @@ class OverviewItem extends StatelessWidget {
               data: advantages,
               style: {
                 "h2": Style(
-                  fontSize: FontSize(20.0),
+                  fontSize: FontSize(12.0),
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'din',
                 ),
                 "p": Style(
                   fontSize: FontSize(15.0),
                   padding: HtmlPaddings.symmetric(vertical: 10.h),
                   lineHeight: const LineHeight(1.8),
                   fontWeight: FontWeight.normal,
-                  fontFamily: 'din',
                 ),
               },
             ),

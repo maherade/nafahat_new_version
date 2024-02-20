@@ -3,12 +3,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lazy_load_scrollview/lazy_load_scrollview.dart';
 import 'package:perfume_store_mobile_app/controller/product_controller.dart';
 import 'package:perfume_store_mobile_app/view/filter/screens/filter_screen.dart';
-
 import '../../../apies/product_apies.dart';
 import '../../../controller/category_controller.dart';
 import '../../../services/app_imports.dart';
 import '../../bottom_nav_screens/widget/perfume_product_item.dart';
-import '../../custom_widget/custom_search_bar.dart';
 import '../../custom_widget/loading_efffect/sliver_loading_product.dart';
 import '../../perfume_details/screens/perfume_details_screen.dart';
 
@@ -132,7 +130,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ),
 
 
-                          Spacer(),
+                          const Spacer(),
 
                           CustomText('search'.tr,
                             fontSize: 17.sp,
@@ -166,38 +164,26 @@ class _SearchScreenState extends State<SearchScreen> {
                           Expanded(
                             child: GestureDetector(
                               onTap: (){
-
-                                },
+                                // Get.to(() => const SearchScreen());
+                              },
                               child: Container(
                                 height: MediaQuery.of(context).size.height*0.07,
                                 child: TextFormField(
-                                  textInputAction: TextInputAction.search,
-                                  onChanged: (value){
-                                    ProductApies.productApies.listSearchProduct = null;
-                                    ProductApies.productApies.searchProduct(
-                                      pageNumber: '1',
-                                      word: searchController.text,
-                                    );
-                                  },
-
+                                  enabled: false,
                                   onTap: (){
-                                    ProductApies.productApies.listSearchProduct = null;
-                                    ProductApies.productApies.searchProduct(
-                                      pageNumber: '1',
-                                      word: searchController.text,
-                                    );
+                                    Get.to(() => const SearchScreen());
+
                                   },
                                   decoration: InputDecoration(
-                                    hintText: 'search_by_product_value'.tr,
+                                    hintText: 'اكتب كلمه البحث...',
                                     filled: true,
-                                    suffixIcon: Icon(
-                                      Icons.search,
-                                      ),
+                                    suffixIcon: const Image(
+                                        image: AssetImage('assets/images/Search.png')
+                                    ),
                                     fillColor: const Color(0XFFF7F8FA),
                                     hintStyle: TextStyle(
                                       fontSize: MediaQuery.of(context).size.height*0.018,
-                                      color: Colors.black54,
-                                      fontFamily: 'din',
+                                      color: const Color(0XFF8A8A8B),
                                     ),
                                     border: OutlineInputBorder(
                                       borderRadius: BorderRadius.circular(50),
